@@ -1,0 +1,2 @@
+- chip_manual 芯片资料
+- module_manual 模组资料

@@ -1,0 +1,127 @@
+/**
+* @file tal_wired.h
+* @brief Common process - wired abstration api define
+* @version 0.1
+* @date 2020-11-09
+*
+* @copyright Copyright 2020-2021 Tuya Inc. All Rights Reserved.
+*
+*/
+
+#ifndef __TAL_WIRED_H__
+#define __TAL_WIRED_H__
+
+#include "tuya_cloud_types.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+/* tuyaos definition of wired network status */
+typedef enum {
+    WIRED_LINK_DOWN = 0,    ///< the network cable is unplugged
+    WIRED_LINK_UP,          ///< the network cable is plugged and IP is got
+}WIRED_STAT_E;
+
+typedef struct {
+    TUYA_GPIO_NUM_E int_gpio;   ///< gpio number of SPI wired's interrupt
+}TAL_WIRED_BASE_CFG_T;
+
+/**
+ * @brief callback function: WIRED_STATUS_CHANGE_CB
+ *        when wired connect status changed, notify tuyaos
+ *        with this callback.
+ *
+ * @param[out]       is_up         the wired link status is up or not
+ */
+typedef VOID_T (*TAL_WIRED_STATUS_CHANGE_CB)(WIRED_STAT_E stat);
+
+/**
+ * @brief  init create wired link
+ *
+ * @param[in]   cfg: the configure for wired link
+ * 
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_init(TAL_WIRED_BASE_CFG_T *cfg);
+
+/**
+ * @brief  get the link status of wired link
+ *
+ * @param[out]  is_up: the wired link status is up or not
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_get_status(WIRED_STAT_E *stat);
+
+/**
+ * @brief  set the status change callback
+ *
+ * @param[in]   cb: the callback when link status changed
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_set_status_cb(TAL_WIRED_STATUS_CHANGE_CB cb);
+
+/**
+ * @brief  set the ip address of the wired link, used for set the static ipaddress 
+ * 
+ * @param[in]   ip: the ip address
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_set_ip(NW_IP_S *ip);
+
+/**
+ * @brief  get the ip address of the wired link
+ * 
+ * @param[in]   ip: the ip address
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_get_ip(NW_IP_S *ip);
+
+/**
+ * @brief  get the mac address of the wired link
+ * 
+ * @param[in]   mac: the mac address
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_get_mac(NW_MAC_S *mac);
+
+/**
+ * @brief  set the mac address of the wired link
+ * 
+ * @param[in]   mac: the mac address
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_set_mac(CONST NW_MAC_S *mac);
+
+/**
+ * @brief get wired rssi
+ * 
+ * @param[out]      rssi        the return rssi
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_get_rssi(SCHAR_T *rssi);
+
+/**
+ * @brief  mf test of the wired link
+ * 
+ * @param[in]   ipaddr: ip address
+ * @param[in]   cnt: counter of ping
+ * @param[in]   size: size of packet length
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ */
+OPERATE_RET tal_wired_mf_ping_test(CONST CHAR_T *ip, CONST UINT32_T cnt, CONST UINT32_T size);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
+#endif // __TAL_WIRED_H__
+
