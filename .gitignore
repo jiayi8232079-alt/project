@@ -1,0 +1,72 @@
+# output
+dist
+.build
+.cache
+.cursor
+.claude
+ai_components/assets/include/lang_config.h
+compile_commands.json
+tuya_app_config_secrets.h
+
+# TuyaOS / xmake：编译输出（勿写全局 output/，否则会忽略源码目录如 audio/output/）
+**/software/TuyaOS/output/
+
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+*.build
+app_default.config
+doc/
+monitor.log
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# debug information files
+*.dwo
