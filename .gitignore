@@ -6,10 +6,13 @@ dist
 .claude
 ai_components/assets/include/lang_config.h
 compile_commands.json
-tuya_app_config_secrets.h
+
 
 # TuyaOS / xmake：编译输出（勿写全局 output/，否则会忽略源码目录如 audio/output/）
 **/software/TuyaOS/output/
+
+# 已解压的 SDK 与 .tar.gz 二选一即可；若必须把某个压缩包纳入版本库可用 git add -f 路径
+*.tar.gz
 
 # Prerequisites
 *.d
