@@ -1,0 +1,65 @@
+// Copyright 2022-2024 Beken
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+//This is a generated file, don't modify it!
+
+#pragma once
+
+#define CONFIG_FLASH_CRC_ENABLE                       1
+#define CONFIG_PARTITIONS_NUM                         10
+#define CONFIG_BOOTLOADER_PARTITION_OFFSET            0x00000000
+#define CONFIG_BOOTLOADER_PARTITION_SIZE              0x00011000
+#define CONFIG_TUYABOOT_PARTITION_OFFSET              0x00011000
+#define CONFIG_TUYABOOT_PARTITION_SIZE                0x00011000
+#define CONFIG_APPLICATION_PARTITION_OFFSET           0x00022000
+#define CONFIG_APPLICATION_PARTITION_SIZE             0x00110000
+#define CONFIG_APPLICATION1_PARTITION_OFFSET          0x00132000
+#define CONFIG_APPLICATION1_PARTITION_SIZE            0x00495000
+#define CONFIG_SYS_RF_PARTITION_OFFSET                0x007fe000
+#define CONFIG_SYS_RF_PARTITION_SIZE                  0x00001000
+#define CONFIG_SYS_NET_PARTITION_OFFSET               0x007ff000
+#define CONFIG_SYS_NET_PARTITION_SIZE                 0x00001000
+#define CONFIG_OTA_PARTITION_OFFSET                   0x005c7000
+#define CONFIG_OTA_PARTITION_SIZE                     0x00202000
+#define CONFIG_USR_CONFIG_PARTITION_OFFSET            0x007cb000
+#define CONFIG_USR_CONFIG_PARTITION_SIZE              0x00002000
+#define CONFIG_OTA_MGR_PARTITION_OFFSET               0x007c9000
+#define CONFIG_OTA_MGR_PARTITION_SIZE                 0x00002000
+#define CONFIG_TUYA_DATA_PARTITION_OFFSET             0x007cd000
+#define CONFIG_TUYA_DATA_PARTITION_SIZE               0x00031000
+
+#define BK_PARTITIONS_TABLE_SIZE                      10
+#define BK_PARTITION_BOOTLOADER                       0
+#define BK_PARTITION_TUYABOOT                         1
+#define BK_PARTITION_APPLICATION                      2
+#define BK_PARTITION_APPLICATION1                     3
+#define BK_PARTITION_SYS_RF                           4
+#define BK_PARTITION_SYS_NET                          5
+#define BK_PARTITION_OTA                              6
+#define BK_PARTITION_USR_CONFIG                       7
+#define BK_PARTITION_OTA_MGR                          8
+#define BK_PARTITION_TUYA_DATA                        9
+
+#define BK_FLASH_PARTITIONS_MAP { \
+    [0] = {BK_FLASH_EMBEDDED, "bootloader", CONFIG_BOOTLOADER_PARTITION_OFFSET, CONFIG_BOOTLOADER_PARTITION_SIZE, PAR_OPT_EXECUTE_EN | PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS}, \
+    [1] = {BK_FLASH_EMBEDDED, "tuyaboot", CONFIG_TUYABOOT_PARTITION_OFFSET, CONFIG_TUYABOOT_PARTITION_SIZE, PAR_OPT_EXECUTE_EN | PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS}, \
+    [2] = {BK_FLASH_EMBEDDED, "application", CONFIG_APPLICATION_PARTITION_OFFSET, CONFIG_APPLICATION_PARTITION_SIZE, PAR_OPT_EXECUTE_EN | PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS}, \
+    [3] = {BK_FLASH_EMBEDDED, "application1", CONFIG_APPLICATION1_PARTITION_OFFSET, CONFIG_APPLICATION1_PARTITION_SIZE, PAR_OPT_EXECUTE_EN | PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS}, \
+    [4] = {BK_FLASH_EMBEDDED, "sys_rf", CONFIG_SYS_RF_PARTITION_OFFSET, CONFIG_SYS_RF_PARTITION_SIZE, PAR_OPT_EXECUTE_DIS | PAR_OPT_READ_EN | PAR_OPT_WRITE_EN}, \
+    [5] = {BK_FLASH_EMBEDDED, "sys_net", CONFIG_SYS_NET_PARTITION_OFFSET, CONFIG_SYS_NET_PARTITION_SIZE, PAR_OPT_EXECUTE_DIS | PAR_OPT_READ_EN | PAR_OPT_WRITE_EN}, \
+    [6] = {BK_FLASH_EMBEDDED, "ota", CONFIG_OTA_PARTITION_OFFSET, CONFIG_OTA_PARTITION_SIZE, PAR_OPT_EXECUTE_DIS | PAR_OPT_READ_EN | PAR_OPT_WRITE_EN}, \
+    [7] = {BK_FLASH_EMBEDDED, "usr_config", CONFIG_USR_CONFIG_PARTITION_OFFSET, CONFIG_USR_CONFIG_PARTITION_SIZE, PAR_OPT_EXECUTE_DIS | PAR_OPT_READ_EN | PAR_OPT_WRITE_EN}, \
+    [8] = {BK_FLASH_EMBEDDED, "ota_mgr", CONFIG_OTA_MGR_PARTITION_OFFSET, CONFIG_OTA_MGR_PARTITION_SIZE, PAR_OPT_EXECUTE_DIS | PAR_OPT_READ_EN | PAR_OPT_WRITE_EN}, \
+    [9] = {BK_FLASH_EMBEDDED, "tuya_data", CONFIG_TUYA_DATA_PARTITION_OFFSET, CONFIG_TUYA_DATA_PARTITION_SIZE, PAR_OPT_EXECUTE_DIS | PAR_OPT_READ_EN | PAR_OPT_WRITE_EN}, \
+}

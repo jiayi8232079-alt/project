@@ -1,0 +1,31 @@
+{
+    "magic": "beken",
+    "crc_enable": true,
+    "count": 4,
+    "section": [
+        {
+            "firmware": "bootloader.bin",
+            "partition": "bootloader",
+            "start_addr": "0x00000000",
+            "size": "68K"
+        },
+        {
+            "firmware": "tuyaboot.bin",
+            "partition": "tuyaboot",
+            "start_addr": "0x00011000",
+            "size": "68K"
+        },
+        {
+            "firmware": "app.bin",
+            "partition": "app",
+            "start_addr": "0x00022000",
+            "size": "1088K"
+        },
+        {
+            "firmware": "app1.bin",
+            "partition": "app1",
+            "start_addr": "0x00132000",
+            "size": "4692K"
+        }
+    ]
+}

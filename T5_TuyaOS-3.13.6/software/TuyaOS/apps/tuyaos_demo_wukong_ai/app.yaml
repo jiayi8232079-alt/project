@@ -1,0 +1,3 @@
+# Build metadata for prepare_app.sh / get_app_platform.sh (not application logic).
+toolchain:
+  name: T5

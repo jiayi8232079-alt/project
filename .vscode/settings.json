@@ -1,0 +1,12 @@
+{
+  "git.ignoreLimitWarning": true,
+  "git.path": "/usr/bin/git",
+  "git.autoRepositoryDetection": true,
+  "git.repositoryScanMaxDepth": 5,
+  "git-graph.path": "/usr/bin/git",
+  "git-graph.maxDepthOfRepoSearch": 10,
+  "remote.extensionKind": {
+    "mhutchie.vscode-git-graph": ["workspace"],
+    "eamodio.gitlens": ["workspace"]
+  }
+}

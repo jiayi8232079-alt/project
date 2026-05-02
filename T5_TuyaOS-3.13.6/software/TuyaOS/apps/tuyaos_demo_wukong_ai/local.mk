@@ -489,6 +489,9 @@ endif
 
 ifeq ($(CONFIG_TUYA_DMA2D_SHARE), y)
 LOCAL_TUYA_SDK_CFLAGS += -DTUYA_DMA2D_SHARE=1
+# tal_image_yuv422_to_rgb.c pulls LVGL DMA2D port headers even when UI tree is gated off CONFIG_ENABLE_TUYA_UI
+LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/miscs/gui/lvgl/src/common
+LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/miscs/gui/tuya_lvgl/include
 endif
 
 # $(info --- tal_image (CONFIG_ENABLE_TAL_IMAGE) enabled ---)

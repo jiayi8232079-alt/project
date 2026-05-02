@@ -117,7 +117,7 @@ git log --oneline --graph --decorate -20
 
 ---
 
-## 7. Cursor / GitHub Desktop 按钮对照
+## 7. Cursor / GitHub Desktop 按钮对照情况
 - `提交` = `git commit`
 - `发布 Branch` = 首次 `git push -u origin <branch>`（并可能创建远程仓库）
 - `Fetch origin` = `git fetch origin`

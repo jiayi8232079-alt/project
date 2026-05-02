@@ -1,0 +1,6 @@
+{
+  "recommendations": [
+    "mhutchie.vscode-git-graph",
+    "eamodio.gitlens"
+  ]
+}

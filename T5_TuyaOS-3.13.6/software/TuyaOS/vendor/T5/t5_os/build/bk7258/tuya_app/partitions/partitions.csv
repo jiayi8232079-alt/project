@@ -1,0 +1,11 @@
+Name,Offset,Size,Execute,Read,Write
+primary_bootloader,0x00000000,68K,True,True,False
+primary_tuyaboot,0x00011000,68K,True,True,False
+primary_cp_app,0x00022000,1088K,True,True,False
+primary_ap_app,0x00132000,4692K,True,True,False
+ota,0x005c7000,2056K,False,True,True
+ota_mgr,0x007c9000,8K,False,True,True
+usr_config,0x007cb000,8K,False,True,True
+tuya_data,0x007cd000,196K,False,True,True
+sys_rf,0x007fe000,4K,False,True,True
+sys_net,0x007ff000,4K,False,True,True

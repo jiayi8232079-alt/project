@@ -1,0 +1,12 @@
+Name                              Offset            Size    
+------------------------------------------------------------
+primary_bootloader              0x00000000          68K     
+primary_tuyaboot                0x00011000          68K     
+primary_cp_app                  0x00022000         1088K    
+primary_ap_app                  0x00132000         4692K    
+ota                             0x005c7000         2056K    
+ota_mgr                         0x007c9000           8K     
+usr_config                      0x007cb000           8K     
+tuya_data                       0x007cd000          196K    
+sys_rf                          0x007fe000           4K     
+sys_net                         0x007ff000           4K     
