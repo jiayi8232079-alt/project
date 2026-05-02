@@ -5,8 +5,8 @@ flash,ram,text,code,rodata,data,bss,dec,hex,filename
 5461,2912,5453,4260,1193,8,2904,8365,`20ad,armino/bk_wifi_driver/libbk_wifi_driver.a
 12558,100,12558,7846,4712,0,100,12658,`3172,armino/bk_wifi/libbk_wifi.a
 806420,28887,800118,580864,219254,6302,22585,829005,`ca64d,/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a
-7576,0,7576,7576,0,0,0,7576,`1d98,/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v8-m.main+fp/hard/libgcc.a
-41557,1450,40115,38566,1549,1442,8,41565,`a25d,/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard/libc.a
+7740,0,7740,7740,0,0,0,7740,`1e3c,/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v8-m.main+fp/hard/libgcc.a
+41949,1454,40507,38958,1549,1442,12,41961,`a3e9,/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard/libc.a
 221226,492,220734,13966,206768,492,0,221226,`3602a,/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/app_libs/libtutuClear.a
 4052,296,4052,2824,1228,0,296,4348,`10fc,armino/cm33/libcm33.a
 84185,6921,83565,70666,12899,620,6301,90486,`16176,armino/driver/libdriver.a

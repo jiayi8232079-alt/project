@@ -103,7 +103,8 @@
  * defined; when both UUID and AUTHKEY are defined, authorization is set in code
  * instead of via MF (production test) tool.
  */
- #define PID            "gcwfmdfkv6824tuh"   // T5AI_BOARD_DESKTOP
+ #define PID            "tmaamheooanm6a2r"   // 佳佳机器人  
+// #define PID            "gcwfmdfkv6824tuh"   // T5AI_BOARD_DESKTOP
 /* ---------------------------------------------------------------------------
  * Forward declarations
  * --------------------------------------------------------------------------- */
