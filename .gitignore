@@ -10,6 +10,11 @@ compile_commands.json
 
 # TuyaOS / xmake：编译输出（勿写全局 output/，否则会忽略源码目录如 audio/output/）
 **/software/TuyaOS/output/
+# 应用级产物目录（make 创建 apps/$(APP_NAME)/output）；与源码目录 src/.../audio/output 区分
+**/software/TuyaOS/apps/*/output/
+
+# 构建生成的临时配置头与中间文件（非手改源码）
+**/software/TuyaOS/tmp/
 
 # 已解压的 SDK 与 .tar.gz 二选一即可；若必须把某个压缩包纳入版本库可用 git add -f 路径
 *.tar.gz
@@ -60,7 +65,7 @@ compile_commands.json
 *.build
 app_default.config
 doc/
-monitor.log
+*.log
 
 # Kernel Module Compile Results
 *.mod*
