@@ -19,6 +19,10 @@ compile_commands.json
 # 已解压的 SDK 与 .tar.gz 二选一即可；若必须把某个压缩包纳入版本库可用 git add -f 路径
 *.tar.gz
 
+# GitHub 单文件上限 100MB：平台 zip 与 ARM 工具链整包勿提交（本地保留，从官方/涂鸦下载）
+**/T5_0.0.75.zip
+**/gcc-arm-none-eabi-*.tar
+
 # Prerequisites
 *.d
 

@@ -1,0 +1,5 @@
+export TUYA_TOOLCHAIN_ZIP=../toolchain/gcc-arm-none-eabi-10.3-2021.10.tar
+export TUYA_TOOLCHAIN_PRE=../toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-
+
+export TUYA_APPS_BUILD_PATH=../t5_os/
+export TUYA_APPS_BUILD_CMD=build.sh

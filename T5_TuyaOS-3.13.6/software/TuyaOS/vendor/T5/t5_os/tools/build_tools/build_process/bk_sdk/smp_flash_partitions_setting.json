@@ -1,0 +1,31 @@
+{
+    "FLASH_CAPACITY": "8M",
+    "internel_partitions": [
+        "primary_bootloader",
+        "primary_tuyaboot",
+        "primary_cp_app",
+        "primary_ap_app",
+        "sys_rf",
+        "sys_net",
+        "ota",
+        "usr_config"
+    ],
+    "patitions_limit": [
+        {
+            "name": "primary_bootloader",
+            "index": 0
+        },
+        {
+            "name": "primary_tuyaboot",
+            "index": 1
+        },
+        {
+            "name": "primary_cp_app",
+            "index": 2
+        },
+        {
+            "name": "primary_ap_app",
+            "index": 3
+        }
+    ]
+}
