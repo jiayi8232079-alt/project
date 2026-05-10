@@ -1,0 +1,42 @@
+---
+description: Layered Wukong AI architecture, dispatch/events, boards, and key source roles
+globs:
+  - "**/apps/tuyaos_demo_wukong_ai/src/**"
+alwaysApply: false
+---
+
+# Architecture (`tuyaos_demo_wukong_ai`)
+
+## Layer model
+
+| Layer | Role | Primary locations |
+|-------|------|-------------------|
+| L7 Product | Business logic | new modules under `src/`, extend `mode/`, `skills/` |
+| L6 AI orchestration | Agent, MCP, modes | `src/wukong/wukong_ai_agent.c`, `src/wukong/mcp/`, `src/mode/` |
+| L5 Multimedia | Audio/video | `src/wukong/audio/`, `src/tuya_ai_toy_camera.c`, `wukong/video/` |
+| L4 Device abstraction | Drivers / TAL | `src/drivers/**`, `tal_*` |
+| L3 Board | BSP wiring + UI | `src/boards/<BOARD>/` (e.g. `tuya_device_board.c`) |
+| L2 IoT façade | Init + callbacks | `src/tuya_app_main.c` — **no protocol stack surgery** |
+| L1 Kernel/SDK | OS & closed code | `vendor/` — **read-only** |
+
+## Board identifiers
+
+`T5AI_BOARD`, `T5AI_BOARD_EVB`, `T5AI_BOARD_EVB_PRO`, `T5AI_BOARD_EYES`, `T5AI_BOARD_ROBOT`, `T5AI_BOARD_DESKTOP`, `LE270AI_BOARD`, `WUKONG_BOARD_UBUNTU` — display/camera details live in `CLAUDE.md`.
+
+## Mode dispatch (~20 ms)
+
+`__ai_toy_task()` drives `wukong_ai_mode_dispatch(AI_MODE_OP_TASK, ...)`. Other ingress examples:
+
+- KWS → `EVENT_WUKONG_KWS_WAKEUP` → `AI_MODE_OP_WAKEUP`
+- VAD → `EVENT_AUDIO_VAD` → `AI_MODE_OP_VAD`
+- Cloud AI → `__on_ai_toy_wukong_ai_event` → `AI_MODE_OP_EVENT`
+- Network ready → `EVENT_AI_CLIENT_RUN` → `AI_MODE_OP_CLIENT`
+- Keys → `AI_MODE_OP_KEY`
+
+## Audio chain (context)
+
+`wukong_audio_input` → `__on_ai_toy_mic_data` → `wukong_audio_frontend_*` → `wukong_kws_feed_with_vad` → wake word or cloud uplink.
+
+## Pointers
+
+Deep module map: `CLAUDE.md` “关键源文件” table (`tuya_ai_toy.c`, `tuya_ai_toy_key.c`, `tuya_ai_toy_camera.c`, `src/mode/`, `src/wukong/audio/`, `src/miscs/gui/`, `src/drivers/`, etc.).

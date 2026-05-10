@@ -1,0 +1,6 @@
+桌面机器人UI资源较多，所有的资源都要放在在SD卡中
+1、先将SD卡格式化成exFAT
+2、解压t5_fs.zip，将其解压到t5_fs
+3、将t5_fs整个拷贝到sd中
+4、在开启TUYA_FILE_SYSTEM与FILE_SYSTEM_LFS_SD宏之后，文件系统的根目录为t5_fs
+5、该文件系统基于ui组件创建

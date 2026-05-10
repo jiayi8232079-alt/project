@@ -1,9 +1,13 @@
-# output
+# output / 本地工具目录
 dist
 .build
 .cache
-.cursor
-.claude
+# Cursor：忽略会话与缓存；保留 README 与 rules（团队可提交复用）
+.cursor/**
+!.cursor/README.md
+!.cursor/rules/
+!.cursor/rules/**
+.claude/
 ai_components/assets/include/lang_config.h
 compile_commands.json
 
@@ -68,7 +72,8 @@ compile_commands.json
 *.pdb
 *.build
 app_default.config
-doc/
+# 仅忽略仓库根下 doc/（勿写 doc/，否则会误伤 apps/*/doc/ 等应用文档）
+/doc/
 *.log
 
 # Kernel Module Compile Results

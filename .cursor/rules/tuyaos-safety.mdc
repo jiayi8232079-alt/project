@@ -1,0 +1,22 @@
+---
+description: Forbidden SDK/IoT areas, mic callback thread safety, and approved extension directories
+alwaysApply: true
+---
+
+# Safety and boundaries
+
+## Do not modify
+
+- **`vendor/`** and other **TuyaOS / RTOS kernel** trees shipped with the SDK.
+- **TCP/IP stack internals**, **`tuya_iot_*` protocol stack internals**, **DP/MQTT packing** — compliance and OTA risk; integrate only via supported **callbacks / public APIs**.
+
+## Thread safety (audio path)
+
+- In **`__on_ai_toy_mic_data`** (microphone callback): **no blocking calls, no heavy inference.** Offload with **`tal_workq`** or a **dedicated thread**; move frame data through **lock-free ring buffers**.
+
+## Extension points (prefer these)
+
+- **Dialogue modes / state machine:** `src/mode/`
+- **AI skills:** `src/wukong/skills/`
+- **MCP tools:** `src/wukong/mcp/tools/`
+- Every new **`*.c`**: register in **`apps/tuyaos_demo_wukong_ai/local.mk`**.
