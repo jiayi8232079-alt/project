@@ -8,6 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 主应用为 `tuyaos_demo_wukong_ai`，参考示例在 `apps/tuyaos_demo_examples/` 和 `apps/tuyaos_demo_quickstart/`。
 
+**新增功能时：** 优先在 `apps/tuyaos_demo_examples/src/examples/` 下查找与需求相近的官方示例（见下文「官方示例目录索引」），以示例中的 API 用法、初始化顺序与错误处理为基准做**移植、组合或小幅改写**，再接入 `tuyaos_demo_wukong_ai`；避免在不了解 TuyaOS 惯例的情况下从零手写同等能力。若示例与目标应用差异大，也应先对照示例再扩展。
+
 **所有 Make 命令必须在以下目录执行：**
 ```
 T5_TuyaOS-3.13.6/software/TuyaOS/
@@ -112,11 +114,55 @@ L1  RTOS / TuyaOS 内核   → vendor/（禁止修改）
 
 ## 扩展开发规范
 
+**新增功能时的代码来源优先级：** 驱动、OS 抽象、网络、蓝牙、HTTP、OTA、产测等与 TuyaOS/TAL 相关的实现，应**优先对齐** `T5_TuyaOS-3.13.6/software/TuyaOS/apps/tuyaos_demo_examples/src/examples/` 中对应子目录的示例（各子目录内一般有 `README.md` / `example_*.c`）。产品侧状态机、AI 编排等仍按分层放在 `src/mode/`、`src/wukong/` 等，但底层调用方式建议与示例保持一致。
+
 **新增业务逻辑的位置：** 对话模式扩展在 `src/mode/`，AI 技能在 `src/wukong/skills/`，MCP 工具在 `src/wukong/mcp/tools/`。新增 `.c` 文件后必须在 `local.mk` 中注册。
 
 **禁止修改：** TuyaOS 内核（`vendor/`）、TCP/IP 栈内部、`tuya_iot_*` 协议栈内部、DP/MQTT 封包层。这些属于闭源或 SDK 管理范围，擅自修改会导致 OTA 升级失败和认证不合规。
 
 **线程安全：** 严禁在麦克风数据回调（`__on_ai_toy_mic_data`）中执行耗时操作。重型推理任务须使用 `tal_workq` 或专用线程，帧数据通过无锁环形队列传递。
+
+## 官方示例目录索引（`apps/tuyaos_demo_examples/src/examples/`）
+
+以下目录为 TuyaOS 能力示例（命令行调用的入口注册在示例工程 `tuya_cli_register.c` 等文件中，移植到悟空应用时只参考源码与 README 即可）。**平台差异：** 部分示例在特定芯片上不可用，以示例内说明为准。
+
+| 子目录 | 示例能力概要 |
+|--------|----------------|
+| `driver_adc/` | ADC 采样 |
+| `driver_dvp/` | DVP（摄像头并口） |
+| `driver_gpio/` | GPIO；含软件 I2C（`tdd_sw_i2c`）相关示例 |
+| `driver_i2c/` | I2C 外设 |
+| `driver_mic/` | 麦克风采集 / 录音（含 WAV 相关辅助） |
+| `driver_pwm/` | PWM 输出 |
+| `driver_speaker/` | 扬声器播放 |
+| `driver_spi/` | SPI；含弱符号适配示例（`tkl_spi_weak.c`） |
+| `driver_timer/` | 硬件定时器；含弱符号适配（`tkl_timer_weak.c`） |
+| `os_ble/` | BLE Central / Peripheral（分文档说明） |
+| `os_event/` | TuyaOS 事件订阅 |
+| `os_kv/` | KV 存储 |
+| `os_uf/` | 文件系统（UF 文件操作） |
+| `os_watchdog/` | 看门狗 |
+| `os_wifi/` | WiFi：AP、STA、Scan、低功耗（各 README 分述） |
+| `service_ble_remote/` | 蓝牙遥控器 |
+| `service_ffc_master/` | FFC 主机侧 |
+| `service_ffc_slaver/` | FFC 从机侧 |
+| `service_health_manager/` | 固件健康管理 |
+| `service_http/` | HTTP 客户端（示例内 API 可能需按产品补全） |
+| `service_http_download/` | HTTP 文件下载 |
+| `service_mf_test/` | 产测相关 |
+| `service_product_test/` | 产品测试（含 WiFi 扫描等辅助） |
+| `service_query_lowpower_dp/` | 查询低功耗设备 DP 缓存 |
+| `service_soc_device/` | SoC 单品初始化等 |
+| `service_time/` | 时间服务 |
+| `service_ota/` | OTA 固件升级（自定义/附加等示例） |
+| `system_mutex/` | 互斥锁 |
+| `system_network/` | TCP Server / Client（socket 网络示例） |
+| `system_queue/` | 消息队列 |
+| `system_semaphore/` | 信号量 |
+| `system_sw_timer/` | 软件定时器 |
+| `system_thread/` | 线程创建与使用 |
+
+完整示例工程说明另见：`apps/tuyaos_demo_examples/README.md`（含 `example_soc_init` 依赖、联网前置条件等注意事项）。
 
 ## 参考文档
 
@@ -128,3 +174,4 @@ L1  RTOS / TuyaOS 内核   → vendor/（禁止修改）
 - `src/boards/README_CN.md` — 板级移植指南
 - `Docs/T5-Wukong-AI-架构与开发指南.md` — 架构深度解析
 - `Docs/T5-Wukong-AI-Board类型说明.md` — 板型详细对照表
+- `apps/tuyaos_demo_examples/README.md`— 完整示例工程说明

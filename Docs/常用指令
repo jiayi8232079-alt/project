@@ -1,0 +1,32 @@
+1) 定位串口设备
+ls -l /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
+插拔设备后快速看变化：
+watch -n 1 'ls -l /dev/ttyUSB* /dev/ttyACM* 2>/dev/null'
+
+串口：
+picocom /dev/ttyACM0 -b 115200 -l | tee -a uart_log.txt
+picocom /dev/ttyACM1 -b 460800 -l | tee -a uart_log.txt
+screen /dev/ttyACM1 460800
+退出：
+Ctrl + A + D(只松A按住，再按D)
+Ctrl + A + X
+
+杀死串口进城：
+sudo lsof /dev/ttyACM1
+kill PID
+
+
+3) 杀掉占用进程
+杀死按进名：
+sudo lsof /dev/ttyACM1
+kill PID
+
+pkill -f "screen /dev/ttyACM1"
+pkill -f minicom
+pkill -f picocom
+pkill -f tio
+
+kill <PID>
+kill -9 <PID>   # 普通 kill 不生效时再用
+
+
