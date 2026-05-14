@@ -696,8 +696,8 @@
     454	      4	    454	    426	     28	      0	      4	    458	    1ca	tkl_flash.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
     731	      8	    731	    468	    263	      0	      8	    739	    2e3	test_lp.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
    1417	    684	    733	    572	    161	    684	      0	   1417	    589	tkl_gpio.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
-    822	      6	    820	    588	    232	      2	      4	    826	    33a	tkl_uart.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
    2819	     64	   2795	   2584	    211	     24	     40	   2859	    b2b	tkl_qspi.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
+    244	      2	    242	    160	     82	      2	      0	    244	     f4	tkl_uart.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
    1585	    797	   1585	   1504	     81	      0	    797	   2382	    94e	tuya_dma.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
      28	      0	     28	     28	      0	      0	      0	     28	     1c	tkl_output.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
     206	      0	    206	    206	      0	      0	      0	    206	     ce	tkl_queue.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
@@ -732,7 +732,7 @@
     120	      0	    120	      0	    120	      0	      0	    120	     78	tkl_init_wifi.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
      36	      0	     36	      0	     36	      0	      0	     36	     24	tkl_init_wired.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
       0	      4	      0	      0	      0	      0	      4	      4	      4	tkl_cellular.c.obj (ex armino/tuyaos_adapter/libtuyaos_adapter.a)
-  50589	   4243	  49245	  39238	  10007	   1344	   2899	  53488	   d0f0	armino/tuyaos_adapter/libtuyaos_adapter.a
+  50011	   4239	  48667	  38810	   9857	   1344	   2895	  52906	   ceaa	armino/tuyaos_adapter/libtuyaos_adapter.a
 
   flash	    ram	   text	   code	 rodata	   data	    bss	    dec	    hex	filename
     117	     85	     32	     32	      0	     85	      0	    117	     75	mpu_cfg.c.obj (ex armino/bk7258_ap/libbk7258_ap.a)
