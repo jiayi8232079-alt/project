@@ -75,6 +75,9 @@ app_default.config
 # 仅忽略仓库根下 doc/（勿写 doc/，否则会误伤 apps/*/doc/ 等应用文档）
 /doc/
 *.log
+# 串口抓取日志（常含 token / devId 等，勿入库）
+uart_log.txt
+**/uart_log.txt
 
 # Kernel Module Compile Results
 *.mod*
