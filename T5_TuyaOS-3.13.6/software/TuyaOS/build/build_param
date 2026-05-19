@@ -1,8 +1,8 @@
-# Project [ tuyaos_demo_wukong_ai ] Param:
+# Project [ tuyaos_jiajia ] Param:
 
 
-BUILD_DATE=2026_05_15
-BUILD_TIME=11_37_57
+BUILD_DATE=2026_05_19
+BUILD_TIME=14_45_28
 GIT_USER=478262887
 IOT_SDK_VER=0.0.7
 IPC_SDK_VER=0.0.7
@@ -12,13 +12,13 @@ IOT_SDK_VER_MAJOR=0
 IOT_SDK_VER_MINOR=0
 IOT_SDK_VER_PATCH=7
 KERNEL_VERSION=
-PROJECT_NAME=tuyaos_demo_wukong_ai
+PROJECT_NAME=tuyaos_jiajia
 TARGET_PLATFORM=T5
 TARGET_PLATFORM_REPO=https://images.tuyacn.com/smart/embed/pruduct/T5_0.0.75.zip
 TARGET_PLATFORM_VERSION=0.0.75
 BUILD_STATIC=1
 BUILD_SHARED=
-SDK_ID=tuyaos_demo_wukong_ai_0.0.7_T5
+SDK_ID=tuyaos_jiajia_0.0.7_T5
 
 
 ROOT_DIR=/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS

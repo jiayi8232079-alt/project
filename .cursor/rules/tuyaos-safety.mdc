@@ -19,4 +19,4 @@ alwaysApply: true
 - **Dialogue modes / state machine:** `src/mode/`
 - **AI skills:** `src/wukong/skills/`
 - **MCP tools:** `src/wukong/mcp/tools/`
-- Every new **`*.c`**: register in **`apps/tuyaos_demo_wukong_ai/local.mk`**.
+- Every new **`*.c`**: register in **`apps/tuyaos_jiajia/local.mk`**.

@@ -1,8 +1,8 @@
 ---
 description: Sync local.mk, app Kconfig, board snapshots, and tuya_iot.config when changing features
 globs:
-  - "**/apps/tuyaos_demo_wukong_ai/local.mk"
-  - "**/apps/tuyaos_demo_wukong_ai/build/**"
+  - "**/apps/tuyaos_jiajia/local.mk"
+  - "**/apps/tuyaos_jiajia/build/**"
   - "**/T5_TuyaOS-3.13.6/software/TuyaOS/build/tuya_iot.config"
 alwaysApply: false
 ---
@@ -13,12 +13,12 @@ Feature work is **not** “C only”. Touch every layer that applies:
 
 | Purpose | File / location |
 |--------|------------------|
-| Sources, include paths, macros | `apps/tuyaos_demo_wukong_ai/local.mk` |
-| Application Kconfig selections | `apps/tuyaos_demo_wukong_ai/build/tuya_app.config` |
+| Sources, include paths, macros | `apps/tuyaos_jiajia/local.mk` |
+| Application Kconfig selections | `apps/tuyaos_jiajia/build/tuya_app.config` |
 | Global IoT / audio subsystem options | `T5_TuyaOS-3.13.6/software/TuyaOS/build/tuya_iot.config` |
-| Board default snapshots | `apps/tuyaos_demo_wukong_ai/build/appconfig/<BOARD>/` |
-| Kconfig symbols & defaults (**file**, not directory) | `apps/tuyaos_demo_wukong_ai/build/APPconfig` |
+| Board default snapshots | `apps/tuyaos_jiajia/build/appconfig/<BOARD>/` |
+| Kconfig symbols & defaults (**file**, not directory) | `apps/tuyaos_jiajia/build/APPconfig` |
 
 **Filesystem note:** `build/appconfig/` (directory) vs `build/APPconfig` (file) differs only by case — develop on **Linux or WSL**; avoid case-insensitive volumes.
 
-After changing Kconfig-related inputs, run `make app_config APP_NAME=tuyaos_demo_wukong_ai` from the TuyaOS make root (see `tuyaos-build.mdc`).
+After changing Kconfig-related inputs, run `make app_config APP_NAME=tuyaos_jiajia` from the TuyaOS make root (see `tuyaos-build.mdc`).

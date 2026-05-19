@@ -15,10 +15,26 @@ compile_commands.json
 # TuyaOS / xmake：编译输出（勿写全局 output/，否则会忽略源码目录如 audio/output/）
 **/software/TuyaOS/output/
 # 应用级产物目录（make 创建 apps/$(APP_NAME)/output）；与源码目录 src/.../audio/output 区分
+# 含 tuyaos_jiajia / tuyaos_demo_wukong_ai 等：*_QIO_*.bin、*_UA_*.bin、*_UG_*.bin、debug/
 **/software/TuyaOS/apps/*/output/
 
 # 构建生成的临时配置头与中间文件（非手改源码）
+# tmp/TuyaOS/libs/：从 packages/*.tar.gz 解压的闭源 libtuyaos.a 等，勿入库
 **/software/TuyaOS/tmp/
+
+# SDK 侧生成的构建参数（prepare_app.sh 按 APP_NAME 重写）
+**/software/TuyaOS/build/build_param
+**/software/TuyaOS/output/.app_build_fingerprint
+
+# make 生成的应用静态库（完整包体积大；*.a 不匹配 *.a.stripped）
+**/software/TuyaOS/libs/libtuyaos_*.a
+**/software/TuyaOS/libs/libtuyaos_*.a.stripped
+
+# T5 芯片侧 ninja/链接中间产物（切换 APP_NAME 编译会改大量文件）
+**/software/TuyaOS/vendor/T5/t5_os/build/
+
+# 本地 SDK 压缩包目录（与根目录 *.tar.gz 规则一致）
+**/software/TuyaOS/packages/
 
 # 已解压的 SDK 与 .tar.gz 二选一即可；若必须把某个压缩包纳入版本库可用 git add -f 路径
 *.tar.gz

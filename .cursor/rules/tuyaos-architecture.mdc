@@ -1,11 +1,11 @@
 ---
 description: Layered Wukong AI architecture, dispatch/events, boards, and key source roles
 globs:
-  - "**/apps/tuyaos_demo_wukong_ai/src/**"
+  - "**/apps/tuyaos_jiajia/src/**"
 alwaysApply: false
 ---
 
-# Architecture (`tuyaos_demo_wukong_ai`)
+# Architecture (`tuyaos_jiajia`)
 
 ## Layer model
 

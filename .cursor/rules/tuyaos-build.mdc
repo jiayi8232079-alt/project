@@ -1,5 +1,5 @@
 ---
-description: TuyaOS Makefile cwd and targets for tuyaos_demo_wukong_ai
+description: TuyaOS Makefile cwd and targets for tuyaos_jiajia
 globs:
   - "**/T5_TuyaOS-3.13.6/software/TuyaOS/**"
 alwaysApply: false
@@ -13,16 +13,16 @@ Run **every** `make` command from:
 
 `T5_TuyaOS-3.13.6/software/TuyaOS/`
 
-## Targets (`APP_NAME` is always `tuyaos_demo_wukong_ai`)
+## Targets (`APP_NAME` is always `tuyaos_jiajia`)
 
 | Goal | Command |
 |------|---------|
-| Choose / load board default config | `make app_config_choice APP_NAME=tuyaos_demo_wukong_ai` |
-| Interactive feature toggles | `make app_menuconfig APP_NAME=tuyaos_demo_wukong_ai` |
-| Regenerate `tuya_app_config.h` from configs | `make app_config APP_NAME=tuyaos_demo_wukong_ai` |
-| **Typical firmware build** | `make app APP_NAME=tuyaos_demo_wukong_ai` |
-| Rebuild SDK pieces (slow) | `make os APP_NAME=tuyaos_demo_wukong_ai` |
-| Clean app output | `make clean APP_NAME=tuyaos_demo_wukong_ai` |
-| Clean app + SDK static libs | `make os_clean APP_NAME=tuyaos_demo_wukong_ai` |
+| Choose / load board default config | `make app_config_choice APP_NAME=tuyaos_jiajia` |
+| Interactive feature toggles | `make app_menuconfig APP_NAME=tuyaos_jiajia` |
+| Regenerate `tuya_app_config.h` from configs | `make app_config APP_NAME=tuyaos_jiajia` |
+| **Typical firmware build** | `make app APP_NAME=tuyaos_jiajia` |
+| Rebuild SDK pieces (slow) | `make os APP_NAME=tuyaos_jiajia` |
+| Clean app output | `make clean APP_NAME=tuyaos_jiajia` |
+| Clean app + SDK static libs | `make os_clean APP_NAME=tuyaos_jiajia` |
 
-**Build output:** `output/T5_tuyaos_demo_wukong_ai/` under that same TuyaOS directory.
+**Build output:** `output/T5_tuyaos_jiajia/` under that same TuyaOS directory.

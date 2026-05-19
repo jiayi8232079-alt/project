@@ -6,9 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 本项目是基于 **TuyaOS 3.13.6** 的嵌入式 IoT/AI 固件工程，目标硬件为 **T5 悟空 AI 开发板**（BK7258/T5 芯片）。适用于 AI 玩具、AI 机器人、AI 家电等场景，核心能力包括：KWS 关键词唤醒、AEC/VAD 音频前端、云端大模型对话、LVGL GUI、摄像头及涂鸦 IoT 云连接。
 
-主应用为 `tuyaos_demo_wukong_ai`，参考示例在 `apps/tuyaos_demo_examples/` 和 `apps/tuyaos_demo_quickstart/`。
+主应用为 **`tuyaos_jiajia`**（佳佳产品固件，目录 `apps/tuyaos_jiajia/`）。涂鸦 Wukong 参考工程 **`tuyaos_demo_wukong_ai`** 保留于 `apps/`，仅作对照、默认不编译。能力示例见 `apps/tuyaos_demo_examples/`、`apps/tuyaos_demo_quickstart/`。
 
-**新增功能时：** 优先在 `apps/tuyaos_demo_examples/src/examples/` 下查找与需求相近的官方示例（见下文「官方示例目录索引」），以示例中的 API 用法、初始化顺序与错误处理为基准做**移植、组合或小幅改写**，再接入 `tuyaos_demo_wukong_ai`；避免在不了解 TuyaOS 惯例的情况下从零手写同等能力。若示例与目标应用差异大，也应先对照示例再扩展。
+**新增功能时：** 优先在 `apps/tuyaos_demo_examples/src/examples/` 下查找与需求相近的官方示例（见下文「官方示例目录索引」），以示例中的 API 用法、初始化顺序与错误处理为基准做**移植、组合或小幅改写**，再接入 `tuyaos_jiajia`；避免在不了解 TuyaOS 惯例的情况下从零手写同等能力。若示例与目标应用差异大，也应先对照示例再扩展。
 
 **所有 Make 命令必须在以下目录执行：**
 ```
@@ -19,28 +19,28 @@ T5_TuyaOS-3.13.6/software/TuyaOS/
 
 ```bash
 # 首次使用或切换板型：从 build/appconfig/ 选择目标板型并加载默认配置
-make app_config_choice APP_NAME=tuyaos_demo_wukong_ai
+make app_config_choice APP_NAME=tuyaos_jiajia
 
 # 通过交互式 menuconfig 微调功能开关
-make app_menuconfig APP_NAME=tuyaos_demo_wukong_ai
+make app_menuconfig APP_NAME=tuyaos_jiajia
 
 # 根据当前 tuya_app.config 重新生成 tuya_app_config.h
-make app_config APP_NAME=tuyaos_demo_wukong_ai
+make app_config APP_NAME=tuyaos_jiajia
 
 # 编译应用代码（日常开发主要用这个）
-make app APP_NAME=tuyaos_demo_wukong_ai
+make app APP_NAME=tuyaos_jiajia
 
 # 编译 SDK 组件（耗时较长，仅在 SDK 本身变更时需要）
-make os APP_NAME=tuyaos_demo_wukong_ai
+make os APP_NAME=tuyaos_jiajia
 
 # 清理应用编译产物
-make clean APP_NAME=tuyaos_demo_wukong_ai
+make clean APP_NAME=tuyaos_jiajia
 
 # 清理全部，包括 SDK 静态库
-make os_clean APP_NAME=tuyaos_demo_wukong_ai
+make os_clean APP_NAME=tuyaos_jiajia
 ```
 
-编译产物输出目录：`output/T5_tuyaos_demo_wukong_ai/`
+编译产物输出目录：`output/T5_tuyaos_jiajia/`
 
 ## 配置体系
 
@@ -48,11 +48,11 @@ make os_clean APP_NAME=tuyaos_demo_wukong_ai
 
 | 修改目的 | 对应文件 |
 |---|---|
-| 控制哪些 `.c` 参与编译、include 路径、宏定义 | `apps/tuyaos_demo_wukong_ai/local.mk` |
-| 应用级功能开关 | `apps/tuyaos_demo_wukong_ai/build/tuya_app.config` |
+| 控制哪些 `.c` 参与编译、include 路径、宏定义 | `apps/tuyaos_jiajia/local.mk` |
+| 应用级功能开关 | `apps/tuyaos_jiajia/build/tuya_app.config` |
 | 全局 IoT / 音频子系统开关 | `build/tuya_iot.config` |
-| 各板型默认配置快照 | `apps/tuyaos_demo_wukong_ai/build/appconfig/<板型>` |
-| Kconfig 定义与默认值 | `apps/tuyaos_demo_wukong_ai/build/APPconfig` |
+| 各板型默认配置快照 | `apps/tuyaos_jiajia/build/appconfig/<板型>` |
+| Kconfig 定义与默认值 | `apps/tuyaos_jiajia/build/APPconfig` |
 
 **Windows/macOS 注意：** `build/appconfig/`（目录）与 `build/APPconfig`（文件）仅大小写不同，在大小写不敏感的文件系统上会产生冲突，请在 Linux/WSL 环境下开发。
 
@@ -166,9 +166,9 @@ L1  RTOS / TuyaOS 内核   → vendor/（禁止修改）
 
 ## 参考文档
 
-- `apps/tuyaos_demo_wukong_ai/README_CN.md` — 模块索引与入口说明
-- `apps/tuyaos_demo_wukong_ai/build/README_CN.md` — 配置指南
-- `apps/tuyaos_demo_wukong_ai/docs/QUICKSTART_CN.md` — 快速开始
+- `apps/tuyaos_jiajia/README_CN.md` — 模块索引与入口说明
+- `apps/tuyaos_jiajia/build/README_CN.md` — 配置指南
+- `apps/tuyaos_jiajia/docs/QUICKSTART_CN.md` — 快速开始
 - `src/wukong/README_CN.md` — Agent / 技能 / MCP 说明
 - `src/wukong/audio/README_CN.md` — 音频管线与 KWS
 - `src/boards/README_CN.md` — 板级移植指南

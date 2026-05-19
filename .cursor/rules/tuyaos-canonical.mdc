@@ -6,5 +6,5 @@ alwaysApply: true
 # Canonical guide
 
 - **Authoritative reference:** repository root `CLAUDE.md` (complete make table, board/camera matrix, architecture tables, links to `README_CN.md` / `QUICKSTART_CN.md`, etc.). Open it when anything here is incomplete or ambiguous.
-- **Stack:** **TuyaOS 3.13.6**, main application **`tuyaos_demo_wukong_ai`**, hardware class **T5 / BK7258** Wukong AI devices.
+- **Stack:** **TuyaOS 3.13.6**, main application **`tuyaos_jiajia`** (product firmware), hardware class **T5 / BK7258** Wukong AI devices. Reference demo **`tuyaos_demo_wukong_ai`** remains under `apps/` for upstream comparison only.
 - **Reference apps:** `apps/tuyaos_demo_examples/`, `apps/tuyaos_demo_quickstart/`.
