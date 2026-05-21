@@ -1,0 +1,5 @@
+让main切到之前的某个HEAD
+cd /home/jiayi/project
+git checkout main
+git reset --hard 40207b4b
+git push --force-with-lease origin main

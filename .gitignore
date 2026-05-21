@@ -45,9 +45,8 @@ compile_commands.json
 *.gch
 *.pch
 
-# Libraries
+# Libraries（*.a 需纳入版本库：TuyaOS/libs 预编译 SDK 等；中间产物仍由 output/、tmp/ 忽略）
 *.lib
-*.a
 *.la
 *.lo
 
