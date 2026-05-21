@@ -1,0 +1,12 @@
+#ifndef __TUYA_APP_CONFIG_H__
+#define __TUYA_APP_CONFIG_H__
+
+#define ENABLE_AI_MODE_FREE 1
+#define ENABLE_TUYA_UI 1
+#define ENABLE_TUYA_CODEC_OPUS 0
+#define ENABLE_TUYA_PICTURE 0
+#define USING_BOARD_AUDIO_INPUT 1
+#define ENABLE_AI_MODE_WAKEUP 1
+#define AI_AGENT_SCODE_CHAT "chat"
+
+#endif

@@ -1,0 +1,9 @@
+#ifndef __WUKONG_TM_INTERNAL_H__
+#define __WUKONG_TM_INTERNAL_H__
+
+typedef enum {
+    WUKONG_TM_TIMER_OPR_START = 0,
+    WUKONG_TM_TIMER_OPR_FINISH = 1,
+} WUKONG_TM_TIMER_OPR_E;
+
+#endif
