@@ -91,6 +91,18 @@ void desktop_ui_msg_handler(TY_DISPLAY_MSG_T *msg)
         ui_chat_clear_attachment();
         break;
 
+    case TY_DISPLAY_TP_STAT_NETCFG:
+        desktop_ui_gate_on_netcfg_required();
+        break;
+
+    case TY_DISPLAY_TP_CLOUD_CONNECTED:
+        desktop_ui_gate_on_cloud_connected();
+        break;
+
+    case TY_DISPLAY_TP_AI_CLIENT_READY:
+        desktop_ui_gate_on_ai_client_ready();
+        break;
+
     default:
         break;
     }

@@ -6,4 +6,8 @@ dependencies:
       name: T5
       version: 0.0.75
       locater: vendor
-  components: []
+  components:
+    -
+      Component:
+        name: tuyaos_jiajia
+        locater: apps

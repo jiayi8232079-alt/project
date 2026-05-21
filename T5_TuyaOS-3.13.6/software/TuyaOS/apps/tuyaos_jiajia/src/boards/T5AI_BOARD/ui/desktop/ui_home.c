@@ -7,6 +7,7 @@
  */
 #include "ui_private.h"
 #include <stdio.h>
+#include <string.h>
 
 /* ---------------------------------------------------------------------------
  * Font declarations
@@ -33,6 +34,12 @@ LV_IMG_DECLARE(icon_point_2);
  * --------------------------------------------------------------------------- */
 typedef struct {
     lv_obj_t *startup_scr;
+    lv_obj_t *hint_label;
+    BOOL_T startup_timer_ready;
+    BOOL_T netcfg_required;
+    BOOL_T cloud_connected;
+    BOOL_T ai_client_ready;
+    BOOL_T home_entered;
 } STARTUP_UI_T;
 
 typedef struct {
@@ -57,10 +64,94 @@ STATIC HOME_UI_T s_home_ui = {0};
  * Forward declarations
  * --------------------------------------------------------------------------- */
 STATIC VOID_T __home_gesture_cb(lv_event_t *e);
+STATIC VOID_T __startup_set_hint(CONST CHAR_T *text);
+STATIC VOID_T __startup_update_hint(VOID_T);
+STATIC VOID_T __startup_try_enter_home(VOID_T);
 
 /* ---------------------------------------------------------------------------
  * Function implementations
  * --------------------------------------------------------------------------- */
+
+VOID_T desktop_ui_gate_reset(VOID_T)
+{
+    s_startup_ui.startup_timer_ready = FALSE;
+    s_startup_ui.netcfg_required = FALSE;
+    s_startup_ui.cloud_connected = FALSE;
+    s_startup_ui.ai_client_ready = FALSE;
+    s_startup_ui.home_entered = FALSE;
+}
+
+VOID_T desktop_ui_gate_on_startup_timer_ready(VOID_T)
+{
+    s_startup_ui.startup_timer_ready = TRUE;
+}
+
+VOID_T desktop_ui_gate_on_netcfg_required(VOID_T)
+{
+    s_startup_ui.netcfg_required = TRUE;
+    s_startup_ui.cloud_connected = FALSE;
+    __startup_update_hint();
+}
+
+VOID_T desktop_ui_gate_on_cloud_connected(VOID_T)
+{
+    s_startup_ui.netcfg_required = FALSE;
+    s_startup_ui.cloud_connected = TRUE;
+    __startup_update_hint();
+}
+
+VOID_T desktop_ui_gate_on_ai_client_ready(VOID_T)
+{
+    s_startup_ui.ai_client_ready = TRUE;
+    __startup_update_hint();
+}
+
+BOOL_T desktop_ui_gate_should_enter_home(VOID_T)
+{
+    return s_startup_ui.startup_timer_ready && !s_startup_ui.netcfg_required &&
+           s_startup_ui.cloud_connected && s_startup_ui.ai_client_ready &&
+           !s_startup_ui.home_entered;
+}
+
+CONST CHAR_T *desktop_ui_gate_current_hint(VOID_T)
+{
+    if (s_startup_ui.netcfg_required) {
+        return "请完成配网";
+    }
+
+    return "初始化中";
+}
+
+VOID_T desktop_ui_gate_mark_home_entered(VOID_T)
+{
+    s_startup_ui.home_entered = TRUE;
+}
+
+STATIC VOID_T __startup_set_hint(CONST CHAR_T *text)
+{
+    if (s_startup_ui.hint_label == NULL || text == NULL) {
+        return;
+    }
+
+    lv_label_set_text(s_startup_ui.hint_label, text);
+    lv_obj_center(s_startup_ui.hint_label);
+}
+
+STATIC VOID_T __startup_update_hint(VOID_T)
+{
+    __startup_set_hint(desktop_ui_gate_current_hint());
+}
+
+STATIC VOID_T __startup_try_enter_home(VOID_T)
+{
+    if (!desktop_ui_gate_should_enter_home()) {
+        __startup_update_hint();
+        return;
+    }
+
+    desktop_ui_gate_mark_home_entered();
+    ui_nav_to(UI_SCR_HOME);
+}
 
 /**
  * @brief Home screen gesture callback, swipe-left to enter chat page
@@ -228,7 +319,8 @@ void setup_scr_home(UINT8_T month, UINT8_T day, CONST CHAR_T *weekday,
  */
 STATIC VOID_T handle_startup_welcome_timer(lv_timer_t *timer)
 {
-    ui_nav_to(UI_SCR_HOME);
+    desktop_ui_gate_on_startup_timer_ready();
+    __startup_try_enter_home();
 
     if (timer) {
         lv_timer_del(timer);
@@ -241,18 +333,20 @@ STATIC VOID_T handle_startup_welcome_timer(lv_timer_t *timer)
  */
 void setup_scr_startup(VOID_T)
 {
+    desktop_ui_gate_reset();
+
     s_startup_ui.startup_scr = lv_obj_create(NULL);
     lv_obj_set_size(s_startup_ui.startup_scr, LV_HOR_RES, LV_VER_RES);
     lv_obj_set_scrollbar_mode(s_startup_ui.startup_scr, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_style_bg_color(s_startup_ui.startup_scr, lv_color_hex(0x25262A), 0);
     lv_obj_set_style_pad_all(s_startup_ui.startup_scr, 0, 0);
 
-    lv_obj_t *welcome_text = lv_label_create(s_startup_ui.startup_scr);
-    lv_label_set_text(welcome_text, "Welcome");
-    lv_obj_set_style_text_font(welcome_text, &AlibabaPuHuiTi3_Regular30, 0);
-    lv_obj_set_style_text_color(welcome_text, lv_color_hex(0xFFFFFF), 0);
-    lv_obj_set_style_text_align(welcome_text, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_center(welcome_text);
+    s_startup_ui.hint_label = lv_label_create(s_startup_ui.startup_scr);
+    lv_label_set_text(s_startup_ui.hint_label, desktop_ui_gate_current_hint());
+    lv_obj_set_style_text_font(s_startup_ui.hint_label, &AlibabaPuHuiTi3_Regular30, 0);
+    lv_obj_set_style_text_color(s_startup_ui.hint_label, lv_color_hex(0xFFFFFF), 0);
+    lv_obj_set_style_text_align(s_startup_ui.hint_label, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_center(s_startup_ui.hint_label);
 
     lv_obj_update_layout(s_startup_ui.startup_scr);
     lv_scr_load(s_startup_ui.startup_scr);

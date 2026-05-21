@@ -251,8 +251,9 @@ STATIC VOID __on_ai_toy_wf_nw_stat_cb(GW_WIFI_NW_STAT_E nw_stat)
             report_flag = TRUE;
         }
         net_stat = 1;
-        #ifdef ENABLE_TUYA_UI  
+        #ifdef ENABLE_TUYA_UI
         tuya_ai_display_msg(&net_stat, 1, TY_DISPLAY_TP_STAT_NET);
+        tuya_ai_display_msg(NULL, 0, TY_DISPLAY_TP_CLOUD_CONNECTED);
         #endif
         tuya_ai_toy_led_on();
         break;
@@ -327,6 +328,10 @@ STATIC VOID_T __on_ai_toy_crt_default_session(VOID_T *data)
 STATIC OPERATE_RET __on_ai_toy_ai_client_run(VOID_T *data)
 {
     TAL_PR_NOTICE("ai toy -> connected to server");
+
+#if defined(ENABLE_TUYA_UI)
+    tuya_ai_display_msg(NULL, 0, TY_DISPLAY_TP_AI_CLIENT_READY);
+#endif
 
 #if defined(ENABLE_DEFAULT_SESSION) && (ENABLE_DEFAULT_SESSION == 1)
     /* Create default session asynchronously via work queue. */

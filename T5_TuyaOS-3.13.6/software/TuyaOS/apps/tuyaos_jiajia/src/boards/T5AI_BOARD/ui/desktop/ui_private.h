@@ -57,6 +57,14 @@ VOID_T app_ui_action_init(VOID_T);
  * @return none
  */
 VOID_T setup_scr_startup(VOID_T);
+VOID_T desktop_ui_gate_reset(VOID_T);
+VOID_T desktop_ui_gate_on_startup_timer_ready(VOID_T);
+VOID_T desktop_ui_gate_on_netcfg_required(VOID_T);
+VOID_T desktop_ui_gate_on_cloud_connected(VOID_T);
+VOID_T desktop_ui_gate_on_ai_client_ready(VOID_T);
+BOOL_T desktop_ui_gate_should_enter_home(VOID_T);
+CONST CHAR_T *desktop_ui_gate_current_hint(VOID_T);
+VOID_T desktop_ui_gate_mark_home_entered(VOID_T);
 
 /**
  * @brief Build and show the date/time home screen

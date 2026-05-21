@@ -1,0 +1,8 @@
+mainmenu "Tuya IoT SDK Configuration"
+menu "SDK"
+    rsource "../apps/tuyaos_jiajia/build/APPconfig"
+endmenu
+
+menu "VENDOR"
+    rsource "../vendor/T5/tuyaos/IoTOSconfig"
+endmenu
