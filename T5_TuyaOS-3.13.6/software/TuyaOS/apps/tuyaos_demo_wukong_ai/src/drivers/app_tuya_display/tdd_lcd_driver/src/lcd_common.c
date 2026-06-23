@@ -14,7 +14,7 @@
 
 #ifdef TUYA_MULTI_TYPES_LCD
 static const ty_display_device_s *tuya_lcd_devices [] = {
-#if defined(LCD_MODULE_T35P128CQ) || defined(T5AI_BOARD)
+#if defined(LCD_MODULE_T35P128CQ) || (defined(T5AI_BOARD) && !defined(PRODUCT_BOARD_SPI_LCD))
     &lcd_rgb_ili9488_device,
     &tuya_lcd_device_t35p128cq,
 #elif defined(LCD_MODULE_T50P181CQ)
@@ -23,7 +23,7 @@ static const ty_display_device_s *tuya_lcd_devices [] = {
     &lcd_i8080_st7789P3_device,
 #elif defined(TUYA_LCD_INTERFACE_8080_ST7796S)
     &lcd_i8080_st7796S_device,
-#elif defined(LCD_MODULE_GMT154_7P) || defined(T5AI_BOARD_EVB) || defined(T5AI_BOARD_DESKTOP) || defined(T5AI_BOARD_EVB_PRO)
+#elif defined(LCD_MODULE_GMT154_7P) || defined(T5AI_BOARD_EVB) || defined(T5AI_BOARD_DESKTOP) || defined(T5AI_BOARD_EVB_PRO) || defined(PRODUCT_BOARD_SPI_LCD)
     &lcd_spi_st7789_device,
     &lcd_spi_st7789v2_device,
 #elif defined(LCD_MODULE_MTF018XD01A_V1)

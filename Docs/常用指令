@@ -30,3 +30,4 @@ kill <PID>
 kill -9 <PID>   # 普通 kill 不生效时再用
 
 
+make app_config APP_NAME=tuyaos_demo_wukong_ai   (coonfig后必做，保证tuya_app_config.h 更新)

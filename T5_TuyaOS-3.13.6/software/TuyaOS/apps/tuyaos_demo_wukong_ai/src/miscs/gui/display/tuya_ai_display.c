@@ -740,6 +740,37 @@ STATIC OPERATE_RET tuya_gui_lcd_driver_init(VOID *_info)
             ll_ctrl.tp.tp_intr = TUYA_GPIO_NUM_38;                      //该中断脚需同步到配置文件app_resource_config.json中的"gpio_id".
             tkl_disp_update_ll_config((void *)&ll_ctrl);
         #endif
+    #elif defined(T5AI_BOARD) && defined(PRODUCT_BOARD_SPI_LCD)
+            // 产品板 CN4 SPI ST7789（HXR0336N011），引脚同 T5AI_BOARD_DESKTOP
+            static const ty_display_cfg spi_st7789_product_cfg = {
+                .spi_cfg = {
+                    .port = TUYA_SPI_NUM_0,
+                    .reset = {
+                        .pin = TUYA_GPIO_NUM_43,
+                        .active_level = TUYA_GPIO_LEVEL_LOW
+                    },
+                    .bl = {
+                       .pin = TUYA_GPIO_NUM_42,
+                       .active_level = TUYA_GPIO_LEVEL_HIGH
+                    },
+                    .power_ctrl = {
+                        .pin = TUYA_GPIO_NUM_MAX,
+                        .active_level = TUYA_GPIO_LEVEL_HIGH
+                    },
+                    .rs = {
+                        .pin = TUYA_GPIO_NUM_47,
+                        .active_level = TUYA_GPIO_LEVEL_LOW
+                    },
+                    .soft_cs = {
+                        .pin = TUYA_GPIO_NUM_MAX,
+                        .active_level = TUYA_GPIO_LEVEL_LOW
+                    }
+                }
+            };
+            GUI_LCD_INFO_S *lcd_info = info->lcd_info[0];
+
+            lcd_info->display_device = tdd_lcd_driver_query("spi_st7789v2", DISPLAY_SPI);
+            lcd_info->display_cfg = &spi_st7789_product_cfg;
     #elif defined(USING_TUYA_T5AI_BOARD) || defined(T5AI_BOARD)                     //3.5英寸RGB接口T5AI开发板(LCD module: T35P128CQ)
             //屏幕驱动初始化:
             static const ty_display_cfg cfg1 = {

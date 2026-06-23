@@ -8,6 +8,13 @@ _TESTS = [
         ["stubs_free_mode.c", "test_free_mode.c"],
         ["src/mode", "src/wukong"],
     ),
+    (
+        "product_board_lcd_debug",
+        "Product board LCD debug helper should flush a full red RGB565 frame",
+        ["src/boards/T5AI_BOARD/product_board_lcd_debug.c"],
+        ["stubs_product_board_lcd_debug.c", "test_product_board_lcd_debug.c"],
+        ["src/boards/T5AI_BOARD"],
+    ),
 ]
 
 _IDS = [t[0] for t in _TESTS]

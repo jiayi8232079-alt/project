@@ -3,10 +3,12 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <string.h>
 
 typedef int           OPERATE_RET;
 typedef int           INT_T;
 typedef unsigned int  UINT_T;
+typedef uint32_t      UINT32_T;
 typedef uint64_t      UINT64_T;
 typedef uint8_t       UINT8_T;
 typedef uint16_t      UINT16_T;
@@ -41,5 +43,7 @@ typedef unsigned long uintptr_t_stub;
 
 #define TUYA_CHECK_NULL_RETURN(x, ret) \
     do { if ((x) == NULL) { return (ret); } } while (0)
+
+#define memset_s(dest, destsz, ch, count) memset((dest), (ch), (count))
 
 #endif

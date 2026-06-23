@@ -47,6 +47,9 @@ ifeq ($(CONFIG_T5AI_BOARD), y)
 LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/boards/T5AI_BOARD/
 LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/boards/T5AI_BOARD/ui/
 LOCAL_SRC_FILES := $(LOCAL_PATH)/src/boards/T5AI_BOARD/tuya_device_board.c
+ifeq ($(CONFIG_PRODUCT_BOARD_SPI_LCD), y)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/product_board_lcd_debug.c
+endif
 ifeq ($(CONFIG_ENABLE_TUYA_CAMERA), y)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/tuya_device_camera.c
 endif
@@ -123,7 +126,11 @@ LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/miscs/linkpolicy/ -name "*.c" 
 endif
 
 # 模块对外CFLAGS：其他组件编译时可感知到
-VER = $(shell echo $(APP_VER) | grep -oP '\d*\.\d*\.\d*')
+# APP_VER 为空时 grep 无匹配会导致 USER_SW_VER=""，IoT 初始化会直接失败
+VER := $(shell echo $(APP_VER) | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+ifeq ($(VER),)
+VER := 1.0.0
+endif
 LOCAL_TUYA_SDK_CFLAGS := -DUSER_SW_VER=\"$(VER)\" -DAPP_BIN_NAME=\"$(APP_NAME)\" -DAI_PLAYER_SUPPORT_DEFAULT_CONSUMER=0
 # wukong includes via CFLAGS (not SDK_INC) to prevent recursive find from
 # pulling in tm/tests/stubs/ which shadows real headers (ty_cJSON.h etc.)

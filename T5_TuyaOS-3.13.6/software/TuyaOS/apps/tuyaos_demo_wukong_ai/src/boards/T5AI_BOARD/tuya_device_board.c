@@ -10,6 +10,9 @@
  */
 #include "tuya_device_board.h"
 #include "tuya_cloud_types.h"
+#include "tuya_app_config.h"
+#include "tkl_pinmux.h"
+#include "tal_log.h"
 
 #if defined(ENABLE_TUYA_CAMERA) && ENABLE_TUYA_CAMERA == 1
 #include "tal_camera.h"
@@ -29,6 +32,20 @@
 OPERATE_RET tuya_device_board_init(VOID_T)
 {
     OPERATE_RET rt = OPRT_OK;
+
+#if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+    /*
+     * SPI0 G2 四线必须全部登记，否则 __tkl_check_spi0_pins() 失败，
+     * tkl_spi 会回退到 GPIO14~17，P44~P47 上无 SPI 波形。
+     * P47 先配 MISO 通过校验；tal_display_spi_open 再将其改回 GPIO 作 D/C。
+     */
+    tkl_io_pinmux_config(TUYA_IO_PIN_44, TUYA_SPI0_CLK);
+    tkl_io_pinmux_config(TUYA_IO_PIN_45, TUYA_SPI0_CS);
+    tkl_io_pinmux_config(TUYA_IO_PIN_46, TUYA_SPI0_MOSI);
+    tkl_io_pinmux_config(TUYA_IO_PIN_47, TUYA_SPI0_MISO);
+    TAL_PR_NOTICE("product SPI LCD: SPI0 G2 pinmux 44/45/46/47");
+#endif
+
     return rt;
 }
 

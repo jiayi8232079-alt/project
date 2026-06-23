@@ -1,0 +1,46 @@
+【工单标题 / 问题主题】
+语音设「闹钟」与实际体验不一致（云端 NLG 称闹钟，设备执行为口播提醒）
+
+【一句话问题描述】
+用户语音要求设置「闹钟」或被告知「闹钟已设好」，但设备实际执行的是到点 TTS 口播的「提醒」，没有响铃闹钟体验——固件 MCP 调用成功、到点能说话，但用户得到的是「提醒」而非「闹钟」。
+
+【问题描述 / 详细说明】
+问题类型：咨询 / 体验优化（非固件崩溃）
+
+一、问题影响
+- 用户按「闹钟」理解，预期到点响铃；实际仅口播一句话，易认为未设成功或设备故障。
+- 云端 TTS 明确说「闹钟已经帮你设好了」，与底层能力不一致。
+- 串口可见 MCP success:true，单看固件像成功，端到端语音体验仍不达标。
+- NLG 由涂鸦云生成，设备原样播报，设备侧无法单独修正「闹钟」措辞。
+
+二、实际案例（uart_log.txt，2026-05-23）
+用户说：「两分钟之后，提醒我喝水。」
+
+14:14:44  ASR 识别完成
+14:14:52  MCP tools/call → device_schedule_set（口播提醒，非响铃闹钟），message=提醒喝水，success:true
+14:14:57  云端 TTS：「两分钟后的闹钟已经帮你设好了」
+14:16:00  reminder.fire → 仅 TTS「提醒喝水」，无响铃
+
+用户视角：听到「闹钟设好了」，到点只听到口播，没有闹钟铃声。
+技术事实：云端选用 device_schedule_set，未调用 device_alarm_set；固件按提醒链路执行正常，但与「闹钟」话术不一致。
+
+三、设备信息
+- 应用：tuyaos_demo_wukong_ai
+- TuyaOS：3.13.6
+- 硬件：BK7258（T5 悟空 AI 开发板）
+- 设备 ID（日志）：6c1d7be2b09d4ba4fdbirk
+- 配置：ENABLE_TUYA_TOOLKITS=y，ENABLE_TOOLKITS_TM=y
+- MCP：Wukong AI v3.0
+
+四、咨询事项（请涂鸦指引）
+1. 用户说「提醒我/设闹钟」时，如何区分 device_alarm_set（响铃）与 device_schedule_set（口播）？
+2. 调用 device_schedule_set 后，如何在 Agent/解决方案配置中禁止 NLG 出现「闹钟」？
+3. 是否有官方话术规范或 tool result 字段（如 user_reply_hint）保证回复与 tools/call 一致？
+4. 配置入口在哪个控制台页面？修改后是否仅新会话生效？
+
+五、附件
+- uart_log.txt（完整串口日志）
+- 飞书问题单：https://vcn6kw1hyga4.feishu.cn/docx/GNsVde4yQoqOxexfuQvcdDmynxc
+
+【期望回复】
+请提供：用户意图 → MCP 工具 → 对用户话术的推荐表，及 IoT AI Agent 控制台配置路径。

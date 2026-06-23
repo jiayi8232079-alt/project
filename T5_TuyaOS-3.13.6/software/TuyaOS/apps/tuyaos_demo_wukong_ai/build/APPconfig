@@ -127,6 +127,12 @@ menuconfig APP_CONFIG
 
     # --- T5AI_BOARD UI style (auto-selected by ENABLE_TUYA_PICTURE) ---
     if T5AI_BOARD
+        config PRODUCT_BOARD_SPI_LCD
+            bool "Product board SPI LCD (HXR0336N011 / ST7789)"
+            default y
+            help
+              产品板 CN4 SPI ST7789 屏，替代官方 T5AI_BOARD RGB ili9488 显示路径
+
         config ENABLE_T5AI_BOARD_UI_DESKTOP
             bool
             default y if ENABLE_TUYA_PICTURE

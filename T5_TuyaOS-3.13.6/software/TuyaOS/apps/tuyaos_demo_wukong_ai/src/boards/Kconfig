@@ -69,6 +69,7 @@ endmenu
 menu "Display Configuration"
     config TUYA_LCD_IC_NAME_STR
         string "LCD IC driver name"
+        default "spi_st7789v2"  if PRODUCT_BOARD_SPI_LCD
         default "ili9488"       if T5AI_BOARD || T2AI_BOARD
         default "spi_st7789v2"  if T5AI_BOARD_DESKTOP
         default "spi_st7789"    if T5AI_BOARD_EVB || T5AI_BOARD_EVB_PRO
@@ -80,6 +81,7 @@ menu "Display Configuration"
 
     config TUYA_LCD_WIDTH_VAL
         int "LCD width in pixels"
+        default 240 if PRODUCT_BOARD_SPI_LCD
         default 320 if T5AI_BOARD || T2AI_BOARD || T5AI_BOARD_DESKTOP || T5AI_BOARD_ROBOT
         default 240 if T5AI_BOARD_EVB || T5AI_BOARD_EVB_PRO
         default 128 if T5AI_BOARD_EYES
@@ -89,6 +91,7 @@ menu "Display Configuration"
 
     config TUYA_LCD_HEIGHT_VAL
         int "LCD height in pixels"
+        default 320 if PRODUCT_BOARD_SPI_LCD
         default 480 if T5AI_BOARD || T2AI_BOARD
         default 240 if T5AI_BOARD_DESKTOP || T5AI_BOARD_EVB || T5AI_BOARD_EVB_PRO
         default 128 if T5AI_BOARD_EYES
@@ -99,7 +102,7 @@ menu "Display Configuration"
 
     config LCD_FPS_VAL
         int "LCD refresh FPS"
-        default 15 if T5AI_BOARD_DESKTOP || T5AI_BOARD_EVB || T5AI_BOARD_EVB_PRO
+        default 15 if PRODUCT_BOARD_SPI_LCD || T5AI_BOARD_DESKTOP || T5AI_BOARD_EVB || T5AI_BOARD_EVB_PRO
         default 10
         range 1 60
         help

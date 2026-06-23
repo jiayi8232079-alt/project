@@ -1,0 +1,1 @@
+picocom /dev/ttyACM1 -b 460800 -l | tee -a uart_log.txt

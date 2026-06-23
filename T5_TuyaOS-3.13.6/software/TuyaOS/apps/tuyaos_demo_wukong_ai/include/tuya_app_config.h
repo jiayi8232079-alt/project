@@ -33,6 +33,7 @@ extern "C" {
 // CONFIG_LE270AI_BOARD is not set
 // CONFIG_WUKONG_BOARD_UBUNTU is not set
 #define ENABLE_T5AI_BOARD_UI_DESKTOP 1
+#define PRODUCT_BOARD_SPI_LCD 1
 
 //
 // Pin Configuration
@@ -47,10 +48,10 @@ extern "C" {
 //
 // Display Configuration
 //
-#define TUYA_LCD_IC_NAME_STR "ili9488"
-#define TUYA_LCD_WIDTH_VAL 320
-#define TUYA_LCD_HEIGHT_VAL 480
-#define LCD_FPS_VAL 10
+#define TUYA_LCD_IC_NAME_STR "spi_st7789v2"
+#define TUYA_LCD_WIDTH_VAL 240
+#define TUYA_LCD_HEIGHT_VAL 320
+#define LCD_FPS_VAL 15
 #define TUYA_LCD_ROTATION_VAL 0
 // end of Display Configuration
 

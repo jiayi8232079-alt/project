@@ -52,6 +52,10 @@
 #ifdef TUYA_APP_MULTI_CORE_IPC
 #include "tkl_ipc.h"
 #endif
+#include "tuya_app_config.h"
+#if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+#include "product_board_lcd_debug.h"
+#endif
 #ifdef LVGL_ENABLE_CLOUD_RECIPE
 #include "ty_gfw_gui_cloud_recipe.h"
 #endif
@@ -1808,8 +1812,13 @@ OPERATE_RET tuya_gui_lcd_open(VOID_T *info)
                 else
                     tkl_lvgl_display_handle_register((VOID *)disp_handle, (VOID *)disp_handle_slave, disp_info->exp_type);
             }
-            else
+            else {
                 tkl_lvgl_display_handle_register((VOID *)disp_handle, NULL, disp_info->exp_type);
+#if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+                /* 0.0.12 调试：LVGL 前先刷满屏红，验证 SPI 像素通路 */
+                product_board_lcd_red_screen_test(disp_handle);
+#endif
+            }
         }
     }
     else {
