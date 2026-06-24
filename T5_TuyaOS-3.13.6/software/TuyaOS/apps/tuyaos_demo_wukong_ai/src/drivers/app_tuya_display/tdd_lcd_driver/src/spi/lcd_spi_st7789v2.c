@@ -4,14 +4,15 @@
 #include "tal_display_service.h"
 
 #if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
-/* PV034QVQ-N80 / HXR0336N011：厂家竖屏 240×320 init（MADCTL=0x00 + CASET/RASET） */
+/* HXR0336N011（ST7789）：横屏 320×240，MADCTL=0xA0（MY|MV，顺时针旋转 90°） */
 static const DISPLAY_INIT_SEQ_T st7789_boe336_init_seq[] = {
     {.type = TY_INIT_RST,   .reset = {{500}, {500}, {500}}},
     {.type = TY_INIT_REG,   .reg = {.r = 0x11, .len = 0}},
     {.type = TY_INIT_DELAY, .delay_time = 120},
     {.type = TY_INIT_REG,   .reg = {.r = 0xB2, .len = 5,  .v = {0x0C, 0x0C, 0x00, 0x33, 0x33}}},
     {.type = TY_INIT_REG,   .reg = {.r = 0xB0, .len = 2,  .v = {0x00, 0xE0}}},
-    {.type = TY_INIT_REG,   .reg = {.r = 0x36, .len = 1,  .v = {0x00}}},
+    /* MADCTL：MY=1, MV=1 → 横屏 320×240（与 T5AI_BOARD_DESKTOP 相同） */
+    {.type = TY_INIT_REG,   .reg = {.r = 0x36, .len = 1,  .v = {0xA0}}},
     {.type = TY_INIT_REG,   .reg = {.r = 0x3A, .len = 1,  .v = {0x05}}},
     {.type = TY_INIT_REG,   .reg = {.r = 0xB7, .len = 1,  .v = {0x02}}},
     {.type = TY_INIT_REG,   .reg = {.r = 0xBB, .len = 1,  .v = {0x19}}},
@@ -23,9 +24,9 @@ static const DISPLAY_INIT_SEQ_T st7789_boe336_init_seq[] = {
     {.type = TY_INIT_REG,   .reg = {.r = 0xD6, .len = 1,  .v = {0xA1}}},
     {.type = TY_INIT_REG,   .reg = {.r = 0xE0, .len = 14, .v = {0xF0, 0x05, 0x0A, 0x02, 0x03, 0x22, 0x32, 0x44, 0x49, 0x35, 0x11, 0x10, 0x2B, 0x31}}},
     {.type = TY_INIT_REG,   .reg = {.r = 0xE1, .len = 14, .v = {0xF0, 0x0D, 0x0F, 0x0C, 0x0B, 0x07, 0x31, 0x33, 0x49, 0x38, 0x15, 0x16, 0x2C, 0x32}}},
-    /* 竖屏 240×320：列 0~239，行 0~319 */
-    {.type = TY_INIT_REG,   .reg = {.r = 0x2A, .len = 4,  .v = {0x00, 0x00, 0x00, 0xEF}}},
-    {.type = TY_INIT_REG,   .reg = {.r = 0x2B, .len = 4,  .v = {0x00, 0x00, 0x01, 0x3F}}},
+    /* 横屏 320×240：CASET 列 0~319，RASET 行 0~239 */
+    {.type = TY_INIT_REG,   .reg = {.r = 0x2A, .len = 4,  .v = {0x00, 0x00, 0x01, 0x3F}}},
+    {.type = TY_INIT_REG,   .reg = {.r = 0x2B, .len = 4,  .v = {0x00, 0x00, 0x00, 0xEF}}},
     {.type = TY_INIT_REG,   .reg = {.r = 0x21, .len = 0}},
     {.type = TY_INIT_REG,   .reg = {.r = 0x29, .len = 0}},
     {.type = TY_INIT_CONF_END}
@@ -64,8 +65,9 @@ const ty_display_device_s  lcd_spi_st7789v2_device = {
     .name = "spi_st7789v2",
     .spi = {
 #if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
-        .width = 240,
-        .height = 320,
+        /* 横屏后有效分辨率：320（宽）× 240（高） */
+        .width = 320,
+        .height = 240,
 #else
         .width = 320,
         .height = 240,

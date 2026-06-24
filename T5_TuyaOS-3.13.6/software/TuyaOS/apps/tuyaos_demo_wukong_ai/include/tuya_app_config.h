@@ -39,7 +39,7 @@ extern "C" {
 // Pin Configuration
 //
 #define TUYA_AI_TOY_AUDIO_TRIGGER_PIN_NUM 12
-#define TUYA_AI_TOY_SPK_EN_PIN_NUM 28
+#define TUYA_AI_TOY_SPK_EN_PIN_NUM 17
 #define TUYA_AI_TOY_LED_PIN_NUM 56
 #define TUYA_AI_TOY_NET_PIN_NUM 64
 // CONFIG_DEVICE_POWER_CONTROL is not set
@@ -49,8 +49,8 @@ extern "C" {
 // Display Configuration
 //
 #define TUYA_LCD_IC_NAME_STR "spi_st7789v2"
-#define TUYA_LCD_WIDTH_VAL 240
-#define TUYA_LCD_HEIGHT_VAL 320
+#define TUYA_LCD_WIDTH_VAL 320
+#define TUYA_LCD_HEIGHT_VAL 240
 #define LCD_FPS_VAL 15
 #define TUYA_LCD_ROTATION_VAL 0
 // end of Display Configuration

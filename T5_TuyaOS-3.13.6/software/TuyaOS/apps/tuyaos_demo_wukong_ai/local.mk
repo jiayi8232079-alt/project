@@ -49,6 +49,8 @@ LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/boards/T5AI_BOARD/ui/
 LOCAL_SRC_FILES := $(LOCAL_PATH)/src/boards/T5AI_BOARD/tuya_device_board.c
 ifeq ($(CONFIG_PRODUCT_BOARD_SPI_LCD), y)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/product_board_lcd_debug.c
+LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/ui/robot_face/robot_face_ui.c
+LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/boards/T5AI_BOARD/ui/robot_face/
 endif
 ifeq ($(CONFIG_ENABLE_TUYA_CAMERA), y)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/tuya_device_camera.c
