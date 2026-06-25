@@ -133,6 +133,13 @@ menuconfig APP_CONFIG
             help
               产品板 CN4 SPI ST7789 屏，替代官方 T5AI_BOARD RGB ili9488 显示路径
 
+        config PRODUCT_BOARD_MOTOR_DEBUG
+            bool "Product board stepper motor debug (M0/M1 on boot)"
+            depends on PRODUCT_BOARD_SPI_LCD
+            default y
+            help
+              上电后自动跑 CN16(M0)/CN17(M1) 28BYJ48 单相扫描 + 半步旋转联调
+
         config ENABLE_T5AI_BOARD_UI_DESKTOP
             bool
             default y if ENABLE_TUYA_PICTURE

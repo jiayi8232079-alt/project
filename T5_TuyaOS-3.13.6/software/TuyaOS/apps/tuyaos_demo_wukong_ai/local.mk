@@ -23,6 +23,7 @@ LOCAL_TUYA_SDK_INC := $(LOCAL_PATH)/include
 LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/drivers/app_tuya_driver/include
 LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/drivers/app_tuya_key/include
 LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/drivers/app_tuya_led/include
+LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/drivers/app_axp2101/include
 LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/miscs/uart_codec/include
 ifeq ($(CONFIG_ENABLE_BATTERY), y)
 LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/miscs/battery
@@ -51,6 +52,11 @@ ifeq ($(CONFIG_PRODUCT_BOARD_SPI_LCD), y)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/product_board_lcd_debug.c
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/ui/robot_face/robot_face_ui.c
 LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/boards/T5AI_BOARD/ui/robot_face/
+LOCAL_TUYA_SDK_INC += $(LOCAL_PATH)/src/drivers/stepper
+LOCAL_SRC_FILES += $(LOCAL_PATH)/src/drivers/stepper/tuya_stepper_28byj48.c
+ifeq ($(CONFIG_PRODUCT_BOARD_MOTOR_DEBUG), y)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/product_board_motor_debug.c
+endif
 endif
 ifeq ($(CONFIG_ENABLE_TUYA_CAMERA), y)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/tuya_device_camera.c
@@ -131,7 +137,7 @@ endif
 # APP_VER 为空时 grep 无匹配会导致 USER_SW_VER=""，IoT 初始化会直接失败
 VER := $(shell echo $(APP_VER) | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 ifeq ($(VER),)
-VER := 1.0.0
+VER := 0.0.32
 endif
 LOCAL_TUYA_SDK_CFLAGS := -DUSER_SW_VER=\"$(VER)\" -DAPP_BIN_NAME=\"$(APP_NAME)\" -DAI_PLAYER_SUPPORT_DEFAULT_CONSUMER=0
 # wukong includes via CFLAGS (not SDK_INC) to prevent recursive find from
@@ -166,6 +172,7 @@ LOCAL_SRC_FILES += $(LOCAL_PATH)/src/drivers/app_tuya_driver/src/os/tal_gpio.c
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/drivers/app_tuya_driver/src/os/tal_uart.c
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/drivers/app_tuya_key -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/drivers/app_tuya_led -name "*.c" -o -name "*.cpp" -o -name "*.cc")
+LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/drivers/app_axp2101 -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/mode -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong  -maxdepth 1 -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong/assets -name "*.c" -o -name "*.cpp" -o -name "*.cc")

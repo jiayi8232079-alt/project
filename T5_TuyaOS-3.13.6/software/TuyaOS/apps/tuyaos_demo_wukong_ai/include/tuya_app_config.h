@@ -34,6 +34,7 @@ extern "C" {
 // CONFIG_WUKONG_BOARD_UBUNTU is not set
 #define ENABLE_T5AI_BOARD_UI_DESKTOP 1
 #define PRODUCT_BOARD_SPI_LCD 1
+#define PRODUCT_BOARD_MOTOR_DEBUG 1
 
 //
 // Pin Configuration

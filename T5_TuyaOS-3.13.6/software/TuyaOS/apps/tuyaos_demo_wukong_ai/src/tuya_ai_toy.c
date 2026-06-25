@@ -155,7 +155,11 @@ STATIC OPERATE_RET __ai_toy_config_load(VOID)
     /* Default volume before reading KV. */
     s_ai_toy->volume = TY_SPK_DEFAULT_VOL;
 
-    TUYA_CALL_ERR_RETURN(wd_common_read(AI_TOY_PARA, &value, &len));
+    rt = wd_common_read(AI_TOY_PARA, &value, &len);
+    if (rt != OPRT_OK) {
+        TAL_PR_DEBUG("ai toy -> no saved config, use default");
+        return OPRT_OK;
+    }
     TAL_PR_DEBUG("read ai_toy config: %s", value);
     ty_cJSON *root = ty_cJSON_Parse((CONST CHAR_T *)value);
     wd_common_free_data(value);
@@ -761,7 +765,9 @@ OPERATE_RET tuya_ai_toy_init(TY_AI_TOY_CFG_T *cfg)
     TUYA_CALL_ERR_GOTO(tal_sw_timer_create(__on_ai_toy_lowpower_timer, s_ai_toy, &s_ai_toy->lowpower_timer), __error);
 
     TUYA_CALL_ERR_GOTO(__ai_toy_start(), __error);
-    wukong_audio_player_alert(AI_TOY_ALERT_TYPE_NOT_ACTIVE, FALSE);
+    if (get_gw_active() != ACTIVATED) {
+        wukong_audio_player_alert(AI_TOY_ALERT_TYPE_NOT_ACTIVE, FALSE);
+    }
     TAL_PR_NOTICE("ai toy -> init success");
     return rt;
 

@@ -12,7 +12,13 @@
 #include "tuya_cloud_types.h"
 #include "tuya_app_config.h"
 #include "tkl_pinmux.h"
+#include "tkl_i2c.h"
 #include "tal_log.h"
+#include "tuya_axp2101.h"
+
+#if defined(PRODUCT_BOARD_MOTOR_DEBUG) && (PRODUCT_BOARD_MOTOR_DEBUG == 1)
+#include "product_board_motor_debug.h"
+#endif
 
 #if defined(ENABLE_TUYA_CAMERA) && ENABLE_TUYA_CAMERA == 1
 #include "tal_camera.h"
@@ -44,6 +50,29 @@ OPERATE_RET tuya_device_board_init(VOID_T)
     tkl_io_pinmux_config(TUYA_IO_PIN_46, TUYA_SPI0_MOSI);
     tkl_io_pinmux_config(TUYA_IO_PIN_47, TUYA_SPI0_MISO);
     TAL_PR_NOTICE("product SPI LCD: SPI0 G2 pinmux 44/45/46/47");
+#endif
+
+    /* AXP2101 PMIC bring-up（I2C0 / P20=SCL、P21=SDA、从地址 0x34）。
+     * 注意：本产品板 I2C0(GPIO20/21) 为【共享总线】——屏幕/摄像头/传感器与 AXP2101 共用。
+     *   - AXP2101 给屏幕/摄像头/传感器供电，故必须【最早】上电并完成自身配置（此处在 board_init）。
+     *   - 速率取 100K，与本工程摄像头(tal_dvp)/触摸(tal_tp)/IMU 在 I2C0 上的一致，避免共享总线速率冲突。
+     *   - AXP 仅在本处一次性访问总线，后续不占用；其他外设上电后可各自 re-init/复用同一总线。
+     *   - 仅做 探测/关TS/充电使能/状态打印，不改任何 DCDC/LDO 输出轨，避免影响现有供电。 */
+    tkl_io_pinmux_config(TUYA_IO_PIN_20, TUYA_IIC0_SCL);
+    tkl_io_pinmux_config(TUYA_IO_PIN_21, TUYA_IIC0_SDA);
+    TUYA_IIC_BASE_CFG_T axp_i2c_cfg = {
+        .role       = TUYA_IIC_MODE_MASTER,
+        .speed      = TUYA_IIC_BUS_SPEED_100K,
+        .addr_width = TUYA_IIC_ADDRESS_7BIT,
+    };
+    if (OPRT_OK == tkl_i2c_init(TUYA_I2C_NUM_0, &axp_i2c_cfg)) {
+        tuya_axp2101_init(TUYA_I2C_NUM_0);
+    } else {
+        TAL_PR_ERR("AXP2101: I2C0 init failed");
+    }
+
+#if defined(PRODUCT_BOARD_MOTOR_DEBUG) && (PRODUCT_BOARD_MOTOR_DEBUG == 1)
+    product_board_motor_debug_start();
 #endif
 
     return rt;

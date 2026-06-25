@@ -12,12 +12,31 @@
 #include "wukong_kws.h"
 #include "tuya_ai_toy.h"
 #include "wukong_tm_internal.h"
+#include "tuya_devos_utils.h"
+#include "gw_intf.h"
+#include "wukong_audio_player.h"
 
 #if defined(ENABLE_AI_MODE_FREE) && (ENABLE_AI_MODE_FREE == 1)
 
 STATIC AI_CHAT_MODE_HANDLE_T s_ai_free_cb = {0};
 STATIC AI_CHAT_MODE_PARAM_T s_ai_free = {0};
 STATIC AI_CHAT_STATE_E s_ai_cur_state = AI_CHAT_INVALID;
+
+/** AI 云端未就绪时给用户可听反馈，避免唤醒后静默无响应 */
+STATIC VOID __ai_free_agent_not_ready_feedback(VOID)
+{
+    if (get_gw_active() != ACTIVATED) {
+        wukong_audio_player_alert(AI_TOY_ALERT_TYPE_NOT_ACTIVE, FALSE);
+    } else if (get_gw_nw_status() != GNS_WAN_VALID) {
+        wukong_audio_player_alert(AI_TOY_ALERT_TYPE_NETWORK_FAIL, FALSE);
+    } else {
+        wukong_audio_player_alert(AI_TOY_ALERT_TYPE_NETWORK_DISCONNECT, FALSE);
+    }
+
+    CHAT_SUB_STATE_CHANGE(AI_CHAT_SUB_FREE, s_ai_free.state, AI_CHAT_IDLE);
+    s_ai_free.wakeup_stat = FALSE;
+    wukong_audio_input_wakeup_set(FALSE);
+}
 
 /**
  * @brief Handle ASR result event in free mode.
@@ -545,6 +564,12 @@ STATIC OPERATE_RET wukong_ai_free_wakeup(VOID *data, INT_T len)
     TAL_PR_DEBUG("[====ai_free] wakeup"); 
     OPERATE_RET rt = OPRT_OK;
 
+    if (!tuya_ai_agent_is_ready()) {
+        TAL_PR_NOTICE("[====ai_free] ai agent not ready on wakeup");
+        __ai_free_agent_not_ready_feedback();
+        return OPRT_RESOURCE_NOT_READY;
+    }
+
     tuya_ai_output_stop(TRUE);
     wukong_audio_player_stop(AI_PLAYER_ALL);
     wukong_audio_input_reset();
@@ -584,7 +609,8 @@ STATIC OPERATE_RET wukong_ai_free_vad(VOID *data, INT_T len)
     if (WUKONG_AUDIO_VAD_START == vad_flag) 
     {
         if (!tuya_ai_agent_is_ready()) {
-            TAL_PR_DEBUG("ai agent is not ready, ignore audio input");
+            TAL_PR_NOTICE("[====ai_free] ai agent not ready, play network alert");
+            __ai_free_agent_not_ready_feedback();
             return OPRT_RESOURCE_NOT_READY;
         }
         tuya_ai_agent_set_scode(AI_AGENT_SCODE_CHAT);
