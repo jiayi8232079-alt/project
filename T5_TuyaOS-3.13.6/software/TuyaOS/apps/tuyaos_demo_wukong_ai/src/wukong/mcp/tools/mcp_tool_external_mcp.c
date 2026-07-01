@@ -193,6 +193,47 @@ STATIC OPERATE_RET __mcp_load_example(CONST CHAR_T *name, CONST ty_cJSON *args,
     return OPRT_OK;
 }
 
+STATIC OPERATE_RET __mcp_set_token(CONST CHAR_T *name, CONST ty_cJSON *args,
+                                   ty_cJSON **out_content, BOOL_T *is_error, VOID *user_data)
+{
+    CONST CHAR_T *token = NULL;
+    CONST CHAR_T *mcp_id = "mcd";   /* 默认麦当劳 */
+    ty_cJSON *j;
+    OPERATE_RET rt;
+
+    (VOID)name;
+    (VOID)user_data;
+
+    if (args) {
+        j = ty_cJSON_GetObjectItem(args, "token");
+        if (j && ty_cJSON_IsString(j))
+            token = j->valuestring;
+        j = ty_cJSON_GetObjectItem(args, "mcpId");
+        if (j && ty_cJSON_IsString(j) && j->valuestring[0])
+            mcp_id = j->valuestring;
+    }
+
+    *out_content = ty_cJSON_CreateArray();
+    if (!*out_content)
+        return OPRT_MALLOC_FAILED;
+
+    if (!token || token[0] == '\0') {
+        ty_cJSON_AddItemToArray(*out_content, mcp_content_make_text("Missing token"));
+        *is_error = TRUE;
+        return OPRT_OK;
+    }
+
+    rt = mcp_client_config_set_token(mcp_id, token);
+    if (rt == OPRT_OK)
+        mcp_client_manager_refresh_all();   /* 令牌更新后立即重连并刷新工具列表 */
+
+    /* 出于安全，回执只报成功/失败与工具数，绝不回显令牌 */
+    ty_cJSON_AddItemToArray(*out_content,
+        mcp_content_make_text(rt == OPRT_OK ? "Token saved and tools refreshed" : "Set token failed"));
+    *is_error = (rt != OPRT_OK);
+    return OPRT_OK;
+}
+
 OPERATE_RET mcp_tool_external_mcp_init(VOID)
 {
     MCP_TOOL_ADD("device_mcp_config_list",
@@ -227,6 +268,13 @@ OPERATE_RET mcp_tool_external_mcp_init(VOID)
     MCP_TOOL_ADD("device_mcp_load_mcd_example",
                  "Load McDonald MCP example config (placeholder token)",
                  __mcp_load_example, NULL, NULL);
+
+    MCP_TOOL_ADD("device_mcp_set_token",
+                 "Upload/update a third-party MCP server Bearer token (default mcpId=mcd), persisted to KV",
+                 __mcp_set_token, NULL,
+                 MCP_SCHEMA_STR("token", "Bearer token value (with or without 'Bearer ' prefix)"),
+                 MCP_SCHEMA_STR_OPT("mcpId", "MCP server id, default mcd"),
+                 NULL);
 
     return OPRT_OK;
 }

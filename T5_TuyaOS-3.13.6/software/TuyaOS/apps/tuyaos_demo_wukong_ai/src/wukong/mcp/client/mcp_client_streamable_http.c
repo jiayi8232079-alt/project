@@ -160,6 +160,58 @@ VOID mcp_client_transport_free_resp(MCP_CLIENT_HTTP_RESP_T *resp)
     resp->body_len = 0;
 }
 
+/* StreamableHTTP 允许服务端以 SSE 帧（text/event-stream）返回 JSON-RPC，
+ * 形如 "event: message\ndata: {json}\n\n"。这里先尝试整体按纯 JSON 解析；
+ * 失败再逐条 data: 行提取，优先返回含 jsonrpc/result/error 的 JSON-RPC 帧。 */
+STATIC ty_cJSON *__parse_sse_or_json(CONST CHAR_T *body)
+{
+    ty_cJSON *root;
+    ty_cJSON *fallback = NULL;
+    CONST CHAR_T *p;
+
+    root = ty_cJSON_Parse(body);
+    if (root)
+        return root;
+
+    p = body;
+    while ((p = strstr(p, "data:")) != NULL) {
+        CONST CHAR_T *s = p + 5;
+        CONST CHAR_T *e;
+        SIZE_T len;
+        CHAR_T *line;
+
+        while (*s == ' ' || *s == '\t')
+            s++;
+        e = s;
+        while (*e && *e != '\n' && *e != '\r')
+            e++;
+
+        len = (SIZE_T)(e - s);
+        if (len > 0) {
+            line = (CHAR_T *)tal_malloc(len + 1);
+            if (line) {
+                memcpy(line, s, len);
+                line[len] = '\0';
+                root = ty_cJSON_Parse(line);
+                tal_free(line);
+                if (root) {
+                    if (ty_cJSON_GetObjectItem(root, "jsonrpc") ||
+                        ty_cJSON_GetObjectItem(root, "result") ||
+                        ty_cJSON_GetObjectItem(root, "error"))
+                        return root;
+                    if (!fallback)
+                        fallback = root;   /* 可解析但非 RPC 帧：暂存兜底 */
+                    else
+                        ty_cJSON_Delete(root);
+                }
+            }
+        }
+        p = (*e) ? e + 1 : e;
+    }
+
+    return fallback;
+}
+
 STATIC OPERATE_RET __parse_jsonrpc_result(CONST CHAR_T *body, ty_cJSON **out_result, INT_T http_status)
 {
     ty_cJSON *root, *result, *error;
@@ -167,7 +219,7 @@ STATIC OPERATE_RET __parse_jsonrpc_result(CONST CHAR_T *body, ty_cJSON **out_res
     if (!body || !out_result)
         return OPRT_INVALID_PARM;
 
-    root = ty_cJSON_Parse(body);
+    root = __parse_sse_or_json(body);
     if (!root)
         return OPRT_COM_ERROR;
 

@@ -200,9 +200,8 @@ OPERATE_RET mcp_server_tool_register(CONST CHAR_T *name,
     entry->next = s_tools;
     s_tools = entry;
 
+    /* 注册期仅打工具名，避免长 Description/schema 占栈导致 tuya_app_main 溢出 */
     TAL_PR_INFO("Tool registered: %s", name);
-    TAL_PR_INFO("Description: %s", entry->description);
-    TAL_PR_INFO("Input schema: %s", ty_cJSON_PrintUnformatted(entry->input_schema));
     return OPRT_OK;
 
 err:

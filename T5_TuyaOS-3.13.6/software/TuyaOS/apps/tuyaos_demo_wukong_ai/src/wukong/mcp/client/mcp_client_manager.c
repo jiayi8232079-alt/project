@@ -16,10 +16,20 @@
 #include "tal_log.h"
 #include "tal_memory.h"
 #include "tal_mutex.h"
+#include "tal_workq_service.h"
 
 STATIC MCP_CLIENT_TOOL_CACHE_T s_tools[MCP_CLIENT_MAX_TOOLS];
 STATIC UINT_T s_tool_count = 0;
 STATIC MUTEX_HANDLE s_mutex = NULL;
+
+/* 启动后异步 refresh，避免在 tuya_app_main 栈上同步 TLS */
+STATIC VOID __boot_refresh_worker(VOID_T *data)
+{
+    (VOID)data;
+    /* 先确保麦当劳默认配置就位（首次开机自动写入 / 已写死令牌则同步），再连接并拉取工具列表 */
+    (VOID)mcp_client_config_ensure_defaults();
+    (VOID)mcp_client_manager_refresh_all();
+}
 
 STATIC VOID __clear_tools(VOID)
 {
@@ -114,7 +124,12 @@ OPERATE_RET mcp_client_manager_init(VOID)
         return rt;
 
     mcp_client_config_init();
-    return mcp_client_manager_refresh_all();
+    /* 优先异步执行（避免在 tuya_app_main 栈上做 TLS 握手）；调度失败则同步兜底 */
+    if (tal_workq_schedule(WORKQ_SYSTEM, __boot_refresh_worker, NULL) != OPRT_OK) {
+        mcp_client_config_ensure_defaults();
+        return mcp_client_manager_refresh_all();
+    }
+    return OPRT_OK;
 }
 
 OPERATE_RET mcp_client_manager_deinit(VOID)
@@ -175,7 +190,7 @@ OPERATE_RET mcp_client_manager_test_connection(CONST CHAR_T *mcp_id, CHAR_T *det
     {
         ty_cJSON *ci = ty_cJSON_CreateObject();
         ty_cJSON_AddStringToObject(ci, "name", "wukong-mcp-client");
-        ty_cJSON_AddStringToObject(ci, "version", "0.0.43");
+        ty_cJSON_AddStringToObject(ci, "version", "0.0.44");
         ty_cJSON_AddItemToObject(params, "clientInfo", ci);
     }
 

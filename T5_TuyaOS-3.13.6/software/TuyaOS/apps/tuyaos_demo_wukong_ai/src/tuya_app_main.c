@@ -625,7 +625,7 @@ STATIC VOID_T tuya_app_thread(VOID_T *arg)
 /**
  * @brief Application entry point. On Linux builds this is main(); on RTOS it is tuya_app_main().
  * Optionally enables PSRAM usage (ENABLE_EXT_RAM), then creates and starts the app thread
- * with stack 4096 and priority THREAD_PRIO_2. On Linux, the main thread then sleeps forever.
+ * with stack 8192 and priority THREAD_PRIO_2. On Linux, the main thread then sleeps forever.
  */
 #if OPERATING_SYSTEM == SYSTEM_LINUX
 INT_T main(INT_T argc, CHAR_T **argv)
@@ -642,7 +642,7 @@ VOID_T tuya_app_main(VOID)
     tkl_system_psram_malloc_force_set(TRUE);
 #endif
 
-    THREAD_CFG_T thrd_param = {4096, THREAD_PRIO_2, "tuya_app_main"};
+    THREAD_CFG_T thrd_param = {8192, THREAD_PRIO_2, "tuya_app_main"};
     tal_thread_create_and_start(&ty_app_thread, NULL, NULL, tuya_app_thread, NULL, &thrd_param);
 #if OPERATING_SYSTEM == SYSTEM_LINUX
     while (1) {

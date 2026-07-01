@@ -12,10 +12,10 @@
 
 UINT_T mcp_client_now_unix(VOID)
 {
-    TIME_T t = 0;
-
-    tal_time_get(&t);
-    return (UINT_T)t;
+    /* 取 Unix 秒时间戳只能用返回标量的 tal_time_get_posix()。
+     * 切勿改回 tal_time_get(OUT POSIX_TM_S*)：它会向入参写入 28 字节结构体，
+     * 若传入 4 字节的 TIME_T* 会造成栈溢出、破坏返回地址（曾导致 PC=0x8 MemFault 重启）。 */
+    return (UINT_T)tal_time_get_posix();
 }
 
 OPERATE_RET mcp_client_build_namespaced(CONST CHAR_T *mcp_id, CONST CHAR_T *orig_name,
