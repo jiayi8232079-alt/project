@@ -4,10 +4,8 @@
  */
 
 #include "mcp_client_config.h"
-#include "mcp_client_secrets.h"
 #include "mcp_client_util.h"
 
-#include <stdio.h>
 #include <string.h>
 
 #include "tal_log.h"
@@ -326,96 +324,19 @@ OPERATE_RET mcp_client_config_remove(CONST CHAR_T *id)
 OPERATE_RET mcp_client_config_load_example_mcd(VOID)
 {
     MCP_CLIENT_SERVER_CFG_T entry;
-    CHAR_T auth[MCP_CLIENT_URL_MAX];
 
     memset(&entry, 0, sizeof(entry));
     snprintf(entry.id, sizeof(entry.id), "mcd");
     snprintf(entry.name, sizeof(entry.name), "麦当劳 MCP");
     entry.type = MCP_CLIENT_TYPE_STREAMABLEHTTP;
-    snprintf(entry.url, sizeof(entry.url), "%s", MCD_MCP_URL);
-
-    /* 令牌来自 mcp_client_secrets.h（可写死）；未写死时为占位符，仍写入以便 device_mcp_set_token 运行时补齐 */
-    snprintf(auth, sizeof(auth), "Bearer %s", MCD_MCP_TOKEN);
-    entry.headers = ty_cJSON_CreateObject();
-    if (entry.headers)
-        ty_cJSON_AddStringToObject(entry.headers, "Authorization", auth);
-
+    snprintf(entry.url, sizeof(entry.url), "https://mcp.mcd.cn");
+    entry.headers = ty_cJSON_Parse("{\"Authorization\":\"Bearer YOUR_MCP_TOKEN\"}");
     entry.enabled = TRUE;
-    /* 关键：服务端整体风险设为 query，令"查菜单/查门店/查优惠"等查询类工具可自动执行；
-     * 真正的下单/支付仍由 mcp_client_policy 按工具名（order/pay/buy…）判定为 purchase/payment 并强制二次确认。 */
-    entry.risk_level = MCP_CLIENT_RISK_QUERY;
-    entry.require_user_confirm = FALSE;
+    entry.risk_level = MCP_CLIENT_RISK_PURCHASE;
+    entry.require_user_confirm = TRUE;
     entry.created_at = mcp_client_now_unix();
     entry.updated_at = entry.created_at;
 
-    TAL_PR_INFO("MCP example config upsert id=%s url=%s token=%s", entry.id, entry.url,
-                MCD_MCP_TOKEN_IS_PLACEHOLDER() ? "placeholder" : "configured");
-
-    {
-        OPERATE_RET rt = mcp_client_config_upsert(&entry);
-        if (entry.headers)
-            ty_cJSON_Delete(entry.headers);
-        return rt;
-    }
-}
-
-OPERATE_RET mcp_client_config_set_token(CONST CHAR_T *id, CONST CHAR_T *token)
-{
-    MCP_CLIENT_SERVER_CFG_T entry;
-    ty_cJSON *auth_item;
-    CHAR_T bearer[MCP_CLIENT_URL_MAX];
-    OPERATE_RET rt;
-
-    if (!id || !token || token[0] == '\0')
-        return OPRT_INVALID_PARM;
-
-    rt = mcp_client_config_get(id, &entry);
-    if (rt != OPRT_OK) {
-        /* 目标不存在：若是麦当劳则先落示例配置再读回，实现"未配置也能一键上传令牌" */
-        if (strcmp(id, "mcd") == 0) {
-            mcp_client_config_load_example_mcd();
-            rt = mcp_client_config_get(id, &entry);
-        }
-        if (rt != OPRT_OK)
-            return rt;
-    }
-
-    /* token 已含 "Bearer " 前缀则原样使用，否则自动补齐 */
-    if (strncmp(token, "Bearer ", 7) == 0)
-        snprintf(bearer, sizeof(bearer), "%s", token);
-    else
-        snprintf(bearer, sizeof(bearer), "Bearer %s", token);
-
-    if (!entry.headers)
-        entry.headers = ty_cJSON_CreateObject();
-
-    /* 保留其它自定义 header，仅覆盖 Authorization */
-    auth_item = entry.headers ? ty_cJSON_GetObjectItem(entry.headers, "Authorization") : NULL;
-    if (auth_item && ty_cJSON_IsString(auth_item))
-        ty_cJSON_SetValuestring(auth_item, bearer);
-    else if (entry.headers)
-        ty_cJSON_AddStringToObject(entry.headers, "Authorization", bearer);
-
-    rt = mcp_client_config_upsert(&entry);
-    if (entry.headers)
-        ty_cJSON_Delete(entry.headers);
-    return rt;
-}
-
-OPERATE_RET mcp_client_config_ensure_defaults(VOID)
-{
-    MCP_CLIENT_SERVER_CFG_T cur;
-    BOOL_T exists;
-
-    exists = (mcp_client_config_get("mcd", &cur) == OPRT_OK);
-    if (exists && cur.headers)
-        ty_cJSON_Delete(cur.headers);
-
-    /* 首次开机（KV 无 mcd）→ 写入麦当劳示例配置；
-     * 若编译期已写死真实令牌 → 每次开机同步进 KV（改令牌后重编即可生效，覆盖旧值）。 */
-    if (!exists)
-        return mcp_client_config_load_example_mcd();
-    if (!MCD_MCP_TOKEN_IS_PLACEHOLDER())
-        return mcp_client_config_set_token("mcd", MCD_MCP_TOKEN);
-    return OPRT_OK;
+    TAL_PR_INFO("MCP example config upsert id=%s url=%s (token placeholder)", entry.id, entry.url);
+    return mcp_client_config_upsert(&entry);
 }

@@ -1,0 +1,12 @@
+{
+  "sessionId": "BajieAsk-agent-9-76qbatj1",
+  "sessionKey": "9",
+  "name": "全栈工程师",
+  "role": "fullstack_dev",
+  "roleLabel": "全栈工程师",
+  "instanceId": "BajieAsk-ws-09688a66",
+  "createdAt": "2026-07-01T12:30:01.965Z",
+  "agentStatus": "waiting_for_instruction",
+  "waiting": false,
+  "lastSeen": "2026-07-01T13:01:11.384Z"
+}

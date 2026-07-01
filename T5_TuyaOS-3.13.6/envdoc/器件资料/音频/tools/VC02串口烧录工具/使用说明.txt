@@ -1,0 +1,32 @@
+VC-02 串口烧录工具（UniOneUpdateTool）
+========================================
+
+【启动】
+  双击：启动VC02串口烧录工具.bat
+  或直接运行：UniOneUpdateTool.exe
+
+【固件文件】
+  串口升级请选：uni_app_release_update.bin
+  （须由 SDK 中 ./build.sh update 编译生成；不可把 uni_app_release.bin 改名使用）
+
+  本目录自带示例固件，正式项目请用 voice.ai-thinker.com 下载/编译后的 bin。
+
+【接线（USB-TTL → VC-02 模组）】
+  TTL TX  → 模组 RX1（脚5）
+  TTL RX  → 模组 TX1（脚4）
+  GND     → GND
+  3.3/5V  → VCC（3.6~5V，>500mA）
+
+【VC-02-Kit 开发板】
+  可直接用板载 USB（CH340），无需外接 TTL。
+
+【USB 串口驱动】
+  若设备管理器无 COM 口，请安装 CH340/CP2102 等对应驱动。
+  安信可 VC 系列驱动下载：https://docs.ai-thinker.com/vc/
+
+【详细 PDF】
+  同目录：USB_Update_Tool_User_Guide.pdf
+
+【官方文档】
+  https://docs.ai-thinker.com/vc/
+  https://voice.ai-thinker.com

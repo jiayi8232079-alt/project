@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "id": "msg-1782917055042-esbbrrua",
+      "from": "",
+      "to": "BajieAsk-agent-4-9wjusvso",
+      "type": "user",
+      "text": "BajieAsk-agent-4-9wjusvso 会话 mcp 保活正常了吗？（wait_message 轮询是否到位？）",
+      "time": 1782917055042
+    }
+  ]
+}

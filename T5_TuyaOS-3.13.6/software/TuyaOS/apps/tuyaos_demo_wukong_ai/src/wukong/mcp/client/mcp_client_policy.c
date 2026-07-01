@@ -32,17 +32,9 @@ MCP_CLIENT_RISK_E mcp_client_policy_infer_tool_risk(CONST CHAR_T *orig_tool_name
         __contains_kw(orig_tool_name, "claim"))
         return MCP_CLIENT_RISK_WRITE;
 
-    /* 查询类关键词（在 write/purchase/payment 判定之后，故 order/pay/claim 等已被优先拦截，
-     * 这里只放行纯浏览语义：查菜单/门店/推荐/商品等，保证"我想吃汉堡→返回选项"可自动执行） */
     if (__contains_kw(orig_tool_name, "query") || __contains_kw(orig_tool_name, "search") ||
         __contains_kw(orig_tool_name, "list") || __contains_kw(orig_tool_name, "get") ||
-        __contains_kw(orig_tool_name, "find") || __contains_kw(orig_tool_name, "menu") ||
-        __contains_kw(orig_tool_name, "meal") || __contains_kw(orig_tool_name, "food") ||
-        __contains_kw(orig_tool_name, "recommend") || __contains_kw(orig_tool_name, "product") ||
-        __contains_kw(orig_tool_name, "catalog") || __contains_kw(orig_tool_name, "browse") ||
-        __contains_kw(orig_tool_name, "store") || __contains_kw(orig_tool_name, "shop") ||
-        __contains_kw(orig_tool_name, "nearby") || __contains_kw(orig_tool_name, "detail") ||
-        __contains_kw(orig_tool_name, "price"))
+        __contains_kw(orig_tool_name, "find"))
         return MCP_CLIENT_RISK_QUERY;
 
     return MCP_CLIENT_RISK_WRITE;

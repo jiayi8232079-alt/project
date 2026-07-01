@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PCB p(UrH ESD ���rkEſa/��	 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" role="img" aria-label="ESD Warning Silkscreen">
+  <title>ESD Warning Silkscreen</title>
+  <path fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="round"
+        d="M 50,8 L 90,78 Q 92,82 88,84 L 12,84 Q 8,82 10,78 Z"/>
+  <path fill="#000000"
+        d="M 38,38
+           C 36,34 40,30 44,32 L 48,34 C 52,35 54,38 53,42 L 50,50
+           C 49,54 52,58 56,58 L 58,58 C 62,58 64,54 63,50 L 60,44
+           C 59,40 62,36 66,37 L 68,38 C 72,40 73,45 71,49 L 66,62
+           C 64,68 58,72 52,72 L 46,72 C 40,72 35,68 34,62 L 32,52
+           C 31,46 34,40 38,38 Z"/>
+  <path fill="#000000" d="M 34,34 L 72,66 L 66,72 L 28,40 Z"/>
+  <circle cx="44" cy="76" r="2.2" fill="#000000"/>
+  <circle cx="50" cy="78" r="2.8" fill="#000000"/>
+  <circle cx="56" cy="76" r="2.0" fill="#000000"/>
+  <circle cx="47" cy="81" r="1.6" fill="#000000"/>
+  <circle cx="53" cy="81" r="1.8" fill="#000000"/>
+</svg>

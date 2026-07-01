@@ -1,0 +1,4232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>产品板软硬件接口需求表</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --fg: #1a1a1a;
+      --muted: #555;
+      --border: #ddd;
+      --accent: #1565c0;
+      --code-bg: #f4f4f5;
+      --table-stripe: #f9f9fb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      color: var(--fg);
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 24px rgba(0,0,0,.06);
+    }
+    h1 {
+      font-size: 1.85rem;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: .5rem;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 1.45rem;
+      color: var(--accent);
+      margin-top: 2.2rem;
+      padding-bottom: .35rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 { font-size: 1.15rem; margin-top: 1.6rem; }
+    h4 { font-size: 1rem; margin-top: 1.2rem; color: var(--muted); }
+    p, li { font-size: 0.95rem; }
+    a { color: var(--accent); }
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+    blockquote {
+      margin: 1rem 0;
+      padding: .75rem 1rem;
+      border-left: 4px solid var(--accent);
+      background: #f0f4f8;
+      color: var(--muted);
+    }
+    code {
+      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      padding: .15em .4em;
+      border-radius: 4px;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 1rem 1.2rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.88rem;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: .45rem .65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #e8eef5;
+      font-weight: 600;
+    }
+    tr:nth-child(even) td { background: var(--table-stripe); }
+    .toc {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .toc ul { margin: .5rem 0; padding-left: 1.2rem; }
+    .mermaid {
+      text-align: center;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    @media print {
+      body { background: #fff; }
+      .wrap { box-shadow: none; max-width: none; }
+      pre { white-space: pre-wrap; }
+    }
+  </style>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    document.querySelectorAll('pre code.language-mermaid').forEach((el) => {
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = el.textContent;
+      el.closest('pre').replaceWith(div);
+    });
+  </script>
+</head>
+<body>
+  <div class="wrap">
+<h1 id="_1">产品板软硬件接口需求表</h1>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文档版本</td>
+<td>v1.3.1</td>
+</tr>
+<tr>
+<td>生成日期</td>
+<td>2026-06-16</td>
+</tr>
+<tr>
+<td>原理图/网表来源</td>
+<td><code>Circuit/Netlist_Schematic1_2026-06-16.tel</code></td>
+</tr>
+<tr>
+<td>模组规格</td>
+<td><strong>U32：T5-E1-IPEX</strong>（BK7258 / TuyaOS T5）</td>
+</tr>
+<tr>
+<td>引脚定义依据</td>
+<td><code>Docs/T5-E1-IPEX_模组硬件设计_涂鸦开发者平台_涂鸦开发者平台.pdf</code> <strong>§2.2</strong></td>
+</tr>
+<tr>
+<td>固件工程</td>
+<td><code>tuyaos_demo_wukong_ai</code>（TuyaOS 3.13.6）</td>
+</tr>
+<tr>
+<td>适用读者</td>
+<td>嵌入式软件、硬件调试、产测</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1">1. 文档说明</h2>
+<h3 id="11">1.1 引脚编号约定（重要）</h3>
+<p>T5-E1-IPEX 模组 <strong>Pin 序号（1～70）≠ GPIO 编号（0～55）</strong>，二者通过 <strong>丝印 I/O 名称（Px）</strong> 关联。</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pin（序号）</strong></td>
+<td>模组物理引脚序号，网表 <code>U32.x</code> 中的 <code>x</code></td>
+<td>Pin 4</td>
+</tr>
+<tr>
+<td><strong>丝印名称</strong></td>
+<td>模组表面印刷的 I/O 名</td>
+<td>P20</td>
+</tr>
+<tr>
+<td><strong>GPIO 名称</strong></td>
+<td>芯片 GPIO 编号，对应 SDK <code>TUYA_GPIO_NUM_x</code> / <code>TUYA_IO_PIN_x</code></td>
+<td>GPIO20</td>
+</tr>
+<tr>
+<td><strong>TuyaOS 枚举</strong></td>
+<td>代码中写法</td>
+<td><code>TUYA_GPIO_NUM_20</code></td>
+</tr>
+<tr>
+<td><strong>Pinmux</strong></td>
+<td><code>tkl_io_pinmux_config()</code> 建议配置的复用功能</td>
+<td><code>TUYA_IIC0_SCL</code></td>
+</tr>
+<tr>
+<td><strong>本板网络名</strong></td>
+<td>本产品原理图网络名（来自网表）</td>
+<td>I2C_SYS_SCL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>收录原则：</strong> 本文档 <strong>仅列出产品实际使用的引脚与网络</strong>。网表中虽有名但仅接 T5 悬空、或仅接测试点而无功能外设者（如 <code>AUD_SCL0</code>、<code>GPIO_AI</code>、<code>LED_0</code> 等）<strong>不收录</strong>。</p>
+<p>特殊引脚（无 GPIO 编号）：</p>
+<table>
+<thead>
+<tr>
+<th>Pin</th>
+<th>丝印</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1, 40, 60</td>
+<td>GND</td>
+<td>P</td>
+<td>电源地</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3V3</td>
+<td>P</td>
+<td>模组供电 3.3V</td>
+</tr>
+<tr>
+<td>3</td>
+<td>RST</td>
+<td>I</td>
+<td>硬件复位，低有效（内部上拉）</td>
+</tr>
+<tr>
+<td>13</td>
+<td>DN</td>
+<td>I/O</td>
+<td>USB D-</td>
+</tr>
+<tr>
+<td>14</td>
+<td>DP</td>
+<td>I/O</td>
+<td>USB D+</td>
+</tr>
+<tr>
+<td>36</td>
+<td>RXD</td>
+<td>I/O</td>
+<td>UART0_RX / DL_UART_RX（烧录口）</td>
+</tr>
+<tr>
+<td>37</td>
+<td>TXD</td>
+<td>I/O</td>
+<td>UART0_TX / DL_UART_TX（烧录口）</td>
+</tr>
+<tr>
+<td>61</td>
+<td>LN</td>
+<td>AO</td>
+<td>音频左声道负（AUDL_N）</td>
+</tr>
+<tr>
+<td>62</td>
+<td>LP</td>
+<td>AO</td>
+<td>音频左声道正（AUDL_P）</td>
+</tr>
+<tr>
+<td>66</td>
+<td>MP1</td>
+<td>AO</td>
+<td>麦克风 1 正（MIC1_P）</td>
+</tr>
+<tr>
+<td>67</td>
+<td>MN1</td>
+<td>AO</td>
+<td>麦克风 1 负（MIC1_N）</td>
+</tr>
+<tr>
+<td>68</td>
+<td>MN2</td>
+<td>AO</td>
+<td>麦克风 2 负（MIC2_N）</td>
+</tr>
+<tr>
+<td>69</td>
+<td>MP2</td>
+<td>AO</td>
+<td>麦克风 2 正（MIC2_P）</td>
+</tr>
+<tr>
+<td>70</td>
+<td>MBS</td>
+<td>AO</td>
+<td>麦克风偏置（MICBIAS）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意：</strong> 本 PCB 为定制产品板，功能组合（DVP 摄像头 + SPI LCD + 4G + VC-02 + 双步进电机 + IMU/ALS）<strong>不完全等同</strong>任一官方 <code>T5AI_BOARD_*</code> 参考板型，需新建板级目录或扩展现有 <code>tuya_device_board.c</code>。</p>
+</blockquote>
+<p><strong>收录原则：</strong> 本文档 <strong>仅列出产品实际使用的引脚与网络</strong>。网表中虽有名但仅接 T5 悬空、或仅接测试点而无功能外设者（如 <code>AUD_SCL0</code>、<code>GPIO_AI</code>、<code>LED_0</code> 等）<strong>不纳入功能接口表</strong>（测试点见 §7）。</p>
+<h3 id="12">1.2 网表为电路唯一依据</h3>
+<p><strong>凡引脚、网络名、连接器 Pin 序号、位号连接关系，均以 <code>Circuit/Netlist_Schematic1_2026-06-16.tel</code> 为准。</strong> 模组 Pin↔GPIO↔丝印对照仍引用 T5-E1-IPEX §2.2；若网表 <code>U32.x</code> 与 §2.2 冲突，以网表连接关系为准并标注待硬件复核。</p>
+<p>网表已确认的关键器件位号：</p>
+<table>
+<thead>
+<tr>
+<th>位号</th>
+<th>网表封装/型号</th>
+<th>网络/用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>U32</td>
+<td>T5-E1-IPEX</td>
+<td>主控模组</td>
+</tr>
+<tr>
+<td>U24 / U36</td>
+<td>ULN2003AIPWR</td>
+<td>步进驱动 M0 / M1</td>
+</tr>
+<tr>
+<td>U35</td>
+<td>MT3608</td>
+<td>5V 升压 → CN16/CN17</td>
+</tr>
+<tr>
+<td>CN4</td>
+<td>BX-FPC1.0-2H10PX 10P</td>
+<td>SPI LCD（FPC）</td>
+</tr>
+<tr>
+<td>FPC1</td>
+<td>AFC01-S24FCA-00 24P</td>
+<td>DVP 摄像头座</td>
+</tr>
+<tr>
+<td>Q1 / Q2</td>
+<td>2SK3018</td>
+<td>CIS I2C 电平转换</td>
+</tr>
+<tr>
+<td>Q9</td>
+<td>SI2302</td>
+<td>LCD 背光 LEDK 开关</td>
+</tr>
+<tr>
+<td>CARD1</td>
+<td>TF PUSH</td>
+<td>microSD</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Sensor 型号 <strong>GC2145</strong>、LCD 模组 <strong>HXR0336N011</strong> 来自 BOM/器件手册；<strong>网表只到 FPC1/CN4 连接器</strong>，不在网表中写出芯片型号。</p>
+</blockquote>
+<h3 id="13-sdk">1.3 与悟空 SDK 参考板型关系</h3>
+<table>
+<thead>
+<tr>
+<th>本板硬件特征</th>
+<th>最接近 SDK 板型</th>
+<th>差异摘要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DVP 摄像头 FPC1（<strong>GC2145</strong>）</td>
+<td><code>T5AI_BOARD</code></td>
+<td>CIS 引脚按 §2.2；复位 P51；I2C 与 I2C_SYS 共用 P20/P21</td>
+</tr>
+<tr>
+<td>SPI LCD CN4（<strong>HXR0336N011 + ST7789</strong>）</td>
+<td><code>T5AI_BOARD_ROBOT</code>（SPI 模板）</td>
+<td>240×320 SPI0；P44/P45/P46/P47/P43/P42</td>
+</tr>
+<tr>
+<td>ULN2003 ×2 + <strong>28BYJ48</strong></td>
+<td>无现成驱动</td>
+<td>M0/M1 GPIO 见 §5.8；需自研半步驱动，见 §9.3</td>
+</tr>
+<tr>
+<td>VC-02 语音 + 板载麦</td>
+<td>板载音频方案</td>
+<td>UART0：RXD/TXD（Pin 36/37）</td>
+</tr>
+<tr>
+<td>L511 4G Cat.1</td>
+<td><code>ENABLE_CELLULAR_DONGLE</code></td>
+<td>USB Pin13/14 + 复位 P52/GPIO52</td>
+</tr>
+<tr>
+<td>BMI270 + BH1750</td>
+<td><code>T5AI_BOARD_DESKTOP</code>（IMU 类）</td>
+<td>I2C0：P20/P21（Pin 4/5）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-t5-e1-ipex-22">2. T5-E1-IPEX 模组引脚总表（§2.2 官方定义）</h2>
+<blockquote>
+<p>来源：涂鸦《T5-E1-IPEX 模组硬件设计》文档 §2.2。下表为 <strong>70 引脚完整映射</strong>，供软硬件对照基准。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Pin</th>
+<th>丝印名称</th>
+<th>GPIO</th>
+<th>I/O 类型</th>
+<th>主要复用功能（摘要）</th>
+<th>本板是否使用</th>
+<th>本板网络名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>GND</td>
+<td>—</td>
+<td>P</td>
+<td>电源地</td>
+<td>✓</td>
+<td>GND</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3V3</td>
+<td>—</td>
+<td>P</td>
+<td>模组电源 3.3V</td>
+<td>✓</td>
+<td>3V3_T5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>RST</td>
+<td>—</td>
+<td>I</td>
+<td>硬件复位，低有效</td>
+<td>✓</td>
+<td>T5_RST</td>
+</tr>
+<tr>
+<td>4</td>
+<td>P20</td>
+<td><strong>GPIO20</strong></td>
+<td>I/O</td>
+<td>I2C0_SCL / SWCLK / RGB_R6</td>
+<td>✓</td>
+<td>I2C_SYS_SCL</td>
+</tr>
+<tr>
+<td>5</td>
+<td>P21</td>
+<td><strong>GPIO21</strong></td>
+<td>I/O</td>
+<td>I2C0_SDA / SWDIO / ADC6</td>
+<td>✓</td>
+<td>I2C_SYS_SDA</td>
+</tr>
+<tr>
+<td>6</td>
+<td>P22</td>
+<td><strong>GPIO22</strong></td>
+<td>I/O</td>
+<td>CLK26M / QSPI0_SCK / RGB_R4</td>
+<td>✓</td>
+<td>M0_A</td>
+</tr>
+<tr>
+<td>7</td>
+<td>P23</td>
+<td><strong>GPIO23</strong></td>
+<td>I/O</td>
+<td>QSPI0_CS / RGB_R3</td>
+<td>✓</td>
+<td>M0_B</td>
+</tr>
+<tr>
+<td>8</td>
+<td>P24</td>
+<td><strong>GPIO24</strong></td>
+<td>I/O</td>
+<td>QSPI0_IO0 / RGB_G7</td>
+<td>✓</td>
+<td>M0_C</td>
+</tr>
+<tr>
+<td>9</td>
+<td>P25</td>
+<td><strong>GPIO25</strong></td>
+<td>I/O</td>
+<td>QSPI0_IO1 / RGB_G6</td>
+<td>✓</td>
+<td>M0_D</td>
+</tr>
+<tr>
+<td>10</td>
+<td>P26</td>
+<td><strong>GPIO26</strong></td>
+<td>I/O</td>
+<td>QSPI0_IO2 / RGB_G5</td>
+<td>✓</td>
+<td>VC02_KWS</td>
+</tr>
+<tr>
+<td>11</td>
+<td>P28</td>
+<td><strong>GPIO28</strong></td>
+<td>—</td>
+<td>（未用；<strong>TP19</strong> 接 U32.11）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>P1</td>
+<td><strong>GPIO1</strong></td>
+<td>I/O</td>
+<td>UART1_RX / I2C1_SDA</td>
+<td>✓</td>
+<td>LOG_RX</td>
+</tr>
+<tr>
+<td>13</td>
+<td>DN</td>
+<td>—</td>
+<td>I/O</td>
+<td>USB D-</td>
+<td>✓</td>
+<td>USB_4G_DM</td>
+</tr>
+<tr>
+<td>14</td>
+<td>DP</td>
+<td>—</td>
+<td>I/O</td>
+<td>USB D+</td>
+<td>✓</td>
+<td>USB_4G_DP</td>
+</tr>
+<tr>
+<td>15</td>
+<td>P0</td>
+<td><strong>GPIO0</strong></td>
+<td>I/O</td>
+<td>UART1_TX / I2C1_SCL</td>
+<td>✓</td>
+<td>LOG_TX</td>
+</tr>
+<tr>
+<td>16</td>
+<td>P9</td>
+<td><strong>GPIO9</strong></td>
+<td>I/O</td>
+<td>I2S0_DOUT / DMIC_DAT</td>
+<td>✓</td>
+<td>IR_EN</td>
+</tr>
+<tr>
+<td>17</td>
+<td>P8</td>
+<td><strong>GPIO8</strong></td>
+<td>I/O</td>
+<td>I2S0_DIN / DMIC_CLK</td>
+<td>✓</td>
+<td>SD_CD</td>
+</tr>
+<tr>
+<td>18</td>
+<td>P7</td>
+<td><strong>GPIO7</strong></td>
+<td>I/O</td>
+<td>I2S0_SYNC / QSPI1_IO3</td>
+<td>✓</td>
+<td>SD_D3</td>
+</tr>
+<tr>
+<td>19</td>
+<td>P6</td>
+<td><strong>GPIO6</strong></td>
+<td>I/O</td>
+<td>I2S0_SCK / QSPI1_IO2</td>
+<td>✓</td>
+<td>SD_D2</td>
+</tr>
+<tr>
+<td>20</td>
+<td>P5</td>
+<td><strong>GPIO5</strong></td>
+<td>I/O</td>
+<td>SPI1_MISO / SDIO_DATA1</td>
+<td>✓</td>
+<td>SD_D1</td>
+</tr>
+<tr>
+<td>21</td>
+<td>P4</td>
+<td><strong>GPIO4</strong></td>
+<td>I/O</td>
+<td>SPI1_MOSI / SDIO_DATA0</td>
+<td>✓</td>
+<td>SD_D0</td>
+</tr>
+<tr>
+<td>22</td>
+<td>P3</td>
+<td><strong>GPIO3</strong></td>
+<td>I/O</td>
+<td>SPI1_CSN / SDIO_CMD</td>
+<td>✓</td>
+<td>SD_CMD</td>
+</tr>
+<tr>
+<td>23</td>
+<td>P2</td>
+<td><strong>GPIO2</strong></td>
+<td>I/O</td>
+<td>SPI1_SCK / SDIO_CLK</td>
+<td>✓</td>
+<td>SD_CLK</td>
+</tr>
+<tr>
+<td>24</td>
+<td>P12</td>
+<td><strong>GPIO12</strong></td>
+<td>I/O</td>
+<td>UART0_RTS / TOUCH0 / ADC14</td>
+<td>✓</td>
+<td>ADC_KEY</td>
+</tr>
+<tr>
+<td>25</td>
+<td>P13</td>
+<td><strong>GPIO13</strong></td>
+<td>I/O</td>
+<td>UART0_CTS / TOUCH1 / ADC15</td>
+<td>—</td>
+<td>（未用）</td>
+</tr>
+<tr>
+<td>26</td>
+<td>P15</td>
+<td><strong>GPIO15</strong></td>
+<td>I/O</td>
+<td>SDIO_CMD / SPI0_CSN</td>
+<td>—</td>
+<td>（未用）</td>
+</tr>
+<tr>
+<td>27</td>
+<td>P14</td>
+<td><strong>GPIO14</strong></td>
+<td>I/O</td>
+<td>SDIO_CLK / SPI0_SCK</td>
+<td>✓</td>
+<td>SOS</td>
+</tr>
+<tr>
+<td>28</td>
+<td>P16</td>
+<td><strong>GPIO16</strong></td>
+<td>I/O</td>
+<td>SDIO_DATA0 / SPI0_MOSI</td>
+<td>—</td>
+<td>（未用，<code>LED_0</code> 仅接 U32）</td>
+</tr>
+<tr>
+<td>29</td>
+<td>P17</td>
+<td><strong>GPIO17</strong></td>
+<td>I/O</td>
+<td>SDIO_DATA1 / SPI0_MISO</td>
+<td>✓</td>
+<td>SPK_CTL</td>
+</tr>
+<tr>
+<td>30</td>
+<td>P18</td>
+<td><strong>GPIO18</strong></td>
+<td>I/O</td>
+<td>SDIO_DATA2 / RGB_VSYNC</td>
+<td>✓</td>
+<td>M1_C</td>
+</tr>
+<tr>
+<td>31</td>
+<td>P19</td>
+<td><strong>GPIO19</strong></td>
+<td>I/O</td>
+<td>SDIO_DATA3 / RGB_R7</td>
+<td>✓</td>
+<td>M1_D</td>
+</tr>
+<tr>
+<td>32</td>
+<td>P47</td>
+<td><strong>GPIO47</strong></td>
+<td>I/O</td>
+<td>SPI0_MISO / I2S2_DOUT</td>
+<td>✓</td>
+<td>LCD_D/C</td>
+</tr>
+<tr>
+<td>33</td>
+<td>P46</td>
+<td><strong>GPIO46</strong></td>
+<td>I/O</td>
+<td>SPI0_MOSI / I2S2_DIN</td>
+<td>✓</td>
+<td>LCD_SDI</td>
+</tr>
+<tr>
+<td>34</td>
+<td>P45</td>
+<td><strong>GPIO45</strong></td>
+<td>I/O</td>
+<td>SPI0_CSN / I2S2_SYNC</td>
+<td>✓</td>
+<td>LCD_CS</td>
+</tr>
+<tr>
+<td>35</td>
+<td>P44</td>
+<td><strong>GPIO44</strong></td>
+<td>I/O</td>
+<td>SPI0_SCK / I2S2_SCK</td>
+<td>✓</td>
+<td>LCD_SCLK</td>
+</tr>
+<tr>
+<td>36</td>
+<td>RXD</td>
+<td>—</td>
+<td>I/O</td>
+<td>UART0_RX / DL_UART_RX / SDIO_DATA2</td>
+<td>✓</td>
+<td>UART0_RX</td>
+</tr>
+<tr>
+<td>37</td>
+<td>TXD</td>
+<td>—</td>
+<td>I/O</td>
+<td>UART0_TX / DL_UART_TX / SDIO_DATA3</td>
+<td>✓</td>
+<td>UART0_TX</td>
+</tr>
+<tr>
+<td>38</td>
+<td>P43</td>
+<td><strong>GPIO43</strong></td>
+<td>I/O</td>
+<td>I2S1_DOUT / RGB_B7</td>
+<td>✓</td>
+<td>LCD_RST</td>
+</tr>
+<tr>
+<td>39</td>
+<td>P42</td>
+<td><strong>GPIO42</strong></td>
+<td>I/O</td>
+<td>I2S1_DIN / RGB_G2</td>
+<td>✓</td>
+<td>LCD_BL</td>
+</tr>
+<tr>
+<td>40</td>
+<td>GND</td>
+<td>—</td>
+<td>P</td>
+<td>电源地</td>
+<td>✓</td>
+<td>GND</td>
+</tr>
+<tr>
+<td>41</td>
+<td>P27</td>
+<td><strong>GPIO27</strong></td>
+<td>I/O</td>
+<td>CIS_MCLK / QSPI0_IO3</td>
+<td>✓</td>
+<td>DVP_MCLK</td>
+</tr>
+<tr>
+<td>42</td>
+<td>P29</td>
+<td><strong>GPIO29</strong></td>
+<td>I/O</td>
+<td>CIS_PCLK / TOUCH3</td>
+<td>✓</td>
+<td>DVP_PCLK</td>
+</tr>
+<tr>
+<td>43</td>
+<td>P50</td>
+<td><strong>GPIO50</strong></td>
+<td>I/O</td>
+<td>ENET_RXD1 / RGB_R0</td>
+<td>✓</td>
+<td>M1_A</td>
+</tr>
+<tr>
+<td>44</td>
+<td>P49</td>
+<td><strong>GPIO49</strong></td>
+<td>I/O</td>
+<td>ENET_RXD0 / RGB_R1</td>
+<td>✓</td>
+<td>M1_B</td>
+</tr>
+<tr>
+<td>45</td>
+<td>P41</td>
+<td><strong>GPIO41</strong></td>
+<td>I/O</td>
+<td>UART2_TX / I2S1_SYNC</td>
+<td>✓</td>
+<td>PWRKEY_CTRL</td>
+</tr>
+<tr>
+<td>46</td>
+<td>P31</td>
+<td><strong>GPIO31</strong></td>
+<td>I/O</td>
+<td>CIS_VSYNC / UART2_TX</td>
+<td>✓</td>
+<td>DVP_VSYNC</td>
+</tr>
+<tr>
+<td>47</td>
+<td>P30</td>
+<td><strong>GPIO30</strong></td>
+<td>I/O</td>
+<td>CIS_HSYNC / UART2_RX</td>
+<td>✓</td>
+<td>DVP_HSYNC</td>
+</tr>
+<tr>
+<td>48</td>
+<td>P33</td>
+<td><strong>GPIO33</strong></td>
+<td>I/O</td>
+<td>CIS_PXD1 / ENET_RXD0</td>
+<td>✓</td>
+<td>DVP_D1</td>
+</tr>
+<tr>
+<td>49</td>
+<td>P32</td>
+<td><strong>GPIO32</strong></td>
+<td>I/O</td>
+<td>CIS_PXD0 / ENET_MDIO</td>
+<td>✓</td>
+<td>DVP_D0</td>
+</tr>
+<tr>
+<td>50</td>
+<td>P48</td>
+<td><strong>GPIO48</strong></td>
+<td>I/O</td>
+<td>ENET_MDIO / RGB_R2</td>
+<td>—</td>
+<td>（未用，<code>AUD_SCL0</code> 仅接 U32）</td>
+</tr>
+<tr>
+<td>51</td>
+<td>P34</td>
+<td><strong>GPIO34</strong></td>
+<td>I/O</td>
+<td>CIS_PXD2 / SPI0_CSN</td>
+<td>✓</td>
+<td>DVP_D2</td>
+</tr>
+<tr>
+<td>52</td>
+<td>P35</td>
+<td><strong>GPIO35</strong></td>
+<td>I/O</td>
+<td>CIS_PXD3 / SPI0_MOSI</td>
+<td>✓</td>
+<td>DVP_D3</td>
+</tr>
+<tr>
+<td>53</td>
+<td>P53</td>
+<td><strong>GPIO53</strong></td>
+<td>I/O</td>
+<td>ENET_TXD1 / RGB_B2</td>
+<td>—</td>
+<td>（未用，<code>AUD_SCL1</code> 仅接 U32）</td>
+</tr>
+<tr>
+<td>54</td>
+<td>P54</td>
+<td><strong>GPIO54</strong></td>
+<td>I/O</td>
+<td>ENET_TXEN / RGB_B1</td>
+<td>—</td>
+<td>（未用，<code>FLAG_AI</code> 仅接 TP18）</td>
+</tr>
+<tr>
+<td>55</td>
+<td>P55</td>
+<td><strong>GPIO55</strong></td>
+<td>I/O</td>
+<td>ENET_REF_CLK / RGB_B0</td>
+<td>—</td>
+<td>（未用，<code>GPIO_AI</code> 仅接 U32）</td>
+</tr>
+<tr>
+<td>56</td>
+<td>P36</td>
+<td><strong>GPIO36</strong></td>
+<td>I/O</td>
+<td>CIS_PXD4 / ENET_TXD0</td>
+<td>✓</td>
+<td>DVP_D4</td>
+</tr>
+<tr>
+<td>57</td>
+<td>P37</td>
+<td><strong>GPIO37</strong></td>
+<td>I/O</td>
+<td>CIS_PXD5 / ENET_TXD1</td>
+<td>✓</td>
+<td>DVP_D5</td>
+</tr>
+<tr>
+<td>58</td>
+<td>P52</td>
+<td><strong>GPIO52</strong></td>
+<td>I/O</td>
+<td>ENET_TXD0 / RGB_G0</td>
+<td>✓</td>
+<td>RST_CAT</td>
+</tr>
+<tr>
+<td>59</td>
+<td>P51</td>
+<td><strong>GPIO51</strong></td>
+<td>I/O</td>
+<td>ENET_RXDV / RGB_G1</td>
+<td>✓</td>
+<td>DVP_RST</td>
+</tr>
+<tr>
+<td>60</td>
+<td>GND</td>
+<td>—</td>
+<td>P</td>
+<td>电源地</td>
+<td>✓</td>
+<td>GND</td>
+</tr>
+<tr>
+<td>61</td>
+<td>LN</td>
+<td>—</td>
+<td>AO</td>
+<td>AUDL_N 音频左负</td>
+<td>✓</td>
+<td>AUDLN</td>
+</tr>
+<tr>
+<td>62</td>
+<td>LP</td>
+<td>—</td>
+<td>AO</td>
+<td>AUDL_P 音频左正</td>
+<td>✓</td>
+<td>AUDLP</td>
+</tr>
+<tr>
+<td>63</td>
+<td>P38</td>
+<td><strong>GPIO38</strong></td>
+<td>I/O</td>
+<td>CIS_PXD6 / ENET_TXEN</td>
+<td>✓</td>
+<td>DVP_D6</td>
+</tr>
+<tr>
+<td>64</td>
+<td>P39</td>
+<td><strong>GPIO39</strong></td>
+<td>I/O</td>
+<td>CIS_PXD7 / ENET_REF_CLK</td>
+<td>✓</td>
+<td>DVP_D7</td>
+</tr>
+<tr>
+<td>65</td>
+<td>P40</td>
+<td><strong>GPIO40</strong></td>
+<td>I/O</td>
+<td>UART2_RX / I2S1_SCK</td>
+<td>—</td>
+<td>（未用，<code>UART_RX_AI</code> 仅接 TP17）</td>
+</tr>
+<tr>
+<td>66</td>
+<td>MP1</td>
+<td>—</td>
+<td>AO</td>
+<td>MIC1_P 麦克风 1 正</td>
+<td>✓</td>
+<td>MICP1</td>
+</tr>
+<tr>
+<td>67</td>
+<td>MN1</td>
+<td>—</td>
+<td>AO</td>
+<td>MIC1_N 麦克风 1 负</td>
+<td>✓</td>
+<td>MICN1</td>
+</tr>
+<tr>
+<td>68</td>
+<td>MN2</td>
+<td>—</td>
+<td>AO</td>
+<td>MIC2_N 麦克风 2 负</td>
+<td>✓</td>
+<td>MICN2_T5</td>
+</tr>
+<tr>
+<td>69</td>
+<td>MP2</td>
+<td>—</td>
+<td>AO</td>
+<td>MIC2_P 麦克风 2 正</td>
+<td>✓</td>
+<td>MICP2_T5</td>
+</tr>
+<tr>
+<td>70</td>
+<td>MBS</td>
+<td>—</td>
+<td>AO</td>
+<td>MICBIAS 麦克风偏置</td>
+<td>✓</td>
+<td>MICBIAS</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3">3. 系统框图</h2>
+<pre><code>                    ┌─────────────────────────────────────────┐
+  USB-C ──VBUS──►   │  AXP2101 (U4)  PMIC / 充电 / 多路电源   │
+  电池 VBAT ─────►  │  I2C0: P20/P21 (Pin4/5, GPIO20/21)    │
+                    └──────────┬──────────────────────────────┘
+                               │
+         ┌─────────────────────┼─────────────────────┐
+         ▼                     ▼                     ▼
+   ┌───────────┐        ┌────────────┐        ┌─────────────┐
+   │ T5 U32    │◄─UART─►│ VC-02 U1   │        │ L511 4G U40 │
+   │ BK7258    │◄─USB──►│ 语音/KWS   │        │ Cat.1+SIM   │
+   └─────┬─────┘        └────────────┘        └─────────────┘
+         │
+    ┌────┴────┬──────────┬─────────┬──────────┬──────────┐
+    ▼         ▼          ▼         ▼          ▼          ▼
+ DVP CAM   SPI LCD    SDIO TF    I2C IMU/ALS  ULN×2     CS8302
+ FPC1      CN4        CARD1      BMI270/      步进M0/M1  喇叭
+                                 BH1750
+</code></pre>
+<hr>
+<h2 id="4">4. 电源域接口（硬件测量 + 软件电源管理）</h2>
+<table>
+<thead>
+<tr>
+<th>电源网络</th>
+<th>典型电压</th>
+<th>主要负载</th>
+<th>PMIC/来源</th>
+<th>软件/调试要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VBUS</td>
+<td>5V</td>
+<td>USB-C、CH342、充电输入</td>
+<td>U50 → AXP2101</td>
+<td>万用表测 CN21</td>
+</tr>
+<tr>
+<td>VBAT</td>
+<td>3.0～4.2V</td>
+<td>锂电池</td>
+<td>CN20 → U4.33</td>
+<td>电池座 CN20</td>
+</tr>
+<tr>
+<td>AXP_PS</td>
+<td>3.3V 主域</td>
+<td>4G、升压、大电流负载</td>
+<td>AXP2101 SWOUT</td>
+<td>上电第一步测量</td>
+</tr>
+<tr>
+<td>3V3_T5</td>
+<td>3.3V</td>
+<td><strong>U32 Pin2</strong></td>
+<td>L13 滤波</td>
+<td>无此电压 T5 不工作</td>
+</tr>
+<tr>
+<td>VDD_3V3</td>
+<td>3.3V</td>
+<td>数字外设、LCD IO</td>
+<td>AXP2101</td>
+<td></td>
+</tr>
+<tr>
+<td>VDD_3V3_SD</td>
+<td>3.3V</td>
+<td>TF 卡独立供电</td>
+<td>AXP2101 LDO/DCDC</td>
+<td>TF 不识卡先查此轨</td>
+</tr>
+<tr>
+<td>DVDD_1V8</td>
+<td>1.8V</td>
+<td>摄像头数字</td>
+<td>FPC1.10</td>
+<td></td>
+</tr>
+<tr>
+<td>AVDD_2V8</td>
+<td>2.8V</td>
+<td>摄像头模拟</td>
+<td>FPC1.4</td>
+<td></td>
+</tr>
+<tr>
+<td>VDDCAM_2V8</td>
+<td>2.8V</td>
+<td>摄像头 IO/传感器</td>
+<td>FPC1.11</td>
+<td>CIS I2C 电平转换 Q1/Q2</td>
+</tr>
+<tr>
+<td>CAT1_1.8V</td>
+<td>1.8V</td>
+<td>4G 模组 IO</td>
+<td>U40.24</td>
+<td></td>
+</tr>
+<tr>
+<td>5V</td>
+<td>5V</td>
+<td>步进电机驱动</td>
+<td>MT3608 U35 升压</td>
+<td>CN16/CN17 Pin1</td>
+</tr>
+<tr>
+<td>SIM_VDD</td>
+<td>1.8/3V0</td>
+<td>SIM 卡</td>
+<td>U40 控制</td>
+<td></td>
+</tr>
+<tr>
+<td>RTC_VDD</td>
+<td>—</td>
+<td>RTC 保持</td>
+<td>AXP2101</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="41">4.1 电源相关信号</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>连接器件</th>
+<th>方向</th>
+<th>有效电平</th>
+<th>软件模块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>硬件电源键</td>
+<td>PWR_KEY</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>SW1 → AXP2101.30</td>
+<td>输入</td>
+<td>低有效</td>
+<td><code>tuya_ai_toy_key</code></td>
+</tr>
+<tr>
+<td>PMIC 唤醒</td>
+<td>AXP_WAKEUP</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>R5 → U4.38</td>
+<td>输入</td>
+<td>—</td>
+<td>AXP2101</td>
+</tr>
+<tr>
+<td>电源键控制</td>
+<td>PWRKEY_CTRL</td>
+<td>45</td>
+<td>P41</td>
+<td>GPIO41</td>
+<td>U32 → 逻辑</td>
+<td>输出</td>
+<td>—</td>
+<td>板级电源</td>
+</tr>
+<tr>
+<td>电源好</td>
+<td>AXP_PG</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>U4.29 → <strong>TP7</strong></td>
+<td>输出</td>
+<td>高=好</td>
+<td>产测</td>
+</tr>
+<tr>
+<td>充电 LED</td>
+<td>AXP_CHG_LED</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>LED4</td>
+<td>输出</td>
+<td>—</td>
+<td>硬件</td>
+</tr>
+<tr>
+<td>电池温度</td>
+<td>TS</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>U4.31 NTC</td>
+<td>模拟</td>
+<td>—</td>
+<td>AXP2101</td>
+</tr>
+<tr>
+<td>T5 硬复位</td>
+<td>T5_RST</td>
+<td>3</td>
+<td>RST</td>
+<td>—</td>
+<td>RC 网络</td>
+<td>输入</td>
+<td>低复位</td>
+<td>上电时序</td>
+</tr>
+<tr>
+<td>4G 模组复位</td>
+<td>RST_CAT</td>
+<td>58</td>
+<td>P52</td>
+<td>GPIO52</td>
+<td>U40</td>
+<td>输出</td>
+<td>低复位</td>
+<td><code>tuya_ai_cellular</code></td>
+</tr>
+<tr>
+<td>摄像头复位</td>
+<td>DVP_RST</td>
+<td>59</td>
+<td>P51</td>
+<td>GPIO51</td>
+<td>FPC1.6</td>
+<td>输出</td>
+<td>低复位</td>
+<td><code>tuya_ai_toy_camera</code></td>
+</tr>
+<tr>
+<td>功放使能</td>
+<td>SPK_CTL</td>
+<td>29</td>
+<td>P17</td>
+<td>GPIO17</td>
+<td>U8 → <strong>TP15</strong></td>
+<td>输出</td>
+<td>依硬件</td>
+<td><code>TUYA_AI_TOY_SPK_EN_PIN</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-t5">5. T5 各功能模块引脚分配（本板使用）</h2>
+<blockquote>
+<p>下列各表均包含 <strong>Pin（序号）/ 丝印名称 / GPIO 名称 / 本板网络名</strong>，便于软硬件联调。</p>
+</blockquote>
+<h3 id="51-i2ci2c0-i2c_sys">5.1 系统 I2C（I2C0 / I2C_SYS）</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>TuyaOS</th>
+<th>Pinmux</th>
+<th>挂载器件</th>
+<th>I2C 地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I2C 时钟</td>
+<td>I2C_SYS_SCL</td>
+<td>4</td>
+<td>P20</td>
+<td>GPIO20</td>
+<td><code>TUYA_GPIO_NUM_20</code></td>
+<td><code>TUYA_IIC0_SCL</code></td>
+<td>AXP2101, BMI270, BH1750</td>
+<td>—</td>
+</tr>
+<tr>
+<td>I2C 数据</td>
+<td>I2C_SYS_SDA</td>
+<td>5</td>
+<td>P21</td>
+<td>GPIO21</td>
+<td><code>TUYA_GPIO_NUM_21</code></td>
+<td><code>TUYA_IIC0_SDA</code></td>
+<td>同上</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>位号</th>
+<th>芯片</th>
+<th>7-bit 地址</th>
+<th>用途</th>
+<th>驱动</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>U4</td>
+<td>AXP2101</td>
+<td>0x34</td>
+<td>充电/电源</td>
+<td>板级电源</td>
+</tr>
+<tr>
+<td>U15</td>
+<td>BMI270</td>
+<td>0x68 / 0x69</td>
+<td>IMU</td>
+<td><code>tuya_imu</code></td>
+</tr>
+<tr>
+<td>U17</td>
+<td>BH1750</td>
+<td>0x23 / 0x5C</td>
+<td>环境光</td>
+<td>背光策略</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-uart">5.2 UART 接口</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>Pinmux</th>
+<th>对端</th>
+<th>SDK 端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VC-02 接收</td>
+<td>UART0_RX</td>
+<td>36</td>
+<td>RXD</td>
+<td>—</td>
+<td><code>TUYA_UART0_RX</code></td>
+<td>U1.5 / CN22</td>
+<td><code>TUYA_UART_NUM_0</code></td>
+</tr>
+<tr>
+<td>VC-02 发送</td>
+<td>UART0_TX</td>
+<td>37</td>
+<td>TXD</td>
+<td>—</td>
+<td><code>TUYA_UART0_TX</code></td>
+<td>U1.4 / CN22</td>
+<td><code>TUYA_UART_NUM_0</code></td>
+</tr>
+<tr>
+<td>调试日志 RX</td>
+<td>LOG_RX</td>
+<td>12</td>
+<td>P1</td>
+<td>GPIO1</td>
+<td><code>TUYA_UART1_RX</code></td>
+<td>U5 CH342.12</td>
+<td>USB 日志</td>
+</tr>
+<tr>
+<td>调试日志 TX</td>
+<td>LOG_TX</td>
+<td>15</td>
+<td>P0</td>
+<td>GPIO0</td>
+<td><code>TUYA_UART1_TX</code></td>
+<td>U5 CH342.13</td>
+<td>USB 日志</td>
+</tr>
+<tr>
+<td>4G 主串口</td>
+<td>MAIN_TX/RX</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>U40（经 R44/R45）</td>
+<td>AT 口</td>
+</tr>
+<tr>
+<td>4G 调试</td>
+<td>DBG_TX/RX</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>U40 → <strong>TP4/TP3</strong></td>
+<td>硬件调试</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>说明：</strong> Pin 36/37 为模组 <strong>RXD/TXD</strong> 专用脚，官方定义为 <strong>UART0</strong>（兼烧录授权口），本板用于 VC-02。Pin 12/15（P1/P0）为 <strong>UART1</strong>，接 CH342 作日志口。</p>
+</blockquote>
+<h3 id="53-usb">5.3 USB 接口</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB D-</td>
+<td>USB_4G_DM</td>
+<td>13</td>
+<td>DN</td>
+<td>至 U40 + T5 内部 USB</td>
+</tr>
+<tr>
+<td>USB D+</td>
+<td>USB_4G_DP</td>
+<td>14</td>
+<td>DP</td>
+<td>至 U40 + T5 内部 USB</td>
+</tr>
+<tr>
+<td>4G BOOT</td>
+<td>BOOT</td>
+<td>—</td>
+<td>—</td>
+<td>U40.82 → <strong>TP2</strong></td>
+</tr>
+</tbody>
+</table>
+<p>软件：<code>CONFIG_ENABLE_CELLULAR_DONGLE</code>，参考 <code>src/miscs/cellular/</code>。</p>
+<h3 id="54">5.4 语音与麦克风</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>类型</th>
+<th>对端</th>
+<th>软件要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KWS 唤醒</td>
+<td>VC02_KWS</td>
+<td>10</td>
+<td>P26</td>
+<td>GPIO26</td>
+<td>数字 I/O</td>
+<td>U1.16</td>
+<td>GPIO 中断</td>
+</tr>
+<tr>
+<td>麦克风 1+</td>
+<td>MICP1</td>
+<td>66</td>
+<td>MP1</td>
+<td>—</td>
+<td>AO</td>
+<td>板载 MEMS</td>
+<td>AFE 通道 1</td>
+</tr>
+<tr>
+<td>麦克风 1-</td>
+<td>MICN1</td>
+<td>67</td>
+<td>MN1</td>
+<td>—</td>
+<td>AO</td>
+<td>板载 MEMS</td>
+<td>AFE 通道 1</td>
+</tr>
+<tr>
+<td>麦克风 2+（T5）</td>
+<td>MICP2_T5</td>
+<td>69</td>
+<td>MP2</td>
+<td>—</td>
+<td>AO</td>
+<td>共用麦</td>
+<td>AFE 通道 2</td>
+</tr>
+<tr>
+<td>麦克风 2-（T5）</td>
+<td>MICN2_T5</td>
+<td>68</td>
+<td>MN2</td>
+<td>—</td>
+<td>AO</td>
+<td>共用麦</td>
+<td>AFE 通道 2</td>
+</tr>
+<tr>
+<td>麦偏置</td>
+<td>MICBIAS</td>
+<td>70</td>
+<td>MBS</td>
+<td>—</td>
+<td>AO</td>
+<td>麦供电</td>
+<td><code>wukong_audio_input</code></td>
+</tr>
+<tr>
+<td>音频左+</td>
+<td>AUDLP</td>
+<td>62</td>
+<td>LP</td>
+<td>—</td>
+<td>AO</td>
+<td>U8 功放</td>
+<td>板载播放</td>
+</tr>
+<tr>
+<td>音频左-</td>
+<td>AUDLN</td>
+<td>61</td>
+<td>LN</td>
+<td>—</td>
+<td>AO</td>
+<td>U8 功放</td>
+<td>板载播放</td>
+</tr>
+<tr>
+<td>红外使能</td>
+<td>IR_EN</td>
+<td>16</td>
+<td>P9</td>
+<td>GPIO9</td>
+<td>数字 I/O</td>
+<td>CN14（Q10/Q11）</td>
+<td>GPIO 输出</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>官方要求：</strong> 仅使用一路 MIC 时必须使用 <strong>MIC1（Pin 66/67）</strong>。</p>
+</blockquote>
+<h3 id="55-dvp-fpc124p05mm-afc01-s24fca-00bom-sensorgc2145">5.5 DVP 摄像头（FPC1，24P/0.5mm <code>AFC01-S24FCA-00</code>，BOM Sensor：<strong>GC2145</strong>）</h3>
+<h4 id="551-fpc1-nets">5.5.1 FPC1 引脚（摘自网表 <code>$NETS</code>）</h4>
+<table>
+<thead>
+<tr>
+<th>FPC1 Pin</th>
+<th>网络名</th>
+<th>连接（网表）</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>$1N192</code></td>
+<td>内部网络</td>
+<td>未接 U32</td>
+</tr>
+<tr>
+<td>2</td>
+<td>GND</td>
+<td>—</td>
+<td>地</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CIS_SDA</td>
+<td>Q2.3, R29.1</td>
+<td>Sensor I2C 数据 → Q2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>AVDD_2V8</td>
+<td>C19.1, U4.12</td>
+<td>模拟 2.8V（AXP）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>CIS_SCL</td>
+<td>Q1.3, R27.1</td>
+<td>Sensor I2C 时钟 → Q1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>DVP_RST</td>
+<td>C23.2, R30.1, <strong>U32.59</strong></td>
+<td>复位，低有效</td>
+</tr>
+<tr>
+<td>7</td>
+<td>DVP_VSYNC</td>
+<td><strong>U32.46</strong></td>
+<td>场同步</td>
+</tr>
+<tr>
+<td>8</td>
+<td>CIS_PWDM</td>
+<td>R31.2</td>
+<td>经 R31(10kΩ) 至 GND，<strong>无 T5 GPIO</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>DVP_HSYNC</td>
+<td><strong>U32.47</strong></td>
+<td>行同步</td>
+</tr>
+<tr>
+<td>10</td>
+<td>DVDD_1V8</td>
+<td>C18.1, U4.14</td>
+<td>数字 1.8V</td>
+</tr>
+<tr>
+<td>11</td>
+<td>VDDCAM_2V8</td>
+<td>C15.1, R26～30.2, U4.16</td>
+<td>摄像头 IO 2.8V</td>
+</tr>
+<tr>
+<td>12</td>
+<td>DVP_D7</td>
+<td><strong>U32.64</strong></td>
+<td>数据 D7</td>
+</tr>
+<tr>
+<td>13</td>
+<td>DVP_MCLK</td>
+<td><strong>U32.41</strong></td>
+<td>主时钟</td>
+</tr>
+<tr>
+<td>14</td>
+<td>DVP_D6</td>
+<td><strong>U32.63</strong></td>
+<td>数据 D6</td>
+</tr>
+<tr>
+<td>15</td>
+<td>GND</td>
+<td>—</td>
+<td>地</td>
+</tr>
+<tr>
+<td>16</td>
+<td>DVP_D5</td>
+<td><strong>U32.57</strong></td>
+<td>数据 D5</td>
+</tr>
+<tr>
+<td>17</td>
+<td>DVP_PCLK</td>
+<td><strong>U32.42</strong></td>
+<td>像素时钟</td>
+</tr>
+<tr>
+<td>18</td>
+<td>DVP_D4</td>
+<td><strong>U32.56</strong></td>
+<td>数据 D4</td>
+</tr>
+<tr>
+<td>19</td>
+<td>DVP_D0</td>
+<td><strong>U32.49</strong></td>
+<td>数据 D0</td>
+</tr>
+<tr>
+<td>20</td>
+<td>DVP_D3</td>
+<td><strong>U32.52</strong></td>
+<td>数据 D3</td>
+</tr>
+<tr>
+<td>21</td>
+<td>DVP_D1</td>
+<td><strong>U32.48</strong></td>
+<td>数据 D1</td>
+</tr>
+<tr>
+<td>22</td>
+<td>DVP_D2</td>
+<td><strong>U32.51</strong></td>
+<td>数据 D2</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>$1N169</code></td>
+<td>—</td>
+<td>未接 U32</td>
+</tr>
+<tr>
+<td>24</td>
+<td><code>$1N170</code></td>
+<td>—</td>
+<td>未接 U32</td>
+</tr>
+<tr>
+<td>25</td>
+<td>GND</td>
+<td>—</td>
+<td>地</td>
+</tr>
+<tr>
+<td>26</td>
+<td>GND</td>
+<td>—</td>
+<td>地</td>
+</tr>
+</tbody>
+</table>
+<h4 id="552-dvp-i2c-t5">5.5.2 DVP / I2C 与 T5 引脚对照</h4>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>官方信号名</th>
+<th>FPC Pin</th>
+<th>Pinmux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主时钟</td>
+<td>DVP_MCLK</td>
+<td>41</td>
+<td>P27</td>
+<td>GPIO27</td>
+<td>CIS_MCLK</td>
+<td>13</td>
+<td>CIS MCLK</td>
+</tr>
+<tr>
+<td>像素时钟</td>
+<td>DVP_PCLK</td>
+<td>42</td>
+<td>P29</td>
+<td>GPIO29</td>
+<td>CIS_PCLK</td>
+<td>17</td>
+<td>CIS PCLK</td>
+</tr>
+<tr>
+<td>行同步</td>
+<td>DVP_HSYNC</td>
+<td>47</td>
+<td>P30</td>
+<td>GPIO30</td>
+<td>CIS_HSYNC</td>
+<td>9</td>
+<td>CIS HSYNC</td>
+</tr>
+<tr>
+<td>场同步</td>
+<td>DVP_VSYNC</td>
+<td>46</td>
+<td>P31</td>
+<td>GPIO31</td>
+<td>CIS_VSYNC</td>
+<td>7</td>
+<td>CIS VSYNC</td>
+</tr>
+<tr>
+<td>数据 D0</td>
+<td>DVP_D0</td>
+<td>49</td>
+<td>P32</td>
+<td>GPIO32</td>
+<td>CIS_PXD0</td>
+<td>19</td>
+<td>CIS PXD0</td>
+</tr>
+<tr>
+<td>数据 D1</td>
+<td>DVP_D1</td>
+<td>48</td>
+<td>P33</td>
+<td>GPIO33</td>
+<td>CIS_PXD1</td>
+<td>21</td>
+<td>CIS PXD1</td>
+</tr>
+<tr>
+<td>数据 D2</td>
+<td>DVP_D2</td>
+<td>51</td>
+<td>P34</td>
+<td>GPIO34</td>
+<td>CIS_PXD2</td>
+<td>22</td>
+<td>CIS PXD2</td>
+</tr>
+<tr>
+<td>数据 D3</td>
+<td>DVP_D3</td>
+<td>52</td>
+<td>P35</td>
+<td>GPIO35</td>
+<td>CIS_PXD3</td>
+<td>20</td>
+<td>CIS PXD3</td>
+</tr>
+<tr>
+<td>数据 D4</td>
+<td>DVP_D4</td>
+<td>56</td>
+<td>P36</td>
+<td>GPIO36</td>
+<td>CIS_PXD4</td>
+<td>18</td>
+<td>CIS PXD4</td>
+</tr>
+<tr>
+<td>数据 D5</td>
+<td>DVP_D5</td>
+<td>57</td>
+<td>P37</td>
+<td>GPIO37</td>
+<td>CIS_PXD5</td>
+<td>16</td>
+<td>CIS PXD5</td>
+</tr>
+<tr>
+<td>数据 D6</td>
+<td>DVP_D6</td>
+<td>63</td>
+<td>P38</td>
+<td>GPIO38</td>
+<td>CIS_PXD6</td>
+<td>14</td>
+<td>CIS PXD6</td>
+</tr>
+<tr>
+<td>数据 D7</td>
+<td>DVP_D7</td>
+<td>64</td>
+<td>P39</td>
+<td>GPIO39</td>
+<td>CIS_PXD7</td>
+<td>12</td>
+<td>CIS PXD7</td>
+</tr>
+<tr>
+<td>传感器复位</td>
+<td>DVP_RST</td>
+<td>59</td>
+<td>P51</td>
+<td>GPIO51</td>
+<td>GPIO 输出</td>
+<td>6</td>
+<td>低有效</td>
+</tr>
+<tr>
+<td>Sensor I2C SCL</td>
+<td>CIS_SCL → Q1</td>
+<td>4</td>
+<td>P20</td>
+<td>GPIO20</td>
+<td>I2C0_SCL，经 Q1 电平转换</td>
+<td>5</td>
+<td><code>TUYA_IIC0_SCL</code></td>
+</tr>
+<tr>
+<td>Sensor I2C SDA</td>
+<td>CIS_SDA → Q2</td>
+<td>5</td>
+<td>P21</td>
+<td>GPIO21</td>
+<td>I2C0_SDA，经 Q2 电平转换</td>
+<td>3</td>
+<td><code>TUYA_IIC0_SDA</code></td>
+</tr>
+<tr>
+<td>掉电</td>
+<td>CIS_PWDM</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>8</td>
+<td>R31→GND，常低</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CIS I2C 电平路径（网表）：</strong> <code>I2C_SYS_SCL</code>（U32.4）→ Q1.2；Q1.3 → <code>CIS_SCL</code>（FPC1.5）。<code>I2C_SYS_SDA</code>（U32.5）→ Q2.2；Q2.3 → <code>CIS_SDA</code>（FPC1.3）。与 AXP2101/BMI270/BH1750 <strong>共用</strong> I2C0。</p>
+<p><strong>器件要点：</strong> GC2145，I2C 7bit 地址 <strong>0x3C</strong>（8bit 写 <strong>0x78</strong> / 读 <strong>0x79</strong>），芯片 ID 寄存器 <code>0xF0/0xF1</code> 读回应为 <strong>0x21/0x45</strong>。与 T5 悟空 SDK 已适配的 <code>dvp_gc2145.c</code> 一致。</p>
+<p><strong>SDK 配置建议：</strong></p>
+<pre><code class="language-c">.dvp_i2c_idx               = TUYA_I2C_NUM_0,
+.dvp_i2c_clk.pin           = TUYA_GPIO_NUM_20,   // I2C_SYS_SCL, Pin4
+.dvp_i2c_sda.pin           = TUYA_GPIO_NUM_21,   // I2C_SYS_SDA, Pin5
+.dvp_rst_ctrl.pin          = TUYA_GPIO_NUM_51,   // P51, Pin59
+.dvp_rst_ctrl.active_level = TUYA_GPIO_LEVEL_LOW,
+.dvp_pwr_ctrl.pin          = TUYA_GPIO_NUM_MAX,  // 本板无独立 GPIO 控摄头电源
+</code></pre>
+<blockquote>
+<p><strong>总线注意：</strong> I2C0 同时挂 AXP2101、BMI270、BH1750 与 GC2145（经 Q1/Q2）。<code>tal_dvp_i2c_*</code> 初始化时会占用该 I2C 控制器；访问摄头寄存器期间避免与其他从设备并发读写。</p>
+</blockquote>
+<h3 id="56-spi-lcdcn410p-fpc-10mm-bx-fpc10-2h10pxbomhxr0336n011-4-st7789">5.6 SPI LCD（CN4，10P FPC 1.0mm <code>BX-FPC1.0-2H10PX</code>，BOM：<strong>HXR0336N011-4线 / ST7789</strong>）</h3>
+<h4 id="561-cn4">5.6.1 CN4 引脚（摘自网表）</h4>
+<table>
+<thead>
+<tr>
+<th>CN4 Pin</th>
+<th>网络名</th>
+<th>网表连接</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>GND</td>
+<td>GND</td>
+<td>地</td>
+</tr>
+<tr>
+<td>2</td>
+<td>LCD_D/C</td>
+<td><strong>U32.32</strong></td>
+<td>数据/命令</td>
+</tr>
+<tr>
+<td>3</td>
+<td>LCD_CS</td>
+<td><strong>U32.34</strong></td>
+<td>SPI 片选</td>
+</tr>
+<tr>
+<td>4</td>
+<td>LCD_SCLK</td>
+<td><strong>U32.35</strong></td>
+<td>SPI 时钟</td>
+</tr>
+<tr>
+<td>5</td>
+<td>LCD_SDI</td>
+<td><strong>U32.33</strong></td>
+<td>SPI MOSI</td>
+</tr>
+<tr>
+<td>6</td>
+<td>LCD_RST</td>
+<td><strong>U32.38</strong></td>
+<td>屏复位</td>
+</tr>
+<tr>
+<td>7</td>
+<td>VDD_3V3</td>
+<td>VDD_3V3 电源网</td>
+<td>模组 IO <strong>3.3V</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>GND</td>
+<td>GND</td>
+<td>地</td>
+</tr>
+<tr>
+<td>9</td>
+<td>VDD_3V3</td>
+<td>VDD_3V3 电源网</td>
+<td>背光 <strong>LEDA</strong> 供电</td>
+</tr>
+<tr>
+<td>10</td>
+<td>LEDK</td>
+<td>R138.2</td>
+<td>背光阴极 → Q9 开关节点</td>
+</tr>
+<tr>
+<td>11</td>
+<td>GND</td>
+<td>GND</td>
+<td>地</td>
+</tr>
+<tr>
+<td>12</td>
+<td>GND</td>
+<td>GND</td>
+<td>地</td>
+</tr>
+</tbody>
+</table>
+<p><strong>背光电路（网表）：</strong> <code>LCD_BL</code>（U32.39）→ R137 → <strong>Q9(SI2302)</strong> 控制 <strong>LEDK</strong>（CN4.10）对地回路；<strong>LEDA</strong>（CN4.9）常接 <strong>VDD_3V3</strong>。软件拉高 <code>LCD_BL</code> 即导通背光（具体有效电平以 Q9 极性为准，默认 <strong>高电平点亮</strong>）。</p>
+<h4 id="562-cn4-t5-gpio22">5.6.2 CN4 ↔ T5 GPIO（§2.2 + 网表）</h4>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>Pinmux</th>
+<th>CN4 Pin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPI 时钟</td>
+<td>LCD_SCLK</td>
+<td>35</td>
+<td>P44</td>
+<td>GPIO44</td>
+<td><code>TUYA_SPI0_SCK</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td>SPI 数据</td>
+<td>LCD_SDI</td>
+<td>33</td>
+<td>P46</td>
+<td>GPIO46</td>
+<td><code>TUYA_SPI0_MOSI</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td>片选</td>
+<td>LCD_CS</td>
+<td>34</td>
+<td>P45</td>
+<td>GPIO45</td>
+<td><code>TUYA_SPI0_CS</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>数据/命令</td>
+<td>LCD_D/C</td>
+<td>32</td>
+<td>P47</td>
+<td>GPIO47</td>
+<td>GPIO 输出</td>
+<td>2</td>
+</tr>
+<tr>
+<td>屏复位</td>
+<td>LCD_RST</td>
+<td>38</td>
+<td>P43</td>
+<td>GPIO43</td>
+<td>GPIO 输出</td>
+<td>6</td>
+</tr>
+<tr>
+<td>背光 PWM/GPIO</td>
+<td>LCD_BL</td>
+<td>39</td>
+<td>P42</td>
+<td>GPIO42</td>
+<td>GPIO 输出</td>
+<td>—（控 Q9→LEDK）</td>
+</tr>
+<tr>
+<td>背光阳极</td>
+<td>LEDA</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>VDD_3V3</td>
+<td>9</td>
+</tr>
+<tr>
+<td>背光阴极</td>
+<td>LEDK</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>→ Q9</td>
+<td>10</td>
+</tr>
+<tr>
+<td>模组供电</td>
+<td>VDD_3V3</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>3.3V</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p><strong>模组要点（<code>器件资料/HXR0336N011-4线.pdf</code>）：</strong> 3.36″ IPS，分辨率 <strong>240×RGB×320</strong>，接口 <strong>4 线 SPI</strong>（无 MISO），逻辑电平 3.3V，ST7789 内置 GRAM。</p>
+<pre><code class="language-c">tkl_io_pinmux_config(TUYA_IO_PIN_44, TUYA_SPI0_CLK);   // P44, Pin35
+tkl_io_pinmux_config(TUYA_IO_PIN_46, TUYA_SPI0_MOSI);  // P46, Pin33
+tkl_io_pinmux_config(TUYA_IO_PIN_45, TUYA_SPI0_CS);    // P45, Pin34
+// DC=P47/GPIO47, RST=P43/GPIO43, BL=P42/GPIO42
+</code></pre>
+<h3 id="57-sdio-tf-card14-bit">5.7 SDIO / TF 卡（CARD1，4-bit）</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>Pinmux</th>
+<th>CARD Pin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SD 时钟</td>
+<td>SD_CLK</td>
+<td>23</td>
+<td>P2</td>
+<td>GPIO2</td>
+<td><code>TUYA_SDIO_CLK</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td>SD 命令</td>
+<td>SD_CMD</td>
+<td>22</td>
+<td>P3</td>
+<td>GPIO3</td>
+<td><code>TUYA_SDIO_CMD</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>SD 数据 0</td>
+<td>SD_D0</td>
+<td>21</td>
+<td>P4</td>
+<td>GPIO4</td>
+<td><code>TUYA_SDIO_DATA0</code></td>
+<td>7</td>
+</tr>
+<tr>
+<td>SD 数据 1</td>
+<td>SD_D1</td>
+<td>20</td>
+<td>P5</td>
+<td>GPIO5</td>
+<td><code>TUYA_SDIO_DATA1</code></td>
+<td>8</td>
+</tr>
+<tr>
+<td>SD 数据 2</td>
+<td>SD_D2</td>
+<td>19</td>
+<td>P6</td>
+<td>GPIO6</td>
+<td><code>TUYA_SDIO_DATA2</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>SD 数据 3</td>
+<td>SD_D3</td>
+<td>18</td>
+<td>P7</td>
+<td>GPIO7</td>
+<td><code>TUYA_SDIO_DATA3</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>卡检测</td>
+<td>SD_CD</td>
+<td>17</td>
+<td>P8</td>
+<td>GPIO8</td>
+<td>GPIO 输入</td>
+<td>—</td>
+</tr>
+<tr>
+<td>卡供电</td>
+<td>VDD_3V3_SD</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<h3 id="58-u24u36uln2003cn16cn17bom28byj48-5v-164">5.8 步进电机（U24/U36=ULN2003，CN16/CN17，BOM：<strong>28BYJ48-5V</strong> 1:64）</h3>
+<h4 id="581-5v">5.8.1 电源（网表 <code>5V</code> 网络）</h4>
+<p><code>5V</code>：CN16.1、CN17.1、U24.9、U36.9、<strong>U35(MT3608)</strong> 输出、D37 等。步进线圈公共端接 <strong>CNx.1 = 5V</strong>。</p>
+<h4 id="582-cn16m0u24-cn17m1u36">5.8.2 CN16（M0，U24）/ CN17（M1，U36）连接器引脚</h4>
+<table>
+<thead>
+<tr>
+<th>CN Pin</th>
+<th>CN16 (M0)</th>
+<th>CN17 (M1)</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5V</td>
+<td>5V</td>
+<td>电机公共端 / 线圈电源</td>
+</tr>
+<tr>
+<td>2</td>
+<td>M0_A_T → U24.16</td>
+<td>M1_A_T → U36.16</td>
+<td>相 A 至电机</td>
+</tr>
+<tr>
+<td>3</td>
+<td>M0_B_T → U24.15</td>
+<td>M1_B_T → U36.15</td>
+<td>相 B</td>
+</tr>
+<tr>
+<td>4</td>
+<td>M0_C_T → U24.14</td>
+<td>M1_C_T → U36.14</td>
+<td>相 C</td>
+</tr>
+<tr>
+<td>5</td>
+<td>M0_D_T → U24.13</td>
+<td>M1_D_T → U36.13</td>
+<td>相 D</td>
+</tr>
+<tr>
+<td>6</td>
+<td>GND</td>
+<td>GND</td>
+<td>地</td>
+</tr>
+<tr>
+<td>7</td>
+<td>GND</td>
+<td>GND</td>
+<td>地</td>
+</tr>
+</tbody>
+</table>
+<h4 id="583-t5-gpio-uln2003">5.8.3 T5 GPIO ↔ ULN2003 输入（网表）</h4>
+<table>
+<thead>
+<tr>
+<th>电机</th>
+<th>相</th>
+<th>网络名</th>
+<th>U32 Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>ULN2003</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M0</td>
+<td>A</td>
+<td>M0_A</td>
+<td>6</td>
+<td>P22</td>
+<td>GPIO22</td>
+<td>U24.1</td>
+</tr>
+<tr>
+<td>M0</td>
+<td>B</td>
+<td>M0_B</td>
+<td>7</td>
+<td>P23</td>
+<td>GPIO23</td>
+<td>U24.2</td>
+</tr>
+<tr>
+<td>M0</td>
+<td>C</td>
+<td>M0_C</td>
+<td>8</td>
+<td>P24</td>
+<td>GPIO24</td>
+<td>U24.3</td>
+</tr>
+<tr>
+<td>M0</td>
+<td>D</td>
+<td>M0_D</td>
+<td>9</td>
+<td>P25</td>
+<td>GPIO25</td>
+<td>U24.4</td>
+</tr>
+<tr>
+<td>M1</td>
+<td>A</td>
+<td>M1_A</td>
+<td>43</td>
+<td>P50</td>
+<td>GPIO50</td>
+<td>U36.1</td>
+</tr>
+<tr>
+<td>M1</td>
+<td>B</td>
+<td>M1_B</td>
+<td>44</td>
+<td>P49</td>
+<td>GPIO49</td>
+<td>U36.2</td>
+</tr>
+<tr>
+<td>M1</td>
+<td>C</td>
+<td>M1_C</td>
+<td>30</td>
+<td>P18</td>
+<td>GPIO18</td>
+<td>U36.3</td>
+</tr>
+<tr>
+<td>M1</td>
+<td>D</td>
+<td>M1_D</td>
+<td>31</td>
+<td>P19</td>
+<td>GPIO19</td>
+<td>U36.4</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>网表说明：</strong> 仅定义 <strong>M0/M1</strong> 两路四相步进接口，<strong>未标注</strong>「头部/身体」机构名。BOM 为 28BYJ48 时，软件须按 <strong>结构/线束图</strong> 绑定 CN16 或 CN17，不可仅凭网络名猜测。驱动实现见 <strong>§9.3</strong>（SDK 无现成 ULN2003 驱动）。</p>
+</blockquote>
+<h3 id="59-gpio">5.9 用户输入与状态 GPIO</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>网络名</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>类型</th>
+<th>连接</th>
+<th>软件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SOS 键</td>
+<td>SOS</td>
+<td>27</td>
+<td>P14</td>
+<td>GPIO14</td>
+<td>输入</td>
+<td>R25 上拉</td>
+<td>事件上报</td>
+</tr>
+<tr>
+<td>ADC 按键</td>
+<td>ADC_KEY</td>
+<td>24</td>
+<td>P12</td>
+<td>GPIO12</td>
+<td>ADC</td>
+<td>SW7/SW8</td>
+<td><code>tuya_ai_toy_key</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6">6. 其他器件接口</h2>
+<h3 id="61-vc-02u1">6.1 VC-02（U1）</h3>
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>网络</th>
+<th>T5 引脚</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UART</td>
+<td>UART0_TX/RX</td>
+<td>Pin37 TXD / Pin36 RXD</td>
+<td>主通信</td>
+</tr>
+<tr>
+<td>唤醒</td>
+<td>VC02_KWS</td>
+<td>Pin10 P26 / GPIO26</td>
+<td>中断</td>
+</tr>
+<tr>
+<td>麦克风</td>
+<td>MICP2_VC/MICN2_VC</td>
+<td>—</td>
+<td>至 U1.3/2</td>
+</tr>
+<tr>
+<td>外接座</td>
+<td>CN22</td>
+<td>UART0_TX_VC/RX_VC</td>
+<td>产测</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-4g-cat1u40-l511-y6">6.2 4G Cat.1（U40 L511-Y6）</h3>
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>网络</th>
+<th>T5 引脚</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB</td>
+<td>USB_4G_DP/DM</td>
+<td>Pin14 DP / Pin13 DN</td>
+<td>数据</td>
+</tr>
+<tr>
+<td>复位</td>
+<td>RST_CAT</td>
+<td>Pin58 P52 / GPIO52</td>
+<td>低复位</td>
+</tr>
+<tr>
+<td>SIM</td>
+<td>SIM1</td>
+<td>—</td>
+<td>Nano SIM</td>
+</tr>
+<tr>
+<td>天线</td>
+<td>RF1</td>
+<td>—</td>
+<td>U.FL</td>
+</tr>
+<tr>
+<td>调试</td>
+<td>DBG_TX/RX</td>
+<td>—</td>
+<td>TP4/TP3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-ch342u5">6.3 CH342（U5）</h3>
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>网络</th>
+<th>T5 引脚</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UART</td>
+<td>LOG_TX/RX</td>
+<td>Pin15 P0 / Pin12 P1</td>
+<td>USB 日志</td>
+</tr>
+<tr>
+<td>流控</td>
+<td>CH_RTS0/DTR0</td>
+<td>—</td>
+<td>经 Q3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="64-u8-cs8302">6.4 喇叭功放（U8 CS8302）</h3>
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>网络</th>
+<th>T5 引脚</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>音频</td>
+<td>AUDLP/AUDLN</td>
+<td>Pin62 LP / Pin61 LN</td>
+<td>模拟输出</td>
+</tr>
+<tr>
+<td>使能</td>
+<td>SPK_CTL</td>
+<td>Pin29 P17 / GPIO17</td>
+<td><strong>TP15</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="65-packages">6.5 连接器一览（网表 <code>$PACKAGES</code>）</h3>
+<table>
+<thead>
+<tr>
+<th>位号</th>
+<th>网表封装</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FPC1</td>
+<td>AFC01-S24FCA-00 24P/0.5mm</td>
+<td>DVP 摄像头</td>
+</tr>
+<tr>
+<td>CN4</td>
+<td>BX-FPC1.0-2H10PX 10P/1.0mm</td>
+<td>SPI LCD</td>
+</tr>
+<tr>
+<td>CARD1</td>
+<td>TF PUSH</td>
+<td>microSD</td>
+</tr>
+<tr>
+<td>CN12</td>
+<td>HCZZ0015-2 2P</td>
+<td>喇叭 SPK+/SPK-</td>
+</tr>
+<tr>
+<td>CN16 / CN17</td>
+<td>HCZZ0015-5 5P</td>
+<td>步进 M0(U24) / M1(U36)</td>
+</tr>
+<tr>
+<td>CN22</td>
+<td>HCZZ0015-3 3P</td>
+<td>VC-02 UART 座</td>
+</tr>
+<tr>
+<td>CN9 / CN11</td>
+<td>HCZZ0015-3 3P</td>
+<td>外设接口（网表接电感/滤波）</td>
+</tr>
+<tr>
+<td>CN14</td>
+<td>HCZZ0015-3 3P</td>
+<td>红外 IR（Q10/Q11，受 IR_EN 控制）</td>
+</tr>
+<tr>
+<td>CN10</td>
+<td>HCZZ0015-2 2P</td>
+<td>辅助接口</td>
+</tr>
+<tr>
+<td>CN20 / CN21</td>
+<td>HDGC2001WV-S-2P 2P</td>
+<td>电池 VBAT / USB VBUS</td>
+</tr>
+<tr>
+<td>SIM1</td>
+<td>Nano SIM 7P</td>
+<td>4G SIM</td>
+</tr>
+<tr>
+<td>RF1</td>
+<td>U.FL</td>
+<td>4G 天线</td>
+</tr>
+<tr>
+<td>U50</td>
+<td>HC-TYPE-C-16P</td>
+<td>USB-C 充电/数据</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7">7. 测试点速查</h2>
+<table>
+<thead>
+<tr>
+<th>TP</th>
+<th>网络</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TP2</td>
+<td>BOOT</td>
+<td>4G BOOT</td>
+</tr>
+<tr>
+<td>TP3/TP4</td>
+<td>DBG_RX/TX</td>
+<td>4G 调试串口</td>
+</tr>
+<tr>
+<td>TP7</td>
+<td>AXP_PG</td>
+<td>电源好</td>
+</tr>
+<tr>
+<td>TP15</td>
+<td>SPK_CTL</td>
+<td>功放使能（U32.29 / P17 / GPIO17）</td>
+</tr>
+<tr>
+<td>TP17</td>
+<td>UART_RX_AI</td>
+<td>U32.65 / P40（仅测试点，产品未用）</td>
+</tr>
+<tr>
+<td>TP18</td>
+<td>FLAG_AI</td>
+<td>U32.54 / P54（仅测试点，产品未用）</td>
+</tr>
+<tr>
+<td>TP19</td>
+<td><code>$1N504</code></td>
+<td><strong>U32.11</strong> / Pin11 / P28 / GPIO28（仅测试点）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-kconfig">8. 软件模块与 Kconfig</h2>
+<table>
+<thead>
+<tr>
+<th>硬件功能</th>
+<th>Kconfig</th>
+<th>关键 GPIO（丝印）</th>
+<th>代码路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>板载麦克风</td>
+<td><code>USING_BOARD_AUDIO_INPUT</code></td>
+<td>MP1/MN1/MP2/MN2/MBS</td>
+<td><code>wukong/audio/</code></td>
+</tr>
+<tr>
+<td>板载喇叭</td>
+<td><code>USING_BOARD_AUDIO_OUTPUT</code></td>
+<td>LP/LN + P17 SPK_CTL</td>
+<td>播放器</td>
+</tr>
+<tr>
+<td>VC-02 唤醒</td>
+<td>—</td>
+<td>P26 GPIO26</td>
+<td><code>wukong_kws</code></td>
+</tr>
+<tr>
+<td>VC-02 UART</td>
+<td>—</td>
+<td>RXD/TXD Pin36/37</td>
+<td>UART0</td>
+</tr>
+<tr>
+<td>DVP 摄像头</td>
+<td><code>ENABLE_TUYA_CAMERA</code></td>
+<td>CIS 引脚组 + P51 复位</td>
+<td><code>tuya_ai_toy_camera.c</code></td>
+</tr>
+<tr>
+<td>LCD</td>
+<td>GUI 栈</td>
+<td>P44/P45/P46/P47/P43/P42</td>
+<td><code>tuya_ai_display.c</code> + <code>lcd_spi_st7789v2.c</code></td>
+</tr>
+<tr>
+<td>TF 卡</td>
+<td>SDIO</td>
+<td>P2～P7 Pin23～18</td>
+<td>文件系统</td>
+</tr>
+<tr>
+<td>4G</td>
+<td><code>ENABLE_CELLULAR_DONGLE</code></td>
+<td>P52 复位 + USB</td>
+<td><code>miscs/cellular/</code></td>
+</tr>
+<tr>
+<td>PMIC</td>
+<td><code>ENABLE_BATTERY</code></td>
+<td>P20/P21 I2C0</td>
+<td><code>tuya_ai_battery</code></td>
+</tr>
+<tr>
+<td>IMU/ALS</td>
+<td>I2C0</td>
+<td>P20/P21</td>
+<td><code>tuya_imu</code> / BH1750</td>
+</tr>
+<tr>
+<td>步进电机</td>
+<td>自研 <code>stepper_28byj48</code></td>
+<td>P22～P25 / P50/P49/P18/P19</td>
+<td>见 §9.3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="81-menuconfig">8.1 建议 menuconfig 引脚初值</h3>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>建议值（GPIO）</th>
+<th>丝印</th>
+<th>Pin</th>
+<th>本板网络</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TUYA_AI_TOY_AUDIO_TRIGGER_PIN_NUM</code></td>
+<td>26</td>
+<td>P26</td>
+<td>10</td>
+<td>VC02_KWS</td>
+</tr>
+<tr>
+<td><code>TUYA_AI_TOY_SPK_EN_PIN_NUM</code></td>
+<td>17</td>
+<td>P17</td>
+<td>29</td>
+<td>SPK_CTL</td>
+</tr>
+<tr>
+<td><code>TUYA_AI_TOY_LED_PIN_NUM</code></td>
+<td>64</td>
+<td>—</td>
+<td>—</td>
+<td>禁用（<code>LED_0</code> 未接外设）</td>
+</tr>
+<tr>
+<td><code>TUYA_AI_TOY_I2C_CLK_PIN_NUM</code></td>
+<td>20</td>
+<td>P20</td>
+<td>4</td>
+<td>I2C_SYS_SCL</td>
+</tr>
+<tr>
+<td><code>TUYA_AI_TOY_I2C_SDA_PIN_NUM</code></td>
+<td>21</td>
+<td>P21</td>
+<td>5</td>
+<td>I2C_SYS_SDA</td>
+</tr>
+<tr>
+<td>摄像头复位</td>
+<td>51</td>
+<td>P51</td>
+<td>59</td>
+<td>DVP_RST</td>
+</tr>
+<tr>
+<td>LCD 驱动名</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><code>spi_st7789v2</code> 或定制 <code>spi_st7789_hxr</code></td>
+</tr>
+<tr>
+<td><code>TUYA_LCD_WIDTH_VAL</code></td>
+<td>240</td>
+<td>—</td>
+<td>—</td>
+<td>竖屏宽</td>
+</tr>
+<tr>
+<td><code>TUYA_LCD_HEIGHT_VAL</code></td>
+<td>320</td>
+<td>—</td>
+<td>—</td>
+<td>竖屏高</td>
+</tr>
+<tr>
+<td><code>TUYA_AI_TOY_ISP_WIDTH/HEIGHT</code></td>
+<td>480 / 480</td>
+<td>—</td>
+<td>—</td>
+<td>与 T5AI_BOARD 一致，可按产品裁剪</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9">9. 外设驱动开发指南（软件工程师）</h2>
+<p>本节面向固件开发，给出 <strong>ST7789 屏、GC2145 摄像头、28BYJ48 头部步进电机</strong> 在本产品板上的驱动接入路径、参考源码与可直接改写的代码骨架。新建板级目录建议：<code>src/boards/&lt;产品板名&gt;/</code>。</p>
+<h3 id="91-st7789-hxr0336n011-4spi-lcd">9.1 ST7789 + HXR0336N011-4线（SPI LCD）</h3>
+<h4 id="911">9.1.1 硬件与电气</h4>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>规格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模组型号</td>
+<td>HXR0336N011-4线（FPC 10P/1.0mm，CN4）</td>
+</tr>
+<tr>
+<td>驱动 IC</td>
+<td>ST7789</td>
+</tr>
+<tr>
+<td>分辨率</td>
+<td><strong>240 × 320</strong>（竖屏，RGB565）</td>
+</tr>
+<tr>
+<td>接口</td>
+<td><strong>4 线 SPI</strong>：SCLK、SDI(MOSI)、CS、D/C；无 MISO</td>
+</tr>
+<tr>
+<td>逻辑电平</td>
+<td>3.3V（CN4.7 接 VDD_3V3）</td>
+</tr>
+<tr>
+<td>背光</td>
+<td>CN4.9(LEDA)=VDD_3V3；CN4.10(LEDK) 经 Q9 由 <strong>GPIO42/LCD_BL</strong> 开关</td>
+</tr>
+<tr>
+<td>复位</td>
+<td><strong>低有效</strong>，CN4.6 → P43/GPIO43</td>
+</tr>
+</tbody>
+</table>
+<h4 id="912-cn4-t5-22">9.1.2 CN4 ↔ T5 引脚（网表 + §2.2）</h4>
+<table>
+<thead>
+<tr>
+<th>CN4 Pin</th>
+<th>网络名</th>
+<th>网表连接</th>
+<th>T5 Pin</th>
+<th>GPIO</th>
+<th>SDK 字段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>GND</td>
+<td>GND</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>LCD_D/C</td>
+<td>U32.32</td>
+<td>32</td>
+<td>GPIO47</td>
+<td><code>spi_cfg.rs</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>LCD_CS</td>
+<td>U32.34</td>
+<td>34</td>
+<td>GPIO45</td>
+<td><code>TUYA_SPI0_CS</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>LCD_SCLK</td>
+<td>U32.35</td>
+<td>35</td>
+<td>GPIO44</td>
+<td><code>TUYA_SPI0_CLK</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>LCD_SDI</td>
+<td>U32.33</td>
+<td>33</td>
+<td>GPIO46</td>
+<td><code>TUYA_SPI0_MOSI</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>LCD_RST</td>
+<td>U32.38</td>
+<td>38</td>
+<td>GPIO43</td>
+<td><code>spi_cfg.reset</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>VDD_3V3</td>
+<td>电源</td>
+<td>—</td>
+<td>—</td>
+<td>模组 3.3V</td>
+</tr>
+<tr>
+<td>8</td>
+<td>GND</td>
+<td>GND</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>9</td>
+<td>VDD_3V3</td>
+<td>LEDA 供电</td>
+<td>—</td>
+<td>—</td>
+<td>常电</td>
+</tr>
+<tr>
+<td>10</td>
+<td>LEDK</td>
+<td>R138→Q9</td>
+<td>—</td>
+<td>—</td>
+<td>由 <code>LCD_BL</code> 控制</td>
+</tr>
+<tr>
+<td>11</td>
+<td>GND</td>
+<td>GND</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>12</td>
+<td>GND</td>
+<td>GND</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>背光 GPIO：<strong>LCD_BL</strong> = U32.39 → Pin39 / P42 / GPIO42。</p>
+<h4 id="913-sdk">9.1.3 SDK 参考文件</h4>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/drivers/app_tuya_display/tdd_lcd_driver/src/spi/lcd_spi_st7789v2.c</code></td>
+<td><strong>首选参考</strong>：CASET/RASET 已按 240×320 窗口配置；可改 <code>width/height</code> 为 240/320</td>
+</tr>
+<tr>
+<td><code>src/drivers/app_tuya_display/tdd_lcd_driver/src/spi/lcd_spi_st7789.c</code></td>
+<td>240×240 面板，本模组勿直接套用尺寸</td>
+</tr>
+<tr>
+<td><code>src/miscs/gui/display/tuya_ai_display.c</code></td>
+<td><code>T5AI_BOARD_ROBOT</code> 分支：<code>ty_display_cfg</code> + SPI0 pinmux 模板</td>
+</tr>
+<tr>
+<td><code>src/miscs/gui/</code> + LVGL</td>
+<td>GUI 显示栈入口</td>
+</tr>
+</tbody>
+</table>
+<h4 id="914-menuconfig">9.1.4 menuconfig 建议</h4>
+<pre><code>CONFIG_TUYA_LCD_IC_NAME_STR=&quot;spi_st7789v2&quot;
+CONFIG_TUYA_LCD_WIDTH_VAL=240
+CONFIG_TUYA_LCD_HEIGHT_VAL=320
+CONFIG_LCD_FPS_VAL=15
+CONFIG_TUYA_LCD_ROTATION_VAL=0          # 装屏方向不对时改 90/180/270
+CONFIG_TUYA_MULTI_TYPES_LCD=y           # 若工程已启用多屏驱动框架
+</code></pre>
+<p>若模组厂商 init 表与 SDK 默认色差明显，可复制 <code>lcd_spi_st7789v2.c</code> 为 <code>lcd_spi_st7789_hxr.c</code>，按 <code>HXR0336N011-4线.pdf</code> 调整 Gamma/E0/E1，并在 <code>local.mk</code> 注册。</p>
+<h4 id="915-tuya_ai_displayc-tuya_device_boardc">9.1.5 板级显示初始化（<code>tuya_ai_display.c</code> 或产品 <code>tuya_device_board.c</code>）</h4>
+<p>在 <code>#elif defined(&lt;产品板宏&gt;)</code> 中增加（模式参照 <code>T5AI_BOARD_ROBOT</code>）：</p>
+<pre><code class="language-c">/* 产品板 SPI ST7789 @ CN4 */
+static const ty_display_cfg spi_st7789_hxr_cfg = {
+    .spi_cfg = {
+        .port = TUYA_SPI_NUM_0,
+        .reset = {
+            .pin = TUYA_GPIO_NUM_43,              /* LCD_RST, P43, Pin38 */
+            .active_level = TUYA_GPIO_LEVEL_LOW
+        },
+        .bl = {
+            .pin = TUYA_GPIO_NUM_42,              /* LCD_BL, P42, Pin39 */
+            .active_level = TUYA_GPIO_LEVEL_HIGH  /* 若背光常灭，改为 LOW 或改硬件 */
+        },
+        .power_ctrl = {
+            .pin = TUYA_GPIO_NUM_MAX,             /* 屏无独立电源 GPIO */
+            .active_level = TUYA_GPIO_LEVEL_HIGH
+        },
+        .rs = {                                    /* D/C */
+            .pin = TUYA_GPIO_NUM_47,              /* LCD_D/C, P47, Pin32 */
+            .active_level = TUYA_GPIO_LEVEL_HIGH  /* 数据=高，命令=低（与 TDD 一致） */
+        },
+        .soft_cs = {
+            .pin = TUYA_GPIO_NUM_MAX,             /* 使用硬件 SPI CS */
+            .active_level = TUYA_GPIO_LEVEL_LOW
+        }
+    }
+};
+
+/* 在 GUI 初始化前调用 */
+tkl_io_pinmux_config(TUYA_IO_PIN_44, TUYA_SPI0_CLK);   /* LCD_SCLK */
+tkl_io_pinmux_config(TUYA_IO_PIN_46, TUYA_SPI0_MOSI);  /* LCD_SDI  */
+tkl_io_pinmux_config(TUYA_IO_PIN_45, TUYA_SPI0_CS);    /* LCD_CS   */
+/* D/C、RST、BL 保持 GPIO 模式，由 display 服务控制 */
+
+lcd_info-&gt;display_device = tdd_lcd_driver_query(&quot;spi_st7789v2&quot;, DISPLAY_SPI);
+lcd_info-&gt;display_cfg = &amp;spi_st7789_hxr_cfg;
+</code></pre>
+<p><strong>SPI 参数（驱动内已定义，一般无需改）：</strong> Mode0、MSB first、RGB565、DMA 建议开启；时钟可先 <strong>30MHz</strong>，花屏再降至 20MHz。</p>
+<h4 id="916">9.1.6 方向与偏移</h4>
+<ul>
+<li>竖屏 240×320：<code>MADCTL(0x36)</code> 常用 <strong>0x00</strong> 或 <strong>0xC0</strong>（镜像），以实机为准。</li>
+<li><code>lcd_spi_st7789v2.c</code> 默认 <code>0xA0</code> 为横屏 320×240；竖屏请改 init 序中 <code>0x36</code> 或在 menuconfig 设 <code>TUYA_LCD_ROTATION_VAL</code>。</li>
+<li>若边缘裁切，可调用 <code>tkl_lvgl_display_offset_set(x, y)</code>（ROBOT 板示例有 offset）。</li>
+</ul>
+<h4 id="917">9.1.7 调试顺序</h4>
+<ol>
+<li>上电测 <strong>CN4.7 / CN4.9</strong> 均为 <strong>VDD_3V3（3.3V）</strong>。</li>
+<li>示波器/逻辑分析仪：RST 低脉冲 → SPI 有 SCLK/CS → 背光 GPIO42 拉高后 LEDA 有电流。</li>
+<li>日志确认 <code>tdd_lcd_driver_query</code> 找到 <code>spi_st7789v2</code>。</li>
+<li>纯色填充测试 LVGL；再接入业务 UI。</li>
+</ol>
+<hr>
+<h3 id="92-gc2145dvp">9.2 GC2145（DVP 摄像头）</h3>
+<h4 id="921">9.2.1 硬件摘要（网表）</h4>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>网表网络 / 连接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>连接器</td>
+<td>FPC1（24P），见 §5.5.1</td>
+</tr>
+<tr>
+<td>Sensor（BOM）</td>
+<td>GC2145</td>
+</tr>
+<tr>
+<td>并口 D0～D7</td>
+<td>DVP_D0～D7 → U32.49/48/51/52/56/57/63/64</td>
+</tr>
+<tr>
+<td>PCLK/HSYNC/VSYNC/MCLK</td>
+<td>DVP_PCLK/HSYNC/VSYNC/MCLK</td>
+</tr>
+<tr>
+<td>复位</td>
+<td>DVP_RST → U32.59（GPIO51）</td>
+</tr>
+<tr>
+<td>I2C</td>
+<td>I2C_SYS_SCL/SDA → Q1/Q2 → CIS_SCL/SDA（GPIO20/21）</td>
+</tr>
+<tr>
+<td>电源</td>
+<td>AVDD_2V8、DVDD_1V8、VDDCAM_2V8（AXP，无 GPIO 使能）</td>
+</tr>
+<tr>
+<td>掉电</td>
+<td>CIS_PWDM：FPC1.8 经 R31 至 GND</td>
+</tr>
+</tbody>
+</table>
+<h4 id="922-sdk">9.2.2 SDK 已有驱动</h4>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/drivers/app_tuya_camera/tdd_camera_driver/src/dvp_gc2145.c</code></td>
+<td>寄存器 init 表、<code>dvp_gc2145_detect()</code>、分辨率切换</td>
+</tr>
+<tr>
+<td><code>src/drivers/app_tuya_camera/tdd_camera_driver/src/dvp_common.c</code></td>
+<td><code>DVP_MODULE_GC2145</code> 设备注册</td>
+</tr>
+<tr>
+<td><code>src/drivers/app_tuya_camera/tal_dvp/</code></td>
+<td>DVP 采集、<code>tal_dvp_i2c_*</code></td>
+</tr>
+<tr>
+<td><code>src/tuya_ai_toy_camera.c</code></td>
+<td>应用层打开摄像头、预览/拍照</td>
+</tr>
+<tr>
+<td><code>src/boards/T5AI_BOARD/tuya_device_board.c</code></td>
+<td><code>tuya_board_get_camera_cfg()</code> 范例</td>
+</tr>
+</tbody>
+</table>
+<p><strong>检测逻辑：</strong> 上电后 <code>tal_dvp_i2c_read(0x3C, 0xF0, …)</code> 应得 <code>0x21</code>，<code>0xF1</code> 得 <code>0x45</code>。</p>
+<h4 id="923-menuconfig">9.2.3 menuconfig 建议</h4>
+<pre><code>CONFIG_ENABLE_TUYA_CAMERA=y
+CONFIG_CAMERA_TYPE_DVP=y
+CONFIG_TUYA_AI_TOY_ISP_WIDTH_VAL=480
+CONFIG_TUYA_AI_TOY_ISP_HEIGHT_VAL=480
+CONFIG_TUYA_AI_TOY_ISP_FPS_VAL=10
+CONFIG_TUYA_AI_TOY_POWER_PIN_NUM=51        # 仅作复位脚编号宏名，本板为 RST 非 PWR
+CONFIG_TUYA_AI_TOY_I2C_CLK_PIN_NUM=20
+CONFIG_TUYA_AI_TOY_I2C_SDA_PIN_NUM=21
+</code></pre>
+<p>分辨率也可选 <code>640×480</code>（<code>dvp_gc2145.c</code> 内 <code>TY_CAMERA_PPI_640X480</code>），需权衡内存与 AI 上行带宽；<strong>与 T5AI_BOARD 对齐时推荐 480×480 @ 10fps</strong>。</p>
+<h4 id="924-tuya_board_get_camera_cfg">9.2.4 产品板 <code>tuya_board_get_camera_cfg()</code> 模板</h4>
+<p>在 <code>src/boards/&lt;产品板&gt;/tuya_device_board.c</code>（引脚与 §5.5.2 / 网表 <code>DVP_RST</code>、<code>I2C_SYS_*</code> 一致）：</p>
+<pre><code class="language-c">#if defined(ENABLE_TUYA_CAMERA) &amp;&amp; ENABLE_TUYA_CAMERA == 1
+OPERATE_RET tuya_board_get_camera_cfg(TAL_CAMERA_CFG_T *cfg)
+{
+    if (!cfg) {
+        return OPRT_INVALID_PARM;
+    }
+
+    static TUYA_DVP_USR_CFG_T s_dvp_cfg = {
+        .dvp_cfg = {
+            .fps           = TUYA_AI_TOY_ISP_FPS,
+            .width         = TUYA_AI_TOY_ISP_WIDTH,
+            .height        = TUYA_AI_TOY_ISP_HEIGHT,
+            .output_mode   = TUYA_CAMERA_OUTPUT_JPEG_YUV422_BOTH,
+            .sync_polarity = 0,
+            .encoded_quality = {
+                .jpeg_cfg = { .enable = TRUE, .min_size = 10, .max_size = 25 },
+            },
+        },
+        .pin_cfg = {
+            .dvp_i2c_idx               = TUYA_I2C_NUM_0,
+            .dvp_i2c_clk.pin           = TUYA_GPIO_NUM_20,   /* I2C_SYS_SCL → Q1 → CIS_SCL */
+            .dvp_i2c_sda.pin           = TUYA_GPIO_NUM_21,   /* I2C_SYS_SDA → Q2 → CIS_SDA */
+            .dvp_rst_ctrl.pin          = TUYA_GPIO_NUM_51,   /* DVP_RST */
+            .dvp_rst_ctrl.active_level = TUYA_GPIO_LEVEL_LOW,
+            .dvp_pwr_ctrl.pin          = TUYA_GPIO_NUM_MAX,  /* 无独立电源 GPIO */
+        },
+        .dvp_frame_handle = NULL,
+    };
+
+    cfg-&gt;type = TAL_CAMERA_TYPE_DVP;
+    cfg-&gt;cfg  = &amp;s_dvp_cfg;
+    return OPRT_OK;
+}
+#endif
+</code></pre>
+<h4 id="925">9.2.5 初始化调用链</h4>
+<pre><code>tuya_ai_toy_camera_init()
+  → tal_camera_init(&amp;cfg)          /* cfg 来自 tuya_board_get_camera_cfg */
+    → tal_dvp_init()               /* 配置 DVP 并口 + I2C */
+    → dvp_gc2145_detect()          /* 读 ID */
+    → dvp_gc2145_init()            /* 写 init 表 */
+  → 帧回调 → 显示桥接 / AI 上行 / 相册
+</code></pre>
+<p><strong>注意：</strong> DVP 并口引脚由 TuyaOS 媒体子系统在 <code>tal_dvp_init</code> 内按芯片默认映射配置；本板网络名与 §5.5 一致即可，一般<strong>无需</strong>在应用层再 <code>pinmux</code> D0～D7。</p>
+<h4 id="926-i2c">9.2.6 I2C 总线共存</h4>
+<p>I2C0（P20/P21）从设备：AXP2101、BMI270、BH1750、GC2145（经电平转换）。建议：</p>
+<ul>
+<li>摄头 <code>tal_camera_init</code> 之前完成 PMIC 初始化；</li>
+<li>对 BMI270/BH1750 的周期性轮询与摄头配置错开，或使用 SDK 已有 I2C 互斥；</li>
+<li>产测读 GC2145 ID 失败时，先量 FPC <strong>2.8V/1.8V</strong> 与 <strong>GPIO51 复位时序</strong>。</li>
+</ul>
+<h4 id="927">9.2.7 调试顺序</h4>
+<ol>
+<li>I2C 扫址 <code>0x3C</code> 是否 ACK。</li>
+<li>读 <code>0xF0/0xF1</code> 是否为 <code>21/45</code>。</li>
+<li>开 DVP 后示波器看 PCLK、VSYNC。</li>
+<li><code>tal_camera</code> 出图后再接 <code>tuya_ai_toy_camera</code> 预览。</li>
+</ol>
+<hr>
+<h3 id="93-28byj48-5v-uln2003cn16cn17">9.3 28BYJ48-5V 步进电机（ULN2003，CN16/CN17）</h3>
+<h4 id="931">9.3.1 硬件与接线（网表）</h4>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>电机型号</td>
+<td>28BYJ48-5V，减速比 <strong>1:64</strong></td>
+</tr>
+<tr>
+<td>驱动芯片</td>
+<td><strong>U24</strong>（M0/CN16）、<strong>U36</strong>（M1/CN17），ULN2003AIPWR</td>
+</tr>
+<tr>
+<td>线圈供电</td>
+<td><strong>5V</strong>（CN16.1 / CN17.1，来自 <strong>U35 MT3608</strong>）</td>
+</tr>
+<tr>
+<td>MCU 侧</td>
+<td>GPIO 3.3V → ULN2003 IN1～IN4</td>
+</tr>
+<tr>
+<td>机构绑定</td>
+<td>网表 <strong>不区分</strong> 头部/副轴；按线束确认用 M0 或 M1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>M1 GPIO（CN17，网表）：</strong> A/B/C/D = GPIO50 / GPIO49 / GPIO18 / GPIO19（U32.43/44/30/31）。</p>
+<p><strong>M0 GPIO（CN16，网表）：</strong> A/B/C/D = GPIO22 / GPIO23 / GPIO24 / GPIO25（U32.6/7/8/9）。</p>
+<p>若 BOM 指定 <strong>头部</strong> 接其中一路，在软件配置 <code>HEAD_STEPPER_M0</code> 或 <code>HEAD_STEPPER_M1</code> 二选一。</p>
+<p><strong>电机五线（常见色标，以实物为准）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>电机线色</th>
+<th>接法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>红</td>
+<td><strong>5V 公共端</strong>（CNx.1）</td>
+</tr>
+<tr>
+<td>橙</td>
+<td>相 D → ULN2003 对应 OUT</td>
+</tr>
+<tr>
+<td>黄</td>
+<td>相 C</td>
+</tr>
+<tr>
+<td>粉</td>
+<td>相 B</td>
+</tr>
+<tr>
+<td>蓝</td>
+<td>相 A</td>
+</tr>
+</tbody>
+</table>
+<p>软件 IN1～IN4 与 A/B/C/D 对应关系若转向反了，可对调两相或反转半步表顺序。</p>
+<h4 id="932">9.3.2 步进参数（算法用）</h4>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全步每圈（输出轴）</td>
+<td><strong>2048</strong> 步（32 步/圈 × 64 减速）</td>
+</tr>
+<tr>
+<td>半步模式</td>
+<td><strong>4096</strong> 步/圈（推荐，转矩更平滑）</td>
+</tr>
+<tr>
+<td>单步延时</td>
+<td><strong>2～5ms</strong> 起步；头部负载大时 5～10ms</td>
+</tr>
+<tr>
+<td>最大连续运行</td>
+<td>建议专用线程 + 定时器；<strong>禁止</strong>在音频 mic 回调中换相</td>
+</tr>
+</tbody>
+</table>
+<h4 id="933-8">9.3.3 半步驱动相序（8 拍）</h4>
+<p>每一拍仅两相或单相通电，循环 8 次为一步进周期，输出轴前进 1/4096 圈：</p>
+<table>
+<thead>
+<tr>
+<th>拍</th>
+<th>IN1(A)</th>
+<th>IN2(B)</th>
+<th>IN3(C)</th>
+<th>IN4(D)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>反转：倒序执行或 <code>step_index = (step_index + 7) % 8</code>。</p>
+<h4 id="934">9.3.4 建议模块布局</h4>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源文件</td>
+<td><code>src/drivers/stepper/tuya_stepper_28byj48.c</code>（新建）</td>
+</tr>
+<tr>
+<td>头文件</td>
+<td><code>src/drivers/stepper/tuya_stepper_28byj48.h</code></td>
+</tr>
+<tr>
+<td>注册</td>
+<td><code>apps/tuyaos_demo_wukong_ai/local.mk</code> 增加 <code>.c</code></td>
+</tr>
+<tr>
+<td>调用方</td>
+<td><code>src/mode/</code> 状态机或 MCP 工具（头部角度）</td>
+</tr>
+<tr>
+<td>线程</td>
+<td><code>tal_thread</code> 或 <code>tal_sw_timer</code> 周期换相；停止时 <strong>四个 IN 全 0</strong> 降功耗</td>
+</tr>
+</tbody>
+</table>
+<h4 id="935">9.3.5 驱动代码骨架（可直接落地）</h4>
+<pre><code class="language-c">/* tuya_stepper_28byj48.h — 示例：头部接 M1（须与线束一致） */
+typedef struct {
+    TUYA_GPIO_NUM_E pin_a;  /* M1_A GPIO50 */
+    TUYA_GPIO_NUM_E pin_b;  /* M1_B GPIO49 */
+    TUYA_GPIO_NUM_E pin_c;  /* M1_C GPIO18 */
+    TUYA_GPIO_NUM_E pin_d;  /* M1_D GPIO19 */
+    uint32_t step_delay_ms;
+} stepper_28byj48_cfg_t;
+
+OPERATE_RET stepper_28byj48_init(const stepper_28byj48_cfg_t *cfg);
+OPERATE_RET stepper_28byj48_rotate(int32_t steps);  /* 正=顺时针，负=逆时针 */
+void stepper_28byj48_stop(void);
+OPERATE_RET stepper_head_rotate_deg(int32_t deg);     /* 封装：deg * 4096 / 360 */
+</code></pre>
+<pre><code class="language-c">/* tuya_stepper_28byj48.c 核心片段 */
+static const uint8_t s_half_step[8][4] = {
+    {1,0,0,0}, {1,1,0,0}, {0,1,0,0}, {0,1,1,0},
+    {0,0,1,0}, {0,0,1,1}, {0,0,0,1}, {1,0,0,1},
+};
+
+static stepper_28byj48_cfg_t s_cfg;
+static volatile uint8_t s_run;
+static int8_t s_phase;
+
+static void __apply_phase(uint8_t idx)
+{
+    const uint8_t *p = s_half_step[idx &amp; 7];
+    tkl_gpio_write(s_cfg.pin_a, p[0]);
+    tkl_gpio_write(s_cfg.pin_b, p[1]);
+    tkl_gpio_write(s_cfg.pin_c, p[2]);
+    tkl_gpio_write(s_cfg.pin_d, p[3]);
+}
+
+OPERATE_RET stepper_28byj48_rotate(int32_t steps)
+{
+    int8_t dir = (steps &gt; 0) ? 1 : -1;
+    uint32_t n = (steps &gt; 0) ? steps : -steps;
+
+    s_run = 1;
+    while (n-- &amp;&amp; s_run) {
+        s_phase = (s_phase + dir + 8) % 8;
+        __apply_phase(s_phase);
+        tal_system_sleep(s_cfg.step_delay_ms);
+    }
+    stepper_28byj48_stop();
+    return OPRT_OK;
+}
+
+void stepper_28byj48_stop(void)
+{
+    s_run = 0;
+    tkl_gpio_write(s_cfg.pin_a, 0);
+    tkl_gpio_write(s_cfg.pin_b, 0);
+    tkl_gpio_write(s_cfg.pin_c, 0);
+    tkl_gpio_write(s_cfg.pin_d, 0);
+}
+</code></pre>
+<p><strong>M1 初始化示例（CN17）：</strong></p>
+<pre><code class="language-c">stepper_28byj48_cfg_t head = {
+    .pin_a = TUYA_GPIO_NUM_50,
+    .pin_b = TUYA_GPIO_NUM_49,
+    .pin_c = TUYA_GPIO_NUM_18,
+    .pin_d = TUYA_GPIO_NUM_19,
+    .step_delay_ms = 3,
+};
+stepper_28byj48_init(&amp;head);
+</code></pre>
+<p><strong>M0 初始化示例（CN16）：</strong> 引脚改为 GPIO22～25。</p>
+<blockquote>
+<p>SDK 中 <strong>无</strong> 28BYJ48/ULN2003 现成驱动；<code>tuya_robot_actions</code> 面向舵机 PWM，不可直接复用。</p>
+</blockquote>
+<h4 id="936">9.3.6 与悟空业务集成</h4>
+<ul>
+<li><strong>角度限制：</strong> 头部宜软件限位（如 ±90°），避免线束绞断；无限位开关时靠步数计数开环。</li>
+<li><strong>与 AI 对话并发：</strong> 转动放在低优先级线程，勿阻塞 <code>wukong_ai_mode_dispatch</code>。</li>
+<li><strong>DP/技能：</strong> 可在 <code>src/wukong/skills/</code> 增加「转头」技能，内部调 <code>stepper_head_rotate_deg()</code>。</li>
+<li><strong>产测：</strong> 确认 CNx.1 有 <strong>5V</strong> 后，逐相拉低 GPIO，测 ULN2003 对应 OUT 吸合。</li>
+</ul>
+<h4 id="937">9.3.7 调试顺序</h4>
+<ol>
+<li>万用表确认所用连接器 <strong>Pin1 = 5V</strong>（网表 <code>5V</code> 网络）。</li>
+<li>手动拉低 GPIO50，应仅 A 相吸合（听得到「哒」声）。</li>
+<li>单步 8 拍循环，轴应缓慢连续转。</li>
+<li>测 4096 步是否约一圈，校准 <code>step_delay_ms</code> 与机构零位。</li>
+</ol>
+<hr>
+<h3 id="94">9.4 三外设联调与依赖关系</h3>
+<pre><code class="language-mermaid">flowchart LR
+    subgraph Boot
+        A[PMIC I2C0] --&gt; B[LCD SPI init]
+        A --&gt; C[Camera DVP init]
+        B --&gt; D[LVGL UI]
+        C --&gt; E[预览/AI]
+    end
+  F[Stepper 线程] -.-&gt;|独立 GPIO| G[头部转动]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>外设</th>
+<th>依赖</th>
+<th>冲突点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LCD</td>
+<td>SPI0 独占 P44～47</td>
+<td>与 DVP/SDIO 无引脚冲突</td>
+</tr>
+<tr>
+<td>GC2145</td>
+<td>I2C0 + DVP 并口</td>
+<td>I2C0 与 PMIC/IMU/ALS 分时</td>
+</tr>
+<tr>
+<td>28BYJ48</td>
+<td>M1 GPIO50/49/18/19</td>
+<td><strong>与 SDIO 无冲突</strong>（SD 用 P2～P7）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="10">10. 上电与联调检查清单</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>现象</th>
+<th>检查步骤</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>整机无电流</td>
+<td>VBUS/VBAT → AXP_PS → <strong>Pin2 3V3</strong> → VDD_3V3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>T5 无日志</td>
+<td>CH342 USB；量 <strong>P0/P1（Pin15/12）</strong> LOG 口</td>
+</tr>
+<tr>
+<td>3</td>
+<td>语音无唤醒</td>
+<td>VC-02 供电；<strong>RXD/TXD（Pin36/37）</strong>；<strong>P26/GPIO26</strong> KWS</td>
+</tr>
+<tr>
+<td>4</td>
+<td>摄像头黑屏</td>
+<td>FPC1：<strong>AVDD_2V8/DVDD_1V8/VDDCAM_2V8</strong>；<strong>P51</strong> DVP_RST；I2C0 P20/P21→Q1/Q2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>LCD 不亮</td>
+<td><strong>CN4.7/9</strong> 有 VDD_3V3；SPI P44/P46/P45；RST P43；<strong>LCD_BL</strong> P42→Q9→LEDK</td>
+</tr>
+<tr>
+<td>6</td>
+<td>TF 不识别</td>
+<td>VDD_3V3_SD；<strong>P2～P7（Pin23～18）</strong> SDIO pinmux</td>
+</tr>
+<tr>
+<td>7</td>
+<td>4G 无网</td>
+<td>SIM；RF1；<strong>P52/GPIO52</strong> RST_CAT</td>
+</tr>
+<tr>
+<td>8</td>
+<td>电机不转</td>
+<td>CN16/17 的 5V；M0/M1 GPIO 见 §5.8</td>
+</tr>
+<tr>
+<td>9</td>
+<td>喇叭无声</td>
+<td><strong>P17/GPIO17</strong> SPK_CTL；LP/LN 至功放</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="11-pin">11. 附录：本板已用引脚速查（按 Pin 排序）</h2>
+<table>
+<thead>
+<tr>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>本板网络名</th>
+<th>模块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>GND</td>
+<td>—</td>
+<td>GND</td>
+<td>电源</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3V3</td>
+<td>—</td>
+<td>3V3_T5</td>
+<td>电源</td>
+</tr>
+<tr>
+<td>3</td>
+<td>RST</td>
+<td>—</td>
+<td>T5_RST</td>
+<td>系统</td>
+</tr>
+<tr>
+<td>4</td>
+<td>P20</td>
+<td>GPIO20</td>
+<td>I2C_SYS_SCL</td>
+<td>I2C0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>P21</td>
+<td>GPIO21</td>
+<td>I2C_SYS_SDA</td>
+<td>I2C0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>P22</td>
+<td>GPIO22</td>
+<td>M0_A</td>
+<td>电机 M0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>P23</td>
+<td>GPIO23</td>
+<td>M0_B</td>
+<td>电机 M0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>P24</td>
+<td>GPIO24</td>
+<td>M0_C</td>
+<td>电机 M0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>P25</td>
+<td>GPIO25</td>
+<td>M0_D</td>
+<td>电机 M0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>P26</td>
+<td>GPIO26</td>
+<td>VC02_KWS</td>
+<td>语音</td>
+</tr>
+<tr>
+<td>11</td>
+<td>P28</td>
+<td>GPIO28</td>
+<td>（TP19，未用）</td>
+<td>测试点</td>
+</tr>
+<tr>
+<td>12</td>
+<td>P1</td>
+<td>GPIO1</td>
+<td>LOG_RX</td>
+<td>UART1</td>
+</tr>
+<tr>
+<td>13</td>
+<td>DN</td>
+<td>—</td>
+<td>USB_4G_DM</td>
+<td>USB</td>
+</tr>
+<tr>
+<td>14</td>
+<td>DP</td>
+<td>—</td>
+<td>USB_4G_DP</td>
+<td>USB</td>
+</tr>
+<tr>
+<td>15</td>
+<td>P0</td>
+<td>GPIO0</td>
+<td>LOG_TX</td>
+<td>UART1</td>
+</tr>
+<tr>
+<td>16</td>
+<td>P9</td>
+<td>GPIO9</td>
+<td>IR_EN</td>
+<td>GPIO</td>
+</tr>
+<tr>
+<td>17</td>
+<td>P8</td>
+<td>GPIO8</td>
+<td>SD_CD</td>
+<td>SDIO</td>
+</tr>
+<tr>
+<td>18</td>
+<td>P7</td>
+<td>GPIO7</td>
+<td>SD_D3</td>
+<td>SDIO</td>
+</tr>
+<tr>
+<td>19</td>
+<td>P6</td>
+<td>GPIO6</td>
+<td>SD_D2</td>
+<td>SDIO</td>
+</tr>
+<tr>
+<td>20</td>
+<td>P5</td>
+<td>GPIO5</td>
+<td>SD_D1</td>
+<td>SDIO</td>
+</tr>
+<tr>
+<td>21</td>
+<td>P4</td>
+<td>GPIO4</td>
+<td>SD_D0</td>
+<td>SDIO</td>
+</tr>
+<tr>
+<td>22</td>
+<td>P3</td>
+<td>GPIO3</td>
+<td>SD_CMD</td>
+<td>SDIO</td>
+</tr>
+<tr>
+<td>23</td>
+<td>P2</td>
+<td>GPIO2</td>
+<td>SD_CLK</td>
+<td>SDIO</td>
+</tr>
+<tr>
+<td>24</td>
+<td>P12</td>
+<td>GPIO12</td>
+<td>ADC_KEY</td>
+<td>ADC 按键</td>
+</tr>
+<tr>
+<td>27</td>
+<td>P14</td>
+<td>GPIO14</td>
+<td>SOS</td>
+<td>按键</td>
+</tr>
+<tr>
+<td>29</td>
+<td>P17</td>
+<td>GPIO17</td>
+<td>SPK_CTL</td>
+<td>音频</td>
+</tr>
+<tr>
+<td>30</td>
+<td>P18</td>
+<td>GPIO18</td>
+<td>M1_C</td>
+<td>电机 M1</td>
+</tr>
+<tr>
+<td>31</td>
+<td>P19</td>
+<td>GPIO19</td>
+<td>M1_D</td>
+<td>电机 M1</td>
+</tr>
+<tr>
+<td>32</td>
+<td>P47</td>
+<td>GPIO47</td>
+<td>LCD_D/C</td>
+<td>LCD SPI</td>
+</tr>
+<tr>
+<td>33</td>
+<td>P46</td>
+<td>GPIO46</td>
+<td>LCD_SDI</td>
+<td>LCD SPI</td>
+</tr>
+<tr>
+<td>34</td>
+<td>P45</td>
+<td>GPIO45</td>
+<td>LCD_CS</td>
+<td>LCD SPI</td>
+</tr>
+<tr>
+<td>35</td>
+<td>P44</td>
+<td>GPIO44</td>
+<td>LCD_SCLK</td>
+<td>LCD SPI</td>
+</tr>
+<tr>
+<td>36</td>
+<td>RXD</td>
+<td>—</td>
+<td>UART0_RX</td>
+<td>UART0</td>
+</tr>
+<tr>
+<td>37</td>
+<td>TXD</td>
+<td>—</td>
+<td>UART0_TX</td>
+<td>UART0</td>
+</tr>
+<tr>
+<td>38</td>
+<td>P43</td>
+<td>GPIO43</td>
+<td>LCD_RST</td>
+<td>LCD</td>
+</tr>
+<tr>
+<td>39</td>
+<td>P42</td>
+<td>GPIO42</td>
+<td>LCD_BL</td>
+<td>LCD</td>
+</tr>
+<tr>
+<td>40</td>
+<td>GND</td>
+<td>—</td>
+<td>GND</td>
+<td>电源</td>
+</tr>
+<tr>
+<td>41</td>
+<td>P27</td>
+<td>GPIO27</td>
+<td>DVP_MCLK</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>42</td>
+<td>P29</td>
+<td>GPIO29</td>
+<td>DVP_PCLK</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>43</td>
+<td>P50</td>
+<td>GPIO50</td>
+<td>M1_A</td>
+<td>电机 M1</td>
+</tr>
+<tr>
+<td>44</td>
+<td>P49</td>
+<td>GPIO49</td>
+<td>M1_B</td>
+<td>电机 M1</td>
+</tr>
+<tr>
+<td>45</td>
+<td>P41</td>
+<td>GPIO41</td>
+<td>PWRKEY_CTRL</td>
+<td>电源</td>
+</tr>
+<tr>
+<td>46</td>
+<td>P31</td>
+<td>GPIO31</td>
+<td>DVP_VSYNC</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>47</td>
+<td>P30</td>
+<td>GPIO30</td>
+<td>DVP_HSYNC</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>48</td>
+<td>P33</td>
+<td>GPIO33</td>
+<td>DVP_D1</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>49</td>
+<td>P32</td>
+<td>GPIO32</td>
+<td>DVP_D0</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>51</td>
+<td>P34</td>
+<td>GPIO34</td>
+<td>DVP_D2</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>52</td>
+<td>P35</td>
+<td>GPIO35</td>
+<td>DVP_D3</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>56</td>
+<td>P36</td>
+<td>GPIO36</td>
+<td>DVP_D4</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>57</td>
+<td>P37</td>
+<td>GPIO37</td>
+<td>DVP_D5</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>58</td>
+<td>P52</td>
+<td>GPIO52</td>
+<td>RST_CAT</td>
+<td>4G</td>
+</tr>
+<tr>
+<td>59</td>
+<td>P51</td>
+<td>GPIO51</td>
+<td>DVP_RST</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>60</td>
+<td>GND</td>
+<td>—</td>
+<td>GND</td>
+<td>电源</td>
+</tr>
+<tr>
+<td>61</td>
+<td>LN</td>
+<td>—</td>
+<td>AUDLN</td>
+<td>模拟音频</td>
+</tr>
+<tr>
+<td>62</td>
+<td>LP</td>
+<td>—</td>
+<td>AUDLP</td>
+<td>模拟音频</td>
+</tr>
+<tr>
+<td>63</td>
+<td>P38</td>
+<td>GPIO38</td>
+<td>DVP_D6</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>64</td>
+<td>P39</td>
+<td>GPIO39</td>
+<td>DVP_D7</td>
+<td>DVP</td>
+</tr>
+<tr>
+<td>66</td>
+<td>MP1</td>
+<td>—</td>
+<td>MICP1</td>
+<td>模拟麦 1</td>
+</tr>
+<tr>
+<td>67</td>
+<td>MN1</td>
+<td>—</td>
+<td>MICN1</td>
+<td>模拟麦 1</td>
+</tr>
+<tr>
+<td>68</td>
+<td>MN2</td>
+<td>—</td>
+<td>MICN2_T5</td>
+<td>模拟麦 2</td>
+</tr>
+<tr>
+<td>69</td>
+<td>MP2</td>
+<td>—</td>
+<td>MICP2_T5</td>
+<td>模拟麦 2</td>
+</tr>
+<tr>
+<td>70</td>
+<td>MBS</td>
+<td>—</td>
+<td>MICBIAS</td>
+<td>麦偏置</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="12_1">12. 附录：网表有名但产品未使用的网络（不纳入接口表）</h2>
+<p>以下网络在 <code>Netlist_Schematic1_2026-06-16.tel</code> 中出现，但 <strong>未连接功能外设</strong>（仅 U32 悬空或仅测试点），固件无需配置：</p>
+<table>
+<thead>
+<tr>
+<th>网络名</th>
+<th>网表连接</th>
+<th>Pin</th>
+<th>丝印</th>
+<th>GPIO</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AUD_SCL0</td>
+<td>U32.50</td>
+<td>50</td>
+<td>P48</td>
+<td>GPIO48</td>
+<td>无外部 Codec/I2C 器件</td>
+</tr>
+<tr>
+<td>AUD_SCL1</td>
+<td>U32.53</td>
+<td>53</td>
+<td>P53</td>
+<td>GPIO53</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>GPIO_AI</td>
+<td>U32.55</td>
+<td>55</td>
+<td>P55</td>
+<td>GPIO55</td>
+<td>仅 U32，未接外设</td>
+</tr>
+<tr>
+<td>FLAG_AI</td>
+<td>TP18, U32.54</td>
+<td>54</td>
+<td>P54</td>
+<td>GPIO54</td>
+<td>仅测试点 TP18</td>
+</tr>
+<tr>
+<td>UART_RX_AI</td>
+<td>TP17, U32.65</td>
+<td>65</td>
+<td>P40</td>
+<td>GPIO40</td>
+<td>仅测试点 TP17</td>
+</tr>
+<tr>
+<td>LED_0</td>
+<td>U32.28</td>
+<td>28</td>
+<td>P16</td>
+<td>GPIO16</td>
+<td>无外挂 LED</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="13">13. 附录：待确认项</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>步进电机机构绑定</td>
+<td>网表仅有 M0/M1；头部 28BYJ48 接 CN16 或 CN17 须对线束/BOM</td>
+</tr>
+<tr>
+<td>ST7789 MADCTL</td>
+<td>实机确认竖屏 0x36 与 <code>TUYA_LCD_ROTATION_VAL</code></td>
+</tr>
+<tr>
+<td>SD_CD 极性</td>
+<td>P8/GPIO8，网表接 CARD1.CD + D25 + R79</td>
+</tr>
+<tr>
+<td>本板 BOARD 宏</td>
+<td>建议 <code>src/boards/</code> 新建产品板目录并接入 §9 模板</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="14">14. 修订记录</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1.0</td>
+<td>2026-06-16</td>
+<td>初版（网表 + SDK）</td>
+</tr>
+<tr>
+<td>v1.1</td>
+<td>2026-06-16</td>
+<td>按 T5-E1-IPEX §2.2 修正 Pin↔GPIO 映射；增加丝印名称列与官方 70 引脚总表</td>
+</tr>
+<tr>
+<td>v1.2</td>
+<td>2026-06-16</td>
+<td>剔除网表有但产品未使用的网络（AUD_SCL0/1、GPIO_AI、FLAG_AI、UART_RX_AI、LED_0 等）</td>
+</tr>
+<tr>
+<td>v1.2.1</td>
+<td>2026-06-16</td>
+<td>修正误报：SD_D2/D3 与 M1_C/M1_D 为不同引脚，无硬件复用</td>
+</tr>
+<tr>
+<td>v1.3</td>
+<td>2026-06-16</td>
+<td>补充 ST7789/HXR0336N011、GC2145、28BYJ48 驱动开发指南（§9）；明确 CIS I2C=GPIO20/21</td>
+</tr>
+<tr>
+<td>v1.3.1</td>
+<td>2026-06-16</td>
+<td><strong>以网表为准</strong>复核：FPC1/CN4 全引脚表、CN4 供电/背光(Q9)、CIS_PWDM、ULN2003 位号、连接器索引</td>
+</tr>
+</tbody>
+</table>
+  </div>
+</body>
+</html>

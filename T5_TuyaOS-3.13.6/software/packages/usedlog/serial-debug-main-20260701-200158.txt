@@ -1,0 +1,1256 @@
+[20:01:52.727] [RX ]  08:00:04.562 ty N][0x60fdef34][product_board_lcd_debug.c:64] lcd dbg: red full-screen test start (240x320)
+[20:01:52.739] [RX ] wifid:I(4979):[KW:]scanu_confirm:status=0,req_type=0,upload_cnt=43,recv_cnt=43,time=1604609us,result=23,rfcli=1
+[20:01:52.740] [RX ] W(4981):cif_bk_send_event
+[20:01:52.740] [RX ] BK_EVT_SCAN_WIFI_IND
+[20:01:52.740] [RX ] scan_cb
+[20:01:52.740] [RX ] wait scan complete
+[20:01:52.742] [RX ] scan count: 23
+[20:01:52.743] [RX ] [01-01 08:00:04.581 ty D][0x60fd9aec][netcfg_module.c:133] type:0x10020,is_set:0
+[20:01:52.744] [RX ] [01-01 08:00:04.581 ty D][0x60fd9aec][netcfg_module.c:133] type:0x10100,is_set:0
+[20:01:52.747] [RX ] [01-01 08:00:04.581 ty D][0x60fd9aec][netcfg_module.c:133] type:0x10020,is_set:1
+[20:01:52.748] [RX ] [01-01 08:00:04.581 ty D][0x60fd9aec][tuya_wifi_link.c:163] get work mode:2
+[20:01:52.750] [RX ] [01-01 08:00:04.581 ty D][0x60fd9aec][tuya_wifi_link.c:170] start ap netcfg, wk_md:3
+[20:01:52.751] [RX ] ssid:SmartLife-E70A, key:, channel: 6
+[20:01:52.753] [RX ] W(4985):cp set ap ip: 192.168.176.1, mask: 255.255.255.0, gw: 192.168.176.1, dns: 192.168.176.1
+[20:01:52.754] [RX ] wifid:I(4986):mm_add_if_req: succ 1, vif_idx=2, type=0, p2p=0
+[20:01:52.757] [RX ] wifid:I(4988):[KW:]mm_set_vif_state,vif=1,vif_type=2,is_active=1, aid=0x0,rssi=0
+[20:01:52.757] [RX ] netif_set_up 860
+[20:01:52.758] [RX ] [01-01 08:00:04.591 ty D][0x60fd9aec][tuya_wifi_netcfg.c:656] start ap success:SmartLife-E70A
+[20:01:52.761] [RX ] [01-01 08:00:04.592 ty D][0x60fd9aec][netcfg_module.c:133] type:0x10020,is_set:0
+[20:01:52.762] [RX ] [01-01 08:00:04.592 ty D][0x60fd9aec][netcfg_module.c:133] type:0x10100,is_set:0
+[20:01:52.764] [RX ] [01-01 08:00:04.592 ty D][0x60fd9aec][netcfg_module.c:133] type:0x10020,is_set:0
+[20:01:52.765] [RX ] [01-01 08:00:04.592 ty D][0x60fd9aec][netcfg_module.c:133] type:0x10100,is_set:0
+[20:01:52.768] [RX ] [01-01 08:00:04.593 ty D][0x60fd9aec][tuya_svc_netmgr_linkage.c:104] link[2][1] is_up[0] active_link[2][1] status[0]
+[20:01:52.771] [RX ] [01-01 08:00:04.593 ty N][0x60fd9aec][tuya_wifi_status.c:175] cur stat:13  0x0 -->>
+[20:01:52.772] [RX ] [01-01 08:00:04.593 ty N][0x60fd9aec][tuya_wifi_status.c:177] wifi netstat changed to:13  -->>
+[20:01:52.775] [RX ] [01-01 08:00:04.593 ty D][0x60fd9aec][netcfg_module.c:335] netcfg module start type:0x10100
+[20:01:52.776] [RX ] [01-01 08:00:04.594 ty N][0x60fd9aec][tuya_wifi_reset.c:452] timer stated, short timer:0x0, long timer:0x0
+[20:01:52.777] [RX ] [01-01 08:00:04.594 ty D][0x60fd9aec][tuya_wifi_netcfg.c:879] nc_tp:10, md:0
+[20:01:52.780] [RX ] [01-01 08:00:04.594 ty N][0x60fd9aec][tuya_bt_link.c:64] bt startup attr:1
+[20:01:52.782] [RX ] [01-01 08:00:04.595 ty D][0x60fd9aec][tuya_bt_link.c:79] bt link open
+[20:01:52.783] [RX ] [01-01 08:00:04.595 ty N][0x60fd9aec][tuya_ble_svc.c:1287] upd product_id type:0 5rkngypnnu9k3qdq
+[20:01:52.786] [RX ] [01-01 08:00:04.597 ty D][0x60fd9aec][tuya_ble_cryption.c:491] read encrpt flag from flash: 1.
+[20:01:52.789] [RX ] [01-01 08:00:04.599 ty D][0x60fadabc][tal_thread.c:224] Thread:host_main_threa Exec Start. Set to Running Stat 0x60fadabc
+[20:01:52.791] [RX ] [01-01 08:00:04.599 ty I][0x60fd9aec][tal_thread.c:200] thread_create name:host_main_thread_hdl,stackDepth:5120,totalstackDepth:37888,priority:9
+[20:01:52.793] [RX ] [01-01 08:00:04.600 ty D][0x60fadabc][ble_hs.c:552] ble host stage 2 start
+[20:01:52.793] [RX ] 
+[20:01:52.794] [RX ] [01-01 08:00:04.613 ty D][0x60fadabc][ble_hs_startup.c:329] BLE HCI Version = 11
+[20:01:52.801] [RX ] [01-01 08:00:04.639 ty I][0x60fadabc][ble_hs_startup.c:145] le acl buf sz = 251,max buf = 13 
+[20:01:52.801] [RX ] 
+[20:01:52.802] [RX ] [01-01 08:00:04.639 ty I][0x60fadabc][ble_hs_hci.c:117] acl buf sz = 251, max pkt = 13, avail pkt = 13
+[20:01:52.802] [RX ] 
+[20:01:52.813] [RX ] [01-01 08:00:04.652 ty I][0x60fadabc][tkl_bluetooth.c:584] Stack sync
+[20:01:52.822] [RX ] [01-01 08:00:04.660 ty D][0x60fd9aec][tuya_ble_svc.c:1202] rev ble event 1
+[20:01:52.823] [RX ] [01-01 08:00:04.660 ty D][0x60fd9aec][tuya_ble_svc.c:1900] set ble serv stat:0, curr:0
+[20:01:52.824] [RX ] [01-01 08:00:04.660 ty D][0x60fd9aec][tuya_ble_svc.c:1735] start ble monitor
+[20:01:52.827] [RX ] [01-01 08:00:04.661 ty N][0x60fd9aec][tuya_ble_svc.c:1382] ty bt sdk init success finish
+[20:01:52.829] [RX ] [01-01 08:00:04.661 ty D][0x60fd9aec][tuya_ble_netcfg.c:158] net_cfg sub session created
+[20:01:52.831] [RX ] [01-01 08:00:04.661 ty D][0x60fd9aec][tuya_ble_svc.c:2443] get_wifi_list sub session created
+[20:01:52.833] [RX ] [01-01 08:00:04.662 ty D][0x60fd9aec][tuya_ble_svc.c:2447] get_netcfg_stat sub session created
+[20:01:52.834] [RX ] [01-01 08:00:04.662 ty D][0x60fd9aec][tuya_ble_svc.c:2451] get_dev_log sub session created
+[20:01:52.837] [RX ] [01-01 08:00:04.662 ty D][0x60fd9aec][tuya_ble_svc.c:2455] get_ap_name sub session created
+[20:01:52.838] [RX ] [01-01 08:00:04.662 ty D][0x60fd9aec][tuya_ble_svc.c:2459] get_multi_net sub session created
+[20:01:52.841] [RX ] [01-01 08:00:04.662 ty D][0x60fd9aec][tuya_ble_active.c:604] net_active sub session created
+[20:01:52.842] [RX ] [01-01 08:00:04.663 ty D][0x60fd9aec][tuya_ble_svc.c:2443] get_wifi_list sub session created
+[20:01:52.845] [RX ] [01-01 08:00:04.663 ty D][0x60fd9aec][tuya_ble_svc.c:2447] get_netcfg_stat sub session created
+[20:01:52.846] [RX ] [01-01 08:00:04.663 ty D][0x60fd9aec][tuya_ble_svc.c:2451] get_dev_log sub session created
+[20:01:52.849] [RX ] [01-01 08:00:04.663 ty D][0x60fd9aec][tuya_ble_svc.c:2455] get_ap_name sub session created
+[20:01:52.850] [RX ] [01-01 08:00:04.663 ty D][0x60fd9aec][tuya_ble_svc.c:2459] get_multi_net sub session created
+[20:01:52.852] [RX ] [01-01 08:00:04.664 ty N][0x60fd9aec][tuya_ble_sdk.c:472] start ble adv!!!
+[20:01:52.853] [RX ] [01-01 08:00:04.664 ty N][0x60fd9aec][ble_gap.c:2505] Start Adv
+[20:01:52.856] [RX ] [01-01 08:00:04.678 ty E][0x60fd9aec][tuya_svc_timer_task.c:1385] read timer_full_key failed
+[20:01:52.858] [RX ] [01-01 08:00:04.678 ty D][0x60fd9aec][tuya_svc_timer_task.c:430] no timer
+[20:01:52.859] [RX ] [01-01 08:00:04.678 ty D][0x60fd9aec][tuya_svc_timer_task.c:1489] --- timer_cnt = 0
+[20:01:52.862] [RX ] [01-01 08:00:04.678 ty N][0x60fd9aec][tuya_svc_devos.c:289] __devos_init_evt success
+[20:01:52.863] [RX ] [01-01 08:00:04.679 ty D][0x60fd9aec][netcfg_module.c:116] start 0x10100 ret:0
+[20:01:52.864] [RX ] [01-01 08:00:04.679 ty D][0x60fd9aec][netcfg_module.c:335] netcfg module start type:0x10020
+[20:01:52.867] [RX ] [01-01 08:00:04.679 ty D][0x60fd9aec][tuya_wifi_netcfg.c:223] nw cfg cb ret:0
+[20:01:52.869] [RX ] [01-01 08:00:04.680 ty D][0x60fd9aec][tuya_ble_sdk.c:603] adv_stat:1, conn_stat:0, adv_scan_stat:255
+[20:01:52.871] [RX ] [01-01 08:00:04.680 ty D][0x60fd9aec][tuya_ble_sdk.c:619] ble pre stat:0, curr stat:1
+[20:01:52.873] [RX ] [01-01 08:00:04.680 ty D][0x60fd9aec][tal_sleep.c:96] <tal_cpu_lp>  disable_cnt:3
+[20:01:52.874] [RX ] [01-01 08:00:04.680 ty D][0x60fd9aec][tal_wifi.c:962] <tal_wifi_lp_dis> disable_cnt:2
+[20:01:52.877] [RX ] [01-01 08:00:04.680 ty D][0x60fd9aec][tuya_ble_svc.c:254] upd adv para, send conn_req beacon.
+[20:01:52.878] [RX ] [01-01 08:00:04.681 ty D][0x60fd9aec][tuya_ble_svc.c:122] adv_data 31 <0x60faf2a1>
+[20:01:52.881] [RX ] 02 01 06 03 02 50 fd 17 16 50 fd 43 0c 00 10 35 72 6b 6e 67 79 70 6e 6e 75 39 6b 33 71 64 71 
+[20:01:52.881] [RX ] 
+[20:01:52.882] [RX ] [01-01 08:00:04.683 ty D][0x60fd9aec][tuya_ble_svc.c:122] rsp_data 31 <0x60faf2c1>
+[20:01:52.884] [RX ] 17 ff d0 07 00 00 44 29 fe 49 3e c2 78 22 ca 43 45 b0 e3 fc 23 59 55 1a 06 09 54 55 59 41 5f 
+[20:01:52.884] [RX ] 
+[20:01:52.886] [RX ] [01-01 08:00:04.685 ty I][0x60fd9aec][ble_gap.c:2244] GAP init: stop adv
+[20:01:52.888] [RX ] [01-01 08:00:04.705 ty N][0x60fd9aec][ble_gap.c:2505] Start Adv
+[20:01:52.889] [RX ] [01-01 08:00:04.719 ty N][0x60fd9aec][tuya_ble_svc.c:1469] ble adv updated
+[20:01:52.890] [RX ] [01-01 08:00:04.719 ty D][0x60fd9aec][tuya_ble_sdk.c:603] adv_stat:1, conn_stat:255, adv_scan_stat:255
+[20:01:52.893] [RX ] [01-01 08:00:04.720 ty D][0x60fd9aec][tuya_ble_sdk.c:619] ble pre stat:1, curr stat:1
+[20:01:52.895] [RX ] [01-01 08:00:04.720 ty D][0x60fd9aec][ap_netcfg.c:1512] ap cfg start:65568
+[20:01:52.896] [RX ] tkl_net_socket_create type(1), fd(3)!
+[20:01:52.897] [RX ] [01-01 08:00:04.720 ty D][0x60fd9aec][ap_netcfg.c:1389] ap netcfg server ip:192.168.176.1
+[20:01:52.900] [RX ] [01-01 08:00:04.721 ty D][0x60fd13bc][tal_thread.c:224] Thread:ap_tcp_v4 Exec Start. Set to Running Stat 0x60fd13bc
+[20:01:52.901] [RX ] [01-01 08:00:04.721 ty D][0x60fd13bc][ap_netcfg.c:905] start TCP ap thread
+[20:01:52.903] [RX ] tkl_net_socket_create type(0), fd(4)!
+[20:01:52.906] [RX ] [01-01 08:00:04.721 ty I][0x60fd9aec][tal_thread.c:200] thread_create name:ap_tcp_v4,stackDepth:3584,totalstackDepth:41472,priority:5
+[20:01:52.907] [RX ] [01-01 08:00:04.722 ty D][0x60fd9aec][wifi_netcfg_frame_transporter.c:319] ----netcfgType:0x10020
+[20:01:52.909] [RX ] tkl_net_socket_create type(1), fd(5)!
+[20:01:52.910] [RX ] [01-01 08:00:04.722 ty D][0x60fd9aec][wifi_netcfg_frame_sniffer.c:45] ----register netcfgType:0x10020
+[20:01:52.911] [RX ] tkl_net_socket_create type(0), fd(6)!
+[20:01:52.913] [RX ] [01-01 08:00:04.723 ty D][0x60fd13bc][ap_netcfg.c:948] Waiting for a remote connection
+[20:01:52.915] [RX ] [01-01 08:00:04.724 ty D][0x60fd9aec][wifi_netcfg_frame_sniffer.c:104] ----start netcfgType:0x10020
+[20:01:52.918] [RX ] [01-01 08:00:04.724 ty E][0x60fd9aec][wifi_netcfg_frame_transporter.c:359] timer is not run,wait
+[20:01:52.919] [RX ] [01-01 08:00:04.724 ty D][0x60fd9aec][netcfg_module.c:116] start 0x10020 ret:0
+[20:01:52.921] [RX ] [01-01 08:00:04.725 ty D][0x60fd9aec][tuya_ble_sdk.c:603] adv_stat:1, conn_stat:255, adv_scan_stat:255
+[20:01:52.922] [RX ] [01-01 08:00:04.725 ty D][0x60fd9aec][tuya_ble_sdk.c:619] ble pre stat:1, curr stat:1
+[20:01:53.101] [RX ] [01-01 08:00:04.939 ty N][0x60fd59e4][tuya_stepper_28byj48.c:101] stepper M0 init A=22 B=23 C=24 D=25 delay=24ms
+[20:01:53.103] [RX ] [01-01 08:00:04.939 ty N][0x60fd59e4][tuya_stepper_28byj48.c:101] stepper M1 init A=50 B=49 C=18 D=19 delay=1ms
+[20:01:53.106] [RX ] [01-01 08:00:04.939 ty N][0x60fd59e4][product_board_motor_debug.c:45] motor demo: LR ±30deg(341 steps) UD ±2rev(8192 steps)
+[20:01:53.108] [RX ] [01-01 08:00:04.939 ty N][0x60fd59e4][product_board_motor_debug.c:50] motor demo: [0] fwd
+[20:01:53.398] [RX ] [01-01 08:00:05.237 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[20:01:53.474] [RX ] wifid:I(5716):mm_bcn_transmit beacon tbtt already passed, next_tbtt = 32,is_on_chan 0
+[20:01:53.573] [RX ] [01-01 08:00:05.374 ty D][0x60fdd0dc][tuya_ai_toy_key.c:94] reset cnt clear!
+[20:01:53.762] [RX ] [01-01 08:00:05.562 ty N][0x60fdef34][product_board_lcd_debug.c:73] lcd dbg: red full-screen test done
+[20:01:53.764] [RX ] [01-01 08:00:05.562 ty D][0x60fdef34][img_direct_flush.c:728] [tuya_img_direct_flush_poweronpage_start:728]:------empty poweronpage input ???
+[20:01:53.764] [RX ] 
+[20:01:53.767] [RX ] [01-01 08:00:05.562 ty E][0x60fdef34][tuya_ai_display.c:1302] ignore img direct flush poweronpage !
+[20:01:53.768] [RX ] [01-01 08:00:05.562 ty D][0x60fdef34][log_seq.c:987] log seq enable: 0
+[20:01:53.770] [RX ] [01-01 08:00:05.563 ty N][0x60fdef34][tuya_ai_toy.c:724] ai toy -> init
+[20:01:53.771] [RX ] [01-01 08:00:05.563 ty N][0x60fdef34][tuya_ai_toy.c:150] ai toy -> load config
+[20:01:53.774] [RX ] [01-01 08:00:05.563 ty D][0x60fdef34][tuya_ai_toy.c:160] ai toy -> no saved config, use default
+[20:01:53.776] [RX ] [01-01 08:00:05.563 ty D][0x60fdef34][tuya_ai_toy_led.c:79] ai toy -> init led 56
+[20:01:53.777] [RX ] GPIO56 not found in GPIO_DEFAULT_DEV_CONFIG table
+[20:01:53.778] [RX ] [01-01 08:00:05.564 ty D][0x60fdef34][tuya_ai_toy_key.c:220] ai toy -> init key 12
+[20:01:53.781] [RX ] [01-01 08:00:05.564 ty D][0x60fcf8e4][tal_thread.c:224] Thread:key_handle Exec Start. Set to Running Stat 0x60fcf8e4
+[20:01:53.784] [RX ] [01-01 08:00:05.564 ty I][0x60fdef34][tal_thread.c:200] thread_create name:key_handle,stackDepth:4096,totalstackDepth:45568,priority:5
+[20:01:53.786] [RX ] [01-01 08:00:05.565 ty D][0x60fdef34][tuya_ai_toy_key.c:242] ai toy key 12 seqk time 200, longk time 400
+[20:01:53.788] [RX ] [01-01 08:00:05.565 ty N][0x60fdef34][tuya_ai_toy.c:745] ai toy -> init camera
+[20:01:53.791] [RX ] [01-01 08:00:05.565 ty I][0x60fdef34][tuya_device_camera.c:225] tuya device camera init
+[20:01:53.792] [RX ] [01-01 08:00:05.576 ty I][0x60fdef34][tal_dvp.c:595] set dvp i2c, clk: 20 sda: 21, idx: 0
+[20:01:53.792] [RX ] 
+[20:01:53.793] [RX ] [01-01 08:00:05.576 ty I][0x60fdef34][tal_dvp.c:604] dvp i2c: reuse board-inited I2C0
+[20:01:53.793] [RX ] 
+[20:01:53.800] [RX ] [01-01 08:00:05.600 ty I][0x60fdef34][tuya_axp2101.c:455] [axp2101] camera rails on: BLDO1=2800mV BLDO2=1800mV ALDO3=2800mV
+[20:01:53.803] [RX ] [01-01 08:00:05.602 ty I][0x60fdef34][tuya_axp2101.c:430] [axp2101] camera rails verify: reg0x90=0x75 BLDO1(en=1 2800mV) BLDO2(en=1 1800mV) ALDO3(en=1 2800mV)
+[20:01:53.891] [RX ] dvp_gc2145_detect, Act id_h 0x21, Obj id_h 0x21
+[20:01:53.891] [RX ] dvp_gc2145_detect, Act id_l 0x45, Obj id_l 0x45
+[20:01:54.118] [RX ] ---- trace bk_dma_alloc 282, user id: 0, chan id: 2
+[20:01:54.119] [RX ] JPEG ENCODE CFG SET: max size: 25600 byte, min size: 10240 byte
+[20:01:54.122] [RX ] [01-01 08:00:05.920 ty D][0x60fdef34][tal_dvp.c:1122] tal_dvp_stop, dvp stream stopped
+[20:01:54.122] [RX ] 
+[20:01:54.124] [RX ] [01-01 08:00:05.920 ty D][0x60fdef34][tal_camera.c:195] DVP init ok (stream off), output_mode=3, valid_fmts=0x3
+[20:01:54.126] [RX ] [01-01 08:00:05.920 ty D][0x60fdef34][tal_camera.c:217] tal_camera_init ok, type=0
+[20:01:54.127] [RX ] [01-01 08:00:05.920 ty D][0x60fdef34][tal_camera.c:264] stream 1 cb registered (valid_fmts=0x3, active=1)
+[20:01:54.130] [RX ] [01-01 08:00:05.921 ty D][0x60fdef34][tal_camera.c:264] stream 0 cb registered (valid_fmts=0x3, active=1)
+[20:01:54.133] [RX ] [01-01 08:00:05.921 ty D][0x60fdef34][tal_camera.c:264] stream 2 cb registered (valid_fmts=0x3, active=0)
+[20:01:54.136] [RX ] [01-01 08:00:05.922 ty D][0x60fc25a8][tal_thread.c:224] Thread:ty_dma2d Exec Start. Set to Running Stat 0x60fc25a8
+[20:01:54.138] [RX ] [01-01 08:00:05.922 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ty_dma2d,stackDepth:4096,totalstackDepth:49664,priority:5
+[20:01:54.140] [RX ] [01-01 08:00:05.922 ty N][0x60fdef34][tuya_port_dma2d.c:147] tuya_dma2d_init: tuya share DMA2D enabled!
+[20:01:54.140] [RX ] 
+[20:01:54.142] [RX ] [01-01 08:00:05.922 ty D][0x60fdef34][tuya_device_camera.c:259] camera init ok, type=0
+[20:01:54.145] [RX ] [01-01 08:00:05.924 ty N][0x60fdef34][tuya_p2p_app.c:337] [p2p] already activated, trigger event_active directly
+[20:01:54.147] [RX ] [01-01 08:00:05.924 ty N][0x60fdef34][tuya_p2p_app.c:318] __event_active_cb start
+[20:01:54.148] [RX ] [01-01 08:00:05.925 ty D][0x60fdef34][tuya_ipc_mqtt_subscribe.c:87] __mqtt_subscribe_init
+[20:01:54.151] [RX ] [01-01 08:00:05.925 ty D][0x60fdef34][tuya_tmm_control.c:128] register proto num 308
+[20:01:54.152] [RX ] [01-01 08:00:05.925 ty D][0x60fdef34][tuya_tmm_control.c:100] report_rtc_capability
+[20:01:54.154] [RX ] [01-01 08:00:05.926 ty D][0x60fdef34][ty_meta_report.c:190] need_report 1 mode 1
+[20:01:54.156] [RX ] [01-01 08:00:05.926 ty D][0x60fc1bcc][tal_thread.c:224] Thread:tuya_tmm_contro Exec Start. Set to Running Stat 0x60fc1bcc
+[20:01:54.159] [RX ] [01-01 08:00:05.926 ty I][0x60fdef34][tal_thread.c:200] thread_create name:tuya_tmm_control,stackDepth:2048,totalstackDepth:51712,priority:4
+[20:01:54.160] [RX ] [01-01 08:00:05.927 ty D][0x60fdef34][mqc_app.c:123] mq_pro:9000 cnt:9
+[20:01:54.163] [RX ] [01-01 08:00:05.928 ty D][0x60fc05c8][tal_thread.c:224] Thread:ai_client Exec Start. Set to Running Stat 0x60fc05c8
+[20:01:54.166] [RX ] [01-01 08:00:05.928 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_client,stackDepth:4096,totalstackDepth:55808,priority:4
+[20:01:54.169] [RX ] [01-01 08:00:05.928 ty N][0x60fdef34][tuya_ai_client.c:626] ai client init success, version:2
+[20:01:54.170] [RX ] [01-01 08:00:05.929 ty D][0x60fdef34][tuya_ai_encoder_opus.c:82] opus encoder bitrate: 16000
+[20:01:54.173] [RX ] [01-01 08:00:05.930 ty D][0x60fdef34][tuya_ai_encoder_opus.c:94] opus encoder bandwidth: 1102
+[20:01:54.175] [RX ] [01-01 08:00:05.930 ty D][0x60fdef34][tuya_ai_encoder_opus.c:106] opus encoder vbr: 0, dtx: 0, complexity: 0
+[20:01:54.177] [RX ] [01-01 08:00:05.930 ty D][0x60fdef34][tuya_ai_agent.c:1189] create audio encoder success 0x60fc046c
+[20:01:54.180] [RX ] [01-01 08:00:05.931 ty D][0x60fb8050][tal_thread.c:224] Thread:ai_agent_input Exec Start. Set to Running Stat 0x60fb8050
+[20:01:54.182] [RX ] [01-01 08:00:05.931 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_agent_input,stackDepth:40960,totalstackDepth:96768,priority:4
+[20:01:54.185] [RX ] [01-01 08:00:05.932 ty D][0x60fdef34][tuya_ai_input.c:587] ai input init success
+[20:01:54.186] [RX ] [01-01 08:00:05.932 ty D][0x60fb5b8c][tal_thread.c:224] Thread:ai_agent_output Exec Start. Set to Running Stat 0x60fb5b8c
+[20:01:54.191] [RX ] [01-01 08:00:05.932 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_agent_output,stackDepth:4096,totalstackDepth:100864,priority:4
+[20:01:54.192] [RX ] [01-01 08:00:05.933 ty D][0x60fdef34][tuya_ai_output.c:219] ai output init success
+[20:01:54.193] [RX ] [01-01 08:00:05.933 ty N][0x60fdef34][tuya_ai_agent.c:1268] ai agent init
+[20:01:54.196] [RX ] [01-01 08:00:05.933 ty D][0x60fb2ad0][tal_thread.c:224] Thread:ai_player Exec Start. Set to Running Stat 0x60fb2ad0
+[20:01:54.199] [RX ] [01-01 08:00:05.933 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_player,stackDepth:12288,totalstackDepth:113152,priority:4
+[20:01:54.202] [RX ] [01-01 08:00:05.934 ty D][0x60fdef34][wukong_audio_input_board.c:202] recorder vad mode 1
+[20:01:54.204] [RX ] [01-01 08:00:05.934 ty D][0x60fdef34][wukong_audio_input_board.c:203] recorder total ms 19201, slice ms 80, vad active 200 ms, vad off timeout 1000
+[20:01:54.206] [RX ] --- audio trace, init, sample: 16000, frame size: 640
+[20:01:54.207] [RX ] ---- trace bk_dma_alloc 282, user id: 3, chan id: 3
+[20:01:54.207] [RX ] ---- trace bk_dma_alloc 282, user id: 3, chan id: 4
+[20:01:54.209] [RX ] audio init complete, sample: 16000
+[20:01:54.210] [RX ] [aec_alg] aec dual_dmic:0,init_flags:0x1f
+[20:01:54.211] [RX ] [aec_alg] aec ver:20250916 fs:16000,aec frame samp cnt:320, frame_size:640
+[20:01:54.213] [RX ] aec_cfg 1:mode:0,dual_ch:0,flags:0x1f,interweave:0,dual_perp:1,dist:1,mic_swap:0,vol:13
+[20:01:54.215] [RX ] aec_cfg 2:ec_filter:0x27,ec_depth:10,drc_mode:10,mic_delay:16,max_mic_delay:1000
+[20:01:54.217] [RX ] aec_cfg 3:spcnt:0,ns_type:2,ns_filter:0x7,vad:1,vad_en:1,ec_only_out:1
+[20:01:54.218] [RX ] [01-01 08:00:05.939 ty D][0x60fdef34][wukong_audio_input_board.c:284] sample 16000, databits 16, channel 1
+[20:01:54.221] [RX ] [01-01 08:00:05.940 ty D][0x60fdef34][wukong_audio_input_board.c:285] spk io 17, spk io level 0
+[20:01:54.224] [RX ] [01-01 08:00:05.967 ty D][0x60fdef34][wukong_audio_aec_vad.c:63] wukong aec -> init, frame size 640, aec 0x60d18b6c, vad 0x60d06010, lineraraec 0x60d00338
+[20:01:54.226] [RX ] [01-01 08:00:05.968 ty I][0x60fdef34][tal_thread.c:200] thread_create name:record_task,stackDepth:2560,totalstackDepth:115712,priority:0
+[20:01:54.229] [RX ] [01-01 08:00:05.968 ty D][0x60cff87c][tal_thread.c:224] Thread:record_task Exec Start. Set to Running Stat 0x60cff87c
+[20:01:54.232] [RX ] [01-01 08:00:05.968 ty N][0x60fdef34][wukong_audio_input_board.c:213] wukong audio input -> start! mode is 1, task is 0x60d002fc
+[20:01:54.235] [RX ] [01-01 08:00:05.969 ty D][0x60fdef34][wukong_audio_input_board.c:217] need hunman voice detect, start __record_task
+[20:01:54.237] [RX ] [01-01 08:00:05.969 ty D][0x60fdef34][wukong_kws.c:497] default KWS tutuclear ver 802
+[20:01:54.239] [RX ] [01-01 08:00:05.969 ty D][0x60ce4d18][tal_thread.c:224] Thread:wukong_kws Exec Start. Set to Running Stat 0x60ce4d18
+[20:01:54.242] [RX ] [01-01 08:00:05.969 ty I][0x60fdef34][tal_thread.c:200] thread_create name:wukong_kws,stackDepth:6144,totalstackDepth:121856,priority:4
+[20:01:54.244] [RX ] [01-01 08:00:05.970 ty D][0x60fdef34][wukong_kws.c:393] wukong kws init success vad 1
+[20:01:54.247] [RX ] [01-01 08:00:05.970 ty D][0x60fdef34][tuya_iot_wifi_api.c:528] register wifi network monitor. interval:1
+[20:01:54.248] [RX ] [01-01 08:00:05.970 ty D][0x60fdef34][tuya_wifi_status.c:207] report wifi netstat[13] to callback  -->>
+[20:01:54.251] [RX ] [01-01 08:00:05.983 ty D][0x2804d768][wukong_audio_aec_vad.c:111] speexdsp process time: aec->5(ms), count = 1
+[20:01:54.251] [RX ] 
+[20:01:54.253] [RX ] [01-01 08:00:05.984 ty D][0x2804d768][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[20:01:54.253] [RX ] 
+[20:01:54.255] [RX ] [01-01 08:00:05.984 ty D][0x2804d768][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->0(ms), flag=2, count = 1
+[20:01:54.255] [RX ] 
+[20:01:54.269] [RX ] wifid:I(6511):[KW:]scanu_start_req:src_id=15,vif=0,dur=0,chan_cnt=13,ssid_len=0,bssid=0xffff-ffff-ffff
+[20:01:54.369] [RX ] [01-01 08:00:06.169 ty D][0x60ce4d18][tutuclear.c:35] tutuClear DM usage = 18808 bytes, addr = 0x28047b10
+[20:01:54.369] [RX ] 
+[20:01:54.371] [RX ] WAKEUP_info:nihaotuya-xiaozhitongxue-heytuya-hituya--200KB--20250804--MAT--RAW--FOR--TUYA--FROM--EASE--ON--T5-E1--info_end
+[20:01:54.394] [RX ] wifid:I(6634):[KW:]scanu_confirm:status=0,req_type=0,upload_cnt=8,recv_cnt=8,time=124290us,result=4,rfcli=1
+[20:01:54.394] [RX ] W(6636):cif_bk_send_event
+[20:01:54.422] [RX ] BK_EVT_SCAN_WIFI_IND
+[20:01:54.425] [RX ] [01-01 08:00:06.225 ty D][0x60fdef34][app_ipc_command.c:44] [aic_msg_send][44]-----------------cp1 recv cb no ready ???
+[20:01:54.425] [RX ] 
+[20:01:54.429] [RX ] [01-01 08:00:06.225 ty N][0x60fdef34][tuya_ai_display.c:1429] tuya_ai_text_msg_process: screen does not loaded, delay to process ai msg!!!
+[20:01:54.429] [RX ] 
+[20:01:54.430] [RX ] [01-01 08:00:06.226 ty D][0x60fdef34][tuya_ai_toy.c:222] network status = 13, ccode CN, language 0
+[20:01:54.433] [RX ] [01-01 08:00:06.226 ty N][0x60fdef34][tuya_ai_display.c:1429] tuya_ai_text_msg_process: screen does not loaded, delay to process ai msg!!!
+[20:01:54.433] [RX ] 
+[20:01:54.434] [RX ] scan_cb
+[20:01:54.436] [RX ] [01-01 08:00:06.227 ty D][0x60fdef34][app_ipc_command.c:44] [aic_msg_send][44]-----------------cp1 recv cb no ready ???
+[20:01:54.436] [RX ] 
+[20:01:54.440] [RX ] [01-01 08:00:06.227 ty N][0x60fdef34][tuya_ai_display.c:1429] tuya_ai_text_msg_process: screen does not loaded, delay to process ai msg!!!
+[20:01:54.440] [RX ] 
+[20:01:54.441] [RX ] [01-01 08:00:06.228 ty D][0x60fdef34][tuya_led.c:170] pinname:56
+[20:01:54.443] [RX ] [01-01 08:00:06.228 ty D][0x60fdef34][tuya_ai_agent.c:1810] mcp cb set
+[20:01:54.444] [RX ] [01-01 08:00:06.228 ty I][0x60fdef34][mcp_server.c:337] MCP server initialized: Wukong AI v3.0
+[20:01:54.446] [RX ] [01-01 08:00:06.228 ty I][0xAP crash happend, rr: 0x11
+[20:01:54.447] [RX ] build time => Jul  1 2026 17:44:11 !
+[20:01:54.447] [RX ] CPU1 Current regs:
+[20:01:54.447] [RX ] 0 r0 x 0x1008
+[20:01:54.448] [RX ] 1 r1 x 0x2
+[20:01:54.448] [RX ] 2 r2 x 0x280152d4
+[20:01:54.448] [RX ] 3 r3 x 0x28015090
+[20:01:54.448] [RX ] 4 r4 x 0x280150a4
+[20:01:54.450] [RX ] 5 r5 x 0x0
+[20:01:54.450] [RX ] 6 r6 x 0x28015090
+[20:01:54.450] [RX ] 7 r7 x 0x24
+[20:01:54.450] [RX ] 8 r8 x 0x2801506c
+[20:01:54.451] [RX ] 9 r9 x 0x0
+[20:01:54.451] [RX ] 10 r10 x 0x2801506c
+[20:01:54.451] [RX ] 11 r11 x 0x11111111
+[20:01:54.452] [RX ] 12 r12 x 0x24
+[20:01:54.452] [RX ] 14 sp x 0x60fdf014
+[20:01:54.452] [RX ] 15 lr x 0x213b7b7
+[20:01:54.452] [RX ] 16 pc x 0x11
+[20:01:54.454] [RX ] 17 xpsr x 0xab5c
+[20:01:54.454] [RX ] 18 msp x 0x28065f48
+[20:01:54.454] [RX ] 19 psp x 0x60fdefa8
+[20:01:54.455] [RX ] 20 primask x 0x1
+[20:01:54.455] [RX ] 21 basepri x 0x0
+[20:01:54.455] [RX ] 22 faultmask x 0x0
+[20:01:54.455] [RX ] 23 fpscr x 0x0
+[20:01:54.456] [RX ] 30 CPU1 xPSR x 0x3
+[20:01:54.456] [RX ] 31 LR x 0xffffffed
+[20:01:54.456] [RX ] 32 control x 0xc
+[20:01:54.458] [RX ] 40 MMFAR x 0xe000ed34
+[20:01:54.458] [RX ] 41 BFAR x 0xe000ed38
+[20:01:54.458] [RX ] 42 CFSR x 0x100000
+[20:01:54.459] [RX ] 43 HFSR x 0x40000000
+[20:01:54.459] [RX ] HardFault
+[20:01:54.459] [RX ] 
+[20:01:54.461] [RX ] Firmware name: app, hardware version: V1.0.0, software version: V1.0.0
+[20:01:54.461] [RX ] Fault on thread tuya_app_main
+[20:01:54.462] [RX ] ===== Thread stack information =====
+[20:01:54.463] [RX ]   addr: 60fdf010    data: 2801ab40
+[20:01:54.463] [RX ]   addr: 60fdf014    data: 2801ab4c
+[20:01:54.465] [RX ]   addr: 60fdf018    data: 28017de8
+[20:01:54.465] [RX ]   addr: 60fdf01c    data: 00000000
+[20:01:54.466] [RX ]   addr: 60fdf020    data: 2801ab40
+[20:01:54.466] [RX ]   addr: 60fdf024    data: 00000000
+[20:01:54.468] [RX ]   addr: 60fdf028    data: 2801ab48
+[20:01:54.469] [RX ]   addr: 60fdf02c    data: 02175d99
+[20:01:54.469] [RX ]   addr: 60fdf030    data: 00000010
+[20:01:54.470] [RX ]   addr: 60fdf034    data: 007eb180
+[20:01:54.470] [RX ]   addr: 60fdf038    data: 60cddfc8
+[20:01:54.472] [RX ]   addr: 60fdf03c    data: 60cddfe8
+[20:01:54.472] [RX ]   addr: 60fdf040    data: 2801aa3c
+[20:01:54.473] [RX ]   addr: 60fdf044    data: 000007d0
+[20:01:54.474] [RX ]   addr: 60fdf048    data: 00000020
+[20:01:54.474] [RX ]   addr: 60fdf04c    data: 0217297d
+[20:01:54.476] [RX ]   addr: 60fdf050    data: 000007d0
+[20:01:54.476] [RX ]   addr: 60fdf054    data: 02152ebd
+[20:01:54.477] [RX ]   addr: 60fdf058    data: 02155735
+[20:01:54.477] [RX ]   addr: 60fdf05c    data: 60cddfc4
+[20:01:54.479] [RX ]   addr: 60fdf060    data: 7eb18000
+[20:01:54.479] [RX ]   addr: 60fdf064    data: 00000000
+[20:01:54.480] [RX ]   addr: 60fdf068    data: 00000020
+[20:01:54.481] [RX ]   addr: 60fdf06c    data: 00000000
+[20:01:54.481] [RX ]   addr: 60fdf070    data: 00000000
+[20:01:54.483] [RX ]   addr: 60fdf074    data: 00000020
+[20:01:54.483] [RX ]   addr: 60fdf078    data: 007eb1a0
+[20:01:54.484] [RX ]   addr: 60fdf07c    data: 60cddfe8
+[20:01:54.484] [RX ]   addr: 60fdf080    data: 007eb180
+[20:01:54.486] [RX ]   addr: 60fdf084    data: 60cde99c
+[20:01:54.487] [RX ]   addr: 60fdf088    data: 00000012
+[20:01:54.487] [RX ]   addr: 60fdf08c    data: 02172ca3
+[20:01:54.488] [RX ]   addr: 60fdf090    data: 007eb180
+[20:01:54.488] [RX ]   addr: 60fdf094    data: 60cddfc8
+[20:01:54.489] [RX ]   addr: 60fdf098    data: 00000020
+[20:01:54.489] [RX ]   addr: 60fdf09c    data: 60cddfc8
+[20:01:54.491] [RX ]   addr: 60fdf0a0    data: 007eb180
+[20:01:54.491] [RX ]   addr: 60fdf0a4    data: 60fd8390
+[20:01:54.492] [RX ]   addr: 60fdf0a8    data: 00000020
+[20:01:54.494] [RX ]   addr: 60fdf0ac    data: 02167f53
+[20:01:54.494] [RX ]   addr: 60fdf0b0    data: 00000020
+[20:01:54.495] [RX ]   addr: 60fdf0b4    data: 007eb180
+[20:01:54.495] [RX ]   addr: 60fdf0b8    data: 60cddfc8
+[20:01:54.496] [RX ]   addr: 60fdf0bc    data: 021d5abb
+[20:01:54.496] [RX ]   addr: 60fdf0c0    data: 007eb180
+[20:01:54.498] [RX ]   addr: 60fdf0c4    data: 00000020
+[20:01:54.499] [RX ]   addr: 60fdf0c8    data: 00000020
+[20:01:54.499] [RX ]   addr: 60fdf0cc    data: 00000080
+[20:01:54.501] [RX ]   addr: 60fdf0d0    data: 60cddfc8
+[20:01:54.501] [RX ]   addr: 60fdf0d4    data: 021d618d
+[20:01:54.502] [RX ]   addr: 60fdf0d8    data: 60fd8390
+[20:01:54.502] [RX ]   addr: 60fdf0dc    data: 000e0003
+[20:01:54.503] [RX ]   addr: 60fdf0e0    data: 60fd8390
+[20:01:54.503] [RX ]   addr: 60fdf0e4    data: 60cde99c
+[20:01:54.505] [RX ]   addr: 60fdf0e8    data: 60fdf12c
+[20:01:54.506] [RX ]   addr: 60fdf0ec    data: 60fd8390
+[20:01:54.506] [RX ]   addr: 60fdf0f0    data: 00000003
+[20:01:54.507] [RX ]   addr: 60fdf0f4    data: 00000003
+[20:01:54.507] [RX ]   addr: 60fdf0f8    data: 00000000
+[20:01:54.509] [RX ]   addr: 60fdf0fc    data: 021d6211
+[20:01:54.509] [RX ]   addr: 60fdf100    data: 00000012
+[20:01:54.510] [RX ]   addr: 60fdf104    data: 00000003
+[20:01:54.512] [RX ]   addr: 60fdf108    data: 00000003
+[20:01:54.512] [RX ]   addr: 60fdf10c    data: 60fd8390
+[20:01:54.513] [RX ]   addr: 60fdf110    data: 60fd70fc
+[20:01:54.513] [RX ]   addr: 60fdf114    data: 023b0b81
+[20:01:54.514] [RX ]   addr: 60fdf118    data: 00000012
+[20:01:54.514] [RX ]   addr: 60fdf11c    data: 000006ee
+[20:01:54.516] [RX ]   addr: 60fdf120    data: 60fdf164
+[20:01:54.516] [RX ]   addr: 60fdf124    data: 021d6379
+[20:01:54.517] [RX ]   addr: 60fdf128    data: 60fd8390
+[20:01:54.518] [RX ]   addr: 60fdf12c    data: 00000000
+[20:01:54.518] [RX ]   addr: 60fdf130    data: 00000012
+[20:01:54.520] [RX ]   addr: 60fdf134    data: 00000012
+[20:01:54.520] [RX ]   addr: 60fdf138    data: 60fd8390
+[20:01:54.521] [RX ]   addr: 60fdf13c    data: 60fdf1a8
+[20:01:54.521] [RX ]   addr: 60fdf140    data: 60fdf1ac
+[20:01:54.523] [RX ]   addr: 60fdf144    data: 00000008
+[20:01:54.524] [RX ]   addr: 60fdf148    data: 09090909
+[20:01:54.524] [RX ]   addr: 60fdf14c    data: 60fdf218
+[20:01:54.526] [RX ]   addr: 60fdf150    data: 11111111
+[20:01:54.526] [RX ]   addr: 60fdf154    data: 021d7815
+[20:01:54.527] [RX ]   addr: 60fdf158    data: 00000000
+[20:01:54.527] [RX ]   addr: 60fdf15c    data: 023b0b81
+[20:01:54.528] [RX ]   addr: 60fdf160    data: 280637a8
+[20:01:54.528] [RX ]   addr: 60fdf164    data: ffffffff
+[20:01:54.530] [RX ]   addr: 60fdf168    data: 280637a8
+[20:01:54.531] [RX ]   addr: 60fdf16c    data: 023b0b81
+[20:01:54.531] [RX ]   addr: 60fdf170    data: 2801d6cc
+[20:01:54.532] [RX ]   addr: 60fdf174    data: 60fdfe44
+[20:01:54.532] [RX ]   addr: 60fdf178    data: 00000000
+[20:01:54.534] [RX ]   addr: 60fdf17c    data: 021d5d3d
+[20:01:54.534] [RX ]   addr: 60fdf180    data: 00000001
+[20:01:54.535] [RX ]   addr: 60fdf184    data: 02196659
+[20:01:54.536] [RX ]   addr: 60fdf188    data: 60fdf1ac
+[20:01:54.537] [RX ]   addr: 60fdf18c    data: 60fdf1a8
+[20:01:54.538] [RX ]   addr: 60fdf190    data: 60fdf1ac
+[20:01:54.538] [RX ]   addr: 60fdf194    data: 00000000
+[20:01:54.539] [RX ]   addr: 60fdf198    data: 60fdf200
+[20:01:54.539] [RX ]   addr: 60fdf19c    data: 02352f01
+[20:01:54.541] [RX ]   addr: 60fdf1a0    data: a5a5a5a5
+[20:01:54.541] [RX ]   addr: 60fdf1a4    data: a5a5a5a5
+[20:01:54.542] [RX ]   addr: 60fdf1a8    data: 00000000
+[20:01:54.543] [RX ]   addr: 60fdf1ac    data: 00000000
+[20:01:54.543] [RX ]   addr: 60fdf1b0    data: a5a5a5a5
+[20:01:54.545] [RX ]   addr: 60fdf1b4    data: 00000000
+[20:01:54.545] [RX ]   addr: 60fdf1b8    data: 280284a8
+[20:01:54.546] [RX ]   addr: 60fdf1bc    data: 60fdfe44
+[20:01:54.546] [RX ]   addr: 60fdf1c0    data: 00000000
+[20:01:54.547] [RX ]   addr: 60fdf1c4    data: 08080808
+[20:01:54.549] [RX ]   addr: 60fdf1c8    data: 09090909
+[20:01:54.549] [RX ]   addr: 60fdf1cc    data: 10101010
+[20:01:54.550] [RX ]   addr: 60fdf1d0    data: 11111111
+[20:01:54.550] [RX ]   addr: 60fdf1d4    data: 02352213
+[20:01:54.552] [RX ]   addr: 60fdf1d8    data: a5a5a5a5
+[20:01:54.552] [RX ]   addr: 60fdf1dc    data: a5a5a5a5
+[20:01:54.553] [RX ]   addr: 60fdf1e0    data: a5a5a5a5
+[20:01:54.553] [RX ]   addr: 60fdf1e4    data: a5a5a5a5
+[20:01:54.554] [RX ]   addr: 60fdf1e8    data: a5a5a5a5
+[20:01:54.556] [RX ]   addr: 60fdf1ec    data: a5a5a5a5
+[20:01:54.556] [RX ]   addr: 60fdf1f0    data: a5a5a5a5
+[20:01:54.557] [RX ]   addr: 60fdf1f4    data: a5a5a5a5
+[20:01:54.557] [RX ]   addr: 60fdf1f8    data: a5a5a5a5
+[20:01:54.558] [RX ]   addr: 60fdf1fc    data: a5a5a5a5
+[20:01:54.558] [RX ]   addr: 60fdf200    data: 00000000
+[20:01:54.560] [RX ]   addr: 60fdf204    data: a5a5a5a5
+[20:01:54.561] [RX ]   addr: 60fdf208    data: a5a5a5a5
+[20:01:54.561] [RX ]   addr: 60fdf20c    data: a5a5a5a5
+[20:01:54.563] [RX ]   addr: 60fdf210    data: a5a5a5a5
+[20:01:54.563] [RX ]   addr: 60fdf214    data: a5a5a5a5
+[20:01:54.564] [RX ]   addr: 60fdf218    data: a5a5a5a5
+[20:01:54.564] [RX ]   addr: 60fdf21c    data: a5a5a5a5
+[20:01:54.566] [RX ]   addr: 60fdf220    data: a5a5a5a5
+[20:01:54.566] [RX ]   addr: 60fdf224    data: a5a5a5a5
+[20:01:54.567] [RX ]   addr: 60fdf228    data: a5a5a5a5
+[20:01:54.568] [RX ]   addr: 60fdf22c    data: a5a5a5a5
+[20:01:54.568] [RX ]   addr: 60fdf230    data: a5a5a5a5
+[20:01:54.569] [RX ]   addr: 60fdf234    data: a5a5a5a5
+[20:01:54.569] [RX ]   addr: 60fdf238    data: a5a5a5a5
+[20:01:54.571] [RX ]   addr: 60fdf23c    data: a5a5a5a5
+[20:01:54.571] [RX ]   addr: 60fdf240    data: a5a5a5a5
+[20:01:54.572] [RX ]   addr: 60fdf244    data: a5a5a5a5
+[20:01:54.574] [RX ]   addr: 60fdf248    data: a5a5a5a5
+[20:01:54.574] [RX ]   addr: 60fdf24c    data: a5a5a5a5
+[20:01:54.575] [RX ]   addr: 60fdf250    data: a5a5a5a5
+[20:01:54.575] [RX ]   addr: 60fdf254    data: a5a5a5a5
+[20:01:54.576] [RX ]   addr: 60fdf258    data: a5a5a5a5
+[20:01:54.576] [RX ]   addr: 60fdf25c    data: a5a5a5a5
+[20:01:54.578] [RX ]   addr: 60fdf260    data: a5a5a5a5
+[20:01:54.578] [RX ]   addr: 60fdf264    data: a5a5a5a5
+[20:01:54.579] [RX ]   addr: 60fdf268    data: a5a5a5a5
+[20:01:54.581] [RX ]   addr: 60fdf26c    data: a5a5a5a5
+[20:01:54.581] [RX ]   addr: 60fdf270    data: a5a5a5a5
+[20:01:54.582] [RX ]   addr: 60fdf274    data: a5a5a5a5
+[20:01:54.582] [RX ]   addr: 60fdf278    data: a5a5a5a5
+[20:01:54.583] [RX ]   addr: 60fdf27c    data: a5a5a5a5
+[20:01:54.583] [RX ]   addr: 60fdf280    data: a5a5a5a5
+[20:01:54.585] [RX ]   addr: 60fdf284    data: a5a5a5a5
+[20:01:54.586] [RX ]   addr: 60fdf288    data: a5a5a5a5
+[20:01:54.586] [RX ]   addr: 60fdf28c    data: a5a5a5a5
+[20:01:54.587] [RX ]   addr: 60fdf290    data: a5a5a5a5
+[20:01:54.587] [RX ]   addr: 60fdf294    data: a5a5a5a5
+[20:01:54.589] [RX ]   addr: 60fdf298    data: a5a5a5a5
+[20:01:54.589] [RX ]   addr: 60fdf29c    data: a5a5a5a5
+[20:01:54.590] [RX ]   addr: 60fdf2a0    data: a5a5a5a5
+[20:01:54.590] [RX ]   addr: 60fdf2a4    data: a5a5a5a5
+[20:01:54.592] [RX ]   addr: 60fdf2a8    data: a5a5a5a5
+[20:01:54.593] [RX ]   addr: 60fdf2ac    data: a5a5a5a5
+[20:01:54.593] [RX ]   addr: 60fdf2b0    data: a5a5a5a5
+[20:01:54.594] [RX ]   addr: 60fdf2b4    data: a5a5a5a5
+[20:01:54.594] [RX ]   addr: 60fdf2b8    data: a5a5a5a5
+[20:01:54.596] [RX ]   addr: 60fdf2bc    data: a5a5a5a5
+[20:01:54.596] [RX ]   addr: 60fdf2c0    data: a5a5a5a5
+[20:01:54.597] [RX ]   addr: 60fdf2c4    data: a5a5a5a5
+[20:01:54.598] [RX ]   addr: 60fdf2c8    data: a5a5a5a5
+[20:01:54.599] [RX ]   addr: 60fdf2cc    data: a5a5a5a5
+[20:01:54.600] [RX ]   addr: 60fdf2d0    data: a5a5a5a5
+[20:01:54.600] [RX ]   addr: 60fdf2d4    data: a5a5a5a5
+[20:01:54.601] [RX ]   addr: 60fdf2d8    data: a5a5a5a5
+[20:01:54.601] [RX ]   addr: 60fdf2dc    data: a5a5a5a5
+[20:01:54.603] [RX ]   addr: 60fdf2e0    data: a5a5a5a5
+[20:01:54.603] [RX ]   addr: 60fdf2e4    data: a5a5a5a5
+[20:01:54.604] [RX ]   addr: 60fdf2e8    data: a5a5a5a5
+[20:01:54.605] [RX ]   addr: 60fdf2ec    data: a5a5a5a5
+[20:01:54.605] [RX ]   addr: 60fdf2f0    data: a5a5a5a5
+[20:01:54.607] [RX ]   addr: 60fdf2f4    data: a5a5a5a5
+[20:01:54.607] [RX ]   addr: 60fdf2f8    data: a5a5a5a5
+[20:01:54.608] [RX ]   addr: 60fdf2fc    data: a5a5a5a5
+[20:01:54.608] [RX ]   addr: 60fdf300    data: a5a5a5a5
+[20:01:54.609] [RX ]   addr: 60fdf304    data: a5a5a5a5
+[20:01:54.611] [RX ]   addr: 60fdf308    data: a5a5a5a5
+[20:01:54.611] [RX ]   addr: 60fdf30c    data: a5a5a5a5
+[20:01:54.612] [RX ]   addr: 60fdf310    data: a5a5a5a5
+[20:01:54.612] [RX ]   addr: 60fdf314    data: a5a5a5a5
+[20:01:54.614] [RX ]   addr: 60fdf318    data: a5a5a5a5
+[20:01:54.614] [RX ]   addr: 60fdf31c    data: a5a5a5a5
+[20:01:54.615] [RX ]   addr: 60fdf320    data: a5a5a5a5
+[20:01:54.615] [RX ]   addr: 60fdf324    data: a5a5a5a5
+[20:01:54.616] [RX ]   addr: 60fdf328    data: a5a5a5a5
+[20:01:54.618] [RX ]   addr: 60fdf32c    data: a5a5a5a5
+[20:01:54.618] [RX ]   addr: 60fdf330    data: a5a5a5a5
+[20:01:54.619] [RX ]   addr: 60fdf334    data: a5a5a5a5
+[20:01:54.619] [RX ]   addr: 60fdf338    data: a5a5a5a5
+[20:01:54.620] [RX ]   addr: 60fdf33c    data: a5a5a5a5
+[20:01:54.620] [RX ]   addr: 60fdf340    data: a5a5a5a5
+[20:01:54.622] [RX ]   addr: 60fdf344    data: a5a5a5a5
+[20:01:54.623] [RX ]   addr: 60fdf348    data: a5a5a5a5
+[20:01:54.623] [RX ]   addr: 60fdf34c    data: a5a5a5a5
+[20:01:54.625] [RX ]   addr: 60fdf350    data: a5a5a5a5
+[20:01:54.625] [RX ]   addr: 60fdf354    data: a5a5a5a5
+[20:01:54.626] [RX ]   addr: 60fdf358    data: a5a5a5a5
+[20:01:54.626] [RX ]   addr: 60fdf35c    data: a5a5a5a5
+[20:01:54.627] [RX ]   addr: 60fdf360    data: 60fdf3e8
+[20:01:54.627] [RX ]   addr: 60fdf364    data: 60fdf7e8
+[20:01:54.629] [RX ]   addr: 60fdf368    data: 00000013
+[20:01:54.630] [RX ]   addr: 60fdf36c    data: 00000048
+[20:01:54.630] [RX ]   addr: 60fdf370    data: 00000008
+[20:01:54.631] [RX ]   addr: 60fdf374    data: 021b3b0f
+[20:01:54.631] [RX ]   addr: 60fdf378    data: 021b3820
+[20:01:54.633] [RX ]   addr: 60fdf37c    data: 41100000
+[20:01:54.633] [RX ]   addr: 60fdf380    data: a5a5a5a5
+[20:01:54.634] [RX ]   addr: 60fdf384    data: a5a5a5a5
+[20:01:54.636] [RX ]   addr: 60fdf388    data: a5a5a5a5
+[20:01:54.636] [RX ]   addr: 60fdf38c    data: a5a5a5a5
+[20:01:54.637] [RX ]   addr: 60fdf390    data: a5a5a5a5
+[20:01:54.637] [RX ]   addr: 60fdf394    data: a5a5a5a5
+[20:01:54.638] [RX ]   addr: 60fdf398    data: a5a5a5a5
+[20:01:54.638] [RX ]   addr: 60fdf39c    data: a5a5a5a5
+[20:01:54.640] [RX ]   addr: 60fdf3a0    data: a5a5a5a5
+[20:01:54.640] [RX ]   addr: 60fdf3a4    data: a5a5a5a5
+[20:01:54.641] [RX ]   addr: 60fdf3a8    data: a5a5a5a5
+[20:01:54.643] [RX ]   addr: 60fdf3ac    data: a5a5a5a5
+[20:01:54.643] [RX ]   addr: 60fdf3b0    data: a5a5a5a5
+[20:01:54.644] [RX ]   addr: 60fdf3b4    data: a5a5a5a5
+[20:01:54.644] [RX ]   addr: 60fdf3b8    data: a5a5a5a5
+[20:01:54.645] [RX ]   addr: 60fdf3bc    data: a5a5a5a5
+[20:01:54.645] [RX ]   addr: 60fdf3c0    data: a5a5a5a5
+[20:01:54.647] [RX ]   addr: 60fdf3c4    data: a5a5a5a5
+[20:01:54.648] [RX ]   addr: 60fdf3c8    data: a5a5a5a5
+[20:01:54.648] [RX ]   addr: 60fdf3cc    data: 2801fef0
+[20:01:54.649] [RX ]   addr: 60fdf3d0    data: 28021c18
+[20:01:54.649] [RX ]   addr: 60fdf3d4    data: 28021018
+[20:01:54.651] [RX ]   addr: 60fdf3d8    data: 000000df
+[20:01:54.651] [RX ]   addr: 60fdf3dc    data: 000000c7
+[20:01:54.652] [RX ]   addr: 60fdf3e0    data: 000000ee
+[20:01:54.652] [RX ]   addr: 60fdf3e4    data: 00000068
+[20:01:54.654] [RX ]   addr: 60fdf3e8    data: 00000001
+[20:01:54.655] [RX ]   addr: 60fdf3ec    data: 00000003
+[20:01:54.655] [RX ]   addr: 60fdf3f0    data: 00000005
+[20:01:54.656] [RX ]   addr: 60fdf3f4    data: 0000000f
+[20:01:54.656] [RX ]   addr: 60fdf3f8    data: 00000011
+[20:01:54.658] [RX ]   addr: 60fdf3fc    data: 00000033
+[20:01:54.658] [RX ]   addr: 60fdf400    data: 00000055
+[20:01:54.659] [RX ]   addr: 60fdf404    data: 000000ff
+[20:01:54.660] [RX ]   addr: 60fdf408    data: 0000001a
+[20:01:54.660] [RX ]   addr: 60fdf40c    data: 0000002e
+[20:01:54.662] [RX ]   addr: 60fdf410    data: 00000072
+[20:01:54.662] [RX ]   addr: 60fdf414    data: 00000096
+[20:01:54.663] [RX ]   addr: 60fdf418    data: 000000a1
+[20:01:54.663] [RX ]   addr: 60fdf41c    data: 000000f8
+[20:01:54.665] [RX ]   addr: 60fdf420    data: 00000013
+[20:01:54.665] [RX ]   addr: 60fdf424    data: 00000035
+[20:01:54.666] [RX ]   addr: 60fdf428    data: 0000005f
+[20:01:54.667] [RX ]   addr: 60fdf42c    data: 000000e1
+[20:01:54.667] [RX ]   addr: 60fdf430    data: 00000038
+[20:01:54.669] [RX ]   addr: 60fdf434    data: 00000048
+[20:01:54.669] [RX ]   addr: 60fdf438    data: 000000d8
+[20:01:54.670] [RX ]   addr: 60fdf43c    data: 00000073
+[20:01:54.670] [RX ]   addr: 60fdf440    data: 00000095
+[20:01:54.672] [RX ]   addr: 60fdf444    data: 000000a4
+[20:01:54.673] [RX ]   addr: 60fdf448    data: 000000f7
+[20:01:54.673] [RX ]   addr: 60fdf44c    data: 00000002
+[20:01:54.674] [RX ]   addr: 60fdf450    data: 00000006
+[20:01:54.674] [RX ]   addr: 60fdf454    data: 0000000a
+[20:01:54.676] [RX ]   addr: 60fdf458    data: 0000001e
+[20:01:54.676] [RX ]   addr: 60fdf45c    data: 00000022
+[20:01:54.677] [RX ]   addr: 60fdf460    data: 00000066
+[20:01:54.677] [RX ]   addr: 60fdf464    data: 000000aa
+[20:01:54.678] [RX ]   addr: 60fdf468    data: 000000e5
+[20:01:54.680] [RX ]   addr: 60fdf46c    data: 00000034
+[20:01:54.680] [RX ]   addr: 60fdf470    data: 0000005c
+[20:01:54.681] [RX ]   addr: 60fdf474    data: 000000e4
+[20:01:54.681] [RX ]   addr: 60fdf478    data: 00000037
+[20:01:54.682] [RX ]   addr: 60fdf47c    data: 00000059
+[20:01:54.682] [RX ]   addr: 60fdf480    data: 000000eb
+[20:01:54.684] [RX ]   addr: 60fdf484    data: 00000026
+[20:01:54.685] [RX ]   addr: 60fdf488    data: 0000006a
+[20:01:54.685] [RX ]   addr: 60fdf48c    data: 000000be
+[20:01:54.687] [RX ]   addr: 60fdf490    data: 000000d9
+[20:01:54.687] [RX ]   addr: 60fdf494    data: 00000070
+[20:01:54.688] [RX ]   addr: 60fdf498    data: 00000090
+[20:01:54.688] [RX ]   addr: 60fdf49c    data: 000000ab
+[20:01:54.689] [RX ]   addr: 60fdf4a0    data: 000000e6
+[20:01:54.689] [RX ]   addr: 60fdf4a4    data: 00000031
+[20:01:54.691] [RX ]   addr: 60fdf4a8    data: 00000053
+[20:01:54.692] [RX ]   addr: 60fdf4ac    data: 000000f5
+[20:01:54.692] [RX ]   addr: 60fdf4b0    data: 00000004
+[20:01:54.694] [RX ]   addr: 60fdf4b4    data: 0000000c
+[20:01:54.694] [RX ]   addr: 60fdf4b8    data: 00000014
+[20:01:54.695] [RX ]   addr: 60fdf4bc    data: 0000003c
+[20:01:54.695] [RX ]   addr: 60fdf4c0    data: 00000044
+[20:01:54.696] [RX ]   addr: 60fdf4c4    data: 000000cc
+[20:01:54.698] [RX ]   addr: 60fdf4c8    data: 0000004f
+[20:01:54.698] [RX ]   addr: 60fdf4cc    data: 000000d1
+[20:01:54.699] [RX ]   addr: 60fdf4d0    data: 00000068
+[20:01:54.699] [RX ]   addr: 60fdf4d4    data: 000000b8
+[20:01:54.700] [RX ]   addr: 60fdf4d8    data: 000000d3
+[20:01:54.700] [RX ]   addr: 60fdf4dc    data: 0000006e
+[20:01:54.702] [RX ]   addr: 60fdf4e0    data: 000000b2
+[20:01:54.702] [RX ]   addr: 60fdf4e4    data: 000000cd
+[20:01:54.703] [RX ]   addr: 60fdf4e8    data: 0000004c
+[20:01:54.705] [RX ]   addr: 60fdf4ec    data: 000000d4
+[20:01:54.705] [RX ]   addr: 60fdf4f0    data: 00000067
+[20:01:54.706] [RX ]   addr: 60fdf4f4    data: 000000a9
+[20:01:54.706] [RX ]   addr: 60fdf4f8    data: 000000e0
+[20:01:54.707] [RX ]   addr: 60fdf4fc    data: 0000003b
+[20:01:54.707] [RX ]   addr: 60fdf500    data: 0000004d
+[20:01:54.709] [RX ]   addr: 60fdf504    data: 000000d7
+[20:01:54.710] [RX ]   addr: 60fdf508    data: 00000062
+[20:01:54.710] [RX ]   addr: 60fdf50c    data: 000000a6
+[20:01:54.711] [RX ]   addr: 60fdf510    data: 000000f1
+[20:01:54.711] [RX ]   addr: 60fdf514    data: 00000008
+[20:01:54.713] [RX ]   addr: 60fdf518    data: 00000018
+[20:01:54.713] [RX ]   addr: 60fdf51c    data: 00000028
+[20:01:54.714] [RX ]   addr: 60fdf520    data: 00000078
+[20:01:54.714] [RX ]   addr: 60fdf524    data: 00000088
+[20:01:54.716] [RX ]   addr: 60fdf528    data: 00000083
+[20:01:54.717] [RX ]   addr: 60fdf52c    data: 0000009e
+[20:01:54.717] [RX ]   addr: 60fdf530    data: 000000b9
+[20:01:54.718] [RX ]   addr: 60fdf534    data: 000000d0
+[20:01:54.718] [RX ]   addr: 60fdf538    data: 0000006b
+[20:01:54.720] [RX ]   addr: 60fdf53c    data: 000000bd
+[20:01:54.720] [RX ]   addr: 60fdf540    data: 000000dc
+[20:01:54.721] [RX ]   addr: 60fdf544    data: 0000007f
+[20:01:54.722] [RX ]   addr: 60fdf548    data: 00000081
+[20:01:54.722] [RX ]   addr: 60fdf54c    data: 00000098
+[20:01:54.724] [RX ]   addr: 60fdf550    data: 000000b3
+[20:01:54.724] [RX ]   addr: 60fdf554    data: 000000ce
+[20:01:54.725] [RX ]   addr: 60fdf558    data: 00000049
+[20:01:54.725] [RX ]   addr: 60fdf55c    data: 000000db
+[20:01:54.727] [RX ]   addr: 60fdf560    data: 00000076
+[20:01:54.727] [RX ]   addr: 60fdf564    data: 0000009a
+[20:01:54.728] [RX ]   addr: 60fdf568    data: 000000b5
+[20:01:54.734] [RX ]   addr: 60fdf56c    data: 000000c4
+[20:01:54.734] [RX ]   addr: 60fdf570    data: 00000057
+[20:01:54.734] [RX ]   addr: 60fdf574    data: 000000f9
+[20:01:54.734] [RX ]   addr: 60fdf578    data: 00000010
+[20:01:54.734] [RX ]   addr: 60fdf57c    data: 00000030
+[20:01:54.734] [RX ]   addr: 60fdf580    data: 00000050
+[20:01:54.734] [RX ]   addr: 60fdf584    data: 000000f0
+[20:01:54.735] [RX ]   addr: 60fdf588    data: 0000000b
+[20:01:54.735] [RX ]   addr: 60fdf58c    data: 0000001d
+[20:01:54.736] [RX ]   addr: 60fdf590    data: 00000027
+[20:01:54.736] [RX ]   addr: 60fdf594    data: 00000069
+[20:01:54.738] [RX ]   addr: 60fdf598    data: 000000bb
+[20:01:54.738] [RX ]   addr: 60fdf59c    data: 000000d6
+[20:01:54.739] [RX ]   addr: 60fdf5a0    data: 00000061
+[20:01:54.739] [RX ]   addr: 60fdf5a4    data: 000000a3
+[20:01:54.740] [RX ]   addr: 60fdf5a8    data: 000000fe
+[20:01:54.742] [RX ]   addr: 60fdf5ac    data: 60fdf67c
+[20:01:54.742] [RX ]   addr: 60fdf5b0    data: 00000000
+[20:01:54.743] [RX ]   addr: 60fdf5b4    data: 60fdf684
+[20:01:54.743] [RX ]   addr: 60fdf5b8    data: 00000000
+[20:01:54.745] [RX ]   addr: 60fdf5bc    data: 28016ea0
+[20:01:54.745] [RX ]   addr: 60fdf5c0    data: 00000036
+[20:01:54.746] [RX ]   addr: 60fdf5c4    data: 00000000
+[20:01:54.747] [RX ]   addr: 60fdf5c8    data: 00000000
+[20:01:54.747] [RX ]   addr: 60fdf5cc    data: ffffffff
+[20:01:54.749] [RX ]   addr: 60fdf5d0    data: 00000000
+[20:01:54.749] [RX ]   addr: 60fdf5d4    data: 02137209
+[20:01:54.750] [RX ]   addr: 60fdf5d8    data: 60fdf5e0
+[20:01:54.750] [RX ]   addr: 60fdf5dc    data: 02169209
+[20:01:54.751] [RX ]   addr: 60fdf5e0    data: 00000004
+[20:01:54.751] [RX ]   addr: 60fdf5e4    data: 00000000
+[20:01:54.753] [RX ]   addr: 60fdf5e8    data: 00000004
+[20:01:54.754] [RX ]   addr: 60fdf5ec    data: 00000000
+[20:01:54.754] [RX ]   addr: 60fdf5f0    data: 00000000
+[20:01:54.756] [RX ]   addr: 60fdf5f4    data: 00000000
+[20:01:54.756] [RX ]   addr: 60fdf5f8    data: 60fdf609
+[20:01:54.757] [RX ]   addr: 60fdf5fc    data: 00000000
+[20:01:54.757] [RX ]   addr: 60fdf600    data: 28015278
+[20:01:54.758] [RX ]   addr: 60fdf604    data: 0213c8c3
+[20:01:54.760] [RX ]   addr: 60fdf608    data: 00000001
+[20:01:54.760] [RX ]   addr: 60fdf60c    data: 00000000
+[20:01:54.761] [RX ]   addr: 60fdf610    data: 28015388
+[20:01:54.761] [RX ]   addr: 60fdf614    data: 00000010
+[20:01:54.763] [RX ]   addr: 60fdf618    data: 00000000
+[20:01:54.763] [RX ]   addr: 60fdf61c    data: 00000001
+[20:01:54.764] [RX ]   addr: 60fdf620    data: 280152d4
+[20:01:54.764] [RX ]   addr: 60fdf624    data: 28015264
+[20:01:54.765] [RX ]   addr: 60fdf628    data: 000001f8
+[20:01:54.767] [RX ]   addr: 60fdf62c    data: 0213b7b7
+[20:01:54.767] [RX ]   addr: 60fdf630    data: 0000001e
+[20:01:54.768] [RX ]   addr: 60fdf634    data: 0000f680
+[20:01:54.768] [RX ]   addr: 60fdf638    data: 2800602c
+[20:01:54.769] [RX ]   addr: 60fdf63c    data: 00000000
+[20:01:54.769] [RX ]   addr: 60fdf640    data: 00000001
+[20:01:54.771] [RX ]   addr: 60fdf644    data: 0213b80f
+[20:01:54.772] [RX ]   addr: 60fdf648    data: 00000000
+[20:01:54.772] [RX ]   addr: 60fdf64c    data: 0213bbdf
+[20:01:54.773] [RX ]   addr: 60fdf650    data: 28010998
+[20:01:54.773] [RX ]   addr: 60fdf654    data: 00000001
+[20:01:54.775] [RX ]   addr: 60fdf658    data: 00000050
+[20:01:54.775] [RX ]   addr: 60fdf65c    data: 28010aa0
+[20:01:54.776] [RX ]   addr: 60fdf660    data: 00000035
+[20:01:54.776] [RX ]   addr: 60fdf664    data: 000001dd
+[20:01:54.778] [RX ]   addr: 60fdf668    data: 00000003
+[20:01:54.779] [RX ]   addr: 60fdf66c    data: 021407a7
+[20:01:54.779] [RX ]   addr: 60fdf670    data: 00000001
+[20:01:54.780] [RX ]   addr: 60fdf674    data: 28016ea0
+[20:01:54.780] [RX ]   addr: 60fdf678    data: 081b0035
+[20:01:54.782] [RX ]   addr: 60fdf67c    data: 00000000
+[20:01:54.782] [RX ]   addr: 60fdf680    data: 28006038
+[20:01:54.783] [RX ]   addr: 60fdf684    data: 280109b8
+[20:01:54.785] [RX ]   addr: 60fdf688    data: 00000005
+[20:01:54.785] [RX ]   addr: 60fdf68c    data: 021409a3
+[20:01:54.786] [RX ]   addr: 60fdf690    data: 0000081b
+[20:01:54.786] [RX ]   addr: 60fdf694    data: 02140951
+[20:01:54.787] [RX ]   addr: 60fdf698    data: 0000081b
+[20:01:54.787] [RX ]   addr: 60fdf69c    data: 0213f8ef
+[20:01:54.789] [RX ]   addr: 60fdf6a0    data: 0000081b
+[20:01:54.789] [RX ]   addr: 60fdf6a4    data: 00070035
+[20:01:54.790] [RX ]   addr: 60fdf6a8    data: 00000242
+[20:01:54.791] [RX ]   addr: 60fdf6ac    data: 00000035
+[20:01:54.791] [RX ]   addr: 60fdf6b0    data: 28006038
+[20:01:54.793] [RX ]   addr: 60fdf6b4    data: 00000000
+[20:01:54.793] [RX ]   addr: 60fdf6b8    data: 00000000
+[20:01:54.794] [RX ]   addr: 60fdf6bc    data: 0213f1cb
+[20:01:54.794] [RX ]   addr: 60fdf6c0    data: 00000035
+[20:01:54.796] [RX ]   addr: 60fdf6c4    data: 02140545
+[20:01:54.797] [RX ]   addr: 60fdf6c8    data: 00000000
+[20:01:54.797] [RX ]   addr: 60fdf6cc    data: 0226ba50
+[20:01:54.798] [RX ]   addr: 60fdf6d0    data: 00000002
+[20:01:54.798] [RX ]   addr: 60fdf6d4    data: 081b0003
+[20:01:54.800] [RX ]   addr: 60fdf6d8    data: 60fdf874
+[20:01:54.800] [RX ]   addr: 60fdf6dc    data: 00000004
+[20:01:54.801] [RX ]   addr: 60fdf6e0    data: 60fdf70c
+[20:01:54.801] [RX ]   addr: 60fdf6e4    data: 00000000
+[20:01:54.803] [RX ]   addr: 60fdf6e8    data: 00000000
+[20:01:54.804] [RX ]   addr: 60fdf6ec    data: 0226ba50
+[20:01:54.804] [RX ]   addr: 60fdf6f0    data: 00000002
+[20:01:54.805] [RX ]   addr: 60fdf6f4    data: 0213cbd1
+[20:01:54.805] [RX ]   addr: 60fdf6f8    data: 60fdf874
+[20:01:54.807] [RX ]   addr: 60fdf6fc    data: 00000000
+[20:01:54.807] [RX ]   addr: 60fdf700    data: 00000004
+[20:01:54.808] [RX ]   addr: 60fdf704    data: 02249815
+[20:01:54.809] [RX ]   addr: 60fdf708    data: 10101010
+[20:01:54.809] [RX ]   addr: 60fdf70c    data: 3a307061
+[20:01:54.811] [RX ]   addr: 60fdf710    data: 60fdefa8
+[20:01:54.811] [RX ]   addr: 60fdf714    data: ffffffed
+[20:01:54.812] [RX ]   addr: 60fdf718    data: 00000000
+[20:01:54.812] [RX ]   addr: 60fdf71c    data: 28017df0
+[20:01:54.814] [RX ]   addr: 60fdf720    data: 00000000
+[20:01:54.814] [RX ]   addr: 60fdf724    data: 60fdf828
+[20:01:54.815] [RX ]   addr: 60fdf728    data: 00000000
+[20:01:54.816] [RX ]   addr: 60fdf72c    data: 02249d8e
+[20:01:54.816] [RX ]   addr: 60fdf730    data: 10101010
+[20:01:54.818] [RX ]   addr: 60fdf734    data: 11111111
+[20:01:54.818] [RX ]   addr: 60fdf738    data: 00000000
+[20:01:54.819] [RX ]   addr: 60fdf73c    data: 00000000
+[20:01:54.819] [RX ]   addr: 60fdf740    data: 00000000
+[20:01:54.820] [RX ]   addr: 60fdf744    data: 00000000
+[20:01:54.822] [RX ]   addr: 60fdf748    data: 00000000
+[20:01:54.822] [RX ]   addr: 60fdf74c    data: 00000000
+[20:01:54.823] [RX ]   addr: 60fdf750    data: 00000000
+[20:01:54.823] [RX ]   addr: 60fdf754    data: 00000000
+[20:01:54.824] [RX ]   addr: 60fdf758    data: 00000000
+[20:01:54.824] [RX ]   addr: 60fdf75c    data: 00000000
+[20:01:54.826] [RX ]   addr: 60fdf760    data: 00000000
+[20:01:54.826] [RX ]   addr: 60fdf764    data: 00000000
+[20:01:54.827] [RX ]   addr: 60fdf768    data: 00000000
+[20:01:54.829] [RX ]   addr: 60fdf76c    data: 00000000
+[20:01:54.829] [RX ]   addr: 60fdf770    data: 00000000
+[20:01:54.830] [RX ]   addr: 60fdf774    data: 00000000
+[20:01:54.830] [RX ]   addr: 60fdf778    data: 00000001
+[20:01:54.831] [RX ]   addr: 60fdf77c    data: 00000000
+[20:01:54.831] [RX ]   addr: 60fdf780    data: 28017de8
+[20:01:54.833] [RX ]   addr: 60fdf784    data: e000e000
+[20:01:54.834] [RX ]   addr: 60fdf788    data: 28017c74
+[20:01:54.834] [RX ]   addr: 60fdf78c    data: 02155d0b
+[20:01:54.836] [RX ]   addr: 60fdf790    data: 02155d24
+[20:01:54.836] [RX ]   addr: 60fdf794    data: 61104000
+[20:01:54.837] [RX ]   addr: 60fdf798    data: 00000000
+[20:01:54.837] [RX ]   addr: 60fdf79c    data: 401c0000
+[20:01:54.838] [RX ]   addr: 60fdf7a0    data: 00000000
+[20:01:54.838] [RX ]   addr: 60fdf7a4    data: 00000000
+[20:01:54.840] [RX ]   addr: 60fdf7a8    data: 00000000
+[20:01:54.841] [RX ]   addr: 60fdf7ac    data: 00000000
+[20:01:54.841] [RX ]   addr: 60fdf7b0    data: 00000000
+[20:01:54.842] [RX ]   addr: 60fdf7b4    data: 00000000
+[20:01:54.842] [RX ]   addr: 60fdf7b8    data: 00000000
+[20:01:54.844] [RX ]   addr: 60fdf7bc    data: 00000000
+[20:01:54.844] [RX ]   addr: 60fdf7c0    data: 00000000
+[20:01:54.845] [RX ]   addr: 60fdf7c4    data: 00000000
+[20:01:54.846] [RX ]   addr: 60fdf7c8    data: 00000000
+[20:01:54.847] [RX ]   addr: 60fdf7cc    data: 00000000
+[20:01:54.848] [RX ]   addr: 60fdf7d0    data: 00000000
+[20:01:54.848] [RX ]   addr: 60fdf7d4    data: 00000000
+[20:01:54.849] [RX ]   addr: 60fdf7d8    data: 00000000
+[20:01:54.849] [RX ]   addr: 60fdf7dc    data: 02155d0b
+[20:01:54.851] [RX ]   addr: 60fdf7e0    data: e000e000
+[20:01:54.851] [RX ]   addr: 60fdf7e4    data: 28017d60
+[20:01:54.852] [RX ]   addr: 60fdf7e8    data: 00000000
+[20:01:54.853] [RX ]   addr: 60fdf7ec    data: 02152a4d
+[20:01:54.853] [RX ]   addr: 60fdf7f0    data: 28017df0
+[20:01:54.855] [RX ]   addr: 60fdf7f4    data: 00000000
+[20:01:54.855] [RX ]   addr: 60fdf7f8    data: 28017df0
+[20:01:54.856] [RX ]   addr: 60fdf7fc    data: ffffffff
+[20:01:54.856] [RX ]   addr: 60fdf800    data: 2800b360
+[20:01:54.858] [RX ]   addr: 60fdf804    data: 00000000
+[20:01:54.859] [RX ]   addr: 60fdf808    data: 28017de8
+[20:01:54.859] [RX ]   addr: 60fdf80c    data: 00000000
+[20:01:54.860] [RX ]   addr: 60fdf810    data: 60fdefa8
+[20:01:54.860] [RX ]   addr: 60fdf814    data: ffffffed
+[20:01:54.862] [RX ]   addr: 60fdf818    data: 60fdee97
+[20:01:54.862] [RX ]   addr: 60fdf81c    data: ffffffff
+[20:01:54.863] [RX ]   addr: 60fdf820    data: 00000064
+[20:01:54.863] [RX ]   addr: 60fdf824    data: ffffffff
+[20:01:54.864] [RX ]   addr: 60fdf828    data: 00000005
+[20:01:54.866] [RX ]   addr: 60fdf82c    data: 60fdfb0c
+[20:01:54.866] [RX ]   addr: 60fdf830    data: 00000003
+[20:01:54.867] [RX ]   addr: 60fdf834    data: 60fdfb0c
+[20:01:54.867] [RX ]   addr: 60fdf838    data: 00000000
+[20:01:54.869] [RX ]   addr: 60fdf83c    data: 00000000
+[20:01:54.869] [RX ]   addr: 60fdf840    data: 00000000
+[20:01:54.870] [RX ]   addr: 60fdf844    data: 00000000
+[20:01:54.871] [RX ]   addr: 60fdf848    data: 00000000
+[20:01:54.871] [RX ]   addr: 60fdf84c    data: 00000000
+[20:01:54.873] [RX ]   addr: 60fdf850    data: 00000000
+[20:01:54.873] [RX ]   addr: 60fdf854    data: 00000000
+[20:01:54.874] [RX ]   addr: 60fdf858    data: 00000000
+[20:01:54.874] [RX ]   addr: 60fdf85c    data: 00000000
+[20:01:54.875] [RX ]   addr: 60fdf860    data: 00000000
+[20:01:54.875] [RX ]   addr: 60fdf864    data: 60fdf934
+[20:01:54.877] [RX ]   addr: 60fdf868    data: 00000000
+[20:01:54.878] [RX ]   addr: 60fdf86c    data: 60fdf9a8
+[20:01:54.878] [RX ]   addr: 60fdf870    data: 0000000f
+[20:01:54.880] [RX ]   addr: 60fdf874    data: 00000003
+[20:01:54.880] [RX ]   addr: 60fdf878    data: 00000000
+[20:01:54.881] [RX ]   addr: 60fdf87c    data: ffffffff
+[20:01:54.881] [RX ]   addr: 60fdf880    data: 00000000
+[20:01:54.882] [RX ]   addr: 60fdf884    data: 02137209
+[20:01:54.884] [RX ]   addr: 60fdf888    data: 60fdf890
+[20:01:54.884] [RX ]   addr: 60fdf88c    data: 02169209
+[20:01:54.885] [RX ]   addr: 60fdf890    data: 00000006
+[20:01:54.885] [RX ]   addr: 60fdf894    data: 00000000
+[20:01:54.887] [RX ]   addr: 60fdf898    data: 28015278
+[20:01:54.887] [RX ]   addr: 60fdf89c    data: 0213c8c3
+[20:01:54.888] [RX ]   addr: 60fdf8a0    data: 00000001
+[20:01:54.888] [RX ]   addr: 60fdf8a4    data: 00000000
+[20:01:54.889] [RX ]   addr: 60fdf8a8    data: 28015398
+[20:01:54.891] [RX ]   addr: 60fdf8ac    data: 00000010
+[20:01:54.891] [RX ]   addr: 60fdf8b0    data: 00000000
+[20:01:54.892] [RX ]   addr: 60fdf8b4    data: 00000001
+[20:01:54.892] [RX ]   addr: 60fdf8b8    data: 280152d4
+[20:01:54.894] [RX ]   addr: 60fdf8bc    data: 28015264
+[20:01:54.894] [RX ]   addr: 60fdf8c0    data: 000001f8
+[20:01:54.895] [RX ]   addr: 60fdf8c4    data: 0213b7b7
+[20:01:54.896] [RX ]   addr: 60fdf8c8    data: 0000001e
+[20:01:54.896] [RX ]   addr: 60fdf8cc    data: 0000f918
+[20:01:54.898] [RX ]   addr: 60fdf8d0    data: 2800602c
+[20:01:54.898] [RX ]   addr: 60fdf8d4    data: 00000000
+[20:01:54.899] [RX ]   addr: 60fdf8d8    data: 00000001
+[20:01:54.899] [RX ]   addr: 60fdf8dc    data: 0213b80f
+[20:01:54.900] [RX ]   addr: 60fdf8e0    data: 00000000
+[20:01:54.900] [RX ]   addr: 60fdf8e4    data: 0213bbdf
+[20:01:54.902] [RX ]   addr: 60fdf8e8    data: 28010998
+[20:01:54.903] [RX ]   addr: 60fdf8ec    data: 00000001
+[20:01:54.903] [RX ]   addr: 60fdf8f0    data: 28015832
+[20:01:54.904] [RX ]   addr: 60fdf8f4    data: 28010aa0
+[20:01:54.904] [RX ]   addr: 60fdf8f8    data: 000002bf
+[20:01:54.906] [RX ]   addr: 60fdf8fc    data: 00000222
+[20:01:54.906] [RX ]   addr: 60fdf900    data: 00000003
+[20:01:54.907] [RX ]   addr: 60fdf904    data: 021407a7
+[20:01:54.909] [RX ]   addr: 60fdf908    data: 00000001
+[20:01:54.909] [RX ]   addr: 60fdf90c    data: 28047848
+[20:01:54.910] [RX ]   addr: 60fdf910    data: 580002bf
+[20:01:54.910] [RX ]   addr: 60fdf914    data: 021661bf
+[20:01:54.911] [RX ]   addr: 60fdf918    data: 000002c8
+[20:01:54.911] [RX ]   addr: 60fdf91c    data: 280109a0
+[20:01:54.913] [RX ]   addr: 60fdf920    data: 00000002
+[20:01:54.913] [RX ]   addr: 60fdf924    data: 021409a3
+[20:01:54.914] [RX ]   addr: 60fdf928    data: 00005800
+[20:01:54.915] [RX ]   addr: 60fdf92c    data: 02140951
+[20:01:54.915] [RX ]   addr: 60fdf930    data: 00005800
+[20:01:54.917] [RX ]   addr: 60fdf934    data: 0213f8ef
+[20:01:54.917] [RX ]   addr: 60fdf938    data: 00005800
+[20:01:54.918] [RX ]   addr: 60fdf93c    data: 000702bf
+[20:01:54.918] [RX ]   addr: 60fdf940    data: 00000242
+[20:01:54.920] [RX ]   addr: 60fdf944    data: 000002bf
+[20:01:54.921] [RX ]   addr: 60fdf948    data: 28006038
+[20:01:54.921] [RX ]   addr: 60fdf94c    data: 00000000
+[20:01:54.923] [RX ]   addr: 60fdf950    data: 00000000
+[20:01:54.923] [RX ]   addr: 60fdf954    data: 0213f1cb
+[20:01:54.924] [RX ]   addr: 60fdf958    data: 000002bf
+[20:01:54.924] [RX ]   addr: 60fdf95c    data: 02140545
+[20:01:54.925] [RX ]   addr: 60fdf960    data: 00000000
+[20:01:54.925] [RX ]   addr: 60fdf964    data: 02273998
+[20:01:54.926] [RX ]   addr: 60fdf968    data: 00000002
+[20:01:54.928] [RX ]   addr: 60fdf96c    data: 58000003
+[20:01:54.928] [RX ]   addr: 60fdf970    data: 60fdfb0c
+[20:01:54.929] [RX ]   addr: 60fdf974    data: 00000004
+[20:01:54.929] [RX ]   addr: 60fdf978    data: 60fdf9a4
+[20:01:54.931] [RX ]   addr: 60fdf97c    data: 00000000
+[20:01:54.931] [RX ]   addr: 60fdf980    data: 00000000
+[20:01:54.932] [RX ]   addr: 60fdf984    data: 02273998
+[20:01:54.933] [RX ]   addr: 60fdf988    data: 00000002
+[20:01:54.934] [RX ]   addr: 60fdf98c    data: 0213cbd1
+[20:01:54.935] [RX ]   addr: 60fdf990    data: 60fdfb0c
+[20:01:54.935] [RX ]   addr: 60fdf994    data: 48057f74
+[20:01:54.936] [RX ]   addr: 60fdf998    data: ffffffff
+[20:01:54.936] [RX ]   addr: 60fdf99c    data: 02249815
+[20:01:54.938] [RX ]   addr: 60fdf9a0    data: 60fdfa54
+[20:01:54.938] [RX ]   addr: 60fdf9a4    data: 3a307061
+[20:01:54.939] [RX ]   addr: 60fdf9a8    data: 34362857
+[20:01:54.940] [RX ]   addr: 60fdf9ac    data: 3a293436
+[20:01:54.940] [RX ]   addr: 60fdf9b0    data: 60cde900
+[20:01:54.942] [RX ]   addr: 60fdf9b4    data: 00000000
+[20:01:54.942] [RX ]   addr: 60fdf9b8    data: 40180000
+[20:01:54.943] [RX ]   addr: 60fdf9bc    data: 02169e09
+[20:01:54.943] [RX ]   addr: 60fdf9c0    data: 00000006
+[20:01:54.944] [RX ]   addr: 60fdf9c4    data: 00000000
+[20:01:54.946] [RX ]   addr: 60fdf9c8    data: 0000000a
+[20:01:54.946] [RX ]   addr: 60fdf9cc    data: 00000000
+[20:01:54.947] [RX ]   addr: 60fdf9d0    data: ffffffff
+[20:01:54.947] [RX ]   addr: 60fdf9d4    data: 00000000
+[20:01:54.949] [RX ]   addr: 60fdf9d8    data: 28017df0
+[20:01:54.949] [RX ]   addr: 60fdf9dc    data: 02155d0b
+[20:01:54.950] [RX ]   addr: 60fdf9e0    data: 02155735
+[20:01:54.950] [RX ]   addr: 60fdf9e4    data: 00000001
+[20:01:54.951] [RX ]   addr: 60fdf9e8    data: 00000000
+[20:01:54.953] [RX ]   addr: 60fdf9ec    data: 021661bf
+[20:01:54.953] [RX ]   addr: 60fdf9f0    data: 60fdefa8
+[20:01:54.954] [RX ]   addr: 60fdf9f4    data: ffffffed
+[20:01:54.954] [RX ]   addr: 60fdf9f8    data: 60fdfb5c
+[20:01:54.955] [RX ]   addr: 60fdf9fc    data: 60fdeb2c
+[20:01:54.955] [RX ]   addr: 60fdfa00    data: 00000400
+[20:01:54.957] [RX ]   addr: 60fdfa04    data: 0227cc5c
+[20:01:54.958] [RX ]   addr: 60fdfa08    data: 0000005d
+[20:01:54.958] [RX ]   addr: 60fdfa0c    data: 0000000a
+[20:01:54.960] [RX ]   addr: 60fdfa10    data: 00001864
+[20:01:54.960] [RX ]   addr: 60fdfa14    data: 60fdfae4
+[20:01:54.961] [RX ]   addr: 60fdfa18    data: 00000000
+[20:01:54.961] [RX ]   addr: 60fdfa1c    data: 60fdeb2c
+[20:01:54.962] [RX ]   addr: 60fdfa20    data: 00000400
+[20:01:54.962] [RX ]   addr: 60fdfa24    data: 00000002
+[20:01:54.964] [RX ]   addr: 60fdfa28    data: 00000000
+[20:01:54.965] [RX ]   addr: 60fdfa2c    data: ffffffff
+[20:01:54.965] [RX ]   addr: 60fdfa30    data: 00000000
+[20:01:54.966] [RX ]   addr: 60fdfa34    data: 02137209
+[20:01:54.966] [RX ]   addr: 60fdfa38    data: 60fdfa40
+[20:01:54.968] [RX ]   addr: 60fdfa3c    data: 02169209
+[20:01:54.968] [RX ]   addr: 60fdfa40    data: 00000002
+[20:01:54.969] [RX ]   addr: 60fdfa44    data: 00000000
+[20:01:54.971] [RX ]   addr: 60fdfa48    data: 000000cd
+[20:01:54.971] [RX ]   addr: 60fdfa4c    data: 00000000
+[20:01:54.972] [RX ]   addr: 60fdfa50    data: 00000000
+[20:01:54.972] [RX ]   addr: 60fdfa54    data: 00000000
+[20:01:54.974] [RX ]   addr: 60fdfa58    data: 60fdfa6b
+[20:01:54.974] [RX ]   addr: 60fdfa5c    data: 00000000
+[20:01:54.975] [RX ]   addr: 60fdfa60    data: 00000000
+[20:01:54.975] [RX ]   addr: 60fdfa64    data: 0226b349
+[20:01:54.976] [RX ]   addr: 60fdfa68    data: 65323035
+[20:01:54.977] [RX ]   addr: 60fdfa6c    data: 36306664
+[20:01:54.977] [RX ]   addr: 60fdfa70    data: 00000001
+[20:01:54.979] [RX ]   addr: 60fdfa74    data: 00000000
+[20:01:54.979] [RX ]   addr: 60fdfa78    data: 28017de8
+[20:01:54.980] [RX ]   addr: 60fdfa7c    data: 00000000
+[20:01:54.980] [RX ]   addr: 60fdfa80    data: 00000000
+[20:01:54.982] [RX ]   addr: 60fdfa84    data: 02155d0b
+[20:01:54.983] [RX ]   addr: 60fdfa88    data: 02155d24
+[20:01:54.983] [RX ]   addr: 60fdfa8c    data: 61104000
+[20:01:54.984] [RX ]   addr: 60fdfa90    data: 2800b360
+[20:01:54.984] [RX ]   addr: 60fdfa94    data: 00000000
+[20:01:54.986] [RX ]   addr: 60fdfa98    data: 00000003
+[20:01:54.986] [RX ]   addr: 60fdfa9c    data: 00000000
+[20:01:54.987] [RX ]   addr: 60fdfaa0    data: 28017df0
+[20:01:54.987] [RX ]   addr: 60fdfaa4    data: 02155d0b
+[20:01:54.989] [RX ]   addr: 60fdfaa8    data: 00000000
+[20:01:54.990] [RX ]   addr: 60fdfaac    data: 00000000
+[20:01:54.990] [RX ]   addr: 60fdfab0    data: 00000000
+[20:01:54.991] [RX ]   addr: 60fdfab4    data: 02154831
+[20:01:54.991] [RX ]   addr: 60fdfab8    data: 60fdef34
+[20:01:54.993] [RX ]   addr: 60fdfabc    data: 00000000
+[20:01:54.993] [RX ]   addr: 60fdfac0    data: 280001d0
+[20:01:54.994] [RX ]   addr: 60fdfac4    data: 00000000
+[20:01:54.995] [RX ]   addr: 60fdfac8    data: 28017de8
+[20:01:54.995] [RX ]   addr: 60fdfacc    data: 00000000
+[20:01:54.997] [RX ]   addr: 60fdfad0    data: 28017df0
+[20:01:54.997] [RX ]   addr: 60fdfad4    data: 02155d0b
+[20:01:54.998] [RX ]   addr: 60fdfad8    data: 00000000
+[20:01:54.998] [RX ]   addr: 60fdfadc    data: 2805c484
+[20:01:55.000] [RX ]   addr: 60fdfae0    data: 00000000
+[20:01:55.000] [RX ]   addr: 60fdfae4    data: 02152a4d
+[20:01:55.001] [RX ]   addr: 60fdfae8    data: 60fdeb08
+[20:01:55.002] [RX ]   addr: 60fdfaec    data: 0213cddf
+[20:01:55.002] [RX ]   addr: 60fdfaf0    data: 60fdfb0c
+[20:01:55.004] [RX ]   addr: 60fdfaf4    data: 00000000
+[20:01:55.004] [RX ]   addr: 60fdfaf8    data: 021850b1
+[20:01:55.005] [RX ]   addr: 60fdfafc    data: 60fdfb0c
+[20:01:55.005] [RX ]   addr: 60fdfb00    data: 2805c484
+[20:01:55.006] [RX ]   addr: 60fdfb04    data: 60fdef34
+[20:01:55.008] [RX ]   addr: 60fdfb08    data: 00000000
+[20:01:55.008] [RX ]   addr: 60fdfb0c    data: 0227cbff
+[20:01:55.009] [RX ]   addr: 60fdfb10    data: 00000001
+[20:01:55.009] [RX ]   addr: 60fdfb14    data: 02152af3
+[20:01:55.011] [RX ]   addr: 60fdfb18    data: 2805c484
+[20:01:55.011] [RX ]   addr: 60fdfb1c    data: 00000000
+[20:01:55.012] [RX ]   addr: 60fdfb20    data: 60fdeb14
+[20:01:55.012] [RX ]   addr: 60fdfb24    data: 2805c484
+[20:01:55.013] [RX ]   addr: 60fdfb28    data: 2801e820
+[20:01:55.015] [RX ]   addr: 60fdfb2c    data: 021669cf
+[20:01:55.015] [RX ]   addr: 60fdfb30    data: 2805c484
+[20:01:55.016] [RX ]   addr: 60fdfb34    data: 00000000
+[20:01:55.016] [RX ]   addr: 60fdfb38    data: 60fdede9
+[20:01:55.018] [RX ]   addr: 60fdfb3c    data: 021a4af7
+[20:01:55.018] [RX ]   addr: 60fdfb40    data: 00000001
+[20:01:55.019] [RX ]   addr: 60fdfb44    data: 00000008
+[20:01:55.020] [RX ]   addr: 60fdfb48    data: 00000000
+[20:01:55.020] [RX ]   addr: 60fdfb4c    data: 00000006
+[20:01:55.022] [RX ]   addr: 60fdfb50    data: 000000f4
+[20:01:55.022] [RX ]   addr: 60fdfb54    data: 0227cbff
+[20:01:55.023] [RX ]   addr: 60fdfb58    data: 02249f9b
+[20:01:55.023] [RX ]   addr: 60fdfb5c    data: 60fdef34
+[20:01:55.025] [RX ]   addr: 60fdfb60    data: 02395502
+[20:01:55.025] [RX ]   addr: 60fdfb64    data: 000000cd
+[20:01:55.026] [RX ]   addr: 60fdfb68    data: 00000272
+[20:01:55.027] [RX ]   addr: 60fdfb6c    data: 000000cd
+[20:01:55.027] [RX ]   addr: 60fdfb70    data: 60fdef34
+[20:01:55.029] [RX ]   addr: 60fdfb74    data: 00000006
+[20:01:55.029] [RX ]   addr: 60fdfb78    data: 00000000
+[20:01:55.030] [RX ]   addr: 60fdfb7c    data: 00000008
+[20:01:55.030] [RX ]   addr: 60fdfb80    data: 00000001
+[20:01:55.031] [RX ]   addr: 60fdfb84    data: 00000000
+[20:01:55.033] [RX ]   addr: 60fdfb88    data: 00000046
+[20:01:55.033] [RX ]   addr: 60fdfb8c    data: 00000004
+[20:01:55.034] [RX ]   addr: 60fdfb90    data: 28011e90
+[20:01:55.034] [RX ]   addr: 60fdfb94    data: 60fdfbd8
+[20:01:55.035] [RX ]   addr: 60fdfb98    data: 60cde99c
+[20:01:55.035] [RX ]   addr: 60fdfb9c    data: 02394539
+[20:01:55.037] [RX ]   addr: 60fdfba0    data: 60cdea44
+[20:01:55.037] [RX ]   addr: 60fdfba4    data: 60cde344
+[20:01:55.038] [RX ]   addr: 60fdfba8    data: 60cde9cc
+[20:01:55.039] [RX ]   addr: 60fdfbac    data: 00000000
+[20:01:55.039] [RX ]   addr: 60fdfbb0    data: 2802a604
+[20:01:55.041] [RX ]   addr: 60fdfbb4    data: 021a4b3b
+[20:01:55.041] [RX ]   addr: 60fdfbb8    data: 023955e5
+[20:01:55.042] [RX ]   addr: 60fdfbbc    data: 60fdfbd8
+[20:01:55.042] [RX ]   addr: 60fdfbc0    data: 021a3e11
+[20:01:55.044] [RX ]   addr: 60fdfbc4    data: 60fdfbd8
+[20:01:55.045] [RX ]   addr: 60fdfbc8    data: 60cdebdc
+[20:01:55.045] [RX ]   addr: 60fdfbcc    data: 60cdebdc
+[20:01:55.046] [RX ]   addr: 60fdfbd0    data: 02333f8f
+[20:01:55.046] [RX ]   addr: 60fdfbd4    data: 023955e5
+[20:01:55.048] [RX ]   addr: 60fdfbd8    data: 60cddff0
+[20:01:55.048] [RX ]   addr: 60fdfbdc    data: 00000008
+[20:01:55.049] [RX ]   addr: 60fdfbe0    data: 00000000
+[20:01:55.049] [RX ]   addr: 60fdfbe4    data: 60fdfc30
+[20:01:55.051] [RX ]   addr: 60fdfbe8    data: 000000ee
+[20:01:55.052] [RX ]   addr: 60fdfbec    data: 60fdfc18
+[20:01:55.052] [RX ]   addr: 60fdfbf0    data: 02394fe4
+[20:01:55.053] [RX ]   addr: 60fdfbf4    data: 00000000
+[20:01:55.053] [RX ]   addr: 60fdfbf8    data: 023935d4
+[20:01:55.055] [RX ]   addr: 60fdfbfc    data: 60fdfdd0
+[20:01:55.055] [RX ]   addr: 60fdfc00    data: 60fdfca0
+[20:01:55.056] [RX ]   addr: 60fdfc04    data: 60fdfcc0
+[20:01:55.057] [RX ]   addr: 60fdfc08    data: 60fdfce0
+[20:01:55.057] [RX ]   addr: 60fdfc0c    data: 60fdfd00
+[20:01:55.059] [RX ]   addr: 60fdfc10    data: 023324dd
+[20:01:55.059] [RX ]   addr: 60fdfc14    data: 00000000
+[20:01:55.060] [RX ]   addr: 60fdfc18    data: 60fdfd60
+[20:01:55.060] [RX ]   addr: 60fdfc1c    data: 60fdfd80
+[20:01:55.062] [RX ]   addr: 60fdfc20    data: 60fdfda0
+[20:01:55.062] [RX ]   addr: 60fdfc24    data: 60fdfdc0
+[20:01:55.063] [RX ]   addr: 60fdfc28    data: 60fdfde0
+[20:01:55.064] [RX ]   addr: 60fdfc2c    data: 00000000
+[20:01:55.064] [RX ]   addr: 60fdfc30    data: 60fdfd00
+[20:01:55.066] [RX ]   addr: 60fdfc34    data: 60fdfd20
+[20:01:55.066] [RX ]   addr: 60fdfc38    data: 60fdfd40
+[20:01:55.067] [RX ]   addr: 60fdfc3c    data: 00000000
+[20:01:55.067] [RX ]   addr: 60fdfc40    data: 02392dfb
+[20:01:55.069] [RX ]   addr: 60fdfc44    data: 02392e05
+[20:01:55.070] [RX ]   addr: 60fdfc48    data: 0239338f
+[20:01:55.070] [RX ]   addr: 60fdfc4c    data: 00000001
+[20:01:55.071] [RX ]   addr: 60fdfc50    data: 00000001
+[20:01:55.071] [RX ]   addr: 60fdfc54    data: 00000000
+[20:01:55.073] [RX ]   addr: 60fdfc58    data: 00000001
+[20:01:55.073] [RX ]   addr: 60fdfc5c    data: 00000002
+[20:01:55.074] [RX ]   addr: 60fdfc60    data: 0239263d
+[20:01:55.074] [RX ]   addr: 60fdfc64    data: 023935d4
+[20:01:55.076] [RX ]   addr: 60fdfc68    data: 02393f2f
+[20:01:55.077] [RX ]   addr: 60fdfc6c    data: 00000001
+[20:01:55.077] [RX ]   addr: 60fdfc70    data: 00000000
+[20:01:55.078] [RX ]   addr: 60fdfc74    data: 00000000
+[20:01:55.078] [RX ]   addr: 60fdfc78    data: 00000000
+[20:01:55.080] [RX ]   addr: 60fdfc7c    data: 00000000
+[20:01:55.080] [RX ]   addr: 60fdfc80    data: 023933b5
+[20:01:55.081] [RX ]   addr: 60fdfc84    data: 02392e05
+[20:01:55.082] [RX ]   addr: 60fdfc88    data: 023933c0
+[20:01:55.082] [RX ]   addr: 60fdfc8c    data: 00000000
+[20:01:55.084] [RX ]   addr: 60fdfc90    data: 00000001
+[20:01:55.084] [RX ]   addr: 60fdfc94    data: 00000000
+[20:01:55.085] [RX ]   addr: 60fdfc98    data: 00000001
+[20:01:55.085] [RX ]   addr: 60fdfc9c    data: 00000006
+[20:01:55.086] [RX ]   addr: 60fdfca0    data: 02392efa
+[20:01:55.086] [RX ]   addr: 60fdfca4    data: 02392e05
+[20:01:55.088] [RX ]   addr: 60fdfca8    data: 0239341b
+[20:01:55.089] [RX ]   addr: 60fdfcac    data: 00000000
+[20:01:55.089] [RX ]   addr: 60fdfcb0    data: 00000001
+[20:01:55.091] [RX ]   addr: 60fdfcb4    data: 000007b2
+[20:01:55.091] [RX ]   addr: 60fdfcb8    data: 00000001
+[20:01:55.092] [RX ]   addr: 60fdfcbc    data: 00000833
+[20:01:55.092] [RX ]   addr: 60fdfcc0    data: 02392f32
+[20:01:55.093] [RX ]   addr: 60fdfcc4    data: 02392e05
+[20:01:55.095] [RX ]   addr: 60fdfcc8    data: 02393442
+[20:01:55.095] [RX ]   addr: 60fdfccc    data: 00000000
+[20:01:55.096] [RX ]   addr: 60fdfcd0    data: 00000001
+[20:01:55.096] [RX ]   addr: 60fdfcd4    data: 00000001
+[20:01:55.097] [RX ]   addr: 60fdfcd8    data: 00000001
+[20:01:55.097] [RX ]   addr: 60fdfcdc    data: 0000000c
+[20:01:55.099] [RX ]   addr: 60fdfce0    data: 02393088
+[20:01:55.099] [RX ]   addr: 60fdfce4    data: 02392e05
+[20:01:55.100] [RX ]   addr: 60fdfce8    data: 0239346a
+[20:01:55.102] [RX ]   addr: 60fdfcec    data: 00000000
+[20:01:55.102] [RX ]   addr: 60fdfcf0    data: 00000001
+[20:01:55.103] [RX ]   addr: 60fdfcf4    data: 00000001
+[20:01:55.103] [RX ]   addr: 60fdfcf8    data: 00000001
+[20:01:55.104] [RX ]   addr: 60fdfcfc    data: 0000001f
+[20:01:55.104] [RX ]   addr: 60fdfd00    data: 02392fa7
+[20:01:55.106] [RX ]   addr: 60fdfd04    data: 02392e05
+[20:01:55.107] [RX ]   addr: 60fdfd08    data: 02393499
+[20:01:55.107] [RX ]   addr: 60fdfd0c    data: 00000000
+[20:01:55.109] [RX ]   addr: 60fdfd10    data: 00000001
+[20:01:55.109] [RX ]   addr: 60fdfd14    data: 00000000
+[20:01:55.110] [RX ]   addr: 60fdfd18    data: 00000001
+[20:01:55.110] [RX ]   addr: 60fdfd1c    data: 00000017
+[20:01:55.111] [RX ]   addr: 60fdfd20    data: 02392fd8
+[20:01:55.111] [RX ]   addr: 60fdfd24    data: 02392e05
+[20:01:55.113] [RX ]   addr: 60fdfd28    data: 023934c0
+[20:01:55.114] [RX ]   addr: 60fdfd2c    data: 00000000
+[20:01:55.114] [RX ]   addr: 60fdfd30    data: 00000001
+[20:01:55.115] [RX ]   addr: 60fdfd34    data: 00000000
+[20:01:55.115] [RX ]   addr: 60fdfd38    data: 00000001
+[20:01:55.117] [RX ]   addr: 60fdfd3c    data: 0000003b
+[20:01:55.117] [RX ]   addr: 60fdfd40    data: 023954fa
+[20:01:55.118] [RX ]   addr: 60fdfd44    data: 023935d4
+[20:01:55.119] [RX ]   addr: 60fdfd48    data: 02393f7f
+[20:01:55.119] [RX ]   addr: 60fdfd4c    data: 00000000
+[20:01:55.121] [RX ]   addr: 60fdfd50    data: 60fdefa8
+[20:01:55.121] [RX ]   addr: 60fdfd54    data: ffffffed
+[20:01:55.122] [RX ]   addr: 60fdfd58    data: 00000000
+[20:01:55.122] [RX ]   addr: 60fdfd5c    data: 280284a8
+[20:01:55.124] [RX ]   addr: 60fdfd60    data: 60fdfe44
+[20:01:55.124] [RX ]   addr: 60fdfd64    data: 00000000
+[20:01:55.125] [RX ]   addr: 60fdfd68    data: 08080808
+[20:01:55.126] [RX ]   addr: 60fdfd6c    data: 09090909
+[20:01:55.126] [RX ]   addr: 60fdfd70    data: 10101010
+[20:01:55.128] [RX ]   addr: 60fdfd74    data: 11111111
+[20:01:55.128] [RX ]   addr: 60fdfd78    data: 00000000
+[20:01:55.129] [RX ]   addr: 60fdfd7c    data: 00000000
+[20:01:55.129] [RX ]   addr: 60fdfd80    data: 00000000
+[20:01:55.131] [RX ]   addr: 60fdfd84    data: 00000000
+[20:01:55.132] [RX ]   addr: 60fdfd88    data: 2800b360
+[20:01:55.132] [RX ]   addr: 60fdfd8c    data: 00000000
+[20:01:55.133] [RX ]   addr: 60fdfd90    data: 28017de8
+[20:01:55.133] [RX ]   addr: 60fdfd94    data: 00000000
+[20:01:55.135] [RX ]   addr: 60fdfd98    data: 28017df0
+[20:01:55.135] [RX ]   addr: 60fdfd9c    data: 02155d0b
+[20:01:55.136] [RX ]   addr: 60fdfda0    data: 00000000
+[20:01:55.136] [RX ]   addr: 60fdfda4    data: 00000000
+[20:01:55.138] [RX ]   addr: 60fdfda8    data: 00000000
+[20:01:55.139] [RX ]   addr: 60fdfdac    data: 02154831
+[20:01:55.139] [RX ]   addr: 60fdfdb0    data: 00000000
+[20:01:55.140] [RX ]   addr: 60fdfdb4    data: 00000000
+[20:01:55.140] [RX ]   addr: 60fdfdb8    data: 280008fc
+[20:01:55.141] [RX ]   addr: 60fdfdbc    data: 00000000
+[20:01:55.141] [RX ]   addr: 60fdfdc0    data: 28017de8
+[20:01:55.143] [RX ]   addr: 60fdfdc4    data: 00000000
+[20:01:55.144] [RX ]   addr: 60fdfdc8    data: 28017df0
+[20:01:55.144] [RX ]   addr: 60fdfdcc    data: 02155d0b
+[20:01:55.146] [RX ]   addr: 60fdfdd0    data: 00000000
+[20:01:55.146] [RX ]   addr: 60fdfdd4    data: 2804c490
+[20:01:55.147] [RX ]   addr: 60fdfdd8    data: 00000000
+[20:01:55.147] [RX ]   addr: 60fdfddc    data: 02152a4d
+[20:01:55.148] [RX ]   addr: 60fdfde0    data: 2804c490
+[20:01:55.148] [RX ]   addr: 60fdfde4    data: 00000000
+[20:01:55.150] [RX ]   addr: 60fdfde8    data: 00000001
+[20:01:55.151] [RX ]   addr: 60fdfdec    data: 00000000
+[20:01:55.151] [RX ]   addr: 60fdfdf0    data: 00000001
+[20:01:55.153] [RX ]   addr: 60fdfdf4    data: 00000000
+[20:01:55.153] [RX ]   addr: 60fdfdf8    data: 2804c490
+[20:01:55.154] [RX ]   addr: 60fdfdfc    data: 00000000
+[20:01:55.154] [RX ]   addr: 60fdfe00    data: 00000000
+[20:01:55.155] [RX ]   addr: 60fdfe04    data: 00000000
+[20:01:55.157] [RX ]   addr: 60fdfe08    data: 280284a8
+[20:01:55.157] [RX ]   addr: 60fdfe0c    data: 60fdfe44
+[20:01:55.158] [RX ]   addr: 60fdfe10    data: 00000000
+[20:01:55.158] [RX ]   addr: 60fdfe14    data: 08080808
+[20:01:55.160] [RX ]   addr: 60fdfe18    data: 09090909
+[20:01:55.160] [RX ]   addr: 60fdfe1c    data: 10101010
+[20:01:55.161] [RX ]   addr: 60fdfe20    data: 11111111
+[20:01:55.161] [RX ]   addr: 60fdfe24    data: 02331f6f
+[20:01:55.162] [RX ]   addr: 60fdfe28    data: 00000000
+[20:01:55.164] [RX ]   addr: 60fdfe2c    data: 00000000
+[20:01:55.164] [RX ]   addr: 60fdfe30    data: 00000000
+[20:01:55.165] [RX ]   addr: 60fdfe34    data: 02319661
+[20:01:55.165] [RX ]   addr: 60fdfe38    data: 023190f5
+[20:01:55.166] [RX ]   addr: 60fdfe3c    data: 10101010
+[20:01:55.166] [RX ]   addr: 60fdfe40    data: 11111111
+[20:01:55.168] [RX ]   addr: 60fdfe44    data: 00000000
+[20:01:55.169] [RX ]   addr: 60fdfe48    data: 00003e80
+[20:01:55.169] [RX ]   addr: 60fdfe4c    data: 00110110
+[20:01:55.170] [RX ]   addr: 60fdfe50    data: 03e80001
+[20:01:55.170] [RX ]   addr: 60fdfe54    data: 005000c8
+[20:01:55.172] [RX ]   addr: 60fdfe58    data: 02318b59
+[20:01:55.172] [RX ]   addr: 60fdfe5c    data: 00000000
+[20:01:55.173] [RX ]   addr: 60fdfe60    data: 00000000
+[20:01:55.173] [RX ]   addr: 60fdfe64    data: 00000003
+[20:01:55.175] [RX ]   addr: 60fdfe68    data: 00000000
+[20:01:55.176] [RX ]   addr: 60fdfe6c    data: 023003c7
+[20:01:55.176] [RX ]   addr: 60fdfe70    data: 0237c20b
+[20:01:55.177] [RX ]   addr: 60fdfe74    data: 0237c204
+[20:01:55.177] [RX ]   addr: 60fdfe78    data: 400c3811
+[20:01:55.179] [RX ]   addr: 60fdfe7c    data: 00000003
+[20:01:55.179] [RX ]   addr: 60fdfe80    data: 0237c189
+[20:01:55.180] [RX ]   addr: 60fdfe84    data: 0237c19e
+[20:01:55.182] [RX ]   addr: 60fdfe88    data: 00000000
+[20:01:55.182] [RX ]   addr: 60fdfe8c    data: 00000000
+[20:01:55.183] [RX ]   addr: 60fdfe90    data: 00000000
+[20:01:55.183] [RX ]   addr: 60fdfe94    data: 02300171
+[20:01:55.184] [RX ]   addr: 60fdfe98    data: 023000e5
+[20:01:55.184] [RX ]   addr: 60fdfe9c    data: 023000c5
+[20:01:55.186] [RX ]   addr: 60fdfea0    data: 02300191
+[20:01:55.186] [RX ]   addr: 60fdfea4    data: 02300099
+[20:01:55.187] [RX ]   addr: 60fdfea8    data: 02300005
+[20:01:55.188] [RX ]   addr: 60fdfeac    data: 00000000
+[20:01:55.188] [RX ]   addr: 60fdfeb0    data: 00000000
+[20:01:55.190] [RX ]   addr: 60fdfeb4    data: 023001c1
+[20:01:55.190] [RX ]   addr: 60fdfeb8    data: 00000000
+[20:01:55.191] [RX ]   addr: 60fdfebc    data: 00000000
+[20:01:55.191] [RX ]   addr: 60fdfec0    data: 00000002
+[20:01:55.193] [RX ]   addr: 60fdfec4    data: 60fdffb4
+[20:01:55.194] [RX ]   addr: 60fdfec8    data: 05050505
+[20:01:55.194] [RX ]   addr: 60fdfecc    data: 60fdffd0
+[20:01:55.195] [RX ]   addr: 60fdfed0    data: 07070707
+[20:01:55.195] [RX ]   addr: 60fdfed4    data: 023004ef
+[20:01:55.197] [RX ]   addr: 60fdfed8    data: 00000002
+[20:01:55.197] [RX ]   addr: 60fdfedc    data: 0237c279
+[20:01:55.198] [RX ]   addr: 60fdfee0    data: 00000001
+[20:01:55.198] [RX ]   addr: 60fdfee4    data: 00003554
+[20:01:55.199] [RX ]   addr: 60fdfee8    data: 00000000
+[20:01:55.201] [RX ]   addr: 60fdfeec    data: 00000000
+[20:01:55.201] [RX ]   addr: 60fdfef0    data: 00000000
+[20:01:55.202] [RX ]   addr: 60fdfef4    data: 00000000
+[20:01:55.202] [RX ]   addr: 60fdfef8    data: 00000000
+[20:01:55.204] [RX ]   addr: 60fdfefc    data: 00000000
+[20:01:55.204] [RX ]   addr: 60fdff00    data: 00000000
+[20:01:55.205] [RX ]   addr: 60fdff04    data: 00000000
+[20:01:55.206] [RX ]   addr: 60fdff08    data: 00000000
+[20:01:55.206] [RX ]   addr: 60fdff0c    data: 00000000
+[20:01:55.208] [RX ]   addr: 60fdff10    data: 00000000
+[20:01:55.208] [RX ]   addr: 60fdff14    data: 00000000
+[20:01:55.209] [RX ]   addr: 60fdff18    data: 00000000
+[20:01:55.209] [RX ]   addr: 60fdff1c    data: 00000000
+[20:01:55.211] [RX ]   addr: 60fdff20    data: 00000000
+[20:01:55.211] [RX ]   addr: 60fdff24    data: 00000000
+[20:01:55.212] [RX ]   addr: 60fdff28    data: 00000000
+[20:01:55.213] [RX ]   addr: 60fdff2c    data: 00000000
+[20:01:55.213] [RX ]   addr: 60fdff30    data: 00000000
+[20:01:55.215] [RX ]   addr: 60fdff34    data: 00000000
+[20:01:55.215] [RX ]   addr: 60fdff38    data: 00000000
+[20:01:55.216] [RX ]   addr: 60fdff3c    data: 00000000
+[20:01:55.216] [RX ]   addr: 60fdff40    data: 00000000
+[20:01:55.217] [RX ]   addr: 60fdff44    data: 00000000
+[20:01:55.219] [RX ]   addr: 60fdff48    data: 00000000
+[20:01:55.219] [RX ]   addr: 60fdff4c    data: 00000000
+[20:01:55.220] [RX ]   addr: 60fdff50    data: 00000000
+[20:01:55.220] [RX ]   addr: 60fdff54    data: 00000000
+[20:01:55.222] [RX ]   addr: 60fdff58    data: 00000000
+[20:01:55.222] [RX ]   addr: 60fdff5c    data: 00000000
+[20:01:55.223] [RX ]   addr: 60fdff60    data: 00000000
+[20:01:55.223] [RX ]   addr: 60fdff64    data: 00000000
+[20:01:55.224] [RX ]   addr: 60fdff68    data: 00000000
+[20:01:55.226] [RX ]   addr: 60fdff6c    data: 00000000
+[20:01:55.226] [RX ]   addr: 60fdff70    data: 00000000
+[20:01:55.227] [RX ]   addr: 60fdff74    data: 00000000
+[20:01:55.227] [RX ]   addr: 60fdff78    data: 60fdffb4
+[20:01:55.228] [RX ]   addr: 60fdff7c    data: 021a4339
+[20:01:55.228] [RX ]   addr: 60fdff80    data: 60fdffd0
+[20:01:55.230] [RX ]   addr: 60fdff84    data: 60fdef34
+[20:01:55.231] [RX ]   addr: 60fdff88    data: 60fdffb4
+[20:01:55.231] [RX ]   addr: 60fdff8c    data: 60fdef34
+[20:01:55.233] [RX ]   addr: 60fdff90    data: 02020202
+[20:01:55.233] [RX ]   addr: 60fdff94    data: 04040404
+[20:01:55.234] [RX ]   addr: 60fdff98    data: 05050505
+[20:01:55.234] [RX ]   addr: 60fdff9c    data: 06060606

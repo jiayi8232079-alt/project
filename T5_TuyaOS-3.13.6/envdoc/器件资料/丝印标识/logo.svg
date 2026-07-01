@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 100" role="img" aria-label="Logo">
+  <title>Logo</title>
+  <!-- ?????? V ?? + ???? -->
+  <path fill="#4DB8FF" d="M 4,6 L 72,6 L 72,40 L 22,50 L 4,6 Z"/>
+  <path fill="#0091FF" d="M 22,50 L 72,40 L 72,94 L 4,94 L 22,50 Z"/>
+  <!-- ???? -->
+  <circle cx="108" cy="28" r="16" fill="#0091FF"/>
+</svg>

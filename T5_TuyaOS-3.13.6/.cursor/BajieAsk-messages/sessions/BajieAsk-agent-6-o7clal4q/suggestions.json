@@ -1,10 +1,10 @@
 {
   "suggestions": [
-    "Scan audio pipeline",
-    "Review board BSP",
-    "Add new skill",
-    "Explain architecture"
+    "烧录板级复测",
+    "查其它指针误用",
+    "生成提交说明",
+    "结束本轮"
   ],
-  "suggestionsAt": 1782834252395,
+  "suggestionsAt": 1782898214211,
   "forUser": true
 }

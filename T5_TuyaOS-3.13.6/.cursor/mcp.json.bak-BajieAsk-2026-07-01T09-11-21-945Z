@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "BajieAsk": {
+      "command": "node",
+      "args": [
+        "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/.cursor/BajieAsk-server/index.mjs"
+      ],
+      "env": {
+        "BajieAsk_INSTANCE_ID": "BajieAsk-ws-09688a66",
+        "BajieAsk_QUEUE_ROOT": "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/.cursor/BajieAsk-messages",
+        "MCP_REQUEST_TIMEOUT_MS": "1800000"
+      },
+      "disabled": false
+    }
+  }
+}

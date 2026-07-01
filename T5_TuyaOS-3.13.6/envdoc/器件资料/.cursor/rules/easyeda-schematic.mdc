@@ -1,0 +1,51 @@
+---
+description: >-
+  嘉立创EDA / EasyEDA 原理图绘制与编辑。在用户提到原理图、schematic、嘉立创EDA、立创EDA、
+  电路图、符号、连线、器件放置时使用。依赖 easyeda-api 技能与 Bridge 服务。
+globs:
+  - "**/*.esch"
+  - "**/*.epro"
+  - "**/schematic/**"
+alwaysApply: false
+---
+
+# EasyEDA 原理图（本工程）
+
+## 技能位置
+
+- **Agent Skill 目录**: `C:\Users\Jia Yi\.cursor\skills\easyeda-api`
+- **环境变量**: `CLAUDE_SKILL_DIR`（已配置，指向上述目录）
+- 执行技能前请先阅读该目录下的 `SKILL.md` 与 `references/_index.md`
+
+## 使用前准备（每次新会话建议检查）
+
+1. **启动 Bridge**（后台，勿前台阻塞）:
+   ```powershell
+   & "C:\Users\Jia Yi\.cursor\skills\easyeda-api\scripts\start-bridge.ps1"
+   ```
+2. **嘉立创 EDA 专业版** 已打开，并安装扩展 [run-api-gateway](https://ext.lceda.cn/item/oshwhub/run-api-gateway)
+3. **验证连接**:
+   ```powershell
+   Invoke-RestMethod http://localhost:49620/health
+   Invoke-RestMethod http://localhost:49620/eda-windows
+   ```
+
+## 原理图任务优先级
+
+- 文档管理: `eda.dmt_Schematic`、`eda.dmt_Project`、`eda.dmt_EditorControl`
+- 原理图图元: `eda.sch_*`、`eda.ISCH_*` 前缀 API
+- 源码格式（直接改文件时）: `format/schematic/` 下文档
+- 当前文档类型必须为 **原理图页** (`SCHEMATIC_PAGE`) 再执行 SCH API
+
+## 执行代码
+
+通过 Bridge HTTP 发送（自动发现端口 49620–49629）:
+
+```powershell
+$body = @{ code = "return await eda.dmt_Project.getCurrentProjectInfo();" } | ConvertTo-Json
+Invoke-RestMethod -Method POST -Uri "http://localhost:49620/execute" -ContentType "application/json" -Body $body
+```
+
+## 触发口令
+
+用户说 **「嘉立创EDA，启动！」**、**「立创EDA，启动！」** 或 **「EDA，启动！」** 时，按 `SKILL.md` 快速开始流程执行。

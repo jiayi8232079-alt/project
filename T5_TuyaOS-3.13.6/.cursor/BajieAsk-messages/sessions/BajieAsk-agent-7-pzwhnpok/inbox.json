@@ -1,12 +1,1 @@
-{
-  "messages": [
-    {
-      "id": "msg-1782894378461-akf9un13",
-      "from": "",
-      "to": "BajieAsk-agent-7-pzwhnpok",
-      "type": "user",
-      "text": "我用「请调用 device_mcp_load_mcd_example 加载麦当劳示例配置」语音调用mcp，机器直接重启了，这两个是日志/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/packages/serial-debug-main-20260701-161228.txt，/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/packages/serial-debug-main-20260701-160717.txt，锁定一下位置",
-      "time": 1782894378461
-    }
-  ]
-}
+{"messages":[]}

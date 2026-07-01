@@ -1,0 +1,348 @@
+[16:59:36.142] [RX ] [ONBOARD_MIC] data_size: 248960(Bytes), 60KB/s 
+[16:59:36.143] [RX ] [RAW_READ] data_size: 124160(Bytes), 30KB/s 
+[16:59:36.144] [RX ] [RAW_WRITE] data_size: 27648(Bytes), 6KB/s 
+[16:59:36.144] [RX ] [ONBOARD_SPK] data_size: 27520(Bytes), 6KB/s 
+[16:59:36.146] [RX ] [WIFI_TX] data_size: 124160(Bytes), 30KB/s 
+[16:59:36.146] [RX ] [WIFI_RX] data_size: 70144(Bytes), 17KB/s 
+[16:59:36.800] [RX ] [07-01 16:59:36.432 ty E][0x60fdafe4][uf_flash_file_app.c:338] uf_open netcfg_log err 8
+[16:59:36.962] [RX ] [07-01 16:59:36.594 ty D][0x2805237c][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[16:59:36.962] [RX ] 
+[16:59:36.964] [RX ] [07-01 16:59:36.594 ty D][0x2805237c][wukong_kws.c:317] wukong kws vad end
+[16:59:37.188] [RX ] [07-01 16:59:36.821 ty D][0x60fdafe4][ty_meta_report.c:44] report meta to cloud
+[16:59:37.205] [RX ] [07-01 16:59:36.834 ty D][0x60fdafe4][iot_httpc.c:979] Post Data: {"metas":{"supportBleWifiProtect":true,"timerCapability":1,"supportLocalKeyChange":true,"secureVersion":"1.0.0","rtcCapability":7},"t":1782896376}
+[16:59:37.210] [RX ] [07-01 16:59:36.836 ty D][0x60fdafe4][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=tuya.device.meta.save&devId=6c4193aadd3af18223pj5q&et=3&t=1782896376&v=1.0&sign=53a3166200b848f9e13af28fd05ad3d1
+[16:59:37.212] [RX ] [07-01 16:59:36.838 ty D][0x60fdafe4][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:59:37.214] [RX ] [07-01 16:59:36.839 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 1
+[16:59:37.216] [RX ] [07-01 16:59:36.839 ty D][0x60fdafe4][uni_network.c:372] use dynamic dns ip:8.153.105.238 for domain:a6.tuyacn.com
+[16:59:37.216] [RX ] tkl_net_socket_create type(0), fd(3)!
+[16:59:37.218] [RX ] [07-01 16:59:36.840 ty D][0x60fdafe4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:59:37.251] [RX ] [07-01 16:59:36.882 ty D][0x60fdafe4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:59:37.254] [RX ] [07-01 16:59:36.885 ty D][0x60fdafe4][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:59:37.255] [RX ] [07-01 16:59:36.885 ty D][0x60fdafe4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:59:37.257] [RX ] [07-01 16:59:36.885 ty D][0x60fdafe4][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:59:37.260] [RX ] [07-01 16:59:36.892 ty D][0x60fdafe4][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:59:37.261] [RX ] [07-01 16:59:36.892 ty D][0x60fdafe4][tuya_cert_manager.c:296] tuya public url
+[16:59:37.264] [RX ] [07-01 16:59:36.894 ty D][0x60fdafe4][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:59:37.266] [RX ] [07-01 16:59:36.894 ty D][0x60fdafe4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:59:37.450] [RX ] [07-01 16:59:37.080 ty D][0x60fdd0dc][iot_httpc.c:979] Post Data: {"codes":["w.temp","w.thigh","w.tlow","w.humidity","w.conditionNum","w.date.1"],"t":1782896377}
+[16:59:37.454] [RX ] [07-01 16:59:37.082 ty D][0x60fdd0dc][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=thing.weather.get&devId=6c4193aadd3af18223pj5q&et=3&t=1782896377&v=1.0&sign=2bc8005d97859a73ab8a871706d2fd4c
+[16:59:37.457] [RX ] [07-01 16:59:37.085 ty D][0x60fdd0dc][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:59:37.458] [RX ] [07-01 16:59:37.086 ty D][0x60fdd0dc][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 1
+[16:59:37.461] [RX ] [07-01 16:59:37.086 ty D][0x60fdd0dc][uni_network.c:372] use dynamic dns ip:8.153.105.238 for domain:a6.tuyacn.com
+[16:59:37.462] [RX ] tkl_net_socket_create type(0), fd(4)!
+[16:59:37.463] [RX ] [07-01 16:59:37.087 ty D][0x60fdd0dc][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:59:38.944] [RX ] [07-01 16:59:38.575 ty D][0x60fdafe4][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:59:38.947] [RX ] [07-01 16:59:38.576 ty D][0x60fdafe4][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[16:59:38.950] [RX ] [07-01 16:59:38.577 ty D][0x60fdafe4][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:59:38.951] [RX ] [07-01 16:59:38.578 ty D][0x60fdafe4][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[16:59:39.022] [RX ] [07-01 16:59:38.653 ty D][0x60fdafe4][iot_httpc.c:619] Decode Rev:{"result":true,"t":1782896379,"success":true}
+[16:59:39.025] [RX ] [07-01 16:59:39.000 ty D][0x60fdafe4][tls_transporter.c:93] tls transporter close socket fd:3
+[16:59:39.027] [RX ] [07-01 16:59:39.000 ty D][0x60fdafe4][tcp_transporter.c:173] tcp transporter close socket fd:3
+[16:59:39.029] [RX ] [07-01 16:59:39.002 ty D][0x60fdafe4][tls_transporter.c:101] tls transporter close tls handler:0x60d552e8
+[16:59:39.031] [RX ] [07-01 16:59:39.003 ty D][0x60fdafe4][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[16:59:39.033] [RX ] [07-01 16:59:39.004 ty D][0x60fdafe4][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[16:59:39.034] [RX ] [07-01 16:59:39.005 ty D][0x60fdafe4][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:59:39.700] [RX ] [07-01 16:59:39.673 ty D][0x60d8722c][tuya_ipc_p2p.c:4796] Begin to session detect
+[16:59:39.702] [RX ] [07-01 16:59:39.674 ty D][0x60dde854][tuya_ipc_p2p_wrapper.c:25] listen task start
+[16:59:39.702] [RX ] 
+[16:59:39.704] [RX ] [07-01 16:59:39.675 ty D][0x60dde854][tuya_media_service_rtc.c:3361] [P2P]ctx_new_session_accept try to waite new-session..
+[16:59:39.704] [RX ] 
+[16:59:39.707] [RX ] [07-01 16:59:39.677 ty D][0x60d5a734][tal_thread.c:224] Thread:ai_toy_state Exec Start. Set to Running Stat 0x60d5a734
+[16:59:39.708] [RX ] [07-01 16:59:39.681 ty D][0x60d5a734][wukong_ai_mode_free.c:131] [====ai_free] idle
+[16:59:39.709] [RX ] [07-01 16:59:39.682 ty D][0x60d5a734][tuya_led.c:170] pinname:56
+[16:59:39.721] [RX ] [07-01 16:59:39.695 ty D][0x60fd2f70][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:59:39.724] [RX ] [07-01 16:59:39.696 ty D][0x60fd2f70][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[16:59:39.726] [RX ] [07-01 16:59:39.698 ty D][0x60fd2f70][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:59:39.728] [RX ] [07-01 16:59:39.699 ty D][0x60fd2f70][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[16:59:39.743] [RX ] [07-01 16:59:39.716 ty D][0x60dc5f0c][tal_thread.c:224] Thread:record_task Exec Start. Set to Running Stat 0x60dc5f0c
+[16:59:39.746] [RX ] [07-01 16:59:39.718 ty D][0x60d5a734][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:0
+[16:59:39.747] [RX ] [07-01 16:59:39.718 ty D][0x60d5a734][tuya_ai_toy.c:838] [====ai_toy] lowpower timer ctrl enable:1
+[16:59:39.749] [RX ] [07-01 16:59:39.719 ty D][0x60d5a734][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[16:59:39.749] [RX ] 
+[16:59:39.809] [RX ] [07-01 16:59:39.762 ty D][0x60fd2f70][iot_httpc.c:619] Decode Rev:{"t":1782896380,"success":false,"errorCode":"REMOTE_API_RUN_UNKNOW_FAILED","errorMsg":"Remote api run unknown failed"}
+[16:59:39.809] [RX ] [07-01 16:59:39.772 ty E][0x60fd2f70][iot_httpc.c:801] errorCode:REMOTE_API_RUN_UNKNOW_FAILED
+[16:59:39.809] [RX ] [07-01 16:59:39.774 ty D][0x60fd2f70][tls_transporter.c:93] tls onnect Suc9.779 ty D][0x60fd2f70][tuya_tls.c:1297] TUYA_TLS Discf70][tcp_transporter.c:173] tcp transporter close socket fd:1
+[16:59:39.810] [RX ] [07-01 16:59:39.778 ty D][0x60fd2f70][tls_transporter.c:101] tls onnect Success
+[16:59:39.811] [RX ] [07-01 16:59:39.780 ty D][0x60fd2f70][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:59:39.813] [RX ] [07-01 16:59:39.781 ty E][0x60fd2f70][iot_httpc.c:1003] Post Data Return Fail.-4375
+[16:59:39.815] [RX ] [07-01 16:59:39.781 ty N][0x60fd2f70][tuya_p2p_sdk.c:261] tuya_p2p_sdk_init success low_power=0 ring=1
+[16:59:39.817] [RX ] [07-01 16:59:39.782 ty D][0x60fd2f70][tal_thread.c:265] Del Thrd:tuya_ipc_thread
+[16:59:39.820] [RX ] [07-01 16:59:39.793 ty D][0x60fd2f70][tal_thread.c:240] Thread:tuya_ipc_thread Exec Finish. Set to Del Stat
+[16:59:39.822] [RX ] [07-01 16:59:39.794 ty D][0x60fd2f70][tal_thread.c:95] del list not empty...deleting 0x60fd3014, next 0x60fdfff0
+[16:59:39.824] [RX ] [07-01 16:59:39.795 ty D][0x60fd2f70][tal_thread.c:103] Final Free Thread:tuya_ipc_thread, is_self:1
+[16:59:39.826] [RX ] [07-01 16:59:39.796 ty D][0x60fd2f70][tal_thread.c:107] delay to delete thread self
+[16:59:39.828] [RX ] [07-01 16:59:39.800 ty D][0x60fd2f70][tal_thread.c:119] finally delete thread self
+[16:59:39.829] [RX ] [07-01 16:59:39.802 ty D][0x60fd2f70][tal_thread.c:73] real delete thread:0x60fd2f70
+[16:59:40.143] [RX ] [ONBOARD_MIC] data_size: 245760(Bytes), 60KB/s 
+[16:59:40.144] [RX ] [RAW_READ] data_size: 122880(Bytes), 30KB/s 
+[16:59:40.145] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:59:40.145] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:59:40.147] [RX ] [WIFI_TX] data_size: 122880(Bytes), 30KB/s 
+[16:59:40.147] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:59:40.577] [RX ] [07-01 16:59:40.550 ty D][0x2805237c][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:59:40.577] [RX ] 
+[16:59:40.578] [RX ] [07-01 16:59:40.551 ty D][0x2805237c][wukong_kws.c:315] wukong kws vad on
+[16:59:41.439] [RX ] [07-01 16:59:41.412 ty D][0x2805237c][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[16:59:41.439] [RX ] 
+[16:59:41.440] [RX ] [07-01 16:59:41.414 ty D][0x2805237c][wukong_kws.c:317] wukong kws vad end
+[16:59:42.495] [RX ] [07-01 16:59:42.469 ty D][0x2805237c][wukong_audio_aec_vad.c:111] speexdsp process time: aec->5(ms), count = 501
+[16:59:42.495] [RX ] 
+[16:59:42.498] [RX ] [07-01 16:59:42.473 ty D][0x2805237c][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[16:59:42.498] [RX ] 
+[16:59:42.500] [RX ] [07-01 16:59:42.473 ty D][0x2805237c][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->2(ms), flag=2, count = 501
+[16:59:42.500] [RX ] 
+[16:59:43.968] [RX ] [07-01 16:59:43.944 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[16:59:44.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:59:44.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:59:44.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:59:44.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:59:44.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:59:44.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:59:44.337] [RX ] [07-01 16:59:44.312 ty D][0x60d67024][tuya_ipc_p2p.c:4097] session cmd recv proc alive [2000] num[0]
+[16:59:48.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:59:48.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:59:48.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:59:48.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:59:48.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:59:48.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:59:49.397] [RX ] [07-01 16:59:49.371 ty D][0x2805237c][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:59:49.397] [RX ] 
+[16:59:49.398] [RX ] [07-01 16:59:49.372 ty D][0x2805237c][wukong_kws.c:315] wukong kws vad on
+[16:59:50.297] [RX ] [07-01 16:59:50.271 ty D][0x2805237c][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[16:59:50.297] [RX ] 
+[16:59:50.298] [RX ] [07-01 16:59:50.272 ty D][0x2805237c][wukong_kws.c:317] wukong kws vad end
+[16:59:51.897] [RX ] [07-01 16:59:51.863 ty D][0x60d8722c][tuya_ipc_p2p.c:4868] session detect run
+[16:59:52.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:59:52.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:59:52.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:59:52.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:59:52.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:59:52.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:59:52.496] [RX ] [07-01 16:59:52.471 ty D][0x2805237c][wukong_audio_aec_vad.c:111] speexdsp process time: aec->7(ms), count = 1001
+[16:59:52.496] [RX ] 
+[16:59:52.501] [RX ] [07-01 16:59:52.475 ty D][0x2805237c][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[16:59:52.501] [RX ] 
+[16:59:52.503] [RX ] [07-01 16:59:52.476 ty D][0x2805237c][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->4(ms), flag=2, count = 1001
+[16:59:52.503] [RX ] 
+[16:59:53.968] [RX ] [07-01 16:59:53.944 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[16:59:55.464] [RX ] [07-01 16:59:55.438 ty E][0x60fdd0dc][tls_transporter.c:53] tcp transporter connect failed,ret:-0x710a
+[16:59:55.467] [RX ] [07-01 16:59:55.439 ty D][0x60fdd0dc][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:-28938
+[16:59:55.468] [RX ] [07-01 16:59:55.439 ty D][0x60fdd0dc][tls_transporter.c:93] tls transporter close socket fd:-1
+[16:59:55.471] [RX ] [07-01 16:59:55.440 ty D][0x60fdd0dc][tls_transporter.c:98] tls transporter already closed
+[16:59:55.472] [RX ] [07-01 16:59:55.440 ty D][0x60fdd0dc][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:59:55.474] [RX ] [07-01 16:59:55.440 ty D][0x60fdd0dc][uni_network.c:409] lower_dns_cache_priority:0
+[16:59:55.479] [RX ] [07-01 16:59:55.440 ty E][0x60fdd0dc][http_inf.c:80] Open session failed: https://a6.tuyacn.com/d.json?a=thing.weather.get&devId=6c4193aadd3af18223pj5q&et=3&t=1782896377&v=1.0&sign=2bc8005d97859a73ab8a871706d2fd4c (-28938)
+[16:59:55.480] [RX ] [07-01 16:59:55.441 ty E][0x60fdd0dc][iot_httpc.c:1003] Post Data Return Fail.-2050
+[16:59:55.482] [RX ] bk_value:0 / 0 / 0, ty_value:0
+[16:59:55.482] [RX ] bk_value:0 / 0 / 0, ty_value:0
+[16:59:55.485] [RX ] [07-01 16:59:55.453 ty D][0x60fdafe4][iot_httpc.c:979] Post Data: {"data":"0","t":1782896395}
+[16:59:55.489] [RX ] [07-01 16:59:55.457 ty D][0x60fdafe4][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=atop.online.debug.log&devId=6c4193aadd3af18223pj5q&et=3&t=1782896395&sign=128749e7e69a4fea82365573cf26ec43
+[16:59:55.490] [RX ] [07-01 16:59:55.459 ty D][0x60fdafe4][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:59:55.493] [RX ] [07-01 16:59:55.460 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 0
+[16:59:55.494] [RX ] [07-01 16:59:55.461 ty D][0x60fdafe4][uni_network.c:152] use dns service to get ip for domain a6.tuyacn.com
+[16:59:55.494] [RX ] 
+[16:59:55.496] [RX ] [07-01 16:59:55.462 ty D][0x60fdafe4][tuya_register_center.c:434] rcs.urlx:h6-ay.iot-dns.com
+[16:59:55.500] [RX ] [07-01 16:59:55.474 ty D][0x60fdafe4][iot_httpc.c:1629] dns_query:https://h6-ay.iot-dns.com/v1/dns_query [{"domain":"a6.tuyacn.com"}]
+[16:59:55.502] [RX ] [07-01 16:59:55.475 ty D][0x60fdafe4][httpc.c:639] Connect: h6-ay.iot-dns.com Port: 443  -->>
+[16:59:55.505] [RX ] [07-01 16:59:55.477 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname h6-ay.iot-dns.com, prio 0
+[16:59:55.506] [RX ] [07-01 16:59:55.478 ty D][0x60fdafe4][uni_network.c:418] set_dns_cache_priority:1
+[16:59:55.507] [RX ] [07-01 16:59:55.478 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname h6-ay.iot-dns.com, prio 1
+[16:59:55.548] [RX ] [07-01 16:59:55.522 ty D][0x60fdafe4][uni_network.c:384] use system dns ip 101.132.61.178 for domain h6-ay.iot-dns.com
+[16:59:55.548] [RX ] 
+[16:59:55.565] [RX ] [07-01 16:59:55.539 ty D][0x60fdafe4][uni_network.c:230] cache dns [h6-ay.iot-dns.com]<->[101.132.61.178]
+[16:59:55.566] [RX ] [07-01 16:59:55.540 ty D][0x60fdafe4][uni_network.c:418] set_dns_cache_priority:0
+[16:59:55.567] [RX ] tkl_net_socket_create type(0), fd(1)!
+[16:59:55.570] [RX ] [07-01 16:59:55.542 ty D][0x60fdafe4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:59:55.600] [RX ] [07-01 16:59:55.574 ty D][0x60fdafe4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:59:55.602] [RX ] [07-01 16:59:55.574 ty D][0x60fdafe4][tuya_tls.c:1037] TUYA_TLS Begin Connect h6-ay.iot-dns.com:443
+[16:59:55.627] [RX ] [07-01 16:59:55.577 ty D][0x60fdafe4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:59:55.627] [RX ] [07-01 16:59:55.577 ty D][0x60fdafe4][tuya_tls.c:796] load h6-ay.iot-dns.com cert, port 443
+[16:59:55.627] [RX ] [07-01 16:59:55.581 ty D][0x60fdafe4][tuya_cert_manager.c:269] iot-dns url
+[16:59:55.627] [RX ] [07-01 16:59:55.583 ty D][0x60fdafe4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:59:55.842] [RX ] [07-01 16:59:55.817 ty D][0x60d67024][tuya_ipc_p2p.c:4097] session cmd recv proc alive [4000] num[0]
+[16:59:56.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:59:56.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:59:56.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:59:56.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:59:56.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:59:56.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:59:57.784] [RX ] [07-01 16:59:57.759 ty D][0x60fdafe4][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:59:57.787] [RX ] [07-01 16:59:57.760 ty D][0x60fdafe4][tuya_tls.c:1190] handshake finish for h6-ay.iot-dns.com. set send/recv to user set
+[16:59:57.790] [RX ] [07-01 16:59:57.762 ty D][0x60fdafe4][tuya_tls.c:1195] TUYA_TLS Success Connect h6-ay.iot-dns.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:59:57.799] [RX ] [07-01 16:59:57.773 ty D][0x60fdafe4][httpc.c:641] Connect: h6-ay.iot-dns.com Port: 443  --<< ,r:0
+[16:59:57.840] [RX ] [07-01 16:59:57.814 ty D][0x60fdafe4][tls_transporter.c:93] tls transporter close socket fd:1
+[16:59:57.841] [RX ] [07-01 16:59:57.815 ty D][0x60fdafe4][tcp_transporter.c:173] tcp transporter close socket fd:1
+[16:59:57.844] [RX ] [07-01 16:59:57.816 ty D][0x60fdafe4][tls_transporter.c:101] tls transporter close tls handler:0x60d55140
+[16:59:57.845] [RX ] [07-01 16:59:57.817 ty D][0x60fdafe4][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[16:59:57.848] [RX ] [07-01 16:59:57.819 ty D][0x60fdafe4][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[16:59:57.850] [RX ] [07-01 16:59:57.820 ty D][0x60fdafe4][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:59:57.851] [RX ] [07-01 16:59:57.821 ty D][0x60fdafe4][uni_network.c:56] get ip 47.116.198.59
+[16:59:57.853] [RX ] [07-01 16:59:57.822 ty D][0x60fdafe4][uni_network.c:158] dns service get ip 47.116.198.59 for domain a6.tuyacn.com
+[16:59:57.853] [RX ] 
+[16:59:57.859] [RX ] [07-01 16:59:57.832 ty D][0x60fdafe4][uni_network.c:230] cache dns [a6.tuyacn.com]<->[47.116.198.59]
+[16:59:57.861] [RX ] tkl_net_socket_create type(0), fd(1)!
+[16:59:57.861] [RX ] [07-01 16:59:57.835 ty D][0x60fdafe4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:59:57.879] [RX ] [07-01 16:59:57.853 ty D][0x60fdafe4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:59:57.882] [RX ] [07-01 16:59:57.854 ty D][0x60fdafe4][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:59:57.883] [RX ] [07-01 16:59:57.854 ty D][0x60fdafe4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:59:57.886] [RX ] [07-01 16:59:57.855 ty D][0x60fdafe4][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:59:57.887] [RX ] [07-01 16:59:57.855 ty D][0x60fdafe4][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:59:57.890] [RX ] [07-01 16:59:57.856 ty D][0x60fdafe4][tuya_cert_manager.c:296] tuya public url
+[16:59:57.892] [RX ] [07-01 16:59:57.857 ty D][0x60fdafe4][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:59:57.893] [RX ] [07-01 16:59:57.859 ty D][0x60fdafe4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:59:58.469] [RX ] [07-01 16:59:58.442 ty D][0x60fdd0dc][iot_httpc.c:979] Post Data: {"codes":["w.temp","w.thigh","w.tlow","w.humidity","w.conditionNum","w.date.1"],"t":1782896398}
+[16:59:58.474] [RX ] [07-01 16:59:58.444 ty D][0x60fdd0dc][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=thing.weather.get&devId=6c4193aadd3af18223pj5q&et=3&t=1782896398&v=1.0&sign=878ed2cf22dc63d347c3fe7d33ce1c55
+[16:59:58.476] [RX ] [07-01 16:59:58.446 ty D][0x60fdd0dc][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:59:58.477] [RX ] [07-01 16:59:58.446 ty D][0x60fdd0dc][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 0
+[16:59:58.480] [RX ] [07-01 16:59:58.447 ty D][0x60fdd0dc][uni_network.c:132] use dynamic dns ip 47.116.198.59 for domain a6.tuyacn.com
+[16:59:58.480] [RX ] 
+[16:59:58.481] [RX ] tkl_net_socket_create type(0), fd(3)!
+[16:59:58.482] [RX ] [07-01 16:59:58.447 ty D][0x60fdd0dc][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:59:58.507] [RX ] [07-01 16:59:58.481 ty D][0x60fdd0dc][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:59:58.509] [RX ] [07-01 16:59:58.481 ty D][0x60fdd0dc][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:59:58.511] [RX ] [07-01 16:59:58.482 ty D][0x60fdd0dc][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:59:58.513] [RX ] [07-01 16:59:58.483 ty D][0x60fdd0dc][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:59:58.515] [RX ] [07-01 16:59:58.483 ty D][0x60fdd0dc][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:59:58.518] [RX ] [07-01 16:59:58.483 ty D][0x60fdd0dc][tuya_cert_manager.c:296] tuya public url
+[16:59:58.519] [RX ] [07-01 16:59:58.485 ty D][0x60fdd0dc][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:59:58.521] [RX ] [07-01 16:59:58.485 ty D][0x60fdd0dc][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:59:59.629] [RX ] [07-01 16:59:59.603 ty D][0x60fdd0dc][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:59:59.631] [RX ] [07-01 16:59:59.604 ty D][0x60fdd0dc][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[16:59:59.634] [RX ] [07-01 16:59:59.604 ty D][0x60fdd0dc][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:59:59.635] [RX ] [07-01 16:59:59.604 ty D][0x60fdd0dc][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[16:59:59.775] [RX ] [07-01 16:59:59.745 ty D][0x60fdd0dc][iot_httpc.c:619] Decode Rev:{"result":{"data":{"w.temp.0":25,"w.thigh.0":25,"w.tlow.0":23,"w.humidity.0":97,"w.conditionNum.0":"143"},"expiration":7},"t":1782896399,"success":true}
+[16:59:59.777] [RX ] [07-01 16:59:59.748 ty D][0x60fdd0dc][tls_transporter.c:93] tls transporter close socket fd:3
+[16:59:59.780] [RX ] [07-01 16:59:59.748 ty D][0x60fdd0dc][tcp_transporter.c:173] tcp transporter close socket fd:3
+[16:59:59.782] [RX ] [07-01 16:59:59.753 ty D][0x60fdd0dc][tls_transporter.c:101] tls transporter close tls handler:0x60d66b90
+[16:59:59.783] [RX ] [07-01 16:59:59.754 ty D][0x60fdd0dc][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[16:59:59.785] [RX ] [07-01 16:59:59.756 ty D][0x60fdd0dc][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[16:59:59.786] [RX ] [07-01 16:59:59.756 ty D][0x60fdd0dc][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:59:59.808] [RX ] raw weather data-88:
+[16:59:59.808] [RX ] 0x01 0x08 0x77 0x2E 0x74 0x65 0x6D 0x70 0x2E 0x30 0x00 0x04 0x00 0x00 0x00 0x19 0x09 0x77 0x2E 0x74 0x68 0x69 0x67 0x68 0x2E 0x30 0x00 0x04 0x00 0x00 0x00 0x19 0x08 0x77 0x2E 0x74 0x6C 0x6F 0x77 0x2E 0x30 0x00 0x04 0x00 0x00 0x00 0x17 0x0C 0x77 0x2E 0x68 0x75 0x6D 0x69 0x64 0x69 0x74 0x79 0x2E 0x30 0ils.c:288] set time by rtc
+[16:59:59.808] [RX ]  0x10 0x77 0x2E 0x63 0x6F 0x6E 0x64 0x69 0x74 0x69 0x6F 0x6E 0x4E 0x75 0x6D 0x2E 0x30 0x01 0x03 0x31 0x34 0x33 
+[16:59:59.808] [RX ] [07-01 16:59:59.772 ty D][0x60fdd0dc][tuya_devos_utils.c:288] set time by rtc
+[17:00:00.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[17:00:00.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[17:00:00.145] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[17:00:00.145] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[17:00:00.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[17:00:00.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[17:00:01.103] [RX ] [07-01 17:00:01.078 ty D][0x60fdafe4][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[17:00:01.106] [RX ] [07-01 17:00:01.079 ty D][0x60fdafe4][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[17:00:01.110] [RX ] [07-01 17:00:01.081 ty D][0x60fdafe4][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[17:00:01.111] [RX ] [07-01 17:00:01.082 ty D][0x60fdafe4][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[17:00:01.147] [RX ] [07-01 17:00:01.121 ty D][0x60fdafe4][iot_httpc.c:619] Decode Rev:{"result":true,"t":1782896401,"success":true}
+[17:00:01.149] [RX ] [07-01 17:00:01.124 ty D][0x60fdafe4][tls_transporter.c:93] tls transporter close socket fd:1
+[17:00:01.157] [RX ] [07-01 17:00:01.132 ty D][0x60fdafe4][tcp_transporter.c:173] tcp transporter close socket fd:1
+[17:00:01.169] [RX ] [07-01 17:00:01.143 ty D][0x60fdafe4][tls_transporter.c:101] tls transporter close tls handler:0x60d555d4
+[17:00:01.178] [RX ] [07-01 17:00:01.153 ty D][0x60fdafe4][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[17:00:01.180] [RX ] [07-01 17:00:01.154 ty D][0x60fdafe4][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[17:00:01.181] [RX ] [07-01 17:00:01.155 ty D][0x60fdafe4][tuya_tls.c:990] tuya_tls_connect_destroy.
+[17:00:01.184] [RX ] [07-01 17:00:01.157 ty D][0x60fdafe4][tuya_svc_devos_daemons.c:57] put rst log finish
+[17:00:01.187] [RX ] [07-01 17:00:01.158 ty D][0x60fdafe4][iot_httpc.c:979] Post Data: {"type":"[\"timezone\",\"rateRule\",\"seniorAbility\",\"localMeshKey\"]","t":1782896401}
+[17:00:01.192] [RX ] [07-01 17:00:01.160 ty D][0x60fdafe4][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=tuya.device.dynamic.config.get&devId=6c4193aadd3af18223pj5q&et=3&t=1782896401&v=2.0&sign=9f070ae143d233605062e26929df9219
+[17:00:01.193] [RX ] [07-01 17:00:01.162 ty D][0x60fdafe4][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[17:00:01.196] [RX ] [07-01 17:00:01.162 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 0
+[17:00:01.198] [RX ] [07-01 17:00:01.163 ty D][0x60fdafe4][uni_network.c:132] use dynamic dns ip 47.116.198.59 for domain a6.tuyacn.com
+[17:00:01.198] [RX ] 
+[17:00:01.199] [RX ] tkl_net_socket_create type(0), fd(1)!
+[17:00:01.200] [RX ] [07-01 17:00:01.163 ty D][0x60fdafe4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[17:00:01.254] [RX ] [07-01 17:00:01.202 ty D][0x60fdafe4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[17:00:01.269] [RX ] [07-01 17:00:01.243 ty D][0x60fdafe4][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[17:00:01.307] [RX ] [07-01 17:00:01.282 ty D][0x60fdafe4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[17:00:01.323] [RX ] [07-01 17:00:01.283 ty D][0x60fdafe4][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[17:00:01.326] [RX ] [07-01 17:00:01.301 ty D][0x60fdafe4][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[17:00:01.328] [RX ] [07-01 17:00:01.303 ty D][0x60fdafe4][tuya_cert_manager.c:296] tuya public url
+[17:00:01.339] [RX ] [07-01 17:00:01.313 ty D][0x60fdafe4][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[17:00:01.342] [RX ] [07-01 17:00:01.315 ty D][0x60fdafe4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[17:00:01.343] [RX ] [07-01 17:00:01.316 ty N][0x60fd3570][product_board_motor_debug.c:57] motor demo: [0] rev
+[17:00:02.495] [RX ] [07-01 17:00:02.470 ty D][0x2805237c][wukong_audio_aec_vad.c:111] speexdsp process time: aec->6(ms), count = 1501
+[17:00:02.495] [RX ] 
+[17:00:02.499] [RX ] [07-01 17:00:02.473 ty D][0x2805237c][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[17:00:02.499] [RX ] 
+[17:00:02.501] [RX ] [07-01 17:00:02.474 ty D][0x2805237c][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->2(ms), flag=2, count = 1501
+[17:00:02.501] [RX ] 
+[17:00:03.502] [RX ] [07-01 17:00:03.475 ty D][0x60fdafe4][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[17:00:03.505] [RX ] [07-01 17:00:03.477 ty D][0x60fdafe4][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[17:00:03.508] [RX ] [07-01 17:00:03.478 ty D][0x60fdafe4][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[17:00:03.509] [RX ] [07-01 17:00:03.479 ty D][0x60fdafe4][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[17:00:03.609] [RX ] [07-01 17:00:03.563 ty D][0x60fdafe4][iot_httpc.c:619] Decode Rev:{"result":{"localMeshKey":{"ackId":"1","localMeshKey":"cn'yh(9KQ>Z8O^l:"},"seniorAbility":{},"timezone":{"config":{},"time":1782896403,"validTime":1800}},"t":1782896403,"success":true}
+[17:00:03.626] [RX ] [07-01 17:00:03.600 ty D][0x60fdafe4][tls_transporter.c:93] tls transporter close socket fd:1
+[17:00:03.627] [RX ] [07-01 17:00:03.601 ty D][0x60fdafe4][tcp_transporter.c:173] tcp transporter close socket fd:1
+[17:00:03.630] [RX ] [07-01 17:00:03.602 ty D][0x60fdafe4][tls_transporter.c:101] tls transporter close tls handler:0x60d555d4
+[17:00:03.631] [RX ] [07-01 17:00:03.603 ty D][0x60fdafe4][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[17:00:03.645] [RX ] [07-01 17:00:03.603 ty D][0x60fdafe4][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[17:00:03.647] [RX ] [07-01 17:00:03.620 ty D][0x60fdafe4][tuya_tls.c:990] tuya_tls_connect_destroy.
+[17:00:03.648] [RX ] [07-01 17:00:03.621 ty N][0x60fdafe4][tuya_devos_utils.c:109] reset dp rate rule finish.
+[17:00:03.663] [RX ] [07-01 17:00:03.623 ty D][0x60fdafe4][iot_httpc.c:2230] NO ackId
+[17:00:03.703] [RX ] [07-01 17:00:03.675 ty D][0x60fdafe4][iot_httpc.c:979] Post Data: {"subId":null,"t":1782896403}
+[17:00:03.748] [RX ] [07-01 17:00:03.699 ty D][0x60fdafe4][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=tuya.device.upgrade.silent.get&devId=6c4193aadd3af18223pj5q&et=3&t=1782896403&v=4.4&sign=8595242a90ed16f83c22b4c81e9eed89
+[17:00:03.748] [RX ] [07-01 17:00:03.701 ty D][0x60fdafe4][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[17:00:03.748] [RX ] [07-01 17:00:03.702 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 0
+[17:00:03.748] [RX ] [07-01 17:00:03.703 ty D][0x60fdafe4][uni_network.c:132] use dynamic dns ip 47.116.198.59 for domain a6.tuyacn.com
+[17:00:03.748] [RX ] 
+[17:00:03.748] [RX ] tkl_net_socket_create type(0), fd(1)!
+[17:00:03.748] [RX ] [07-01 17:00:03.713 ty D][0x60fdafe4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[17:00:03.766] [RX ] [07-01 17:00:03.740 ty D][0x60fdafe4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[17:00:03.768] [RX ] [07-01 17:00:03.741 ty D][0x60fdafe4][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[17:00:03.770] [RX ] [07-01 17:00:03.742 ty D][0x60fdafe4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[17:00:03.780] [RX ] [07-01 17:00:03.743 ty D][0x60fdafe4][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[17:00:03.783] [RX ] [07-01 17:00:03.755 ty D][0x60fdafe4][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[17:00:03.784] [RX ] [07-01 17:00:03.756 ty D][0x60fdafe4][tuya_cert_manager.c:296] tuya public url
+[17:00:03.785] [RX ] [07-01 17:00:03.757 ty D][0x60fdafe4][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[17:00:03.788] [RX ] [07-01 17:00:03.760 ty D][0x60fdafe4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[17:00:03.968] [RX ] [07-01 17:00:03.944 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[17:00:04.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[17:00:04.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[17:00:04.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[17:00:04.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[17:00:04.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[17:00:04.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[17:00:05.980] [RX ] [07-01 17:00:05.955 ty D][0x60fdafe4][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[17:00:05.983] [RX ] [07-01 17:00:05.956 ty D][0x60fdafe4][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[17:00:05.986] [RX ] [07-01 17:00:05.956 ty D][0x60fdafe4][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[17:00:05.987] [RX ] [07-01 17:00:05.957 ty D][0x60fdafe4][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[17:00:06.040] [RX ] [07-01 17:00:06.015 ty D][0x60fdafe4][iot_httpc.c:619] Decode Rev:{"t":1782896406,"success":true}
+[17:00:06.048] [RX ] [07-01 17:00:06.017 ty D][0x60fdafe4][tls_transporter.c:93] tls transporter close socket fd:1
+[17:00:06.128] [RX ] [07-01 17:00:06.103 ty D][0x60fdafe4][tcp_transporter.c:173] tcp transporter close socket fd:1
+[17:00:06.140] [RX ] [07-01 17:00:06.114 ty D][0x60fdafe4][tls_transporter.c:101] tls transporter close tls handler:0x60d555d4
+[17:00:06.142] [RX ] [07-01 17:00:06.115 ty D][0x60fdafe4][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[17:00:06.144] [RX ] [07-01 17:00:06.116 ty D][0x60fdafe4][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[17:00:06.146] [RX ] [07-01 17:00:06.117 ty D][0x60fdafe4][tuya_tls.c:990] tuya_tls_connect_destroy.
+[17:00:06.147] [RX ] [07-01 17:00:06.119 ty E][0x60fdafe4][tuya_svc_upgrade.c:1005] result null
+[17:00:06.150] [RX ] [07-01 17:00:06.119 ty D][0x60fdafe4][tuya_svc_upgrade.c:1094] silent get firmware fail
+[17:00:06.151] [RX ] [07-01 17:00:06.121 ty D][0x60fdafe4][tuya_svc_upgrade.c:548] next detect timer: 21570s
+[17:00:07.843] [RX ] [07-01 17:00:07.809 ty D][0x60d67024][tuya_ipc_p2p.c:4097] session cmd recv proc alive [6000] num[0]
+[17:00:08.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[17:00:08.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[17:00:08.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[17:00:08.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[17:00:08.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[17:00:08.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[17:00:11.362] [RX ] [07-01 17:00:11.338 ty D][0x60d8722c][tuya_ipc_p2p.c:4868] session detect run
+[17:00:12.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[17:00:12.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[17:00:12.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[17:00:12.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[17:00:12.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[17:00:12.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[17:00:12.495] [RX ] [07-01 17:00:12.469 ty D][0x2805237c][wukong_audio_aec_vad.c:111] speexdsp process time: aec->5(ms), count = 2001
+[17:00:12.495] [RX ] 
+[17:00:12.498] [RX ] [07-01 17:00:12.472 ty D][0x2805237c][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[17:00:12.498] [RX ] 
+[17:00:12.500] [RX ] [07-01 17:00:12.473 ty D][0x2805237c][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->2(ms), flag=2, count = 2001
+[17:00:12.500] [RX ] 
+[17:00:13.968] [RX ] [07-01 17:00:13.944 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[17:00:16.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[17:00:16.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[17:00:16.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[17:00:16.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[17:00:16.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[17:00:16.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[17:00:19.046] [RX ] [07-01 17:00:19.021 ty D][0x60d67024][tuya_ipc_p2p.c:4097] session cmd recv proc alive [8000] num[0]
+[17:00:20.142] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[17:00:20.143] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[17:00:20.144] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[17:00:20.144] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[17:00:20.146] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[17:00:20.146] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 

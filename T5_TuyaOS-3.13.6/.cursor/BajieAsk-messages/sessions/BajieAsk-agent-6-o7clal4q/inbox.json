@@ -1,1 +1,12 @@
-{"messages":[]}
+{
+  "messages": [
+    {
+      "id": "msg-1782898403566-pspwejlb",
+      "from": "",
+      "to": "BajieAsk-agent-6-o7clal4q",
+      "type": "user",
+      "text": "打包时输出在/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/apps/tuyaos_demo_wukong_ai/output下，新建文件为0.0.44",
+      "time": 1782898403566
+    }
+  ]
+}

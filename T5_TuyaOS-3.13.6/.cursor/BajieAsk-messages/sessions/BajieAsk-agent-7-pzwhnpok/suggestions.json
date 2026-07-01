@@ -1,10 +1,10 @@
 {
   "suggestions": [
-    "显式调用 B1 后发日志",
-    "排查 KV 写入失败",
-    "补 config_upsert 工具",
-    "注入真实 Token"
+    "重烧后跑B1",
+    "栈提到10240",
+    "查IPC心跳",
+    "看修改diff"
   ],
-  "suggestionsAt": 1782893727261,
+  "suggestionsAt": 1782910540897,
   "forUser": true
 }

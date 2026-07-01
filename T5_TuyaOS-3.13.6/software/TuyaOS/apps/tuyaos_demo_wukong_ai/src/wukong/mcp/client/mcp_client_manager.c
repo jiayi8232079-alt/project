@@ -26,8 +26,6 @@ STATIC MUTEX_HANDLE s_mutex = NULL;
 STATIC VOID __boot_refresh_worker(VOID_T *data)
 {
     (VOID)data;
-    /* 先确保麦当劳默认配置就位（首次开机自动写入 / 已写死令牌则同步），再连接并拉取工具列表 */
-    (VOID)mcp_client_config_ensure_defaults();
     (VOID)mcp_client_manager_refresh_all();
 }
 
@@ -124,11 +122,8 @@ OPERATE_RET mcp_client_manager_init(VOID)
         return rt;
 
     mcp_client_config_init();
-    /* 优先异步执行（避免在 tuya_app_main 栈上做 TLS 握手）；调度失败则同步兜底 */
-    if (tal_workq_schedule(WORKQ_SYSTEM, __boot_refresh_worker, NULL) != OPRT_OK) {
-        mcp_client_config_ensure_defaults();
+    if (tal_workq_schedule(WORKQ_SYSTEM, __boot_refresh_worker, NULL) != OPRT_OK)
         return mcp_client_manager_refresh_all();
-    }
     return OPRT_OK;
 }
 
