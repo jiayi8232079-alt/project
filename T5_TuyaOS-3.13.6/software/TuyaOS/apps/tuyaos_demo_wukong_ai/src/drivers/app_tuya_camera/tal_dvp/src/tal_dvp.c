@@ -15,10 +15,37 @@
 #include "tal_system.h"
 #include "tal_sw_timer.h"
 #include "uni_log.h"
+#include "tuya_app_config.h"
+#if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+#include "tuya_axp2101.h"
+#endif
 
 #define UNACTIVE_LEVEL(x) 	((x == 0)? 1: 0)
-#define DVP_I2C_SCL 		(idx << 1)
-#define DVP_I2C_SDA 		((idx << 1) + 1)
+
+/* GC2145 复位释放后需等待传感器内部初始化完成 */
+#define DVP_SENSOR_RESET_HOLD_MS        (10)
+#define DVP_SENSOR_POWER_STABLE_MS      (10)
+#define DVP_SENSOR_RESET_RELEASE_MS     (80)
+
+static TUYA_PIN_FUNC_E __tal_dvp_i2c_func_scl(TUYA_I2C_NUM_E idx)
+{
+    switch (idx) {
+    case TUYA_I2C_NUM_0: return TUYA_IIC0_SCL;
+    case TUYA_I2C_NUM_1: return TUYA_IIC1_SCL;
+    case TUYA_I2C_NUM_2: return TUYA_IIC2_SCL;
+    default:             return TUYA_IIC0_SCL;
+    }
+}
+
+static TUYA_PIN_FUNC_E __tal_dvp_i2c_func_sda(TUYA_I2C_NUM_E idx)
+{
+    switch (idx) {
+    case TUYA_I2C_NUM_0: return TUYA_IIC0_SDA;
+    case TUYA_I2C_NUM_1: return TUYA_IIC1_SDA;
+    case TUYA_I2C_NUM_2: return TUYA_IIC2_SDA;
+    default:             return TUYA_IIC0_SDA;
+    }
+}
 
 #define DVP_PER_MAX_PIXEL_SIZE			(3)
 #define DVP_MIN_COMPRESSION_PERCENT		(20) // uint: %
@@ -91,6 +118,7 @@ typedef struct
 	SEM_HANDLE base_flow_closed_sem;
 	SEM_HANDLE encoded_flow_closed_sem;
 	DVP_STATUS dvp_status;
+	BOOL_T stream_active; /* tkl_dvp 采集是否已启动，与 dvp_status（设备已 init）分离 */
 	TUYA_DVP_DEVICE_T *dvp_device;
 	DVP_LOG_T dvp_log;
 } DVP_MANAGE_T;
@@ -113,6 +141,7 @@ static DVP_MANAGE_T g_dvp_manage =
 	.encoded_flow_flag = false,
 	.encoded_flow_running = false,
 	.dvp_status = DVP_STATUS_TURN_OFF,
+	.stream_active = FALSE,
 	.dvp_log = 
 	{
 		.base_frame_id = 0,
@@ -347,9 +376,8 @@ static void __base_flow_task(void *args)
 
 	TAL_DVP_MSG_T msg = {0};
 	DVP_MANAGE_T *dvp_manage = (DVP_MANAGE_T *)args;
+	OPERATE_RET ret = OPRT_OK;
 	dvp_manage->base_flow_running = true;
-
-	OPERATE_RET ret = tal_queue_create_init(&(dvp_manage->base_frame_queue), sizeof(TAL_DVP_MSG_T), DVP_NODE_POOL_SIZE + 1);
 
 	while (dvp_manage->base_flow_running)
 	{
@@ -405,9 +433,8 @@ static void __encoded_flow_task(void *args)
 
 	TAL_DVP_MSG_T msg = {0};
 	DVP_MANAGE_T *dvp_manage = (DVP_MANAGE_T *)args;
+	OPERATE_RET ret = OPRT_OK;
 	dvp_manage->encoded_flow_running = true;
-
-	OPERATE_RET ret = tal_queue_create_init(&(dvp_manage->encoded_frame_queue), sizeof(TAL_DVP_MSG_T), DVP_ENCODED_NODE_POOL_SIZE + 1);
 
 	while (dvp_manage->encoded_flow_running)
 	{
@@ -498,12 +525,22 @@ static OPERATE_RET __dvp_work_flow_init(DVP_MANAGE_T *dvp_manage)
 	if (dvp_manage->base_flow_flag)
 	{
 		ret |= __dvp_node_init(BASE_FRAME_FLOW, base_len, dvp_manage);
+		ret = tal_queue_create_init(&(dvp_manage->base_frame_queue), sizeof(TAL_DVP_MSG_T), DVP_NODE_POOL_SIZE + 1);
+		if (ret != OPRT_OK) {
+			PR_ERR("base_frame_queue create failed, ret:%d\r\n", ret);
+			return ret;
+		}
 		ret |= tkl_thread_create(&(dvp_manage->base_flow_thread), "dvp_base", 16384, THREAD_PRIO_1, __base_flow_task, (VOID_T *)dvp_manage);
 	}
 
 	if (dvp_manage->encoded_flow_flag)
 	{
 		ret = __dvp_node_init(ENCODED_FRAME_FLOW, encoded_len, dvp_manage);
+		ret = tal_queue_create_init(&(dvp_manage->encoded_frame_queue), sizeof(TAL_DVP_MSG_T), DVP_ENCODED_NODE_POOL_SIZE + 1);
+		if (ret != OPRT_OK) {
+			PR_ERR("encoded_frame_queue create failed, ret:%d\r\n", ret);
+			return ret;
+		}
 		ret |= tkl_thread_create(&(dvp_manage->encoded_flow_thread), "dvp_encode", 16384, THREAD_PRIO_1, __encoded_flow_task, (VOID_T *)dvp_manage);
 	}
 
@@ -517,7 +554,7 @@ static OPERATE_RET __dvp_work_flow_deinit(DVP_MANAGE_T *dvp_manage)
 	if (dvp_manage->base_flow_flag)
 	{
 		tal_semaphore_create_init(&dvp_manage->base_flow_closed_sem, 0, 1);
-		if (dvp_manage->base_flow_running)
+		if (dvp_manage->base_flow_running && dvp_manage->base_frame_queue != NULL)
 		{
 			TAL_DVP_MSG_T msg = {DVP_FRAME_EXIT, 0};
 			tal_queue_post(dvp_manage->base_frame_queue, &msg , SEM_WAIT_FOREVER);
@@ -532,7 +569,7 @@ static OPERATE_RET __dvp_work_flow_deinit(DVP_MANAGE_T *dvp_manage)
 	if (dvp_manage->encoded_flow_flag)
 	{
 		tal_semaphore_create_init(&dvp_manage->encoded_flow_closed_sem, 0, 1);
-		if (dvp_manage->encoded_flow_running)
+		if (dvp_manage->encoded_flow_running && dvp_manage->encoded_frame_queue != NULL)
 		{
 			TAL_DVP_MSG_T msg = {DVP_FRAME_EXIT, 0};
 			tal_queue_post(dvp_manage->encoded_frame_queue, &msg , SEM_WAIT_FOREVER);
@@ -557,10 +594,18 @@ static OPERATE_RET tal_dvp_i2c_init(UINT8_T clk, UINT8_T sda, TUYA_I2C_NUM_E idx
 
     PR_INFO("set dvp i2c, clk: %d sda: %d, idx: %d\r\n", clk, sda, idx);
 
-    tkl_io_pinmux_config(clk, DVP_I2C_SCL);
-    tkl_io_pinmux_config(sda, DVP_I2C_SDA);
+    tkl_io_pinmux_config(clk, __tal_dvp_i2c_func_scl(idx));
+    tkl_io_pinmux_config(sda, __tal_dvp_i2c_func_sda(idx));
 
-    // tp used sw i2c1
+#if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+    /* 产品板 boot 阶段已在 board_init 完成 I2C0 init；此处仅刷新 pinmux，避免 deinit/reinit 打断共享总线 */
+    if (idx == TUYA_I2C_NUM_0) {
+        dvp_manage->dvp_i2c_idx = idx;
+        PR_INFO("dvp i2c: reuse board-inited I2C0\r\n");
+        return OPRT_OK;
+    }
+#endif
+
     TUYA_IIC_BASE_CFG_T cfg = {
         .role = TUYA_IIC_MODE_MASTER,
         .speed = TUYA_IIC_BUS_SPEED_100K,
@@ -581,8 +626,16 @@ static OPERATE_RET tal_dvp_i2c_deinit(TUYA_I2C_NUM_E *idx)
         return OPRT_RESOURCE_NOT_READY;
     }
 
-    OPERATE_RET ret = OPRT_OK;
-    ret = tkl_i2c_deinit(*idx);
+#if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+    /* 与 tal_dvp_i2c_init 对称：I2C0 由 board 初始化并与 AXP2101 共享，禁止 deinit 否则 P2P 热切换 H264 时 AXP/GC2145 读写失败 */
+    if (*idx == TUYA_I2C_NUM_0) {
+        *idx = TUYA_I2C_NUM_MAX;
+        PR_INFO("dvp i2c: keep board I2C0 alive on deinit\r\n");
+        return OPRT_OK;
+    }
+#endif
+
+    OPERATE_RET ret = tkl_i2c_deinit(*idx);
     *idx = TUYA_I2C_NUM_MAX;
 
     return ret;
@@ -623,9 +676,19 @@ OPERATE_RET tal_dvp_i2c_read(UINT8_T addr, UINT16_T reg, UINT8_T *buf, UINT16_T 
         write_data_len = 1;
     }
 
-    tkl_i2c_master_send(port, addr, write_data, write_data_len, 1);
+    OPERATE_RET ret = tkl_i2c_master_send(port, addr, write_data, write_data_len, 1);
+    if (ret != OPRT_OK) {
+        PR_ERR("dvp i2c write reg failed, port:%d addr:0x%02X reg:0x%04X ret:%d\r\n",
+               port, addr, reg, ret);
+        return ret;
+    }
 
-    tkl_i2c_master_receive(port, addr, buf, buf_len, 0);
+    ret = tkl_i2c_master_receive(port, addr, buf, buf_len, 0);
+    if (ret != OPRT_OK) {
+        PR_ERR("dvp i2c read failed, port:%d addr:0x%02X reg:0x%04X len:%d ret:%d\r\n",
+               port, addr, reg, buf_len, ret);
+        return ret;
+    }
 
     return OPRT_OK;
 }
@@ -666,7 +729,12 @@ OPERATE_RET tal_dvp_i2c_write(UINT8_T addr, UINT16_T reg, UINT8_T *buf, UINT16_T
         g_write_buff[0] = (UINT8_T)(reg & 0xFF);
     }
 
-    tkl_i2c_master_send(port, addr, g_write_buff, write_data_len, 0);
+    OPERATE_RET ret = tkl_i2c_master_send(port, addr, g_write_buff, write_data_len, 0);
+    if (ret != OPRT_OK) {
+        PR_ERR("dvp i2c write failed, port:%d addr:0x%02X reg:0x%04X len:%d ret:%d\r\n",
+               port, addr, reg, buf_len, ret);
+        return ret;
+    }
 
     return OPRT_OK;
 }
@@ -775,23 +843,22 @@ static OPERATE_RET __sensor_detect_and_init(VOID_T *args)
 	TUYA_GPIO_BASE_CFG_T cfg = {.direct = TUYA_GPIO_OUTPUT};
 	TUYA_DVP_PIN_CFG_T *dvp_pin_cfg = &(dvp_device->usr_cfg.pin_cfg);
 
-	// pwr gpio init
+	/* 独立 PWR GPIO 板型：先配置电源脚为默认关闭态 */
 	if (dvp_pin_cfg->dvp_pwr_ctrl.pin < TUYA_GPIO_NUM_MAX)
 	{
 		cfg.level = UNACTIVE_LEVEL(dvp_pin_cfg->dvp_pwr_ctrl.active_level);
 		tkl_gpio_init(dvp_pin_cfg->dvp_pwr_ctrl.pin, &cfg);
 	}
 
-	// rst gpio init
+	/* 复位脚先保持有效（低有效则拉 LOW），避免 LDO 上电时传感器处于未知状态 */
 	if (dvp_pin_cfg->dvp_rst_ctrl.pin < TUYA_GPIO_NUM_MAX)
 	{
-		cfg.level = UNACTIVE_LEVEL(dvp_pin_cfg->dvp_rst_ctrl.active_level);
+		cfg.level = dvp_pin_cfg->dvp_rst_ctrl.active_level;
 		tkl_gpio_init(dvp_pin_cfg->dvp_rst_ctrl.pin, &cfg);
-		tkl_system_sleep(20);
-		tkl_gpio_write(dvp_pin_cfg->dvp_rst_ctrl.pin, dvp_pin_cfg->dvp_rst_ctrl.active_level);
+		tal_system_sleep(DVP_SENSOR_RESET_HOLD_MS);
 	}
 
-	// dvp i2c init
+	/* DVP I2C 须先于 AXP 上电：热切换 deinit 后 I2C0 仍由 board 持有，先恢复 pinmux/索引再访问 AXP/GC2145 */
 	ret = tal_dvp_i2c_init(dvp_pin_cfg->dvp_i2c_clk.pin, dvp_pin_cfg->dvp_i2c_sda.pin, dvp_pin_cfg->dvp_i2c_idx, dvp_manage);
 	if (ret)
 	{
@@ -799,19 +866,30 @@ static OPERATE_RET __sensor_detect_and_init(VOID_T *args)
 		return ret;
 	}
 
+#if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+	/* 产品板摄像头由 AXP2101 LDO 供电；I2C 就绪后再确认 ALDO1/2/3 已使能 */
+	ret = tuya_axp2101_camera_power_on(TUYA_I2C_NUM_0);
+	if (ret != OPRT_OK) {
+		PR_ERR("axp2101 camera power on failed, ret:%d\r\n", ret);
+		return ret;
+	}
+	tal_system_sleep(DVP_SENSOR_POWER_STABLE_MS);
+#endif
+
 	if (dvp_pin_cfg->dvp_pwr_ctrl.pin < TUYA_GPIO_NUM_MAX)
 	{
-		// pwr gpio should pull low after mclk enabled
+		/* 部分板型需在 MCLK/I2C 就绪后再打开传感器电源 */
 		tkl_gpio_write(dvp_pin_cfg->dvp_pwr_ctrl.pin, dvp_pin_cfg->dvp_pwr_ctrl.active_level);
+		tal_system_sleep(DVP_SENSOR_POWER_STABLE_MS);
 	}
 
 	if (dvp_pin_cfg->dvp_rst_ctrl.pin < TUYA_GPIO_NUM_MAX)
 	{
-		// rst gpio should pull high after pwr pull down
+		/* 释放复位，等待 GC2145 内部初始化完成 */
 		tkl_gpio_write(dvp_pin_cfg->dvp_rst_ctrl.pin, UNACTIVE_LEVEL(dvp_pin_cfg->dvp_rst_ctrl.active_level));
 	}
 
-    tal_system_sleep(20);
+    tal_system_sleep(DVP_SENSOR_RESET_RELEASE_MS);
 	UINT8_T retry_cnt = 0;
 	UINT8_T detect_flag = FALSE;
 	while (retry_cnt++ < MAX_DETECT_RETRY_TIMES)
@@ -843,7 +921,7 @@ static void __dvp_log_timer_callback(TIMER_ID timer_id, VOID_T *arg)
 		return;
 
 	DVP_MANAGE_T *dvp_manage = (DVP_MANAGE_T *)arg;
-	if (dvp_manage->dvp_status != DVP_STATUS_TURN_ON)
+	if (dvp_manage->dvp_status != DVP_STATUS_TURN_ON || !dvp_manage->stream_active)
 		return;
 
 	DVP_LOG_T *dvp_log = &(dvp_manage->dvp_log);
@@ -927,6 +1005,9 @@ TUYA_DVP_DEVICE_T *tal_dvp_init(TUYA_DVP_SENSOR_CFG_T *sensor_cfg, TUYA_DVP_USR_
 
 	if (g_dvp_manage.dvp_status == DVP_STATUS_TURN_ON)
 	{
+		/* tkl_dvp_init 完成后硬件默认在跑；上层若需 idle 须显式 tal_dvp_stop */
+		g_dvp_manage.stream_active = TRUE;
+
 		DVP_LOG_T *dvp_log = &(g_dvp_manage.dvp_log);
 		dvp_log->base_len = usr_cfg->dvp_cfg.width * usr_cfg->dvp_cfg.height * __get_base_frame_pixel_size(sensor_cfg->fmt);
 
@@ -951,6 +1032,11 @@ OPERATE_RET tal_dvp_deinit(TUYA_DVP_DEVICE_T *dvp_device)
 		return OPRT_COM_ERROR;
 	}
 	g_dvp_manage.dvp_status = DVP_STATUS_TURNING_OFF;
+
+	if (g_dvp_manage.stream_active) {
+		tkl_dvp_stop();
+		g_dvp_manage.stream_active = FALSE;
+	}
 
 	tkl_dvp_deinit();
 
@@ -993,16 +1079,26 @@ OPERATE_RET tal_dvp_deinit(TUYA_DVP_DEVICE_T *dvp_device)
 OPERATE_RET tal_dvp_start(TUYA_DVP_DEVICE_T *dvp_device)
 {
 	if (!dvp_device || g_dvp_manage.dvp_device != dvp_device)
-	return OPRT_INVALID_PARM;
+		return OPRT_INVALID_PARM;
 
 	if (g_dvp_manage.dvp_status != DVP_STATUS_TURN_ON)
 	{
-		PR_ERR("%s, dvp status(%d) is not opened, please turn on first\r\n", __func__, g_dvp_manage.dvp_status);
+		PR_ERR("%s, dvp status(%d) is not inited\r\n", __func__, g_dvp_manage.dvp_status);
 		return OPRT_COM_ERROR;
 	}
 
-	tkl_dvp_start();
+	if (g_dvp_manage.stream_active) {
+		return OPRT_OK;
+	}
 
+	OPERATE_RET ret = tkl_dvp_start();
+	if (ret != OPRT_OK) {
+		PR_ERR("%s, tkl_dvp_start failed: %d\r\n", __func__, ret);
+		return ret;
+	}
+
+	g_dvp_manage.stream_active = TRUE;
+	PR_DEBUG("%s, dvp stream started\r\n", __func__);
 	return OPRT_OK;
 }
 
@@ -1013,11 +1109,16 @@ OPERATE_RET tal_dvp_stop(TUYA_DVP_DEVICE_T *dvp_device)
 
 	if (g_dvp_manage.dvp_status != DVP_STATUS_TURN_ON)
 	{
-		PR_ERR("%s, dvp status(%d) is not opened, please turn on first\r\n", __func__, g_dvp_manage.dvp_status);
+		PR_ERR("%s, dvp status(%d) is not inited\r\n", __func__, g_dvp_manage.dvp_status);
 		return OPRT_COM_ERROR;
 	}
 
-	tkl_dvp_stop();
+	if (!g_dvp_manage.stream_active) {
+		return OPRT_OK;
+	}
 
+	tkl_dvp_stop();
+	g_dvp_manage.stream_active = FALSE;
+	PR_DEBUG("%s, dvp stream stopped\r\n", __func__);
 	return OPRT_OK;
 }

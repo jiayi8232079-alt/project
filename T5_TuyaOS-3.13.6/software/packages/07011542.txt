@@ -1,0 +1,398 @@
+[15:40:21.352] [RX ] [07-01 15:40:21.532 ty D][0x28052378][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[15:40:21.352] [RX ] 
+[15:40:21.354] [RX ] [07-01 15:40:21.533 ty D][0x28052378][wukong_kws.c:315] wukong kws vad on
+[15:40:22.068] [RX ] score:1041 thr:-8 keyword=0
+[15:40:22.073] [RX ] [07-01 15:40:22.253 ty D][0x60dac770][tutuclear.c:70] TUTUClear_WakeWord -> 你好涂鸦
+[15:40:22.073] [RX ] 
+[15:40:22.075] [RX ] WAKEUP_info:nihaotuya-xiaozhitongxue-heytuya-hituya--200KB--20250804--MAT--RAW--FOR--TUYA--FROM--EASE--ON--T5-E1--info_end
+[15:40:22.077] [RX ] [07-01 15:40:22.254 ty D][0x60fd9aec][wukong_ai_mode_free.c:564] [====ai_free] wakeup
+[15:40:22.080] [RX ] [07-01 15:40:22.255 ty D][0x60fd9aec][tuya_ai_output.c:302] [output] stop. force:1 status:0
+[15:40:22.081] [RX ] [07-01 15:40:22.255 ty D][0x60fd9aec][wukong_audio_player.c:307] wukong audio player -> stop 2 player
+[15:40:22.084] [RX ] [07-01 15:40:22.256 ty D][0x60fd9aec][svc_ai_playlist.c:336] clear playlist playing 0
+[15:40:22.085] [RX ] [07-01 15:40:22.256 ty E][0x60fd9aec][svc_ai_player.c:821] player already stopped: 0
+[15:40:22.086] [RX ] [07-01 15:40:22.256 ty D][0x60fd9aec][svc_ai_playlist.c:336] clear playlist playing 0
+[15:40:22.089] [RX ] [07-01 15:40:22.256 ty E][0x60fd9aec][svc_ai_player.c:821] player already stopped: 0
+[15:40:22.091] [RX ] [07-01 15:40:22.257 ty N][0x60fd9aec][wukong_audio_input_board.c:335] wukong audio input -> reset ringbuf!
+[15:40:22.093] [RX ] [07-01 15:40:22.257 ty N][0x60fd9aec][wukong_audio_input_board.c:342] wukong audio input -> vad stop!
+[15:40:22.101] [RX ] [07-01 15:40:22.258 ty N][0x60fd9aec][wukong_audio_input_board.c:345] wukong audio input -> vad start!
+[15:40:22.101] [RX ] [07-01 15:40:22.268 ty D][0x60fd9aec][tuya_ai_event.c:57] send event rt:0, type:4
+[15:40:22.101] [RX ] [07-01 15:40:22.268 ty D][0x28052378][wukong_kws.c:317] wukong kws vad end
+[15:40:22.102] [RX ] [07-01 15:40:22.269 ty N][0x60fd9aec][wukong_audio_player.c:337] wukong audio player -> play alert type=12
+[15:40:22.103] [RX ] [07-01 15:40:22.269 ty E][0x60fd9aec][svc_ai_player.c:821] player already stopped: 0
+[15:40:22.106] [RX ] [07-01 15:40:22.270 ty D][0x60fd9aec][wukong_audio_player.c:247] wukong audio player -> player tts mem data len 3537
+[15:40:22.107] [RX ] [07-01 15:40:22.270 ty D][0x60fd9aec][svc_ai_player.c:757] start player 0 0
+[15:40:22.109] [RX ] [07-01 15:40:22.271 ty D][0x60e76074][svc_ai_player.c:505] ai player FG cmd START
+[15:40:22.111] [RX ] [07-01 15:40:22.271 ty D][0x60e76074][svc_ai_player.c:90] start player FG value=null
+[15:40:22.113] [RX ] [07-01 15:40:22.274 ty D][0x60e76074][wukong_audio_player.c:61] wukong audio player -> player tts event: 1
+[15:40:22.115] [RX ] [07-01 15:40:22.274 ty D][0x60e76074][wukong_audio_player.c:82] wukong audio player -> playing start event
+[15:40:22.118] [RX ] [07-01 15:40:22.274 ty D][0x60e76074][wukong_ai_mode_free.c:396] [====ai_free] event type: 20
+[15:40:22.120] [RX ] [07-01 15:40:22.280 ty D][0x60fd9aec][wukong_ai_mode_free.c:580] mode free state change from IDLE to LISTEN
+[15:40:22.121] [RX ] [07-01 15:40:22.290 ty D][0x60e76074][decoder_mp3.c:43] ID3 tag_size = 35
+[15:40:22.127] [RX ] [07-01 15:40:22.308 ty D][0x60d50bd0][wukong_ai_mode_free.c:165] [====ai_free] listen
+[15:40:22.129] [RX ] [07-01 15:40:22.310 ty D][0x60d50bd0][tuya_led.c:170] pinname:56
+[15:40:22.131] [RX ] [07-01 15:40:22.312 ty D][0x60d50bd0][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:1
+[15:40:22.134] [RX ] [07-01 15:40:22.314 ty D][0x60d50bd0][tuya_ai_toy.c:838] [====ai_toy] lowpower timer ctrl enable:0
+[15:40:22.137] [RX ] [07-01 15:40:22.315 ty N][0x60d50bd0][wukong_audio_input_board.c:359] wukong audio input -> mode is 1, wakeup set to 1, vad flag is 2!
+[15:40:22.144] [RX ] [07-01 15:40:22.317 ty D][0x60d50bd0][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:22.144] [RX ] 
+[15:40:22.146] [RX ] [07-01 15:40:22.324 ty D][0x28052378][wukong_audio_aec_vad.c:111] speexdsp process time: aec->6(ms), count = 37501
+[15:40:22.146] [RX ] 
+[15:40:22.149] [RX ] [07-01 15:40:22.327 ty D][0x28052378][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[15:40:22.149] [RX ] 
+[15:40:22.151] [RX ] [07-01 15:40:22.327 ty D][0x28052378][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->2(ms), flag=2, count = 37501
+[15:40:22.151] [RX ] 
+[15:40:22.853] [RX ] [07-01 15:40:23.033 ty N][0x60e76074][svc_ai_player.c:256] ai player FG eof
+[15:40:22.855] [RX ] [07-01 15:40:23.034 ty D][0x60e76074][svc_ai_player.c:117] stop player FG
+[15:40:22.857] [RX ] [07-01 15:40:23.034 ty D][0x60e76074][svc_ai_playlist.c:54] playlist player state 0 index 0 count 0 loop 0 single 0
+[15:40:22.859] [RX ] [07-01 15:40:23.035 ty D][0x60e76074][wukong_audio_player.c:61] wukong audio player -> player tts event: 0
+[15:40:22.862] [RX ] [07-01 15:40:23.035 ty D][0x60e76074][wukong_audio_player.c:68] wukong audio player -> stop event
+[15:40:22.863] [RX ] [07-01 15:40:23.036 ty D][0x60e76074][wukong_ai_mode_free.c:396] [====ai_free] event type: 30
+[15:40:22.865] [RX ] [07-01 15:40:23.036 ty D][0x60e76074][wukong_ai_mode_free.c:501] mode free state change from LISTEN to LISTEN
+[15:40:22.955] [RX ] [07-01 15:40:23.136 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[15:40:23.123] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[15:40:23.124] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[15:40:23.126] [RX ] [RAW_WRITE] data_size: 27648(Bytes), 6KB/s 
+[15:40:23.126] [RX ] [ONBOARD_SPK] data_size: 27520(Bytes), 6KB/s 
+[15:40:23.127] [RX ] [WIFI_TX] data_size: 128640(Bytes), 31KB/s 
+[15:40:23.128] [RX ] [WIFI_RX] data_size: 67328(Bytes), 16KB/s 
+[15:40:25.006] [RX ] [07-01 15:40:25.186 ty D][0x28052378][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[15:40:25.006] [RX ] 
+[15:40:25.007] [RX ] [07-01 15:40:25.186 ty D][0x28052378][wukong_kws.c:315] wukong kws vad on
+[15:40:25.658] [RX ] [07-01 15:40:25.836 ty D][0x60dc72d4][wukong_audio_input_board.c:164] wukong audio input -> wakup flag is 1, auto vad set from 2 to 1!
+[15:40:25.659] [RX ] [07-01 15:40:25.838 ty D][0x60dc72d4][wukong_audio_input_board.c:123] wukong audio input -> vad stat change to flag 1
+[15:40:25.668] [RX ] [07-01 15:40:25.848 ty D][0x60dc72d4][wukong_ai_mode_free.c:608] [====ai_free] vad: [1]
+[15:40:25.669] [RX ] [07-01 15:40:25.849 ty D][0x60dc72d4][tuya_ai_input.c:376] ai input start, state:1
+[15:40:25.672] [RX ] [07-01 15:40:25.850 ty D][0x60dc72d4][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:0
+[15:40:25.674] [RX ] [07-01 15:40:25.851 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:25.676] [RX ] [07-01 15:40:25.854 ty D][0x60e76128][tuya_ai_input.c:456] recv queue state 1, scode 
+[15:40:25.678] [RX ] [07-01 15:40:25.854 ty D][0x60e76128][tuya_ai_agent.c:776] use session 65e58aa8-51e9-4e23-8fe9-ddf7-fae1198a
+[15:40:25.681] [RX ] [07-01 15:40:25.856 ty D][0x60e76128][tuya_ai_event.c:57] send event rt:0, type:0
+[15:40:25.682] [RX ] [07-01 15:40:25.858 ty N][0x60e76128][tuya_ai_event.c:85] event id is 0d145fd9-cf6a-4ba9-96f8
+[15:40:25.683] [RX ] [07-01 15:40:25.858 ty D][0x60e76128][tuya_ai_input.c:493] start lazy queue sync
+[15:40:25.715] [RX ] [07-01 15:40:25.895 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:25.717] [RX ] [07-01 15:40:25.897 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 1, total_len:160, id:1
+[15:40:25.727] [RX ] [07-01 15:40:25.908 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:25.732] [RX ] [07-01 15:40:25.910 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:25.879] [RX ] [07-01 15:40:26.059 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:25.889] [RX ] [07-01 15:40:26.069 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:25.935] [RX ] [07-01 15:40:26.115 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[15:40:25.992] [RX ] [07-01 15:40:26.118 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.000] [RX ] [07-01 15:40:26.178 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[15:40:26.010] [RX ] [07-01 15:40:26.190 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.114] [RX ] [07-01 15:40:26.294 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.116] [RX ] [07-01 15:40:26.295 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:26.123] [RX ] [07-01 15:40:26.297 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.178] [RX ] [07-01 15:40:26.358 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[15:40:26.233] [RX ] [07-01 15:40:26.377 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.236] [RX ] [07-01 15:40:26.414 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[15:40:26.237] [RX ] [07-01 15:40:26.416 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.240] [RX ] [07-01 15:40:26.417 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.241] [RX ] [07-01 15:40:26.418 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.333] [RX ] [07-01 15:40:26.513 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:26.336] [RX ] [07-01 15:40:26.516 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.437] [RX ] [07-01 15:40:26.616 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.439] [RX ] [07-01 15:40:26.618 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:26.503] [RX ] [07-01 15:40:26.683 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[15:40:26.511] [RX ] [07-01 15:40:26.692 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.514] [RX ] [07-01 15:40:26.694 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.535] [RX ] [07-01 15:40:26.696 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.729] [RX ] [07-01 15:40:26.909 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:26.835] [RX ] [07-01 15:40:27.015 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[15:40:26.910] [RX ] [07-01 15:40:27.090 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.913] [RX ] [07-01 15:40:27.091 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.914] [RX ] [07-01 15:40:27.092 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.917] [RX ] [07-01 15:40:27.093 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:26.918] [RX ] [07-01 15:40:27.095 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.040] [RX ] [07-01 15:40:27.220 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:27.054] [RX ] [07-01 15:40:27.233 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.123] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[15:40:27.124] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[15:40:27.126] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[15:40:27.126] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[15:40:27.127] [RX ] [WIFI_TX] data_size: 127360(Bytes), 31KB/s 
+[15:40:27.127] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[15:40:27.152] [RX ] [07-01 15:40:27.332 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:27.156] [RX ] [07-01 15:40:27.336 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.257] [RX ] [07-01 15:40:27.437 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.259] [RX ] [07-01 15:40:27.438 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:27.267] [RX ] [07-01 15:40:27.447 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.406] [RX ] [07-01 15:40:27.584 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:27.497] [RX ] [07-01 15:40:27.677 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:27.536] [RX ] [07-01 15:40:27.714 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.537] [RX ] [07-01 15:40:27.717 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.644] [RX ] [07-01 15:40:27.824 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:27.672] [RX ] [07-01 15:40:27.850 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.674] [RX ] [07-01 15:40:27.853 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.787] [RX ] [07-01 15:40:27.855 ty N][0x60dc72d4][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[15:40:27.789] [RX ] [07-01 15:40:27.969 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[15:40:27.828] [RX ] [07-01 15:40:28.008 ty D][0x28052378][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[15:40:27.828] [RX ] 
+[15:40:27.830] [RX ] [07-01 15:40:28.009 ty D][0x28052378][wukong_kws.c:317] wukong kws vad end
+[15:40:27.872] [RX ] [07-01 15:40:28.052 ty D][0x60fd0500][tuya_ai_agent.c:153] [====ai event cb====] type:0, sid:65e58aa8-51e9-4e23-8fe9-ddf7-fae1198a, eid:0d145fd9-cf6a-4ba9-96f8
+[15:40:27.915] [RX ] [07-01 15:40:28.095 ty D][0x60dc72d4][wukong_audio_input_board.c:164] wukong audio input -> wakup flag is 1, auto vad set from 1 to 2!
+[15:40:27.949] [RX ] [07-01 15:40:28.129 ty D][0x60dc72d4][wukong_audio_input_board.c:123] wukong audio input -> vad stat change to flag 2
+[15:40:27.951] [RX ] [07-01 15:40:28.130 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[15:40:27.954] [RX ] [07-01 15:40:28.132 ty D][0x60dc72d4][wukong_ai_mode_free.c:608] [====ai_free] vad: [2]
+[15:40:27.955] [RX ] [07-01 15:40:28.135 ty D][0x60dc72d4][tuya_ai_input.c:402] ai input stop, state:4
+[15:40:27.962] [RX ] [07-01 15:40:28.144 ty D][0x60e76128][tuya_ai_input.c:456] recv queue state 4, scode 
+[15:40:27.974] [RX ] [07-01 15:40:28.155 ty D][0x60e76128][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:0 flag 3, total_len:0, id:1
+[15:40:27.979] [RX ] [07-01 15:40:28.159 ty D][0x60e76128][tuya_ai_event.c:57] send event rt:0, type:2
+[15:40:28.055] [RX ] [07-01 15:40:28.236 ty D][0x60dc72d4][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:1
+[15:40:28.659] [RX ] [07-01 15:40:28.838 ty D][0x60fd0500][tuya_ai_agent.c:153] [====ai event cb====] type:4, sid:65e58aa8-51e9-4e23-8fe9-ddf7-fae1198a, eid:ad955e83-2857-4099-8bf8
+[15:40:28.663] [RX ] [07-01 15:40:28.839 ty D][0x60fd0500][tuya_ai_agent.c:115] __parse_attr_time 44 <0x60d59f39>
+[15:40:28.672] [RX ] 7b 22 62 72 65 61 6b [07-01 15:40:28.848 ty D][0x60fd6744][mqc_app.c:409] Rev MQTT:{"data":{"bizType":"EVENT","data":{"data":{"eventId":"ad955e83-2857-4099-8bf8","time":"1782891628877"},"type":"asrInterrupt"},"bizId":"0d145fd9-cf6a-4ba9-96f8"},"protocol":9000,"s":1105921,"t":1782891628}
+[15:40:28.673] [RX ] 41 74 74 72 69 62 75 74 65 73 22 3a 7b 22 74 69 6d 65 22 3a 22 31 37 38 32 38 39 31 36 32 38 38 37 37 22 7d 7d 
+[15:40:28.673] [RX ] 
+[15:40:28.676] [RX ] [07-01 15:40:28.852 ty D][0x60fd0500][wukong_ai_agent.c:78] wukong ai agent -> recv event type: 4
+[15:40:28.678] [RX ] [07-01 15:40:28.854 ty D][0x60fd0500][tuya_ai_output.c:302] [output] stop. force:1 status:0
+[15:40:28.680] [RX ] [07-01 15:40:28.854 ty D][0x60fd0500][wukong_audio_player.c:307] wukong audio player -> stop 0 player
+[15:40:28.682] [RX ] [07-01 15:40:28.855 ty D][0x60fd0500][svc_ai_playlist.c:336] clear playlist playing 0
+[15:40:28.684] [RX ] [07-01 15:40:28.856 ty E][0x60fd0500][svc_ai_player.c:821] player already stopped: 0
+[15:40:28.686] [RX ] [07-01 15:40:28.857 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 17
+[15:40:28.689] [RX ] [07-01 15:40:28.861 ty D][0x60fd6744][tuya_ai_agent.c:153] [====ai event cb====] type:4, sid:, eid:ad955e83-2857-4099-8bf8
+[15:40:28.691] [RX ] [07-01 15:40:28.864 ty D][0x60fd6744][tuya_ai_agent.c:115] __parse_attr_time 44 <0x60d5aa9c>
+[15:40:28.694] [RX ] 7b 22 62 72 65 61 6b 41 74 74 72 69 62 75 74 65 73 22 3a 7b 22 74 69 6d 65 22 3a 22 31 37 38 32 38 39 31 36 32 38 38 37 37 22 7d 7d 
+[15:40:28.694] [RX ] 
+[15:40:28.697] [RX ] [07-01 15:40:28.870 ty D][0x60fd6744][tuya_ai_agent.c:161] Interrupt event ignored, last:1782891628877, cur:1782891628877
+[15:40:28.698] [RX ] [07-01 15:40:28.871 ty D][0x60fd0500][tuya_ai_agent.c:506] ASR text: 列出第三方mcp。
+[15:40:28.701] [RX ] [07-01 15:40:28.872 ty N][0x60fd0500][wukong_ai_skills.c:87] wukong text -> ASR result: 列出第三方mcp。
+[15:40:28.702] [RX ] [07-01 15:40:28.874 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 1
+[15:40:28.705] [RX ] [07-01 15:40:28.877 ty D][0x60fd0500][wukong_ai_mode_free.c:410] mode free state change from LISTEN to THINK
+[15:40:28.707] [RX ] [07-01 15:40:28.878 ty D][0x60fd0500][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:28.707] [RX ] 
+[15:40:28.713] [RX ] [07-01 15:40:28.893 ty D][0x60d50bd0][wukong_ai_mode_free.c:210] [====ai_free] think
+[15:40:28.714] [RX ] [07-01 15:40:28.895 ty D][0x60d50bd0][tuya_led.c:170] pinname:56
+[15:40:28.716] [RX ] [07-01 15:40:28.897 ty D][0x60d50bd0][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:1
+[15:40:28.730] [RX ] [07-01 15:40:28.910 ty D][0x60d50bd0][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:28.730] [RX ] 
+[15:40:29.015] [RX ] [07-01 15:40:29.196 ty D][0x60d87174][tuya_ipc_p2p.c:4868] session detect run
+[15:40:29.269] [RX ] [07-01 15:40:29.450 ty D][0x60d67010][tuya_ipc_p2p.c:4097] session cmd recv proc alive [130000] num[0]
+[15:40:31.123] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[15:40:31.125] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[15:40:31.126] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[15:40:31.126] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[15:40:31.127] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[15:40:31.127] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[15:40:31.155] [RX ] [07-01 15:40:31.333 ty D][0x60fd0500][tuya_ai_agent.c:153] [====ai event cb====] type:1000, sid:65e58aa8-51e9-4e23-8fe9-ddf7-fae1198a, eid:0d145fd9-cf6a-4ba9-96f8
+[15:40:31.159] [RX ] [07-01 15:40:31.334 ty D][0x60fd0500][tuya_ai_agent.c:1816] mcp data: {"jsonrpc":"2.0","id":"call_fc4ab0fbd3d74ca0b7167c","method":"tools/call","params":{"name":"device_mcp_config_list","arguments":{}}}
+[15:40:31.163] [RX ] [07-01 15:40:31.337 ty D][0x60fdafe4][mcp_server.c:65] MCP -> [117] {"jsonrpc":"2.0","id":"call_fc4ab0fbd3d74ca0b7167c","result":{"content":[{"type":"text","text":"{\"servers\":[]}"}]}}
+[15:40:31.174] [RX ] [07-01 15:40:31.354 ty D][0x60fdafe4][tuya_ai_event.c:57] send event rt:0, type:1000
+[15:40:31.211] [RX ] [07-01 15:40:31.389 ty D][0x60fd0500][tuya_ai_agent.c:153] [====ai event cb====] type:1000, sid:65e58aa8-51e9-4e23-8fe9-ddf7-fae1198a, eid:1782891631
+[15:40:31.213] [RX ] [07-01 15:40:31.392 ty D][0x60fd0500][tuya_ai_agent.c:1816] mcp data: {"jsonrpc":"2.0","id":"1782891631","method":"notifications/initialized"}
+[15:40:31.216] [RX ] [07-01 15:40:31.393 ty I][0x60fd0500][mcp_server.c:281] Client initialized notification received
+[15:40:31.219] [RX ] [07-01 15:40:31.395 ty D][0x60fd0500][tuya_ai_agent.c:153] [====ai event cb====] type:1000, sid:65e58aa8-51e9-4e23-8fe9-ddf7-fae1198a, eid:65e58a
+[15:40:31.221] [RX ] [07-01 15:40:31.395 ty D][0x60fd0500][tuya_ai_agent.c:1816] mcp data: {"jsonrpc":"2.0","id":"65e58a","method":"tools/list"}
+[15:40:31.285] [RX ] [07-01 15:40:31.435 ty D][0x60fd0500][mcp_server.c:65] MCP -> [11377] {"jsonrpc":"2.0","id":"65e58a","result":{"tools":[{"name":"device_mcp_load_mcd_example","description":"Load McDonald MCP example config (placeholder token)","inputSchema":{"type":"object","properties":{}}},{"name":"device_mcp_food_recommend","description":"Food ordering scene: map query-only MCP tools for recommendations","inputSchema":{"type":"object","properties":{}}},{"name":"device_mcp_call_tool","description":"Call a namespaced external MCP tool (e.g. mcd.query-meals)","inputSchema":{"type":"object","properties":{"tool":{"type":"string","description":"Namespaced tool name"},"userConfirmed":{"type":"boolean","description":"User confirmed high-risk action"}},"required":["tool"]}},{"name":"device_mcp_list_tools","description":"Return cached namespaced external MCP tools","inputSchema":{"type":"object","properties":{}}},{"name":"device_mcp_refresh_tools","description":"Refresh aggregated tools/list from all enabled MCP servers","inputSc
+[15:40:31.313] [RX ] [07-01 15:40:31.492 ty D][0x60fd0500][tuya_ai_event.c:57] send event rt:0, type:1000
+[15:40:31.332] [RX ] [07-01 15:40:31.511 ty N][0x60fdafe4][mcp_server_tools.c:336] mcp tool finished name=device_mcp_config_list is_error=0 eid=0d145fd9-cf6a-4ba9-96f8
+[15:40:32.148] [RX ] [07-01 15:40:32.328 ty D][0x28052378][wukong_audio_aec_vad.c:111] speexdsp process time: aec->10(ms), count = 38001
+[15:40:32.148] [RX ] 
+[15:40:32.152] [RX ] [07-01 15:40:32.332 ty D][0x28052378][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[15:40:32.152] [RX ] 
+[15:40:32.154] [RX ] [07-01 15:40:32.333 ty D][0x28052378][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->3(ms), flag=2, count = 38001
+[15:40:32.154] [RX ] 
+[15:40:32.955] [RX ] [07-01 15:40:33.136 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[15:40:33.409] [RX ] [07-01 15:40:33.584 ty N][0x60fd0500][wukong_ai_skills.c:103] json-str {"content":"看起来现在还没有配置任何第三方MCP服务器哦。","reasoningContent":"","appendMode":"append","timeIndex":1700,"finish":false,"tags":[]}
+[15:40:33.413] [RX ] [07-01 15:40:33.589 ty N][0x60fd0500][wukong_ai_skills.c:116] wukong text -> NLG eof: 0, content: 看起来现在还没有配置任何第三方MCP  务器哦。, time: 0
+[15:40:33.414] [RX ] [07-01 15:40:33.589 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 10
+[15:40:33.418] [RX ] [07-01 15:40:33.590 ty N][0x60fd0500][wukong_ai_mode_free.c:74] ai toy -> recv wukong text result: 看起来现在还没有配置任何  三方MCP服务器哦。
+[15:40:33.420] [RX ] [07-01 15:40:33.591 ty D][0x60fd0500][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:33.420] [RX ] 
+[15:40:33.794] [RX ] [07-01 15:40:33.974 ty D][0x60fd0500][wukong_ai_agent.c:120] wukong ai agent -> audio codec type: 111
+[15:40:33.796] [RX ] [07-01 15:40:33.975 ty D][0x60fd0500][tuya_ai_output.c:243] [output] start. status:0
+[15:40:33.798] [RX ] [07-01 15:40:33.975 ty D][0x60fd0500][wukong_ai_agent.c:78] wukong ai agent -> recv event type: 0
+[15:40:33.801] [RX ] [07-01 15:40:33.975 ty D][0x60fd0500][wukong_audio_player.c:261] wukong audio player -> tts stream start
+[15:40:33.817] [RX ] [07-01 15:40:33.976 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 3
+[15:40:33.817] [RX ] [07-01 15:40:33.977 ty D][0x60fd0500][wukong_ai_mode_free.c:418] mode free state change from THINK to SPEAK
+[15:40:33.828] [RX ] [07-01 15:40:33.997 ty D][0x60fd0500][svc_ai_playlist.c:336] clear playlist playing 0
+[15:40:33.829] [RX ] [07-01 15:40:34.010 ty E][0x60fd0500][svc_ai_player.c:821] player already stopped: 0
+[15:40:33.830] [RX ] [07-01 15:40:34.010 ty D][0x60fd0500][svc_ai_player.c:757] start player 0 3
+[15:40:33.834] [RX ] [07-01 15:40:34.013 ty D][0x60e76074][svc_ai_player.c:505] ai player FG cmd START
+[15:40:33.836] [RX ] [07-01 15:40:34.015 ty D][0x60e76074][svc_ai_player.c:90] start player FG value=null
+[15:40:33.838] [RX ] [07-01 15:40:34.016 ty D][0x60e76074][decoder_opus.c:71] Opus decoder started: 16000Hz, 1ch, frame=80
+[15:40:33.840] [RX ] [07-01 15:40:34.016 ty D][0x60e76074][wukong_audio_player.c:61] wukong audio player -> player tts event: 1
+[15:40:33.842] [RX ] [07-01 15:40:34.017 ty D][0x60e76074][wukong_audio_player.c:82] wukong audio player -> playing start event
+[15:40:33.845] [RX ] [07-01 15:40:34.018 ty D][0x60e76074][wukong_ai_mode_free.c:396] [====ai_free] event type: 20
+[15:40:33.846] [RX ] [07-01 15:40:34.026 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 4
+[15:40:33.893] [RX ] [07-01 15:40:34.071 ty D][0x60d50bd0][wukong_ai_mode_free.c:240] [====ai_free] speak
+[15:40:33.914] [RX ] [07-01 15:40:34.073 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 640
+[15:40:33.914] [RX ] [07-01 15:40:34.075 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:33.914] [RX ] [07-01 15:40:34.093 ty D][0x60d50bd0][tuya_led.c:170] pinname:56
+[15:40:33.914] [RX ] [07-01 15:40:34.094 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:33.952] [RX ] [07-01 15:40:34.118 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:33.960] [RX ] [07-01 15:40:34.137 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:33.981] [RX ] [07-01 15:40:34.152 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.012] [RX ] [07-01 15:40:34.193 ty D][0x60d50bd0][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:0
+[15:40:34.015] [RX ] [07-01 15:40:34.196 ty D][0x60d50bd0][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:34.015] [RX ] 
+[15:40:34.033] [RX ] [07-01 15:40:34.198 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.036] [RX ] [07-01 15:40:34.215 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.037] [RX ] [07-01 15:40:34.216 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.039] [RX ] [07-01 15:40:34.217 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.113] [RX ] [07-01 15:40:34.293 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:34.115] [RX ] [07-01 15:40:34.294 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.171] [RX ] [07-01 15:40:34.352 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 400
+[15:40:34.183] [RX ] [07-01 15:40:34.363 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.213] [RX ] [07-01 15:40:34.390 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.215] [RX ] [07-01 15:40:34.395 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.315] [RX ] [07-01 15:40:34.493 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 1040
+[15:40:34.317] [RX ] [07-01 15:40:34.496 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.351] [RX ] [07-01 15:40:34.531 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.352] [RX ] [07-01 15:40:34.531 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.422] [RX ] [07-01 15:40:34.602 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:34.423] [RX ] [07-01 15:40:34.602 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.457] [RX ] [07-01 15:40:34.638 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.463] [RX ] [07-01 15:40:34.644 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.527] [RX ] [07-01 15:40:34.707 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.529] [RX ] [07-01 15:40:34.708 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.550] [RX ] [07-01 15:40:34.730 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:34.551] [RX ] [07-01 15:40:34.730 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.597] [RX ] [07-01 15:40:34.777 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 400
+[15:40:34.599] [RX ] [07-01 15:40:34.778 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.615] [RX ] [07-01 15:40:34.795 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 80
+[15:40:34.625] [RX ] [07-01 15:40:34.796 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.652] [RX ] [07-01 15:40:34.831 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:34.654] [RX ] [07-01 15:40:34.833 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.657] [RX ] [07-01 15:40:34.837 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 80
+[15:40:34.658] [RX ] [07-01 15:40:34.837 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.840] [RX ] [07-01 15:40:35.016 ty N][0x60fd0500][wukong_ai_skills.c:103] json-str {"content":"你是不是想添加一个新的？","reasoningContent":"","appendMode":"append","timeIndex":3000,"finish":false,"tags":[]}
+[15:40:34.842] [RX ] [07-01 15:40:35.017 ty N][0x60fd0500][wukong_ai_skills.c:116] wukong text -> NLG eof: 0, content: 你是不是   添加一个新的？, time: 0
+[15:40:34.852] [RX ] [07-01 15:40:35.018 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 11
+[15:40:34.852] [RX ] [07-01 15:40:35.030 ty N][0x60fd0500][wukong_ai_mode_free.c:74] ai toy -> recv wukong text result: 你是不是想添加一个新的？
+[15:40:34.854] [RX ] [07-01 15:40:35.031 ty D][0x60fd0500][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:34.854] [RX ] 
+[15:40:34.865] [RX ] [07-01 15:40:35.046 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 160
+[15:40:34.867] [RX ] [07-01 15:40:35.046 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.893] [RX ] [07-01 15:40:35.072 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:34.900] [RX ] [07-01 15:40:35.081 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.905] [RX ] [07-01 15:40:35.085 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.906] [RX ] [07-01 15:40:35.087 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.910] [RX ] [07-01 15:40:35.090 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:34.913] [RX ] [07-01 15:40:35.091 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.914] [RX ] [07-01 15:40:35.093 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.916] [RX ] [07-01 15:40:35.093 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.934] [RX ] [07-01 15:40:35.113 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:34.935] [RX ] [07-01 15:40:35.114 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.955] [RX ] [07-01 15:40:35.135 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:34.957] [RX ] [07-01 15:40:35.137 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.972] [RX ] [07-01 15:40:35.151 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 400
+[15:40:34.974] [RX ] [07-01 15:40:35.154 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:34.985] [RX ] [07-01 15:40:35.165 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 80
+[15:40:34.986] [RX ] [07-01 15:40:35.165 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.013] [RX ] [07-01 15:40:35.194 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 160
+[15:40:35.016] [RX ] [07-01 15:40:35.194 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.043] [RX ] [07-01 15:40:35.218 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 720
+[15:40:35.055] [RX ] [07-01 15:40:35.235 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.123] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[15:40:35.124] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[15:40:35.126] [RX ] [RAW_WRITE] data_size: 37760(Bytes), 9KB/s 
+[15:40:35.126] [RX ] [ONBOARD_SPK] data_size: 37120(Bytes), 9KB/s 
+[15:40:35.127] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[15:40:35.128] [RX ] [WIFI_RX] data_size: 97280(Bytes), 23KB/s 
+[15:40:35.172] [RX ] [07-01 15:40:35.346 ty N][0x60fd0500][wukong_ai_skills.c:103] json-str {"content":"或者有其他相关的需求？告诉我，","reasoningContent":"","appendMode":"append","timeIndex":3950,"finish":false,"tags":[]}
+[15:40:35.199] [RX ] [07-01 15:40:35.377 ty N][0x60fd0500][wukong_ai_skills.c:116] wukong text -> NLG eof: 0, content: 或者有其他相关的需求   告诉我，, time: 0
+[15:40:35.200] [RX ] [07-01 15:40:35.378 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 11
+[15:40:35.211] [RX ] [07-01 15:40:35.389 ty N][0x60fd0500][wukong_ai_mode_free.c:74] ai toy -> recv wukong text result: 或者有其他相关的需  ？告诉我，
+[15:40:35.212] [RX ] [07-01 15:40:35.390 ty D][0x60fd0500][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:35.214] [RX ] 
+[15:40:35.215] [RX ] [07-01 15:40:35.394 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 80
+[15:40:35.217] [RX ] [07-01 15:40:35.395 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.221] [RX ] [07-01 15:40:35.402 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:35.223] [RX ] [07-01 15:40:35.402 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.332] [RX ] [07-01 15:40:35.512 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 1040
+[15:40:35.340] [RX ] [07-01 15:40:35.521 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.354] [RX ] [07-01 15:40:35.534 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:35.355] [RX ] [07-01 15:40:35.535 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.673] [RX ] [07-01 15:40:35.853 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:35.676] [RX ] [07-01 15:40:35.854 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.677] [RX ] [07-01 15:40:35.856 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:35.679] [RX ] [07-01 15:40:35.856 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.682] [RX ] [07-01 15:40:35.862 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:35.687] [RX ] [07-01 15:40:35.867 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.694] [RX ] [07-01 15:40:35.873 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 240
+[15:40:35.695] [RX ] [07-01 15:40:35.874 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.714] [RX ] [07-01 15:40:35.894 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 640
+[15:40:35.716] [RX ] [07-01 15:40:35.897 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.735] [RX ] [07-01 15:40:35.915 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 80
+[15:40:35.738] [RX ] [07-01 15:40:35.916 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.740] [RX ] [07-01 15:40:35.918 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 400
+[15:40:35.752] [RX ] [07-01 15:40:35.932 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.757] [RX ] [07-01 15:40:35.937 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 560
+[15:40:35.758] [RX ] [07-01 15:40:35.937 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.777] [RX ] [07-01 15:40:35.958 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:35.792] [RX ] [07-01 15:40:35.972 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.795] [RX ] [07-01 15:40:35.974 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 480
+[15:40:35.796] [RX ] [07-01 15:40:35.975 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.876] [RX ] [07-01 15:40:36.056 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 800
+[15:40:35.879] [RX ] [07-01 15:40:36.057 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.880] [RX ] [07-01 15:40:36.059 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 80
+[15:40:35.891] [RX ] [07-01 15:40:36.059 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:35.912] [RX ] [07-01 15:40:36.091 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 80
+[15:40:35.913] [RX ] [07-01 15:40:36.092 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:37.715] [RX ] [07-01 15:40:37.894 ty N][0x60fd0500][wukong_ai_skills.c:103] json-str {"content":"我来帮你。","reasoningContent":"","appendMode":"append","timeIndex":1450,"finish":false,"tags":[]}
+[15:40:37.718] [RX ] [07-01 15:40:37.894 ty N][0x60fd0500][wukong_ai_skills.c:116] wukong text -> NLG eof: 0, content: 我来帮你。, time: 0
+[15:40:37.721] [RX ] [07-01 15:40:37.896 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 11
+[15:40:37.723] [RX ] [07-01 15:40:37.896 ty N][0x60fd0500][wukong_ai_mode_free.c:74] ai toy -> recv wukong text result: 我来   你。
+[15:40:37.725] [RX ] [07-01 15:40:37.897 ty D][0x60fd0500][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:37.725] [RX ] 
+[15:40:37.735] [RX ] [07-01 15:40:37.915 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 795
+[15:40:37.755] [RX ] [07-01 15:40:37.936 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:37.774] [RX ] [07-01 15:40:37.953 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 2165
+[15:40:37.775] [RX ] [07-01 15:40:37.954 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:38.407] [RX ] [07-01 15:40:38.584 ty N][0x60fd0500][wukong_ai_skills.c:103] json-str {"content":"","reasoningContent":"","appendMode":"append","finish":true,"tags":[]}
+[15:40:38.410] [RX ] [07-01 15:40:38.589 ty N][0x60fd0500][wukong_ai_skills.c:116] wukong text -> NLG eof: 1, content: , time: 0
+[15:40:38.411] [RX ] [07-01 15:40:38.590 ty D][0x60fd0500][wukong_ai_mode_free.c:396] [====ai_free] event type: 12
+[15:40:38.414] [RX ] [07-01 15:40:38.590 ty N][0x60fd0500][wukong_ai_mode_free.c:74] ai toy -> recv wukong text result: 
+[15:40:38.415] [RX ] [07-01 15:40:38.590 ty D][0x60fd0500][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:38.415] [RX ] 
+[15:40:38.418] [RX ] [07-01 15:40:38.594 ty D][0x60fd0500][tuya_ai_output.c:302] [output] stop. force:0 status:1
+[15:40:38.419] [RX ] [07-01 15:40:38.596 ty E][0x60fd0500][tuya_ai_agent.c:717] invalid text data 0x60e15595 0
+[15:40:38.423] [RX ] [07-01 15:40:38.597 ty D][0x60fd0500][tuya_ai_agent.c:153] [====ai event cb====] type:2, sid:65e58aa8-51e9-4e23-8fe9-ddf7-fae1198a, eid:0d145fd9-cf6a-4ba9-96f8
+[15:40:38.427] [RX ] [07-01 15:40:38.607 ty D][0x60e75f6c][wukong_audio_player.c:270] wukong audio player -> tts stream data 0
+[15:40:38.430] [RX ] [07-01 15:40:38.608 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 5
+[15:40:38.431] [RX ] [07-01 15:40:38.609 ty D][0x60e75f6c][tuya_ai_output.c:147] [output] stop done
+[15:40:38.432] [RX ] [07-01 15:40:38.612 ty D][0x60e75f6c][wukong_ai_agent.c:78] wukong ai agent -> recv event type: 2
+[15:40:38.435] [RX ] [07-01 15:40:38.614 ty D][0x60e75f6c][wukong_audio_player.c:277] wukong audio player -> tts stream stop
+[15:40:38.437] [RX ] [07-01 15:40:38.615 ty D][0x60e75f6c][wukong_ai_mode_free.c:396] [====ai_free] event type: 6
+[15:40:39.123] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[15:40:39.124] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[15:40:39.126] [RX ] [RAW_WRITE] data_size: 128000(Bytes), 31KB/s 
+[15:40:39.126] [RX ] [ONBOARD_SPK] data_size: 128000(Bytes), 31KB/s 
+[15:40:39.133] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[15:40:39.133] [RX ] [WIFI_RX] data_size: 335360(Bytes), 81KB/s 
+[15:40:40.512] [RX ] [07-01 15:40:40.692 ty D][0x60d87174][tuya_ipc_p2p.c:4868] session detect run
+[15:40:42.149] [RX ] [07-01 15:40:42.330 ty D][0x28052378][wukong_audio_aec_vad.c:111] speexdsp process time: aec->11(ms), count = 38501
+[15:40:42.149] [RX ] 
+[15:40:42.153] [RX ] [07-01 15:40:42.333 ty D][0x28052378][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[15:40:42.153] [RX ] 
+[15:40:42.155] [RX ] [07-01 15:40:42.333 ty D][0x28052378][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->3(ms), flag=2, count = 38501
+[15:40:42.155] [RX ] 
+[15:40:42.653] [RX ] [07-01 15:40:42.833 ty N][0x60fd3570][product_board_motor_debug.c:50] motor demo: [23] fwd
+[15:40:42.955] [RX ] [07-01 15:40:43.136 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[15:40:43.123] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[15:40:43.125] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[15:40:43.126] [RX ] [RAW_WRITE] data_size: 128000(Bytes), 31KB/s 
+[15:40:43.126] [RX ] [ONBOARD_SPK] data_size: 128000(Bytes), 31KB/s 
+[15:40:43.127] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[15:40:43.128] [RX ] [WIFI_RX] data_size: 336640(Bytes), 82KB/s 
+[15:40:43.799] [RX ] [07-01 15:40:43.980 ty D][0x60d67010][tuya_ipc_p2p.c:4097] session cmd recv proc alive [132000] num[0]
+[15:40:45.796] [RX ] [07-01 15:40:45.976 ty N][0x60e76074][svc_ai_player.c:256] ai player FG eof
+[15:40:45.796] [RX ] [07-01 15:40:45.976 ty D][0x60e76074][svc_ai_player.c:117] stop player FG
+[15:40:45.812] [RX ] [07-01 15:40:45.978 ty D][0x60e76074][svc_ai_playlist.c:54] playlist player state 0 index 0 count 0 loop 0 single 0
+[15:40:45.815] [RX ] [07-01 15:40:45.992 ty D][0x60e76074][wukong_audio_player.c:61] wukong audio player -> player tts event: 0
+[15:40:45.817] [RX ] [07-01 15:40:45.994 ty D][0x60e76074][wukong_audio_player.c:68] wukong audio player -> stop event
+[15:40:45.818] [RX ] [07-01 15:40:45.994 ty D][0x60e76074][wukong_ai_mode_free.c:396] [====ai_free] event type: 30
+[15:40:45.829] [RX ] [07-01 15:40:46.008 ty D][0x60e76074][wukong_ai_mode_free.c:501] mode free state change from SPEAK to LISTEN
+[15:40:45.833] [RX ] [07-01 15:40:46.013 ty D][0x60d50bd0][wukong_ai_mode_free.c:165] [====ai_free] listen
+[15:40:45.835] [RX ] [07-01 15:40:46.014 ty D][0x60d50bd0][tuya_led.c:170] pinname:56
+[15:40:45.836] [RX ] [07-01 15:40:46.015 ty D][0x60d50bd0][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:1
+[15:40:45.854] [RX ] [07-01 15:40:46.034 ty D][0x60d50bd0][tuya_ai_toy.c:838] [====ai_toy] lowpower timer ctrl enable:0
+[15:40:45.857] [RX ] [07-01 15:40:46.037 ty D][0x60d50bd0][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[15:40:45.857] [RX ] 
+[15:40:47.123] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[15:40:47.125] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[15:40:47.126] [RX ] [RAW_WRITE] data_size: 88960(Bytes), 21KB/s 
+[15:40:47.126] [RX ] [ONBOARD_SPK] data_size: 89600(Bytes), 21KB/s 
+[15:40:47.127] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[15:40:47.128] [RX ] [WIFI_RX] data_size: 227840(Bytes), 55KB/s 
+[15:40:48.249] [RX ] [07-01 15:40:48.430 ty D][0x60fdd0dc][tuya_devos_utils.c:288] set time by rtc

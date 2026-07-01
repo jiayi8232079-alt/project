@@ -1,4 +1,4 @@
-# Install script for directory: /home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/ap/middleware/driver
+# Install script for directory: /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/ap/middleware/driver
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,17 +34,17 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump")
+  set(CMAKE_OBJDUMP "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/h264/cmake_install.cmake")
-  include("/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/device/cmake_install.cmake")
-  include("/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/hw_rotate/cmake_install.cmake")
-  include("/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/yuv_buf/cmake_install.cmake")
-  include("/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/hw_scale/cmake_install.cmake")
-  include("/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/lin/cmake_install.cmake")
+  include("/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/h264/cmake_install.cmake")
+  include("/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/device/cmake_install.cmake")
+  include("/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/hw_rotate/cmake_install.cmake")
+  include("/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/yuv_buf/cmake_install.cmake")
+  include("/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/hw_scale/cmake_install.cmake")
+  include("/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/driver/lin/cmake_install.cmake")
 
 endif()
 

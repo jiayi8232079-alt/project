@@ -53,4 +53,9 @@ if ENABLE_TUYA_TOOLKITS
         default n
         help
           AI可使用社交功能（好友互动等）
+    config ENABLE_TOOLKITS_EXTERNAL_MCP
+        bool "Third-party MCP client aggregator"
+        default y
+        help
+          接入第三方 MCP Server（streamablehttp），聚合 namespaced 工具
 endif

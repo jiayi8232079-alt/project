@@ -1,4 +1,4 @@
-# Install script for directory: /home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/cp/components/embeded_gcov
+# Install script for directory: /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/cp/components/embeded_gcov
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,6 +34,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump")
+  set(CMAKE_OBJDUMP "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump")
 endif()
 

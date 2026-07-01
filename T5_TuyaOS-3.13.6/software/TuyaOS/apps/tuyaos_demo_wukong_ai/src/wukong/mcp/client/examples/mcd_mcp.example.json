@@ -1,0 +1,12 @@
+{
+  "id": "mcd",
+  "name": "麦当劳 MCP",
+  "type": "streamablehttp",
+  "url": "https://mcp.mcd.cn",
+  "headers": {
+    "Authorization": "Bearer YOUR_MCP_TOKEN"
+  },
+  "enabled": true,
+  "riskLevel": "purchase",
+  "requireUserConfirm": true
+}

@@ -1,0 +1,26 @@
+{
+  "side": "mcp-server",
+  "ts": "2026-06-30T14:11:40.413Z",
+  "pid": 3262632,
+  "ppid": 3260202,
+  "queueRootBase": "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/.cursor/BajieAsk-messages",
+  "finalQueueRoot": "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/.cursor/BajieAsk-messages",
+  "finalInstanceId": "BajieAsk-ws-4a4d7458",
+  "finalRemoteScope": "",
+  "strategy": "no_candidates_fallback_base",
+  "source": "fallback_base",
+  "instanceIdSource": "workspace_folder_paths",
+  "wsInstanceIdInputs": {
+    "from": "WORKSPACE_FOLDER_PATHS",
+    "paths": [
+      "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6"
+    ],
+    "remoteScope": ""
+  },
+  "rawWorkspaceFolderPaths": "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6",
+  "rawCwd": "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6",
+  "envInstanceId": "BajieAsk-ws-09688a66",
+  "envRemoteScope": null,
+  "candidateCount": 0,
+  "candidates": []
+}

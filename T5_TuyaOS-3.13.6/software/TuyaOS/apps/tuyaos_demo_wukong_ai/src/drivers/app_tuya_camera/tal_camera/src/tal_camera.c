@@ -357,6 +357,7 @@ OPERATE_RET tal_camera_switch_output_mode(TAL_CAMERA_HANDLE_T     handle,
                                           TAL_CAMERA_CFG_T       *cfg,
                                           TUYA_CAMERA_OUTPUT_MODE mode)
 {
+    OPERATE_RET rt = OPRT_OK;
     tal_camera_ctx_t *ctx = (tal_camera_ctx_t *)handle;
     if (!ctx || !cfg || !cfg->cfg) {
         return OPRT_INVALID_PARM;
@@ -374,6 +375,11 @@ OPERATE_RET tal_camera_switch_output_mode(TAL_CAMERA_HANDLE_T     handle,
     tal_dvp_deinit((TUYA_DVP_DEVICE_T *)ctx->drv);
     ctx->drv = NULL;
 
+    /* 切换输出模式后 stream 槽位须清零，避免与硬件状态不一致 */
+    for (int i = 0; i < TAL_STREAM_MAX; i++) {
+        ctx->slot[i].running = FALSE;
+    }
+
     TUYA_DVP_USR_CFG_T *dvp_cfg = (TUYA_DVP_USR_CFG_T *)cfg->cfg;
     dvp_cfg->dvp_cfg.output_mode = mode;
     dvp_cfg->dvp_frame_handle    = __dvp_frame_cb;
@@ -387,6 +393,15 @@ OPERATE_RET tal_camera_switch_output_mode(TAL_CAMERA_HANDLE_T     handle,
         return OPRT_COM_ERROR;
     }
     ctx->drv = dev;
+
+    /* 与 tal_camera_init 一致：init 后硬件默认采集开启，先 stop 到 idle */
+    rt = tal_dvp_stop(dev);
+    if (rt != OPRT_OK) {
+        TAL_PR_ERR("switch_output_mode: tal_dvp_stop failed: %d", rt);
+        tal_dvp_deinit(dev);
+        ctx->drv = NULL;
+        return rt;
+    }
 
     TAL_PR_DEBUG("switch_output_mode ok, mode=%d, valid_fmts=0x%x", mode, ctx->valid_fmts);
     return OPRT_OK;

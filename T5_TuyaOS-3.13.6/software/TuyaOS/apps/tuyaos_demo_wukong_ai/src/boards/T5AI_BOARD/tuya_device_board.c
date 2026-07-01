@@ -67,6 +67,11 @@ OPERATE_RET tuya_device_board_init(VOID_T)
     };
     if (OPRT_OK == tkl_i2c_init(TUYA_I2C_NUM_0, &axp_i2c_cfg)) {
         tuya_axp2101_init(TUYA_I2C_NUM_0);
+#if defined(ENABLE_TUYA_CAMERA) && (ENABLE_TUYA_CAMERA == 1)
+        /* 摄像头三路电源轨由 AXP2101 BLDO1/BLDO2/ALDO3(U4.12/14/16) 提供；
+         * 出厂默认 BLDO2(DVDD_1V8) 关闭，必须显式打开，否则 GC2145 无法工作 */
+        tuya_axp2101_camera_power_on(TUYA_I2C_NUM_0);
+#endif
     } else {
         TAL_PR_ERR("AXP2101: I2C0 init failed");
     }
@@ -91,7 +96,7 @@ OPERATE_RET tuya_board_get_camera_cfg(TAL_CAMERA_CFG_T *cfg)
 
     static TUYA_DVP_USR_CFG_T s_dvp_cfg = {
         .dvp_cfg = {
-            .fps          = 20,
+            .fps          = TUYA_AI_TOY_ISP_FPS,
             .width        = TUYA_AI_TOY_ISP_WIDTH,
             .height       = TUYA_AI_TOY_ISP_HEIGHT,
             .output_mode  = TUYA_CAMERA_OUTPUT_JPEG_YUV422_BOTH,
@@ -105,9 +110,11 @@ OPERATE_RET tuya_board_get_camera_cfg(TAL_CAMERA_CFG_T *cfg)
             },
         },
         .pin_cfg = {
-            .dvp_i2c_idx               = TUYA_I2C_NUM_1,
-            .dvp_i2c_clk.pin           = TUYA_GPIO_NUM_13,
-            .dvp_i2c_sda.pin           = TUYA_GPIO_NUM_15,
+            /* 本产品板 GC2145 I2C 经 Q1/Q2 接 I2C0(GPIO20/21)，与 AXP2101/IMU/ALS 共用；
+             * 非标准 T5AI_BOARD 的 I2C1/GPIO13/15。见网表 CIS_SCL/CIS_SDA 与文档 §5.5.2 */
+            .dvp_i2c_idx               = TUYA_I2C_NUM_0,
+            .dvp_i2c_clk.pin           = TUYA_GPIO_NUM_20,
+            .dvp_i2c_sda.pin           = TUYA_GPIO_NUM_21,
             .dvp_rst_ctrl.pin          = TUYA_GPIO_NUM_51,
             .dvp_rst_ctrl.active_level = TUYA_GPIO_LEVEL_LOW,
             .dvp_pwr_ctrl.pin          = TUYA_GPIO_NUM_MAX,

@@ -35,6 +35,21 @@
 #define AXP_REG_CV          (0x64) /* [2:0]: 011=4.2V */
 #define AXP_REG_BAT_DET     (0x68) /* bit0: 电池检测使能 */
 #define AXP_REG_CHGLED      (0x69) /* bit0=使能, [2:1]=显示模式 */
+#define AXP_REG_LDO_EN0     (0x90) /* bit0~3=ALDO1~4 bit4=BLDO1 bit5=BLDO2 ... */
+#define AXP_REG_ALDO3_CFG   (0x94) /* [4:0]: 0.5V + N*0.1V */
+#define AXP_REG_BLDO1_CFG   (0x96) /* U4.12 -> AVDD_2V8  */
+#define AXP_REG_BLDO2_CFG   (0x97) /* U4.14 -> DVDD_1V8  */
+
+/* reg0x90 摄像头相关使能位（datasheet §6.13.2.75） */
+#define AXP_LDO_EN_ALDO3    (1u << 2) /* U4.16 -> VDDCAM_2V8 */
+#define AXP_LDO_EN_BLDO1    (1u << 4) /* U4.12 -> AVDD_2V8  */
+#define AXP_LDO_EN_BLDO2    (1u << 5) /* U4.14 -> DVDD_1V8  */
+#define AXP_LDO_EN_CAM_MASK (AXP_LDO_EN_ALDO3 | AXP_LDO_EN_BLDO1 | AXP_LDO_EN_BLDO2)
+
+/* 摄像头电源轨目标电压（网表 + AXP2101 引脚：12=BLDO1 14=BLDO2 16=ALDO3） */
+#define AXP_CAM_AVDD_MV     (2800) /* BLDO1 -> AVDD_2V8  */
+#define AXP_CAM_DVDD_MV     (1800) /* BLDO2 -> DVDD_1V8  */
+#define AXP_CAM_VDDCAM_MV   (2800) /* ALDO3 -> VDDCAM_2V8 */
 
 /* 共享总线探测重试：GPIO20/21(I2C0) 与屏幕/摄像头/传感器共用，上电初期可能短暂忙 */
 #define AXP_PROBE_RETRY     (3)
@@ -318,7 +333,7 @@ static void __axp_dump_regs(uint8_t port)
         0x00, 0x01, 0x10, 0x12, 0x14, 0x15, 0x16, 0x18, 0x24, 0x30,
         0x34, 0x35, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x50, 0x61,
         0x62, 0x63, 0x64, 0x68, 0x69, 0x80, 0x81, 0x82, 0x83, 0x84,
-        0x85, 0x86, 0x90, 0x91,
+        0x85, 0x86, 0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,
     };
     int i;
 
@@ -378,6 +393,69 @@ void tuya_axp2101_dump_status(uint8_t i2c_port)
                 s1, (s1 >> 5) & 3, (s1 >> 4) & 1, (s1 >> 3) & 1, s1 & 0x07);
     TAL_PR_INFO("[axp2101] IRQ[0..2]=0x%02x 0x%02x 0x%02x (对照 datasheet 0x48~0x4A 找 TS/charger fault)",
                 irq0, irq1, irq2);
+}
+
+/* ALDO/BLDO 电压编码 reg0x94/0x96/0x97[4:0]: 0.5V + N*0.1V，N=[0..31] */
+static uint8_t __enc_ldo_mv(uint16_t mv)
+{
+    uint16_t n;
+
+    if (mv < 500) {
+        mv = 500;
+    }
+    n = (uint16_t)((mv - 500) / 100);
+    if (n > 0x1F) {
+        n = 0x1F;
+    }
+    return (uint8_t)n;
+}
+
+static uint16_t __dec_ldo_mv(uint8_t enc)
+{
+    return (uint16_t)(500 + (enc & 0x1F) * 100);
+}
+
+/* 配置后回读摄像头三路 LDO，便于与万用表实测对照 */
+static void __axp_dump_camera_rails(uint8_t port)
+{
+    uint8_t en = 0, b1 = 0, b2 = 0, a3 = 0;
+
+    if (__axp_read(port, AXP_REG_LDO_EN0, &en) != OPRT_OK) {
+        TAL_PR_ERR("[axp2101] camera rail dump: read reg0x90 failed");
+        return;
+    }
+    __axp_read(port, AXP_REG_BLDO1_CFG, &b1);
+    __axp_read(port, AXP_REG_BLDO2_CFG, &b2);
+    __axp_read(port, AXP_REG_ALDO3_CFG, &a3);
+    TAL_PR_INFO("[axp2101] camera rails verify: reg0x90=0x%02x BLDO1(en=%d %umV) BLDO2(en=%d %umV) ALDO3(en=%d %umV)",
+                en,
+                (en >> 4) & 1, __dec_ldo_mv(b1),
+                (en >> 5) & 1, __dec_ldo_mv(b2),
+                (en >> 2) & 1, __dec_ldo_mv(a3));
+}
+
+OPERATE_RET tuya_axp2101_camera_power_on(uint8_t i2c_port)
+{
+    OPERATE_RET rt;
+
+    /* 先设电压再使能，避免上电瞬间过压；电压寄存器低 5 位有效 */
+    rt = __axp_update(i2c_port, AXP_REG_BLDO1_CFG, 0x1F, __enc_ldo_mv(AXP_CAM_AVDD_MV));
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_BLDO2_CFG, 0x1F, __enc_ldo_mv(AXP_CAM_DVDD_MV));
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_ALDO3_CFG, 0x1F, __enc_ldo_mv(AXP_CAM_VDDCAM_MV));
+    if (rt != OPRT_OK) return rt;
+
+    /* reg0x90：使能 BLDO1/BLDO2/ALDO3（对应 U4.12/14/16），不改动其它 LDO 位 */
+    rt = __axp_update(i2c_port, AXP_REG_LDO_EN0, AXP_LDO_EN_CAM_MASK, AXP_LDO_EN_CAM_MASK);
+    if (rt != OPRT_OK) return rt;
+
+    /* 摄像头模拟/数字轨上电后需稳定时间，再由上层做复位/检测 */
+    tal_system_sleep(20);
+    TAL_PR_INFO("[axp2101] camera rails on: BLDO1=%umV BLDO2=%umV ALDO3=%umV",
+                AXP_CAM_AVDD_MV, AXP_CAM_DVDD_MV, AXP_CAM_VDDCAM_MV);
+    __axp_dump_camera_rails(i2c_port);
+    return OPRT_OK;
 }
 
 OPERATE_RET tuya_axp2101_init(uint8_t i2c_port)

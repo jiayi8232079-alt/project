@@ -1,533 +1,891 @@
 /**
  * @file robot_face_ui.c
- * @brief LVGL v8 kawaii 机器人脸部表情动画（参考“恋爱/被萌到”风格）
+ * @brief LVGL v8 俏皮发光圆脸（参考实体机器人屏显：黑底 + 双发光圆环眼 + U 形微笑）
  *
- * 适用屏幕：ST7789V2（横屏 320×240，RGB565）
+ * 适用屏幕：SPI ST7789V2 横屏 320×240，RGB565
+ *  （工程开启 RGB565 color swap，故所有发光统一用纯白，保证硬件显色正确、最亮）
  *
- * 视觉（全部用 LVGL 图元绘制，零额外二进制资源，避免 FLASH 溢出）：
- *  - 黑色背景
- *  - 双眼：大号“高光眼”——黑色椭圆 + 白色粗描边 + 3 个白色高光圆点（萌系反光）
- *  - 腮红：双颊柔和粉色椭圆
- *  - 嘴巴：lv_arc 装饰弧，温柔微笑
- *  - 爱心：右上角 lv_canvas 绘制两颗粉色爱心（仅“恋爱”情绪显示）
+ * 视觉：纯 LVGL 图元，无图片资源
+ *  - 黑底
+ *  - 双眼：纯白发光圆环（lv_arc 画满 360° 背景弧）+ 半透明柔光环
+ *  - 嘴：白色 U 形微笑弧
  *
- * 动画（=动图效果）：
- *  - 眨眼：眼白高度周期性压扁（左右错开）
- *  - 高光闪烁：大高光点透明度缓慢呼吸
- *  - 呼吸：双眼整体轻微上下浮动
- *  - 爱心上浮：恋爱情绪下爱心循环上浮 + 淡出
+ * 让表情“活”起来（比静态照片更俏皮）：
+ *  - 整张脸做极轻微上下浮动（idle float），像在呼吸，时刻有“生命感”
+ *  - 行为调度器按加权随机穿插多种小动作，节奏带抖动避免机械感：
+ *      · 单次眨眼 / 连续双眨（最常见）
+ *      · 单眼 wink（左右随机）—— 俏皮核心
+ *      · 左右张望 glance（整脸横移一下再回来，像好奇打量）
+ *      · 眯眼坏笑 squint（双眼压扁 + 嘴角短促咧开）
+ *  - 嘴角持续轻微摆动
  *
- * 表情（响应 TY_DISPLAY_TP_EMOJI 的 data 字符串）：
- *  - loving / love / lovestruck → 恋爱：显爱心 + 腮红加深 + 微笑
- *  - happy / laughing          → 开心：眼睛弯成细缝（^^）+ 大微笑
- *  - sad                       → 悲伤：嘴角下弯 + 高光下移
- *  - thinking                  → 思考：左眼半闭
- *  - 其它 / NULL               → neutral：常态萌脸
+ * 表情（TY_DISPLAY_TP_EMOJI 的 data 字符串）：
+ *  - happy / laughing            → 咧嘴 grin
+ *  - loving / love / lovestruck  → 微笑（柔光更亮）
+ *  - sad                         → 嘴角下弯，收敛俏皮动作（只眨眼）
+ *  - thinking                    → 左眼半眯 + 中性嘴
+ *  - listening / wake / awake    → 唤醒/聆听：聚焦睁眼 + 柔光提亮 + 中性嘴
+ *  - querying / searching        → 查询中：整脸轻微扫动 + 三点循环 + 中性嘴
+ *  - 其它                        → neutral 微笑
  *
- * 线程安全：
- *  所有 LVGL 对象操作均须在 LVGL 任务（lv_timer_handler 所在线程）上下文内调用；
- *  app_ui_msg_handler 须由 GUI 主线程或通过 lv_async_call 投递。
+ * 状态联动（TY_DISPLAY_TP_CHAT_STAT 的 data[0]，取值同 gui_common.h 的 GUI_STAT_*）：
+ *  - INIT / IDLE → neutral 待机（待机动画保持不变）
+ *  - LISTEN      → 唤醒/聆听表情（被唤醒、开始听用户说话）
+ *  - THINK       → 查询中表情（联网 / MCP 查询、等待外部结果）
+ *  - 其它阶段    → 不强制改表情，交由云端 emoji 驱动
  */
 
 #include "tuya_ai_display.h"
+#include "gui_common.h"
 #include "lvgl.h"
 #include <string.h>
 
-/* ─────────────────────── 屏幕与布局常量 ─────────────────────── */
+#define SCREEN_W            320
+#define SCREEN_H            240
 
-#define SCREEN_W        320
-#define SCREEN_H        240
+/* 圆环眼 */
+#define EYE_D               50          /* 外径 */
+#define EYE_RING_W          4           /* 细线圆环，贴近实物屏显 */
+#define EYE_HALO_W          10          /* 柔光略宽于主线 */
 
-/* 眼睛（高光眼椭圆） */
-#define EYE_W           82
-#define EYE_H           94
-#define EYE_RADIUS      42                 /* 接近胶囊/椭圆 */
-#define EYE_BORDER_W    6                  /* 白色描边宽度 */
-#define EYE_GAP         56                 /* 两眼内缘间距 */
-#define EYES_BLOCK_W    (EYE_W * 2 + EYE_GAP)
-#define LEFT_EYE_X      ((SCREEN_W - EYES_BLOCK_W) / 2)        /* = 50 */
-#define RIGHT_EYE_X     (LEFT_EYE_X + EYE_W + EYE_GAP)         /* = 188 */
-#define EYE_Y           66
-#define EYE_BLINK_MIN   8                  /* 闭眼时眼高 */
+/* 最高亮度：RGB565 纯白（color swap 安全色） */
+#define COL_GLOW            lv_color_white()
+#define COL_GLOW_HALO       lv_color_white()
+#define HALO_OPA_MAX        LV_OPA_50   /* 柔光半透明，避免视觉上把圆环“加粗” */
+#define HALO_OPA_SAD        LV_OPA_80
+#define EYE_GAP             54
+#define EYES_BLOCK_W        (EYE_D * 2 + EYE_GAP)
+#define LEFT_EYE_X          ((SCREEN_W - EYES_BLOCK_W) / 2)
+#define RIGHT_EYE_X         (LEFT_EYE_X + EYE_D + EYE_GAP)
+#define EYE_Y               68
+#define EYE_BLINK_MIN       6           /* 闭眼时圆环压扁到的高度 */
+#define EYE_SQUINT_H        (EYE_D * 3 / 5)  /* 眯眼坏笑时的高度 */
+#define EYE_THINK_H         (EYE_D / 2)  /* thinking 时左眼半眯高度 */
 
-/* 高光点（眼内白色反光，子对象坐标相对眼白左上角） */
-#define SHINE_BIG_D     28
-#define SHINE_BIG_X     12
-#define SHINE_BIG_Y     12
-#define SHINE_MID_D     13
-#define SHINE_MID_X     48
-#define SHINE_MID_Y     52
-#define SHINE_SML_D     8
-#define SHINE_SML_X     22
-#define SHINE_SML_Y     64
+/* 嘴巴弧 */
+#define MOUTH_SIZE          40
+#define MOUTH_ARC_X         ((SCREEN_W - MOUTH_SIZE) / 2)
+#define MOUTH_ARC_Y         114
+#define MOUTH_ARC_W         5
 
-/* 腮红 */
-#define BLUSH_W         46
-#define BLUSH_H         20
-#define BLUSH_Y         158
-#define LEFT_BLUSH_X    24
-#define RIGHT_BLUSH_X   (SCREEN_W - LEFT_BLUSH_X - BLUSH_W)    /* = 250 */
+#define ANG_SMILE_S         38
+#define ANG_SMILE_E         142
+#define ANG_GRIN_S          28
+#define ANG_GRIN_E          152
+#define ANG_FROWN_S         208
+#define ANG_FROWN_E         332
+#define ANG_NEUTRAL_S       42
+#define ANG_NEUTRAL_E       138
 
-/* 嘴巴弧（lv_arc 装饰用） */
-#define MOUTH_SIZE      64
-#define MOUTH_ARC_X     ((SCREEN_W - MOUTH_SIZE) / 2)          /* = 128 */
-#define MOUTH_ARC_Y     150
-#define MOUTH_ARC_W     5
+/* 整脸浮动 / 张望幅度 */
+#define FACE_FLOAT_DY       3
+#define FACE_GLANCE_DX      10
 
-/* 嘴型角度（LVGL v8 顺时针，0° 在 3 点钟方向） */
-#define ANG_SMILE_S     20      /* 下半弧 → 微笑 */
-#define ANG_SMILE_E     160
-#define ANG_GRIN_S      0       /* 更大的下弧 → 大笑 */
-#define ANG_GRIN_E      180
-#define ANG_NEUTRAL_S   55
-#define ANG_NEUTRAL_E   125
-#define ANG_FROWN_S     200     /* 上半弧 → 难过 */
-#define ANG_FROWN_E     340
+/* 唤醒态：聚焦睁眼 pop 的起步压扁高度（复用眨眼/眯眼语汇，落点回到 EYE_D 全开） */
+#define WAKE_POP_FROM_H     EYE_SQUINT_H
 
-/* 爱心画布（右上角；LV_IMG_CF_TRUE_COLOR_ALPHA 透明底） */
-#define HEART_CV_W      64
-#define HEART_CV_H      52
-#define HEART_CV_X      (SCREEN_W - HEART_CV_W - 4)            /* = 252 */
-#define HEART_CV_Y_BASE 12      /* 上浮动画基准 y */
+/* 查询态：整脸轻微左右扫动幅度（小于张望，连续 ease-in-out 表达“思考/查询中”） */
+#define QUERY_SCAN_DX       8
 
-/* 配色 */
-#define COL_BLUSH       lv_color_hex(0xFF7AA8u)
-#define COL_HEART       lv_color_hex(0xFF5C8Au)
+/* 查询态：思考小点（... 循环），复用纯白像素风，居中置于嘴部下方 */
+#define DOT_D               8
+#define DOT_GAP             10
+#define DOTS_BLOCK_W        (DOT_D * 3 + DOT_GAP * 2)
+#define DOTS_X0             ((SCREEN_W - DOTS_BLOCK_W) / 2)
+#define DOTS_Y              (MOUTH_ARC_Y + MOUTH_SIZE + 10)
+#define DOT_OPA_DIM         LV_OPA_20
+#define DOT_OPA_BRIGHT      LV_OPA_COVER
 
-/* ─────────────────────── 表情枚举 ─────────────────────── */
 typedef enum {
     EXPR_NEUTRAL = 0,
     EXPR_LOVING,
     EXPR_HAPPY,
     EXPR_SAD,
     EXPR_THINKING,
+    EXPR_WAKE,        /* 唤醒/聆听：被唤醒、开始听用户说话 */
+    EXPR_QUERYING,    /* 查询中：联网 / MCP 查询、等待外部结果 */
 } robot_expr_t;
 
-/* ─────────────────────── 模块静态变量 ─────────────────────── */
-static lv_obj_t *s_left_eye    = NULL;
-static lv_obj_t *s_right_eye   = NULL;
-static lv_obj_t *s_left_shine  = NULL;   /* 左眼大高光，用于闪烁动画 */
-static lv_obj_t *s_right_shine = NULL;
-static lv_obj_t *s_left_blush  = NULL;
-static lv_obj_t *s_right_blush = NULL;
-static lv_obj_t *s_mouth       = NULL;
-static lv_obj_t *s_hearts      = NULL;   /* 爱心画布 */
+/* s_face 为承载全部表情元素的容器：整体浮动/张望只需动它一个对象 */
+static lv_obj_t *s_face          = NULL;
+static lv_obj_t *s_left_eye      = NULL;
+static lv_obj_t *s_right_eye     = NULL;
+static lv_obj_t *s_left_halo     = NULL;
+static lv_obj_t *s_right_halo    = NULL;
+static lv_obj_t *s_mouth         = NULL;
+static lv_obj_t *s_dot[3]        = {NULL, NULL, NULL};  /* 查询态思考小点（... 循环） */
+static lv_timer_t *s_play_timer  = NULL;
 
 static robot_expr_t s_expr = EXPR_NEUTRAL;
+/* 查询态扫动/思考小点动画是否在运行：用于切换其它表情时幂等清理 */
+static BOOL_T s_query_active = FALSE;
 
-/* 爱心画布缓冲（.bss，约 64*52*3≈10KB） */
-static LV_ATTRIBUTE_MEM_ALIGN uint8_t
-    s_heart_cbuf[LV_CANVAS_BUF_SIZE_TRUE_COLOR_ALPHA(HEART_CV_W, HEART_CV_H)];
+/* 每只眼睛的“基线高度”：眨眼/眯眼结束后回弹到此值（thinking 时左眼为半眯） */
+static lv_coord_t s_left_base_h  = EYE_D;
+static lv_coord_t s_right_base_h = EYE_D;
+/* 当前嘴形基线角度：俏皮动作里的临时咧嘴结束后回到此角度 */
+static uint16_t s_mouth_s = ANG_SMILE_S;
+static uint16_t s_mouth_e = ANG_SMILE_E;
 
-/* ─────────────────────── LVGL 动画 setter ─────────────────────── */
+/* 轻量伪随机：不引入 rand()，用 LCG 叠加 tick 提供足够的随机性穿插动作 */
+static uint32_t s_rng = 0x2545F491u;
+static uint32_t prand(void)
+{
+    s_rng = s_rng * 1664525u + 1013904223u + lv_tick_get();
+    return s_rng;
+}
 
-/* 眨眼：设置眼白高度 */
-static void blink_anim_cb(void *obj, int32_t val)
+/* ── 动画 setter ── */
+
+static void blink_h_anim_cb(void *obj, int32_t val)
 {
     lv_obj_set_height((lv_obj_t *)obj, (lv_coord_t)val);
 }
 
-/* 呼吸：整体上下浮动眼白 y */
-static void breath_anim_cb(void *obj, int32_t val)
+static void face_x_anim_cb(void *obj, int32_t val)
+{
+    lv_obj_set_x((lv_obj_t *)obj, (lv_coord_t)val);
+}
+
+static void face_y_anim_cb(void *obj, int32_t val)
 {
     lv_obj_set_y((lv_obj_t *)obj, (lv_coord_t)val);
 }
 
-/* 高光闪烁：设置子对象背景透明度 */
-static void shine_opa_anim_cb(void *obj, int32_t val)
-{
-    lv_obj_set_style_bg_opa((lv_obj_t *)obj, (lv_opa_t)val, LV_PART_MAIN);
-}
-
-/* 爱心上浮：设置整体 y */
-static void heart_y_anim_cb(void *obj, int32_t val)
-{
-    lv_obj_set_y((lv_obj_t *)obj, (lv_coord_t)val);
-}
-
-/* 爱心淡出：设置整体透明度 */
-static void heart_opa_anim_cb(void *obj, int32_t val)
-{
-    lv_obj_set_style_opa((lv_obj_t *)obj, (lv_opa_t)val, 0);
-}
-
-/* 嘴巴角度 setter */
 static void mouth_start_anim_cb(void *obj, int32_t val)
 {
     lv_arc_set_bg_start_angle((lv_obj_t *)obj, (uint16_t)val);
 }
+
 static void mouth_end_anim_cb(void *obj, int32_t val)
 {
     lv_arc_set_bg_end_angle((lv_obj_t *)obj, (uint16_t)val);
 }
 
-/* ─────────────────────── 动画辅助 ─────────────────────── */
-
-/**
- * 启动单眼眨眼循环：眼高 EYE_H↔EYE_BLINK_MIN，约 4s 一次，左右错开
- */
-static void start_blink_anim(lv_obj_t *eye, uint32_t init_delay)
+static void mouth_y_anim_cb(void *obj, int32_t val)
 {
-    lv_anim_t a;
-    lv_anim_init(&a);
-    lv_anim_set_var(&a, eye);
-    lv_anim_set_exec_cb(&a, blink_anim_cb);
-    lv_anim_set_values(&a, (int32_t)EYE_H, (int32_t)EYE_BLINK_MIN);
-    lv_anim_set_time(&a, 140);
-    lv_anim_set_playback_time(&a, 140);
-    lv_anim_set_delay(&a, init_delay);
-    lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
-    lv_anim_set_repeat_delay(&a, 3600);
-    lv_anim_start(&a);
+    lv_obj_set_y((lv_obj_t *)obj, (lv_coord_t)val);
 }
 
-/**
- * 启动眼白呼吸浮动（在基准 y 附近上下 3px，缓慢循环）
- */
-static void start_breath_anim(lv_obj_t *eye, uint32_t init_delay)
+/* 查询态思考小点：动画驱动背景透明度做明灭循环 */
+static void dot_opa_anim_cb(void *obj, int32_t val)
+{
+    lv_obj_set_style_bg_opa((lv_obj_t *)obj, (lv_opa_t)val, LV_PART_MAIN);
+}
+
+/* 唤醒态柔光脉冲：动画驱动柔光环透明度短促提亮再回落到基线 */
+static void halo_opa_anim_cb(void *obj, int32_t val)
+{
+    lv_obj_set_style_arc_opa((lv_obj_t *)obj, (lv_opa_t)val, LV_PART_MAIN);
+}
+
+/* ── 通用弧样式：把 lv_arc 画成一圈发光圆环 ── */
+
+static void style_glow_arc(lv_obj_t *arc, lv_coord_t ring_w, lv_color_t col, lv_opa_t opa)
+{
+    lv_obj_set_style_pad_all(arc, 0, LV_PART_MAIN);
+    lv_arc_set_mode(arc, LV_ARC_MODE_NORMAL);
+    lv_arc_set_range(arc, 0, 100);
+    lv_arc_set_value(arc, 0);
+    lv_arc_set_bg_angles(arc, 0, 360);
+    lv_obj_set_style_arc_color(arc, col, LV_PART_MAIN);
+    lv_obj_set_style_arc_width(arc, ring_w, LV_PART_MAIN);
+    lv_obj_set_style_arc_opa(arc, opa, LV_PART_MAIN);
+    lv_obj_set_style_arc_rounded(arc, true, LV_PART_MAIN);
+    lv_obj_set_style_arc_opa(arc, LV_OPA_0, LV_PART_INDICATOR);
+    lv_obj_set_style_arc_width(arc, 0, LV_PART_INDICATOR);
+    lv_obj_set_style_bg_opa(arc, LV_OPA_0, LV_PART_MAIN);
+    lv_obj_set_style_border_width(arc, 0, LV_PART_MAIN);
+    lv_obj_set_style_bg_opa(arc, LV_OPA_0, LV_PART_KNOB);
+    lv_obj_set_style_pad_all(arc, 0, LV_PART_KNOB);
+    lv_obj_clear_flag(arc, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_clear_flag(arc, LV_OBJ_FLAG_SCROLLABLE);
+}
+
+/* ── 对象创建 ── */
+
+static lv_obj_t *create_face_container(lv_obj_t *parent)
+{
+    lv_obj_t *face = lv_obj_create(parent);
+
+    /* 全屏透明容器：子元素绝对坐标不变，整脸浮动/张望只动容器自身 */
+    lv_obj_set_size(face, (lv_coord_t)SCREEN_W, (lv_coord_t)SCREEN_H);
+    lv_obj_set_pos(face, 0, 0);
+    lv_obj_set_style_bg_opa(face, LV_OPA_0, LV_PART_MAIN);
+    lv_obj_set_style_border_width(face, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_all(face, 0, LV_PART_MAIN);
+    lv_obj_set_style_radius(face, 0, LV_PART_MAIN);
+    lv_obj_clear_flag(face, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_clear_flag(face, LV_OBJ_FLAG_CLICKABLE);
+    return face;
+}
+
+static lv_obj_t *create_ring_eye_halo(lv_obj_t *parent, lv_coord_t x, lv_coord_t y)
+{
+    lv_obj_t *halo = lv_arc_create(parent);
+
+    lv_obj_set_pos(halo, x, y);
+    lv_obj_set_size(halo, (lv_coord_t)EYE_D, (lv_coord_t)EYE_D);
+    style_glow_arc(halo, EYE_HALO_W, COL_GLOW_HALO, HALO_OPA_MAX);
+    return halo;
+}
+
+static lv_obj_t *create_ring_eye(lv_obj_t *parent, lv_coord_t x, lv_coord_t y)
+{
+    lv_obj_t *eye = lv_arc_create(parent);
+
+    lv_obj_set_pos(eye, x, y);
+    lv_obj_set_size(eye, (lv_coord_t)EYE_D, (lv_coord_t)EYE_D);
+    style_glow_arc(eye, EYE_RING_W, COL_GLOW, LV_OPA_COVER);
+    return eye;
+}
+
+static lv_obj_t *create_smile_mouth(lv_obj_t *parent)
+{
+    lv_obj_t *mouth = lv_arc_create(parent);
+
+    lv_obj_set_pos(mouth, (lv_coord_t)MOUTH_ARC_X, (lv_coord_t)MOUTH_ARC_Y);
+    lv_obj_set_size(mouth, (lv_coord_t)MOUTH_SIZE, (lv_coord_t)MOUTH_SIZE);
+    lv_arc_set_bg_angles(mouth, ANG_SMILE_S, ANG_SMILE_E);
+    style_glow_arc(mouth, MOUTH_ARC_W, COL_GLOW, LV_OPA_COVER);
+    return mouth;
+}
+
+/* 查询态思考小点：纯白实心圆点，默认隐藏，仅进入查询态时显示并做明灭循环 */
+static lv_obj_t *create_think_dot(lv_obj_t *parent, lv_coord_t x, lv_coord_t y)
+{
+    lv_obj_t *dot = lv_obj_create(parent);
+
+    lv_obj_set_pos(dot, x, y);
+    lv_obj_set_size(dot, (lv_coord_t)DOT_D, (lv_coord_t)DOT_D);
+    lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(dot, COL_GLOW, LV_PART_MAIN);
+    lv_obj_set_style_bg_opa(dot, DOT_OPA_DIM, LV_PART_MAIN);
+    lv_obj_set_style_border_width(dot, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_all(dot, 0, LV_PART_MAIN);
+    lv_obj_clear_flag(dot, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_clear_flag(dot, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_flag(dot, LV_OBJ_FLAG_HIDDEN);
+    return dot;
+}
+
+/* ── 持续动画：整脸浮动 + 嘴角摆动 ── */
+
+static void start_face_float(void)
 {
     lv_anim_t a;
+
+    if (NULL == s_face) {
+        return;
+    }
+    lv_anim_del(s_face, face_y_anim_cb);
     lv_anim_init(&a);
-    lv_anim_set_var(&a, eye);
-    lv_anim_set_exec_cb(&a, breath_anim_cb);
-    lv_anim_set_values(&a, (int32_t)EYE_Y, (int32_t)(EYE_Y + 4));
-    lv_anim_set_time(&a, 1400);
-    lv_anim_set_playback_time(&a, 1400);
-    lv_anim_set_delay(&a, init_delay);
+    lv_anim_set_var(&a, s_face);
+    lv_anim_set_exec_cb(&a, face_y_anim_cb);
+    /* 绕中线上下各浮动 FACE_FLOAT_DY，黑底兜底，越界部分不可见 */
+    lv_anim_set_values(&a, (int32_t)(-FACE_FLOAT_DY), (int32_t)FACE_FLOAT_DY);
+    lv_anim_set_time(&a, 2400);
+    lv_anim_set_playback_time(&a, 2400);
     lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
     lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
     lv_anim_start(&a);
 }
 
-/**
- * 启动高光闪烁（透明度 255↔150 缓慢呼吸）
- */
-static void start_shine_anim(lv_obj_t *shine, uint32_t init_delay)
+static void start_mouth_wiggle(void)
 {
     lv_anim_t a;
+
+    if (NULL == s_mouth) {
+        return;
+    }
+    lv_anim_del(s_mouth, mouth_y_anim_cb);
     lv_anim_init(&a);
-    lv_anim_set_var(&a, shine);
-    lv_anim_set_exec_cb(&a, shine_opa_anim_cb);
-    lv_anim_set_values(&a, 255, 150);
-    lv_anim_set_time(&a, 1100);
-    lv_anim_set_playback_time(&a, 1100);
-    lv_anim_set_delay(&a, init_delay);
+    lv_anim_set_var(&a, s_mouth);
+    lv_anim_set_exec_cb(&a, mouth_y_anim_cb);
+    lv_anim_set_values(&a, (int32_t)MOUTH_ARC_Y, (int32_t)(MOUTH_ARC_Y + 3));
+    lv_anim_set_time(&a, 800);
+    lv_anim_set_playback_time(&a, 800);
     lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
     lv_anim_start(&a);
 }
 
-/* 平滑切换嘴型到目标角度 */
-static void animate_mouth_to(uint16_t s_to, uint16_t e_to)
+static void stop_mouth_wiggle(void)
+{
+    if (NULL == s_mouth) {
+        return;
+    }
+    lv_anim_del(s_mouth, mouth_y_anim_cb);
+    lv_obj_set_y(s_mouth, (lv_coord_t)MOUTH_ARC_Y);
+}
+
+/* ── 一次性俏皮动作（全部用 playback 自动回弹到基线，无需善后定时器） ── */
+
+/* 单只眼连同柔光一起眨：count=1 单眨，count=2 双眨 */
+static void blink_pair(lv_obj_t *eye, lv_obj_t *halo, lv_coord_t base_h, uint8_t count)
+{
+    lv_obj_t *objs[2];
+    int i;
+
+    objs[0] = eye;
+    objs[1] = halo;
+
+    for (i = 0; i < 2; i++) {
+        lv_anim_t a;
+
+        if (NULL == objs[i]) {
+            continue;
+        }
+        /* 先清残留并复位到基线，确保 playback 回弹点正确 */
+        lv_anim_del(objs[i], blink_h_anim_cb);
+        lv_obj_set_height(objs[i], base_h);
+
+        lv_anim_init(&a);
+        lv_anim_set_var(&a, objs[i]);
+        lv_anim_set_exec_cb(&a, blink_h_anim_cb);
+        lv_anim_set_values(&a, (int32_t)base_h, (int32_t)EYE_BLINK_MIN);
+        lv_anim_set_time(&a, 110);          /* 闭眼 */
+        lv_anim_set_playback_time(&a, 130); /* 睁眼略慢更自然 */
+        lv_anim_set_repeat_count(&a, count);
+        lv_anim_set_repeat_delay(&a, 90);   /* 双眨之间的停顿 */
+        lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+        lv_anim_start(&a);
+    }
+}
+
+static void blink_both(uint8_t count)
+{
+    blink_pair(s_left_eye,  s_left_halo,  s_left_base_h,  count);
+    blink_pair(s_right_eye, s_right_halo, s_right_base_h, count);
+}
+
+/* 整脸横移一下再回来：像好奇地往一侧瞄了一眼 */
+static void do_glance(int dir)
 {
     lv_anim_t a;
+
+    if (NULL == s_face) {
+        return;
+    }
+    lv_anim_del(s_face, face_x_anim_cb);
+    lv_obj_set_x(s_face, 0);
+
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, s_face);
+    lv_anim_set_exec_cb(&a, face_x_anim_cb);
+    lv_anim_set_values(&a, 0, (int32_t)(dir * FACE_GLANCE_DX));
+    lv_anim_set_time(&a, 260);
+    lv_anim_set_playback_time(&a, 300);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+    lv_anim_start(&a);
+}
+
+/* 嘴角短促咧开一下再回到基线（俏皮坏笑用） */
+static void mouth_pulse_grin(void)
+{
+    lv_anim_t a;
+
+    if (NULL == s_mouth) {
+        return;
+    }
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, s_mouth);
+    lv_anim_set_exec_cb(&a, mouth_start_anim_cb);
+    lv_anim_set_values(&a, (int32_t)s_mouth_s, (int32_t)ANG_GRIN_S);
+    lv_anim_set_time(&a, 200);
+    lv_anim_set_playback_time(&a, 240);
+    lv_anim_start(&a);
+
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, s_mouth);
+    lv_anim_set_exec_cb(&a, mouth_end_anim_cb);
+    lv_anim_set_values(&a, (int32_t)s_mouth_e, (int32_t)ANG_GRIN_E);
+    lv_anim_set_time(&a, 200);
+    lv_anim_set_playback_time(&a, 240);
+    lv_anim_start(&a);
+}
+
+/* 双眼压扁眯一下 + 嘴角咧开：整体“坏笑”表情 */
+static void do_squint_grin(void)
+{
+    lv_obj_t *eyes[2];
+    lv_obj_t *halos[2];
+    lv_coord_t bases[2];
+    int i;
+
+    eyes[0]  = s_left_eye;   eyes[1]  = s_right_eye;
+    halos[0] = s_left_halo;  halos[1] = s_right_halo;
+    bases[0] = s_left_base_h; bases[1] = s_right_base_h;
+
+    for (i = 0; i < 2; i++) {
+        lv_obj_t *pair[2];
+        int k;
+
+        pair[0] = eyes[i];
+        pair[1] = halos[i];
+        for (k = 0; k < 2; k++) {
+            lv_anim_t a;
+
+            if (NULL == pair[k]) {
+                continue;
+            }
+            lv_anim_del(pair[k], blink_h_anim_cb);
+            lv_obj_set_height(pair[k], bases[i]);
+
+            lv_anim_init(&a);
+            lv_anim_set_var(&a, pair[k]);
+            lv_anim_set_exec_cb(&a, blink_h_anim_cb);
+            lv_anim_set_values(&a, (int32_t)bases[i], (int32_t)EYE_SQUINT_H);
+            lv_anim_set_time(&a, 180);
+            lv_anim_set_playback_time(&a, 220);
+            lv_anim_set_playback_delay(&a, 160); /* 眯住一小会儿 */
+            lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+            lv_anim_start(&a);
+        }
+    }
+    mouth_pulse_grin();
+}
+
+/* ── 唤醒态：聚焦睁眼 + 轻微亮起（一次性，落点回到全开基线） ── */
+
+/* 双眼连同柔光从半眯快速睁大到 EYE_D，表现“睁眼/聚焦” */
+static void wake_focus_pop(void)
+{
+    lv_obj_t *objs[4];
+    int i;
+
+    objs[0] = s_left_eye;   objs[1] = s_left_halo;
+    objs[2] = s_right_eye;  objs[3] = s_right_halo;
+
+    for (i = 0; i < 4; i++) {
+        lv_anim_t a;
+
+        if (NULL == objs[i]) {
+            continue;
+        }
+        lv_anim_del(objs[i], blink_h_anim_cb);
+        lv_obj_set_height(objs[i], (lv_coord_t)WAKE_POP_FROM_H);  /* 起步半眯 */
+
+        lv_anim_init(&a);
+        lv_anim_set_var(&a, objs[i]);
+        lv_anim_set_exec_cb(&a, blink_h_anim_cb);
+        lv_anim_set_values(&a, (int32_t)WAKE_POP_FROM_H, (int32_t)EYE_D);
+        lv_anim_set_time(&a, 200);
+        lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
+        lv_anim_start(&a);
+    }
+}
+
+/* 柔光透明度从基线短促提亮到全亮再回落，表现“轻微亮起”（playback 回到 HALO_OPA_MAX） */
+static void wake_glow_pulse(void)
+{
+    lv_obj_t *halos[2];
+    int i;
+
+    halos[0] = s_left_halo;
+    halos[1] = s_right_halo;
+
+    for (i = 0; i < 2; i++) {
+        lv_anim_t a;
+
+        if (NULL == halos[i]) {
+            continue;
+        }
+        lv_anim_del(halos[i], halo_opa_anim_cb);
+        lv_anim_init(&a);
+        lv_anim_set_var(&a, halos[i]);
+        lv_anim_set_exec_cb(&a, halo_opa_anim_cb);
+        lv_anim_set_values(&a, (int32_t)HALO_OPA_MAX, (int32_t)LV_OPA_COVER);
+        lv_anim_set_time(&a, 220);
+        lv_anim_set_playback_time(&a, 320);
+        lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+        lv_anim_start(&a);
+    }
+}
+
+/* ── 查询态：整脸轻微左右扫动 + 三个思考小点循环 ── */
+
+/* 复用整脸 X 位移（与张望同一 exec_cb；查询态已在调度器关闭张望，二者不抢占） */
+static void start_eye_scan(void)
+{
+    lv_anim_t a;
+
+    if (NULL == s_face) {
+        return;
+    }
+    lv_anim_del(s_face, face_x_anim_cb);
+    lv_obj_set_x(s_face, (lv_coord_t)(-QUERY_SCAN_DX));
+
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, s_face);
+    lv_anim_set_exec_cb(&a, face_x_anim_cb);
+    lv_anim_set_values(&a, (int32_t)(-QUERY_SCAN_DX), (int32_t)QUERY_SCAN_DX);
+    lv_anim_set_time(&a, 900);
+    lv_anim_set_playback_time(&a, 900);
+    lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+    lv_anim_start(&a);
+}
+
+static void start_query_anims(void)
+{
+    int i;
+
+    s_query_active = TRUE;
+
+    for (i = 0; i < 3; i++) {
+        lv_anim_t a;
+
+        if (NULL == s_dot[i]) {
+            continue;
+        }
+        lv_obj_clear_flag(s_dot[i], LV_OBJ_FLAG_HIDDEN);
+        lv_anim_del(s_dot[i], dot_opa_anim_cb);
+        lv_obj_set_style_bg_opa(s_dot[i], DOT_OPA_DIM, LV_PART_MAIN);
+
+        lv_anim_init(&a);
+        lv_anim_set_var(&a, s_dot[i]);
+        lv_anim_set_exec_cb(&a, dot_opa_anim_cb);
+        lv_anim_set_values(&a, (int32_t)DOT_OPA_DIM, (int32_t)DOT_OPA_BRIGHT);
+        lv_anim_set_time(&a, 200);
+        lv_anim_set_playback_time(&a, 200);
+        lv_anim_set_repeat_delay(&a, 200);
+        /* 三点用起始延时错相（首拍延时永久保留相位差），形成 1→2→3 循环波 */
+        lv_anim_set_delay(&a, (uint32_t)(i * 200));
+        lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
+        lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+        lv_anim_start(&a);
+    }
+
+    start_eye_scan();
+}
+
+/* 离开查询态时清理扫动与思考小点（幂等：非查询态直接返回，对待机/情绪表情无副作用） */
+static void stop_query_anims(void)
+{
+    int i;
+
+    if (!s_query_active) {
+        return;
+    }
+    s_query_active = FALSE;
+
+    for (i = 0; i < 3; i++) {
+        if (s_dot[i]) {
+            lv_anim_del(s_dot[i], dot_opa_anim_cb);
+            lv_obj_add_flag(s_dot[i], LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    if (s_face) {
+        lv_anim_del(s_face, face_x_anim_cb);
+        lv_obj_set_x(s_face, 0);  /* 复位到中线，张望从 0 起算 */
+    }
+}
+
+/* ── 基线设置 ── */
+
+static void set_eye_base_height(lv_obj_t *eye, lv_obj_t *halo, lv_coord_t h)
+{
+    if (eye) {
+        lv_anim_del(eye, blink_h_anim_cb);
+        lv_obj_set_height(eye, h);
+    }
+    if (halo) {
+        lv_anim_del(halo, blink_h_anim_cb);
+        lv_obj_set_height(halo, h);
+    }
+}
+
+static void set_halo_brightness(lv_obj_t *halo, lv_opa_t opa)
+{
+    if (halo) {
+        /* 清理唤醒态发光脉冲，避免残留动画覆盖新设的基线亮度 */
+        lv_anim_del(halo, halo_opa_anim_cb);
+        lv_obj_set_style_arc_color(halo, COL_GLOW_HALO, LV_PART_MAIN);
+        lv_obj_set_style_arc_opa(halo, opa, LV_PART_MAIN);
+    }
+}
+
+static void set_mouth_glow(lv_opa_t opa)
+{
+    if (s_mouth) {
+        lv_obj_set_style_arc_color(s_mouth, COL_GLOW, LV_PART_MAIN);
+        lv_obj_set_style_arc_opa(s_mouth, opa, LV_PART_MAIN);
+    }
+}
+
+/* 永久改变嘴形并记录为新基线（供俏皮动作回弹用） */
+static void set_mouth_shape(uint16_t s_to, uint16_t e_to)
+{
+    lv_anim_t a;
+
+    if (NULL == s_mouth) {
+        return;
+    }
     lv_anim_init(&a);
     lv_anim_set_var(&a, s_mouth);
     lv_anim_set_exec_cb(&a, mouth_start_anim_cb);
     lv_anim_set_values(&a, (int32_t)lv_arc_get_bg_angle_start(s_mouth), (int32_t)s_to);
-    lv_anim_set_time(&a, 350);
+    lv_anim_set_time(&a, 280);
     lv_anim_start(&a);
 
     lv_anim_init(&a);
     lv_anim_set_var(&a, s_mouth);
     lv_anim_set_exec_cb(&a, mouth_end_anim_cb);
     lv_anim_set_values(&a, (int32_t)lv_arc_get_bg_angle_end(s_mouth), (int32_t)e_to);
-    lv_anim_set_time(&a, 350);
+    lv_anim_set_time(&a, 280);
     lv_anim_start(&a);
+
+    s_mouth_s = s_to;
+    s_mouth_e = e_to;
 }
 
-/* ─────────────────────── 爱心绘制 ─────────────────────── */
+/* ── 行为调度：加权随机穿插俏皮动作，节奏带抖动 ── */
 
-/**
- * 在画布上绘制一颗爱心（两个圆形“凸起” + 一个倒三角“尖角”）
- * @param cx,cy 爱心中心；r 凸起半径；col 填充色
- */
-static void draw_one_heart(lv_obj_t *cv, lv_coord_t cx, lv_coord_t cy, lv_coord_t r, lv_color_t col)
+static void schedule_next(void)
 {
-    lv_draw_rect_dsc_t cd;
-    lv_point_t pts[3];
-
-    /* 两个圆形凸起 */
-    lv_draw_rect_dsc_init(&cd);
-    cd.bg_color = col;
-    cd.bg_opa   = LV_OPA_COVER;
-    cd.radius   = LV_RADIUS_CIRCLE;
-    /* 左凸起：中心 (cx - r/2, cy)，左上角偏移一个半径 */
-    lv_canvas_draw_rect(cv, (lv_coord_t)(cx - r - r / 2), (lv_coord_t)(cy - r),
-                        (lv_coord_t)(2 * r), (lv_coord_t)(2 * r), &cd);
-    /* 右凸起：中心 (cx + r/2, cy) */
-    lv_canvas_draw_rect(cv, (lv_coord_t)(cx + r / 2 - r), (lv_coord_t)(cy - r),
-                        (lv_coord_t)(2 * r), (lv_coord_t)(2 * r), &cd);
-
-    /* 底部尖角倒三角；顶边与两凸起外缘对齐，尖端向下 */
-    lv_draw_rect_dsc_init(&cd);
-    cd.bg_color = col;
-    cd.bg_opa   = LV_OPA_COVER;
-    pts[0].x = (lv_coord_t)(cx - r - r / 2); pts[0].y = (lv_coord_t)cy;
-    pts[1].x = (lv_coord_t)(cx + r + r / 2); pts[1].y = (lv_coord_t)cy;
-    pts[2].x = (lv_coord_t)cx;               pts[2].y = (lv_coord_t)(cy + (r * 19) / 10);
-    lv_canvas_draw_polygon(cv, pts, 3, &cd);
-}
-
-/* ─────────────────────── LVGL 对象创建辅助 ─────────────────────── */
-
-/* 创建“高光眼”：黑底 + 白色粗描边的圆角椭圆 */
-static lv_obj_t *create_eye(lv_obj_t *parent, lv_coord_t x, lv_coord_t y)
-{
-    lv_obj_t *eye = lv_obj_create(parent);
-    lv_obj_set_pos(eye, x, y);
-    lv_obj_set_size(eye, (lv_coord_t)EYE_W, (lv_coord_t)EYE_H);
-    lv_obj_set_style_radius(eye, EYE_RADIUS, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(eye, lv_color_black(), LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(eye, LV_OPA_COVER, LV_PART_MAIN);
-    lv_obj_set_style_border_color(eye, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_border_width(eye, EYE_BORDER_W, LV_PART_MAIN);
-    lv_obj_set_style_border_opa(eye, LV_OPA_COVER, LV_PART_MAIN);
-    lv_obj_set_style_pad_all(eye, 0, LV_PART_MAIN);
-    /* 关闭滚动，确保子高光点位置完全由 set_pos 控制；闭眼时被父对象裁剪 */
-    lv_obj_clear_flag(eye, LV_OBJ_FLAG_SCROLLABLE);
-    return eye;
-}
-
-/* 在眼内创建一个白色高光圆点 */
-static lv_obj_t *create_shine(lv_obj_t *eye, lv_coord_t x, lv_coord_t y, lv_coord_t d)
-{
-    lv_obj_t *s = lv_obj_create(eye);
-    lv_obj_set_pos(s, x, y);
-    lv_obj_set_size(s, d, d);
-    lv_obj_set_style_radius(s, LV_RADIUS_CIRCLE, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(s, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(s, LV_OPA_COVER, LV_PART_MAIN);
-    lv_obj_set_style_border_width(s, 0, LV_PART_MAIN);
-    lv_obj_set_style_pad_all(s, 0, LV_PART_MAIN);
-    lv_obj_clear_flag(s, LV_OBJ_FLAG_SCROLLABLE);
-    return s;
-}
-
-/* 创建一团腮红（柔和粉色椭圆） */
-static lv_obj_t *create_blush(lv_obj_t *parent, lv_coord_t x, lv_coord_t y)
-{
-    lv_obj_t *b = lv_obj_create(parent);
-    lv_obj_set_pos(b, x, y);
-    lv_obj_set_size(b, (lv_coord_t)BLUSH_W, (lv_coord_t)BLUSH_H);
-    lv_obj_set_style_radius(b, LV_RADIUS_CIRCLE, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(b, COL_BLUSH, LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(b, LV_OPA_70, LV_PART_MAIN);
-    lv_obj_set_style_border_width(b, 0, LV_PART_MAIN);
-    lv_obj_set_style_pad_all(b, 0, LV_PART_MAIN);
-    lv_obj_clear_flag(b, LV_OBJ_FLAG_SCROLLABLE);
-    return b;
-}
-
-/* ─────────────────────── 表情应用 ─────────────────────── */
-
-/* 显示/隐藏爱心并控制上浮动画 */
-static void hearts_set_active(bool active)
-{
-    if (NULL == s_hearts) return;
-
-    if (active) {
-        lv_obj_clear_flag(s_hearts, LV_OBJ_FLAG_HIDDEN);
-
-        lv_anim_t a;
-        /* 上浮 */
-        lv_anim_init(&a);
-        lv_anim_set_var(&a, s_hearts);
-        lv_anim_set_exec_cb(&a, heart_y_anim_cb);
-        lv_anim_set_values(&a, (int32_t)(HEART_CV_Y_BASE + 8), (int32_t)(HEART_CV_Y_BASE - 8));
-        lv_anim_set_time(&a, 1300);
-        lv_anim_set_playback_time(&a, 1300);
-        lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
-        lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
-        lv_anim_start(&a);
-        /* 淡出呼吸 */
-        lv_anim_init(&a);
-        lv_anim_set_var(&a, s_hearts);
-        lv_anim_set_exec_cb(&a, heart_opa_anim_cb);
-        lv_anim_set_values(&a, 255, 140);
-        lv_anim_set_time(&a, 1300);
-        lv_anim_set_playback_time(&a, 1300);
-        lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
-        lv_anim_start(&a);
-    } else {
-        lv_anim_del(s_hearts, heart_y_anim_cb);
-        lv_anim_del(s_hearts, heart_opa_anim_cb);
-        lv_obj_add_flag(s_hearts, LV_OBJ_FLAG_HIDDEN);
+    if (s_play_timer) {
+        /* 1.8 ~ 3.7s 抖动，避免机械周期感 */
+        lv_timer_set_period(s_play_timer, 1800 + (prand() % 1900));
     }
 }
 
-/* 恢复双眼到睁开 + 眨眼 + 呼吸的常态 */
-static void eyes_reset_open(void)
+static void behavior_timer_cb(lv_timer_t *timer)
 {
-    lv_anim_del(s_left_eye,  blink_anim_cb);
-    lv_anim_del(s_right_eye, blink_anim_cb);
-    if (s_left_eye)  lv_obj_set_height(s_left_eye,  (lv_coord_t)EYE_H);
-    if (s_right_eye) lv_obj_set_height(s_right_eye, (lv_coord_t)EYE_H);
-    start_blink_anim(s_left_eye,  500);
-    start_blink_anim(s_right_eye, 700);
+    uint32_t r;
+
+    (void)timer;
+
+    /* 查询态由左右扫动 + 思考小点表达，跳过随机俏皮动作（避免与扫动抢 face_x） */
+    if (s_expr == EXPR_QUERYING) {
+        schedule_next();
+        return;
+    }
+
+    r = prand() % 100U;
+
+    /* 难过 / 唤醒时收敛俏皮动作，只保留眨眼（唤醒态保持警觉聆听） */
+    if (s_expr == EXPR_SAD || s_expr == EXPR_WAKE) {
+        r = 0U;
+    }
+
+    if (r < 45U) {
+        blink_both(1);                       /* 单眨：最常见 */
+    } else if (r < 60U) {
+        blink_both(2);                       /* 双眨 */
+    } else if (r < 78U) {
+        /* 单眼 wink：左右随机 —— 俏皮核心 */
+        if (prand() & 1U) {
+            blink_pair(s_left_eye, s_left_halo, s_left_base_h, 1);
+        } else {
+            blink_pair(s_right_eye, s_right_halo, s_right_base_h, 1);
+        }
+    } else if (r < 92U) {
+        do_glance((prand() & 1U) ? 1 : -1);  /* 左右张望 */
+    } else {
+        do_squint_grin();                    /* 眯眼坏笑 */
+    }
+
+    schedule_next();
 }
 
-/**
- * 应用一个表情（设置眼/嘴/腮红/爱心）
- */
+/* ── 表情 ── */
+
 static void apply_expression(robot_expr_t e)
 {
-    switch (e) {
+    /* 切换任意表情前，先清理查询态扫动与思考小点（幂等：非查询态无副作用） */
+    stop_query_anims();
 
+    switch (e) {
     case EXPR_LOVING:
-        /* 恋爱：睁眼萌脸 + 微笑 + 腮红加深 + 爱心 */
-        eyes_reset_open();
-        if (s_left_blush)  lv_obj_set_style_bg_opa(s_left_blush,  LV_OPA_COVER, LV_PART_MAIN);
-        if (s_right_blush) lv_obj_set_style_bg_opa(s_right_blush, LV_OPA_COVER, LV_PART_MAIN);
-        animate_mouth_to(ANG_SMILE_S, ANG_SMILE_E);
-        hearts_set_active(true);
+        s_left_base_h = EYE_D;
+        s_right_base_h = EYE_D;
+        set_eye_base_height(s_left_eye,  s_left_halo,  EYE_D);
+        set_eye_base_height(s_right_eye, s_right_halo, EYE_D);
+        set_halo_brightness(s_left_halo,  HALO_OPA_MAX);
+        set_halo_brightness(s_right_halo, HALO_OPA_MAX);
+        set_mouth_glow(LV_OPA_COVER);
+        set_mouth_shape(ANG_SMILE_S, ANG_SMILE_E);
+        start_mouth_wiggle();
         break;
 
     case EXPR_HAPPY:
-        /* 开心：双眼弯成细缝（^^），大微笑，无爱心 */
-        lv_anim_del(s_left_eye,  blink_anim_cb);
-        lv_anim_del(s_right_eye, blink_anim_cb);
-        if (s_left_eye)  lv_obj_set_height(s_left_eye,  (lv_coord_t)EYE_BLINK_MIN);
-        if (s_right_eye) lv_obj_set_height(s_right_eye, (lv_coord_t)EYE_BLINK_MIN);
-        if (s_left_blush)  lv_obj_set_style_bg_opa(s_left_blush,  LV_OPA_70, LV_PART_MAIN);
-        if (s_right_blush) lv_obj_set_style_bg_opa(s_right_blush, LV_OPA_70, LV_PART_MAIN);
-        animate_mouth_to(ANG_GRIN_S, ANG_GRIN_E);
-        hearts_set_active(false);
+        s_left_base_h = EYE_D;
+        s_right_base_h = EYE_D;
+        set_eye_base_height(s_left_eye,  s_left_halo,  EYE_D);
+        set_eye_base_height(s_right_eye, s_right_halo, EYE_D);
+        set_halo_brightness(s_left_halo,  HALO_OPA_MAX);
+        set_halo_brightness(s_right_halo, HALO_OPA_MAX);
+        set_mouth_glow(LV_OPA_COVER);
+        set_mouth_shape(ANG_GRIN_S, ANG_GRIN_E);
+        start_mouth_wiggle();
         break;
 
     case EXPR_SAD:
-        /* 悲伤：睁眼 + 嘴角下弯 */
-        eyes_reset_open();
-        if (s_left_blush)  lv_obj_set_style_bg_opa(s_left_blush,  LV_OPA_40, LV_PART_MAIN);
-        if (s_right_blush) lv_obj_set_style_bg_opa(s_right_blush, LV_OPA_40, LV_PART_MAIN);
-        animate_mouth_to(ANG_FROWN_S, ANG_FROWN_E);
-        hearts_set_active(false);
+        s_left_base_h = EYE_D;
+        s_right_base_h = EYE_D;
+        set_eye_base_height(s_left_eye,  s_left_halo,  EYE_D);
+        set_eye_base_height(s_right_eye, s_right_halo, EYE_D);
+        set_halo_brightness(s_left_halo,  HALO_OPA_SAD);
+        set_halo_brightness(s_right_halo, HALO_OPA_SAD);
+        set_mouth_glow(HALO_OPA_SAD);
+        set_mouth_shape(ANG_FROWN_S, ANG_FROWN_E);
+        stop_mouth_wiggle();
         break;
 
     case EXPR_THINKING:
-        /* 思考：左眼半闭，右眼正常眨眼，嘴角平 */
-        lv_anim_del(s_left_eye, blink_anim_cb);
-        if (s_left_eye) lv_obj_set_height(s_left_eye, (lv_coord_t)(EYE_H / 2));
-        lv_anim_del(s_right_eye, blink_anim_cb);
-        if (s_right_eye) lv_obj_set_height(s_right_eye, (lv_coord_t)EYE_H);
-        start_blink_anim(s_right_eye, 200);
-        animate_mouth_to(ANG_NEUTRAL_S, ANG_NEUTRAL_E);
-        hearts_set_active(false);
+        /* 左眼半眯（设为基线，眨眼/眯眼会从半眯回弹），右眼正常 */
+        s_left_base_h = EYE_THINK_H;
+        s_right_base_h = EYE_D;
+        set_eye_base_height(s_left_eye,  s_left_halo,  EYE_THINK_H);
+        set_eye_base_height(s_right_eye, s_right_halo, EYE_D);
+        set_halo_brightness(s_left_halo,  HALO_OPA_MAX);
+        set_halo_brightness(s_right_halo, HALO_OPA_MAX);
+        set_mouth_glow(LV_OPA_COVER);
+        set_mouth_shape(ANG_NEUTRAL_S, ANG_NEUTRAL_E);
+        stop_mouth_wiggle();
         break;
 
-    default: /* EXPR_NEUTRAL：常态萌脸 */
-        eyes_reset_open();
-        if (s_left_blush)  lv_obj_set_style_bg_opa(s_left_blush,  LV_OPA_70, LV_PART_MAIN);
-        if (s_right_blush) lv_obj_set_style_bg_opa(s_right_blush, LV_OPA_70, LV_PART_MAIN);
-        animate_mouth_to(ANG_SMILE_S, ANG_SMILE_E);
-        hearts_set_active(false);
+    case EXPR_WAKE:
+        /* 唤醒/聆听：复用全开圆环眼基线，仅做聚焦睁眼 + 柔光提亮 + 中性嘴，收起俏皮摆动 */
+        s_left_base_h = EYE_D;
+        s_right_base_h = EYE_D;
+        set_eye_base_height(s_left_eye,  s_left_halo,  EYE_D);
+        set_eye_base_height(s_right_eye, s_right_halo, EYE_D);
+        set_halo_brightness(s_left_halo,  HALO_OPA_MAX);
+        set_halo_brightness(s_right_halo, HALO_OPA_MAX);
+        set_mouth_glow(LV_OPA_COVER);
+        set_mouth_shape(ANG_NEUTRAL_S, ANG_NEUTRAL_E);
+        stop_mouth_wiggle();
+        wake_focus_pop();
+        wake_glow_pulse();
+        break;
+
+    case EXPR_QUERYING:
+        /* 查询中：复用全开圆环眼基线，中性嘴 + 整脸轻微扫动 + 三点循环 */
+        s_left_base_h = EYE_D;
+        s_right_base_h = EYE_D;
+        set_eye_base_height(s_left_eye,  s_left_halo,  EYE_D);
+        set_eye_base_height(s_right_eye, s_right_halo, EYE_D);
+        set_halo_brightness(s_left_halo,  HALO_OPA_MAX);
+        set_halo_brightness(s_right_halo, HALO_OPA_MAX);
+        set_mouth_glow(LV_OPA_COVER);
+        set_mouth_shape(ANG_NEUTRAL_S, ANG_NEUTRAL_E);
+        stop_mouth_wiggle();
+        start_query_anims();
+        break;
+
+    default: /* EXPR_NEUTRAL */
+        s_left_base_h = EYE_D;
+        s_right_base_h = EYE_D;
+        set_eye_base_height(s_left_eye,  s_left_halo,  EYE_D);
+        set_eye_base_height(s_right_eye, s_right_halo, EYE_D);
+        set_halo_brightness(s_left_halo,  HALO_OPA_MAX);
+        set_halo_brightness(s_right_halo, HALO_OPA_MAX);
+        set_mouth_glow(LV_OPA_COVER);
+        set_mouth_shape(ANG_SMILE_S, ANG_SMILE_E);
+        start_mouth_wiggle();
         break;
     }
 }
 
-/* ─────────────────────── 对外接口 ─────────────────────── */
-
-/**
- * @brief 初始化机器人脸 UI，创建所有 LVGL 对象并启动循环动画
- *        须在 LVGL 初始化完成、display driver 注册后调用（通常由 app_ui_init() 调用）
- */
 void robot_face_ui_init(void)
 {
     lv_obj_t *scr = lv_scr_act();
 
-    /* ── 背景全黑 ── */
     lv_obj_set_style_bg_color(scr, lv_color_black(), LV_PART_MAIN);
     lv_obj_set_style_bg_opa(scr, LV_OPA_COVER, LV_PART_MAIN);
     lv_obj_clear_flag(scr, LV_OBJ_FLAG_SCROLLABLE);
 
-    /* ── 双眼 ── */
-    s_left_eye  = create_eye(scr, (lv_coord_t)LEFT_EYE_X,  (lv_coord_t)EYE_Y);
-    s_right_eye = create_eye(scr, (lv_coord_t)RIGHT_EYE_X, (lv_coord_t)EYE_Y);
+    s_face = create_face_container(scr);
 
-    /* ── 高光点（大点留引用做闪烁动画） ── */
-    s_left_shine  = create_shine(s_left_eye,  SHINE_BIG_X, SHINE_BIG_Y, SHINE_BIG_D);
-    create_shine(s_left_eye,  SHINE_MID_X, SHINE_MID_Y, SHINE_MID_D);
-    create_shine(s_left_eye,  SHINE_SML_X, SHINE_SML_Y, SHINE_SML_D);
-    s_right_shine = create_shine(s_right_eye, SHINE_BIG_X, SHINE_BIG_Y, SHINE_BIG_D);
-    create_shine(s_right_eye, SHINE_MID_X, SHINE_MID_Y, SHINE_MID_D);
-    create_shine(s_right_eye, SHINE_SML_X, SHINE_SML_Y, SHINE_SML_D);
+    /* 先柔光后主环，保证主环在上层；嘴最后建 */
+    s_left_halo  = create_ring_eye_halo(s_face, (lv_coord_t)LEFT_EYE_X,  (lv_coord_t)EYE_Y);
+    s_right_halo = create_ring_eye_halo(s_face, (lv_coord_t)RIGHT_EYE_X, (lv_coord_t)EYE_Y);
+    s_left_eye   = create_ring_eye(s_face, (lv_coord_t)LEFT_EYE_X,  (lv_coord_t)EYE_Y);
+    s_right_eye  = create_ring_eye(s_face, (lv_coord_t)RIGHT_EYE_X, (lv_coord_t)EYE_Y);
+    s_mouth      = create_smile_mouth(s_face);
 
-    /* ── 腮红 ── */
-    s_left_blush  = create_blush(scr, (lv_coord_t)LEFT_BLUSH_X,  (lv_coord_t)BLUSH_Y);
-    s_right_blush = create_blush(scr, (lv_coord_t)RIGHT_BLUSH_X, (lv_coord_t)BLUSH_Y);
+    /* 思考小点（查询态用）：默认隐藏，居中置于嘴部下方 */
+    s_dot[0] = create_think_dot(s_face, (lv_coord_t)DOTS_X0,                          (lv_coord_t)DOTS_Y);
+    s_dot[1] = create_think_dot(s_face, (lv_coord_t)(DOTS_X0 + (DOT_D + DOT_GAP)),     (lv_coord_t)DOTS_Y);
+    s_dot[2] = create_think_dot(s_face, (lv_coord_t)(DOTS_X0 + 2 * (DOT_D + DOT_GAP)), (lv_coord_t)DOTS_Y);
 
-    /* ── 嘴巴弧（纯装饰，隐藏指示器和旋钮） ── */
-    s_mouth = lv_arc_create(scr);
-    lv_obj_set_pos(s_mouth, (lv_coord_t)MOUTH_ARC_X, (lv_coord_t)MOUTH_ARC_Y);
-    lv_obj_set_size(s_mouth, (lv_coord_t)MOUTH_SIZE, (lv_coord_t)MOUTH_SIZE);
-    lv_obj_set_style_pad_all(s_mouth, 0, LV_PART_MAIN);
-    lv_arc_set_mode(s_mouth, LV_ARC_MODE_NORMAL);
-    lv_arc_set_range(s_mouth, 0, 100);
-    lv_arc_set_value(s_mouth, 0);
-    lv_arc_set_bg_angles(s_mouth, ANG_SMILE_S, ANG_SMILE_E);
-    lv_obj_set_style_arc_color(s_mouth, lv_color_white(), LV_PART_MAIN);
-    lv_obj_set_style_arc_width(s_mouth, MOUTH_ARC_W, LV_PART_MAIN);
-    lv_obj_set_style_arc_opa(s_mouth, LV_OPA_COVER, LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(s_mouth, LV_OPA_0, LV_PART_MAIN);
-    lv_obj_set_style_border_width(s_mouth, 0, LV_PART_MAIN);
-    lv_obj_set_style_arc_opa(s_mouth, LV_OPA_0, LV_PART_INDICATOR);
-    lv_obj_set_style_arc_width(s_mouth, 0, LV_PART_INDICATOR);
-    lv_obj_set_style_bg_opa(s_mouth, LV_OPA_0, LV_PART_KNOB);
-    lv_obj_set_style_border_width(s_mouth, 0, LV_PART_KNOB);
-    lv_obj_set_style_pad_all(s_mouth, 0, LV_PART_KNOB);
-    lv_obj_clear_flag(s_mouth, LV_OBJ_FLAG_CLICKABLE);
+    s_left_base_h  = EYE_D;
+    s_right_base_h = EYE_D;
 
-    /* ── 爱心画布（默认隐藏，仅恋爱情绪显示） ── */
-    s_hearts = lv_canvas_create(scr);
-    lv_canvas_set_buffer(s_hearts, s_heart_cbuf, HEART_CV_W, HEART_CV_H, LV_IMG_CF_TRUE_COLOR_ALPHA);
-    lv_obj_set_pos(s_hearts, (lv_coord_t)HEART_CV_X, (lv_coord_t)HEART_CV_Y_BASE);
-    lv_canvas_fill_bg(s_hearts, lv_color_black(), LV_OPA_TRANSP);
-    draw_one_heart(s_hearts, 22, 24, 9, COL_HEART);    /* 大爱心 */
-    draw_one_heart(s_hearts, 46, 36, 6, COL_HEART);    /* 小爱心 */
-    lv_obj_add_flag(s_hearts, LV_OBJ_FLAG_HIDDEN);
+    start_face_float();
+    start_mouth_wiggle();
 
-    /* ── 启动常驻循环动画（=动图） ── */
-    start_blink_anim(s_left_eye,  500);
-    start_blink_anim(s_right_eye, 700);
-    start_breath_anim(s_left_eye,  0);
-    start_breath_anim(s_right_eye, 200);
-    start_shine_anim(s_left_shine,  0);
-    start_shine_anim(s_right_shine, 400);
+    /* 行为调度器：首拍 1.5s 后开始，之后由回调自行抖动续期 */
+    s_play_timer = lv_timer_create(behavior_timer_cb, 1500, NULL);
 
-    /* 初始为常态萌脸 */
     s_expr = EXPR_NEUTRAL;
     apply_expression(EXPR_NEUTRAL);
 }
 
-/**
- * @brief 响应 AI 表情消息，更新机器人脸部表情
- * @param msg  TY_DISPLAY_MSG_T*，type == TY_DISPLAY_TP_EMOJI 时处理
- */
+/* 云端情绪 emoji 名 → 表情；新增 listening/wake/awake 与 querying/searching 作为第二触发路径 */
+static robot_expr_t robot_face_emoji_to_expr(const char *emoji)
+{
+    if (strcmp(emoji, "loving") == 0 || strcmp(emoji, "love") == 0 ||
+        strcmp(emoji, "lovestruck") == 0) {
+        return EXPR_LOVING;
+    } else if (strcmp(emoji, "happy") == 0 || strcmp(emoji, "laughing") == 0) {
+        return EXPR_HAPPY;
+    } else if (strcmp(emoji, "sad") == 0) {
+        return EXPR_SAD;
+    } else if (strcmp(emoji, "thinking") == 0) {
+        return EXPR_THINKING;
+    } else if (strcmp(emoji, "listening") == 0 || strcmp(emoji, "wake") == 0 ||
+               strcmp(emoji, "awake") == 0) {
+        return EXPR_WAKE;
+    } else if (strcmp(emoji, "querying") == 0 || strcmp(emoji, "searching") == 0) {
+        return EXPR_QUERYING;
+    }
+    return EXPR_NEUTRAL;
+}
+
+/* 对话状态机状态字节（TY_DISPLAY_TP_CHAT_STAT，取值同 gui_common.h 的 GUI_STAT_*）→ 表情；
+ * 返回 FALSE 表示该阶段不强制改表情（UPLOAD/SPEAK 等交给云端 emoji 驱动）。 */
+static BOOL_T robot_face_chat_state_to_expr(UINT8_T st, robot_expr_t *out)
+{
+    switch (st) {
+    case GUI_STAT_INIT:
+    case GUI_STAT_IDLE:
+        *out = EXPR_NEUTRAL;    /* 待机：恢复俏皮中性脸（待机动画保持不变） */
+        return TRUE;
+    case GUI_STAT_LISTEN:
+        *out = EXPR_WAKE;       /* 被唤醒，正在聆听用户 */
+        return TRUE;
+    case GUI_STAT_THINK:
+        *out = EXPR_QUERYING;   /* 处理中：联网 / MCP 查询、等待外部结果 */
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
 void robot_face_ui_msg_handler(TY_DISPLAY_MSG_T *msg)
 {
     robot_expr_t new_expr;
-    const char  *emoji;
 
-    if (NULL == msg) return;
-    if (msg->type != TY_DISPLAY_TP_EMOJI) return;
-    if (NULL == msg->data) return;
-
-    emoji = (const char *)msg->data;
-
-    if (strcmp(emoji, "loving") == 0 || strcmp(emoji, "love") == 0 ||
-        strcmp(emoji, "lovestruck") == 0) {
-        new_expr = EXPR_LOVING;
-    } else if (strcmp(emoji, "happy") == 0 || strcmp(emoji, "laughing") == 0) {
-        new_expr = EXPR_HAPPY;
-    } else if (strcmp(emoji, "sad") == 0) {
-        new_expr = EXPR_SAD;
-    } else if (strcmp(emoji, "thinking") == 0) {
-        new_expr = EXPR_THINKING;
-    } else {
-        new_expr = EXPR_NEUTRAL;
+    if (NULL == msg || NULL == msg->data) {
+        return;
     }
 
-    if (new_expr == s_expr) return;
-    s_expr = new_expr;
+    if (TY_DISPLAY_TP_EMOJI == msg->type) {
+        new_expr = robot_face_emoji_to_expr((const char *)msg->data);
+    } else if (TY_DISPLAY_TP_CHAT_STAT == msg->type) {
+        if (!robot_face_chat_state_to_expr(msg->data[0], &new_expr)) {
+            return;
+        }
+    } else {
+        return;
+    }
 
+    if (new_expr == s_expr) {
+        return;
+    }
+    s_expr = new_expr;
     apply_expression(new_expr);
 }

@@ -134,11 +134,15 @@ LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/miscs/linkpolicy/ -name "*.c" 
 endif
 
 # 模块对外CFLAGS：其他组件编译时可感知到
-# APP_VER 为空时 grep 无匹配会导致 USER_SW_VER=""，IoT 初始化会直接失败
+# APP_VER 为空时 grep 无匹配会导致 USER_SW_VER=""，IoT 初始化会直接失败。
+# git tag 可能仍为 0.0.33，此处强制产品版本号便于烧录核对（P2P 低功耗修复从 0.0.37 起）。
 VER := $(shell echo $(APP_VER) | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 ifeq ($(VER),)
-VER := 0.0.32
+VER := 0.0.43
 endif
+# 开发阶段固定版本，避免 get_ver_tag.sh 的 git tag 覆盖修复版
+# 0.0.43：T5AI_BOARD I2C 引脚修正 + 第三方 MCP Client 聚合 MVP
+VER := 0.0.43
 LOCAL_TUYA_SDK_CFLAGS := -DUSER_SW_VER=\"$(VER)\" -DAPP_BIN_NAME=\"$(APP_NAME)\" -DAI_PLAYER_SUPPORT_DEFAULT_CONSUMER=0
 # wukong includes via CFLAGS (not SDK_INC) to prevent recursive find from
 # pulling in tm/tests/stubs/ which shadows real headers (ty_cJSON.h etc.)
@@ -202,6 +206,12 @@ endif
 ifeq ($(CONFIG_ENABLE_TOOLKITS_PLAYBACK), y)
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong/mcp/tools/mcp_tool_playback.c -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/wukong/audio/wukong_playback_ctrl.c
+endif
+ifeq ($(CONFIG_ENABLE_TOOLKITS_EXTERNAL_MCP), y)
+LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong/mcp/client -name "*.c")
+LOCAL_SRC_FILES += $(LOCAL_PATH)/src/wukong/mcp/tools/mcp_tool_external_mcp.c
+LOCAL_TUYA_SDK_CFLAGS += -I$(LOCAL_PATH)/src/wukong/mcp
+LOCAL_TUYA_SDK_CFLAGS += -DENABLE_TOOLKITS_EXTERNAL_MCP=1
 endif
 endif
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong/utility -name "*.c" -o -name "*.cpp" -o -name "*.cc")

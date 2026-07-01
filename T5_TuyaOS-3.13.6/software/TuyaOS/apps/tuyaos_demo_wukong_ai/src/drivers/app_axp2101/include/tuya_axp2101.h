@@ -62,6 +62,14 @@ void tuya_axp2101_dump_status(uint8_t i2c_port);
  */
 OPERATE_RET tuya_axp2101_init(uint8_t i2c_port);
 
+/**
+ * @brief 打开 DVP 摄像头(GC2145)三路电源轨并设定电压（带回读校验）：
+ *        BLDO1=AVDD_2V8(2.8V, U4.12)、BLDO2=DVDD_1V8(1.8V, U4.14)、ALDO3=VDDCAM_2V8(2.8V, U4.16)。
+ * @note  网表接 BLDO/ALDO3（非 ALDO1/2）；仅写 reg0x96/0x97/0x94 与 reg0x90 对应使能位，
+ *        不触碰 DCDC。须在 GC2145 复位/检测前调用。
+ */
+OPERATE_RET tuya_axp2101_camera_power_on(uint8_t i2c_port);
+
 #ifdef __cplusplus
 }
 #endif

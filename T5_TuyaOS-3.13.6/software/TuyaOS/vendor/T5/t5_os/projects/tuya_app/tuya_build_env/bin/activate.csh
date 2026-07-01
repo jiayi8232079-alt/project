@@ -1,6 +1,5 @@
 # This file must be used with "source bin/activate.csh" *from csh*.
 # You cannot run it directly.
-
 # Created by Davide Di Blasi <davidedb@gmail.com>.
 # Ported to Python 3.3 venv by Andrew Svetlov <andrew.svetlov@gmail.com>
 
@@ -9,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV /home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/projects/tuya_app/tuya_build_env
+setenv VIRTUAL_ENV /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/projects/tuya_app/tuya_build_env
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/"bin":$PATH"

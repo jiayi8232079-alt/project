@@ -1,4 +1,4 @@
-# Install script for directory: /home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/projects/tuya_app
+# Install script for directory: /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/projects/tuya_app
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,12 +34,12 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump")
+  set(CMAKE_OBJDUMP "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/cmake_install.cmake")
+  include("/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/armino/cmake_install.cmake")
 
 endif()
 
@@ -51,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/jiayi/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/bk7258/tuya_app/bk7258_ap/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

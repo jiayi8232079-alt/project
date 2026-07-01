@@ -1,0 +1,13 @@
+{
+  "sessionId": "BajieAsk-agent-7-pzwhnpok",
+  "sessionKey": "7",
+  "name": "嵌入式开发",
+  "role": "embedded_firmware",
+  "roleLabel": "嵌入式开发",
+  "instanceId": "BajieAsk-ws-09688a66",
+  "createdAt": "2026-06-30T15:16:50.245Z",
+  "online": true,
+  "lastSeen": "2026-07-01T08:28:29.186Z",
+  "agentStatus": "ready",
+  "waiting": false
+}

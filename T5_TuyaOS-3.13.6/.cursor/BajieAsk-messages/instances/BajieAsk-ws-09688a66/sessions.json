@@ -1,0 +1,121 @@
+{
+  "sessions": [
+    {
+      "sessionId": "BajieAsk-agent-1-9b4ftp57",
+      "sessionKey": "1",
+      "name": "全栈工程师",
+      "role": "fullstack_dev",
+      "roleLabel": "全栈工程师",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T10:24:02.321Z",
+      "composerId": "",
+      "model": ""
+    },
+    {
+      "sessionId": "BajieAsk-agent-2-cr9gouzm",
+      "sessionKey": "2",
+      "name": "嵌入式开发",
+      "role": "embedded_firmware",
+      "roleLabel": "嵌入式开发",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T14:10:47.159Z",
+      "composerId": "3b7ec7a2-e067-4af2-bd67-213bda5554d7",
+      "model": ""
+    },
+    {
+      "sessionId": "BajieAsk-agent-3-qb5advad",
+      "sessionKey": "3",
+      "name": "全栈工程师",
+      "role": "fullstack_dev",
+      "roleLabel": "全栈工程师",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T14:12:10.182Z",
+      "composerId": "",
+      "model": ""
+    },
+    {
+      "sessionId": "BajieAsk-agent-4-m53j8mkl",
+      "sessionKey": "4",
+      "name": "全栈工程师",
+      "role": "fullstack_dev",
+      "roleLabel": "全栈工程师",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T14:53:36.073Z",
+      "composerId": "",
+      "model": ""
+    },
+    {
+      "sessionId": "BajieAsk-agent-5-d1paj345",
+      "sessionKey": "5",
+      "name": "全栈工程师",
+      "role": "fullstack_dev",
+      "roleLabel": "全栈工程师",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T14:53:44.737Z",
+      "composerId": "",
+      "model": ""
+    },
+    {
+      "sessionId": "BajieAsk-agent-6-o7clal4q",
+      "sessionKey": "6",
+      "name": "嵌入式开发",
+      "role": "embedded_firmware",
+      "roleLabel": "嵌入式开发",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T14:53:57.897Z",
+      "composerId": "20a19f3d-83f9-4358-9bda-fc8e6a3c138c",
+      "model": ""
+    },
+    {
+      "sessionId": "BajieAsk-agent-7-pzwhnpok",
+      "sessionKey": "7",
+      "name": "嵌入式开发",
+      "role": "embedded_firmware",
+      "roleLabel": "嵌入式开发",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T15:16:50.245Z",
+      "composerId": "939d2fb1-f385-4901-b40a-735d870004e2",
+      "model": ""
+    },
+    {
+      "sessionId": "BajieAsk-agent-8-fctzsd7c",
+      "sessionKey": "8",
+      "name": "全栈工程师",
+      "role": "fullstack_dev",
+      "roleLabel": "全栈工程师",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T15:19:10.634Z",
+      "composerId": "",
+      "model": ""
+    },
+    {
+      "sessionId": "BajieAsk-agent-9-u7kapvdd",
+      "sessionKey": "9",
+      "name": "嵌入式开发",
+      "role": "embedded_firmware",
+      "roleLabel": "嵌入式开发",
+      "agentStatus": "ready",
+      "waiting": false,
+      "instanceId": "BajieAsk-ws-09688a66",
+      "createdAt": "2026-06-30T15:19:24.584Z",
+      "composerId": "7fdf0ad1-9ef1-407f-b87c-536d7ee80952",
+      "model": ""
+    }
+  ]
+}

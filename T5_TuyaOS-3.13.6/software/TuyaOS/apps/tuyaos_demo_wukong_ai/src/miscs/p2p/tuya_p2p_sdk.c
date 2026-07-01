@@ -111,12 +111,16 @@ STATIC OPERATE_RET __init_ring_buffer(CONST IPC_MEDIA_INFO_T *pMediaInfo, INT_T 
 
 STATIC OPERATE_RET __open_ring_buffer(INT_T channel)
 {
-    if (g_v_handle[0] != NULL) 
-    {
-        OPRT_COM_ERROR;
+    if (g_v_handle[0] != NULL) {
+        PR_DEBUG("ring buffer writer already open");
+        return OPRT_OK;
     }
     g_v_handle[0] = tuya_ipc_ring_buffer_open(0, channel, E_IPC_STREAM_VIDEO_MAIN, E_RBUF_WRITE);
-    g_a_handle[0] = tuya_ipc_ring_buffer_open(0, channel, E_IPC_STREAM_AUDIO_MAIN, E_RBUF_WRITE);;
+    g_a_handle[0] = tuya_ipc_ring_buffer_open(0, channel, E_IPC_STREAM_AUDIO_MAIN, E_RBUF_WRITE);
+    if (g_v_handle[0] == NULL || g_a_handle[0] == NULL) {
+        PR_ERR("open ring buffer failed v=%p a=%p", g_v_handle[0], g_a_handle[0]);
+        return OPRT_COM_ERROR;
+    }
     return OPRT_OK;
 }
 
@@ -160,9 +164,7 @@ STATIC OPERATE_RET __OnIotInited(void *data)
     //sf_dp_set_delete_null_dp(FALSE);
     //mqtt extra init cb
     tuya_ipc_mqtt_register_cb_init();
-    //使能skill
-    TUYA_IPC_SKILL_PARAM_U skill_param = {.value = 1};
-    tuya_ipc_skill_enable(TUYA_IPC_SKILL_LOWPOWER, &skill_param);
+    /* 常电 AI 玩具不走低功耗 IPC 唤醒/并发队列，勿启用 LOWPOWER skill */
 
     //设置激活的skill参数
     CHAR_T *ipc_skills = NULL;
@@ -228,33 +230,37 @@ OPERATE_RET tuya_p2p_sdk_init(TUYA_IPC_SDK_VAR_S *sdk_var)
         TAL_PR_NOTICE("media adapter init is error\n");
         return OPRT_INVALID_PARM;
     }
-    //初始化P2P组件
+
+    /* RingBuffer 须在 media_stream_init / tuya_ipc_p2p_init 之前就绪，否则 SDK 内
+     * 拉流/切清晰度时会访问未初始化的队列并在 vQueueDelete 处断言重启 */
+    ret = __init_ring_buffer(&media_info, 0);
+    if (OPRT_OK != ret) {
+        TAL_PR_ERR("create ring buffer failed: %d", ret);
+        return ret;
+    }
+    ret = __open_ring_buffer(0);
+    if (OPRT_OK != ret) {
+        TAL_PR_ERR("open ring buffer failed: %d", ret);
+        return ret;
+    }
+    tuya_ipc_ring_buffer_adapter_register_media_source();
+
     ret = tuya_ipc_media_stream_init(&sdk_var->media_adatper_info);
     if (ret != OPRT_OK) {
         TAL_PR_ERR("media stream init failed: %d", ret);
         return ret;
     }
-    
-    //初始化RingBuffer
-    ret = __init_ring_buffer(&media_info, 0);
-    if(OPRT_OK != ret)
-    {
-        TAL_PR_NOTICE("create ring buffer is error\n");
-        return ret;
-    }
-    ret = __open_ring_buffer(0);
-    tuya_ipc_ring_buffer_adapter_register_media_source();
     //设置激活的skill参数并上报
     TUYA_IPC_SKILL_PARAM_U skill_param = {.value = 0};
     skill_param.value = tuya_p2p_rtc_get_skill(); 
     tuya_ipc_skill_enable(TUYA_IPC_SKILL_P2P, &skill_param);
     skill_param.value = 1;
-    tuya_ipc_skill_enable(TUYA_IPC_SKILL_LOWPOWER, &skill_param);
-    skill_param.value = 1;
     tuya_ipc_skill_enable(TUYA_IPC_SKILL_PX, &skill_param);
     tuya_ipc_upload_skills();
     //返回结果
-    TAL_PR_NOTICE("tuya_p2p_sdk_init success\n");
+    TAL_PR_NOTICE("tuya_p2p_sdk_init success low_power=%d ring=%d",
+                  sdk_var->media_adatper_info.low_power,
+                  s_ring_buffer_inited[0]);
     return ret;
 }
 

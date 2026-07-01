@@ -17,6 +17,52 @@
 #include "tuya_sdk_call.h"
 
 STATIC THREAD_HANDLE                   ty_ipc_thread = NULL;
+AI_DEVICE_MODE_E                       g_device_mode_before_p2p;
+/* App 常先 CLARITY_SET 再 LIVE_VIDEO_START，避免两次 switch_to_h264 热切换 */
+STATIC BOOL_T                          s_p2p_h264_live_ready = FALSE;
+
+STATIC OPERATE_RET __p2p_prepare_h264_live(VOID)
+{
+    OPERATE_RET rt;
+
+    if (s_p2p_h264_live_ready) {
+        PR_DEBUG("[p2p] H264 live already prepared, skip reinit");
+        return OPRT_OK;
+    }
+
+    if (tuya_ai_toy_device_mode_get() != AI_DEVICE_MODE_P2P) {
+        g_device_mode_before_p2p = tuya_ai_toy_device_mode_get();
+        wukong_audio_player_stop(AI_PLAYER_ALL);
+        tuya_ai_agent_event(AI_EVENT_CHAT_BREAK, 0);
+        wukong_ai_device_mode_switch(AI_DEVICE_MODE_P2P);
+    }
+
+    rt = tuya_ai_toy_camera_switch_to_h264_mode();
+    if (rt != OPRT_OK) {
+        PR_ERR("[p2p] switch_to_h264_mode failed: %d", rt);
+        return rt;
+    }
+
+    rt = tuya_ai_toy_camera_h264_start();
+    if (rt != OPRT_OK) {
+        PR_ERR("[p2p] h264_start failed: %d", rt);
+        return rt;
+    }
+
+    s_p2p_h264_live_ready = TRUE;
+    PR_NOTICE("[p2p] H264 live prepared");
+    return OPRT_OK;
+}
+
+STATIC VOID __p2p_teardown_h264_live(VOID)
+{
+    if (!s_p2p_h264_live_ready) {
+        return;
+    }
+    tuya_ai_toy_camera_h264_stop();
+    tuya_ai_toy_camera_switch_to_jpeg_mode();
+    s_p2p_h264_live_ready = FALSE;
+}
 
 int resample_to_8k_fixed(const int16_t *in, size_t in_frames, int in_rate, int channels,
                          int16_t *out_buf_out, size_t *out_frames_out);
@@ -82,7 +128,6 @@ STATIC VOID __tuya_ipc_app_rev_video_cb(IN INT_T device, IN INT_T channel, IN CO
     return;
 }
 
-AI_DEVICE_MODE_E g_device_mode_before_p2p;
 STATIC INT_T __tuya_ipc_p2p_event_cb(IN CONST INT_T device, IN CONST INT_T channel, IN CONST MEDIA_STREAM_EVENT_E event, IN PVOID_T args)
 {
     OPERATE_RET rt = 0;
@@ -93,13 +138,8 @@ STATIC INT_T __tuya_ipc_p2p_event_cb(IN CONST INT_T device, IN CONST INT_T chann
        case MEDIA_STREAM_LIVE_VIDEO_START:
         {
             C2C_TRANS_CTRL_VIDEO_START * parm = (C2C_TRANS_CTRL_VIDEO_START *)args;
-            PR_DEBUG("chn[%u] video start",parm->channel);
-            g_device_mode_before_p2p = tuya_ai_toy_device_mode_get();
-            wukong_audio_player_stop(AI_PLAYER_ALL);
-            tuya_ai_agent_event(AI_EVENT_CHAT_BREAK, 0);
-            wukong_ai_device_mode_switch(AI_DEVICE_MODE_P2P);
-            tuya_ai_toy_camera_switch_to_h264_mode();
-            tuya_ai_toy_camera_h264_start();
+            PR_NOTICE("[p2p] LIVE_VIDEO_START ch=%u", parm ? parm->channel : 0);
+            rt = __p2p_prepare_h264_live();
             break;
         }
         case MEDIA_STREAM_LIVE_VIDEO_STOP:
@@ -109,8 +149,7 @@ STATIC INT_T __tuya_ipc_p2p_event_cb(IN CONST INT_T device, IN CONST INT_T chann
             wukong_audio_player_stop(AI_PLAYER_ALL);
             tuya_ai_agent_event(AI_EVENT_CHAT_BREAK, 0);
             wukong_ai_device_mode_switch(g_device_mode_before_p2p);
-            tuya_ai_toy_camera_switch_to_jpeg_mode();
-            tuya_ai_toy_camera_h264_stop();
+            __p2p_teardown_h264_live();
             break;
         }
         case MEDIA_STREAM_LIVE_AUDIO_START:
@@ -146,6 +185,18 @@ STATIC INT_T __tuya_ipc_p2p_event_cb(IN CONST INT_T device, IN CONST INT_T chann
             //TUYA_APP_Enable_Speaker_CB(FALSE);
             break;
         }
+        case MEDIA_STREAM_LIVE_VIDEO_CLARITY_SET:
+        {
+            C2C_TRANS_LIVE_CLARITY_PARAM_S *parm = (C2C_TRANS_LIVE_CLARITY_PARAM_S *)args;
+            PR_NOTICE("[p2p] clarity set clarity=%d",
+                      parm ? (INT_T)parm->clarity : -1);
+            /* App 可能在 LIVE_VIDEO_START 前先下发清晰度；与 START 共用一次 H264 热切换 */
+            rt = __p2p_prepare_h264_live();
+            break;
+        }
+        default:
+            PR_DEBUG("[p2p] unhandled event=%d", event);
+            break;
     }
     return rt;
 }
@@ -226,7 +277,9 @@ OPERATE_RET tuya_ipc_app_start()
     //初始化P2P组件
     sdkVar.media_adatper_info.on_event_cb = __tuya_ipc_p2p_event_cb;
     sdkVar.media_adatper_info.on_ai_result_cb = 0;
-    sdkVar.media_adatper_info.low_power = 1;
+    /* T5 悟空 AI 玩具为常电设备；low_power=1 会走 SDK 低功耗 IPC 并发队列路径，
+     * 首次拉流时在 __p2p_wait_concurr_idle 对 NULL 队列 vQueueDelete 导致重启 */
+    sdkVar.media_adatper_info.low_power = 0;
     sdkVar.media_adatper_info.max_client_num = 1;
     sdkVar.media_adatper_info.def_live_mode = TRANS_DEFAULT_STANDARD;
     sdkVar.media_adatper_info.recv_buffer_size = 16*1024;

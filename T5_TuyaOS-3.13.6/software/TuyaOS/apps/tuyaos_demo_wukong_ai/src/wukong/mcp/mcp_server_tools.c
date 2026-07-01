@@ -14,6 +14,10 @@
 #include "mcp_server_internal.h"
 #include "mcp_content.h"
 
+#if defined(ENABLE_TOOLKITS_EXTERNAL_MCP) && (ENABLE_TOOLKITS_EXTERNAL_MCP == 1)
+#include "client/mcp_client_integration.h"
+#endif
+
 #include <stdarg.h>
 #include <string.h>
 
@@ -277,6 +281,10 @@ OPERATE_RET mcp_tools_handle_list(CHAR_T *sid, CHAR_T *eid,
         ty_cJSON_AddItemToArray(tools_arr, tj);
     }
 
+#if defined(ENABLE_TOOLKITS_EXTERNAL_MCP) && (ENABLE_TOOLKITS_EXTERNAL_MCP == 1)
+    mcp_client_integration_append_tools(tools_arr, &payload_len);
+#endif
+
     ty_cJSON_AddItemToObject(result, "tools", tools_arr);
     return mcp_server_reply_result(sid, eid, id, result);
 }
@@ -366,6 +374,20 @@ OPERATE_RET mcp_tools_handle_call(CHAR_T *sid, CHAR_T *eid,
         if (strcmp(tool->name, tool_name) == 0)
             break;
     }
+
+#if defined(ENABLE_TOOLKITS_EXTERNAL_MCP) && (ENABLE_TOOLKITS_EXTERNAL_MCP == 1)
+    if (!tool && mcp_client_integration_is_external_tool(tool_name)) {
+        ty_cJSON *confirm_j = ty_cJSON_GetObjectItem(args_j, "userConfirmed");
+        BOOL_T user_confirmed = (confirm_j && ty_cJSON_IsBool(confirm_j)) ?
+                                ty_cJSON_IsTrue(confirm_j) : FALSE;
+        OPERATE_RET ext_rt = mcp_client_integration_schedule_call(sid, eid, id, tool_name,
+                                                                  args_j, user_confirmed);
+        if (ext_rt != OPRT_OK)
+            return mcp_server_reply_error(sid, eid, id, MCP_ERR_INTERNAL, "Schedule failed");
+        return OPRT_OK;
+    }
+#endif
+
     if (!tool)
         return mcp_server_reply_error(sid, eid, id, MCP_ERR_INVALID_PARAMS,
                                        "Unknown tool");

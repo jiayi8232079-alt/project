@@ -1,0 +1,1566 @@
+[16:11:25.789] [RX ] [07-01 16:11:25.915 ty D][0x60d870f0][tuya_ipc_p2p.c:4097] session cmd recv proc alive [6000] num[0]
+[16:11:26.632] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:26.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:26.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:11:26.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:11:26.636] [RX ] [WIFI_TX] data_size: 127360(Bytes), 31KB/s 
+[16:11:26.636] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:11:30.633] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:30.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:30.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:11:30.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:11:30.636] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:11:30.636] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:11:31.014] [RX ] [07-01 16:11:31.151 ty D][0x28052358][wukong_audio_aec_vad.c:111] speexdsp process time: aec->6(ms), count = 2001
+[16:11:31.014] [RX ] 
+[16:11:31.017] [RX ] [07-01 16:11:31.153 ty D][0x28052358][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[16:11:31.017] [RX ] 
+[16:11:31.018] [RX ] [07-01 16:11:31.154 ty D][0x28052358][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->2(ms), flag=2, count = 2001
+[16:11:31.018] [RX ] 
+[16:11:32.455] [RX ] [07-01 16:11:32.593 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[16:11:34.480] [RX ] [07-01 16:11:34.618 ty D][0x60d87180][tuya_ipc_p2p.c:4868] session detect run
+[16:11:34.632] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:34.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:34.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:11:34.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:11:34.636] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:11:34.636] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:11:34.767] [RX ] [07-01 16:11:34.905 ty N][0x60fd3570][product_board_motor_debug.c:50] motor demo: [1] fwd
+[16:11:35.516] [RX ] [07-01 16:11:35.653 ty D][0x28052358][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:11:35.516] [RX ] 
+[16:11:35.517] [RX ] [07-01 16:11:35.653 ty D][0x28052358][wukong_kws.c:315] wukong kws vad on
+[16:11:37.197] [RX ] [07-01 16:11:37.334 ty D][0x28052358][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[16:11:37.197] [RX ] 
+[16:11:37.198] [RX ] [07-01 16:11:37.335 ty D][0x28052358][wukong_kws.c:317] wukong kws vad end
+[16:11:37.782] [RX ] [07-01 16:11:37.917 ty D][0x60d870f0][tuya_ipc_p2p.c:4097] session cmd recv proc alive [8000] num[0]
+[16:11:38.632] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:38.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:38.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:11:38.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:11:38.636] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:11:38.636] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:11:41.017] [RX ] [07-01 16:11:41.151 ty D][0x28052358][wukong_audio_aec_vad.c:111] speexdsp process time: aec->6(ms), count = 2501
+[16:11:41.017] [RX ] 
+[16:11:41.017] [RX ] [07-01 16:11:41.154 ty D][0x28052358][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[16:11:41.017] [RX ] 
+[16:11:41.019] [RX ] [07-01 16:11:41.154 ty D][0x28052358][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->2(ms), flag=2, count = 2501
+[16:11:41.019] [RX ] 
+[16:11:42.455] [RX ] [07-01 16:11:42.593 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[16:11:42.632] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:42.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:42.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:11:42.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:11:42.636] [RX ] [WIFI_TX] data_size: 128640(Bytes), 31KB/s 
+[16:11:42.636] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:11:45.364] [RX ] [07-01 16:11:45.501 ty D][0x60d87180][tuya_ipc_p2p.c:4868] session detect run
+[16:11:46.633] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:46.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:46.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:11:46.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:11:46.637] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:11:46.637] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:11:47.757] [RX ] [07-01 16:11:47.895 ty D][0x60fdd0dc][tuya_devos_utils.c:288] set time by rtc
+[16:11:49.536] [RX ] [07-01 16:11:49.674 ty D][0x60d870f0][tuya_ipc_p2p.c:4097] session cmd recv proc alive [10000] num[0]
+[16:11:50.632] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:50.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:50.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:11:50.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:11:50.636] [RX ] [WIFI_TX] data_size: 127360(Bytes), 31KB/s 
+[16:11:50.637] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:11:51.014] [RX ] [07-01 16:11:51.151 ty D][0x28052358][wukong_audio_aec_vad.c:111] speexdsp process time: aec->6(ms), count = 3001
+[16:11:51.014] [RX ] 
+[16:11:51.017] [RX ] [07-01 16:11:51.154 ty D][0x28052358][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[16:11:51.017] [RX ] 
+[16:11:51.019] [RX ] [07-01 16:11:51.154 ty D][0x28052358][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->3(ms), flag=2, count = 3001
+[16:11:51.019] [RX ] 
+[16:11:52.147] [RX ] [07-01 16:11:52.282 ty N][0x60fd3570][product_board_motor_debug.c:57] motor demo: [1] rev
+[16:11:52.455] [RX ] [07-01 16:11:52.593 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[16:11:54.632] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:54.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:54.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:11:54.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:11:54.637] [RX ] [WIFI_TX] data_size: 127360(Bytes), 31KB/s 
+[16:11:54.637] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:11:55.705] [RX ] [07-01 16:11:55.843 ty D][0x60d87180][tuya_ipc_p2p.c:4868] session detect run
+[16:11:56.957] [RX ] [07-01 16:11:57.094 ty D][0x28052358][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:11:56.957] [RX ] 
+[16:11:56.959] [RX ] [07-01 16:11:57.095 ty D][0x28052358][wukong_kws.c:315] wukong kws vad on
+[16:11:57.584] [RX ] score:48 thr:-8 keyword=0
+[16:11:57.591] [RX ] [07-01 16:11:57.728 ty D][0x60dac788][tutuclear.c:70] TUTUClear_WakeWord -> 你好涂鸦
+[16:11:57.591] [RX ] 
+[16:11:57.594] [RX ] WAKEUP_info:nihaotuya-xiaozhitongxue-heytuya-hituya--200KB--20250804--MAT--RAW--FOR--TUYA--FROM--EASE--ON--T5-E1--info_end
+[16:11:57.595] [RX ] [07-01 16:11:57.730 ty D][0x60fd9aec][wukong_ai_mode_free.c:564] [====ai_free] wakeup
+[16:11:57.598] [RX ] [07-01 16:11:57.731 ty D][0x60fd9aec][tuya_ai_output.c:302] [output] stop. force:1 status:0
+[16:11:57.599] [RX ] [07-01 16:11:57.732 ty D][0x60fd9aec][wukong_audio_player.c:307] wukong audio player -> stop 2 player
+[16:11:57.602] [RX ] [07-01 16:11:57.732 ty D][0x60fd9aec][svc_ai_playlist.c:336] clear playlist playing 0
+[16:11:57.603] [RX ] [07-01 16:11:57.732 ty E][0x60fd9aec][svc_ai_player.c:821] player already stopped: 0
+[16:11:57.605] [RX ] [07-01 16:11:57.735 ty D][0x60fd9aec][svc_ai_playlist.c:336] clear playlist playing 0
+[16:11:57.607] [RX ] [07-01 16:11:57.737 ty E][0x60fd9aec][svc_ai_player.c:821] player already stopped: 0
+[16:11:57.609] [RX ] [07-01 16:11:57.739 ty N][0x60fd9aec][wukong_audio_input_board.c:335] wukong audio input -> reset ringbuf!
+[16:11:57.612] [RX ] [07-01 16:11:57.740 ty N][0x60fd9aec][wukong_audio_input_board.c:342] wukong audio input -> vad stop!
+[16:11:57.614] [RX ] [07-01 16:11:57.740 ty N][0x60fd9aec][wukong_audio_input_board.c:345] wukong audio input -> vad start!
+[16:11:57.616] [RX ] [07-01 16:11:57.741 ty E][0x60fd9aec][tuya_ai_event.c:36] event or session id was null
+[16:11:57.618] [RX ] [07-01 16:11:57.741 ty N][0x60fd9aec][wukong_audio_player.c:337] wukong audio player -> play alert type=12
+[16:11:57.620] [RX ] [07-01 16:11:57.742 ty E][0x60fd9aec][svc_ai_player.c:821] player already stopped: 0
+[16:11:57.622] [RX ] [07-01 16:11:57.742 ty D][0x60fd9aec][wukong_audio_player.c:247] wukong audio player -> player tts mem data len 3537
+[16:11:57.624] [RX ] [07-01 16:11:57.744 ty D][0x60fd9aec][svc_ai_player.c:757] start player 0 0
+[16:11:57.625] [RX ] [07-01 16:11:57.745 ty D][0x60e75fa8][svc_ai_player.c:505] ai player FG cmd START
+[16:11:57.628] [RX ] [07-01 16:11:57.749 ty D][0x60e75fa8][svc_ai_player.c:90] start player FG value=null
+[16:11:57.630] [RX ] [07-01 16:11:57.754 ty D][0x60e75fa8][wukong_audio_player.c:61] wukong audio player -> player tts event: 1
+[16:11:57.632] [RX ] [07-01 16:11:57.754 ty D][0x28052358][wukong_kws.c:317] wukong kws vad end
+[16:11:57.634] [RX ] [07-01 16:11:57.754 ty D][0x60e75fa8][wukong_audio_player.c:82] wukong audio player -> playing start event
+[16:11:57.636] [RX ] [07-01 16:11:57.755 ty D][0x60e75fa8][wukong_ai_mode_free.c:396] [====ai_free] event type: 20
+[16:11:57.638] [RX ] [07-01 16:11:57.763 ty D][0x60fd9aec][wukong_ai_mode_free.c:580] mode free state change from IDLE to LISTEN
+[16:11:57.639] [RX ] [07-01 16:11:57.769 ty D][0x60e75fa8][decoder_mp3.c:43] ID3 tag_size = 35
+[16:11:57.644] [RX ] [07-01 16:11:57.782 ty D][0x60d5a24c][wukong_ai_mode_free.c:165] [====ai_free] listen
+[16:11:57.656] [RX ] [07-01 16:11:57.783 ty D][0x60d5a24c][tuya_led.c:170] pinname:56
+[16:11:57.658] [RX ] [07-01 16:11:57.794 ty D][0x60d5a24c][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:1
+[16:11:57.660] [RX ] [07-01 16:11:57.795 ty D][0x60d5a24c][tuya_ai_toy.c:838] [====ai_toy] lowpower timer ctrl enable:0
+[16:11:57.663] [RX ] [07-01 16:11:57.795 ty N][0x60d5a24c][wukong_audio_input_board.c:359] wukong audio input -> mode is 1, wakeup set to 1, vad flag is 0!
+[16:11:57.665] [RX ] [07-01 16:11:57.796 ty D][0x60d5a24c][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[16:11:57.665] [RX ] 
+[16:11:57.689] [RX ] [07-01 16:11:57.820 ty D][0x60dc72ec][wukong_audio_input_board.c:164] wukong audio input -> wakup flag is 1, auto vad set from 0 to 2!
+[16:11:57.704] [RX ] [07-01 16:11:57.841 ty D][0x60dc72ec][wukong_audio_input_board.c:123] wukong audio input -> vad stat change to flag 2
+[16:11:57.707] [RX ] [07-01 16:11:57.843 ty D][0x60dc72ec][wukong_ai_mode_free.c:608] [====ai_free] vad: [2]
+[16:11:57.708] [RX ] [07-01 16:11:57.843 ty D][0x60dc72ec][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:1
+[16:11:58.381] [RX ] [07-01 16:11:58.518 ty N][0x60e75fa8][svc_ai_player.c:256] ai player FG eof
+[16:11:58.382] [RX ] [07-01 16:11:58.518 ty D][0x60e75fa8][svc_ai_player.c:117] stop player FG
+[16:11:58.385] [RX ] [07-01 16:11:58.519 ty D][0x60e75fa8][svc_ai_playlist.c:54] playlist player state 0 index 0 count 0 loop 0 single 0
+[16:11:58.386] [RX ] [07-01 16:11:58.519 ty D][0x60e75fa8][wukong_audio_player.c:61] wukong audio player -> player tts event: 0
+[16:11:58.389] [RX ] [07-01 16:11:58.520 ty D][0x60e75fa8][wukong_audio_player.c:68] wukong audio player -> stop event
+[16:11:58.390] [RX ] [07-01 16:11:58.521 ty D][0x60e75fa8][wukong_ai_mode_free.c:396] [====ai_free] event type: 30
+[16:11:58.393] [RX ] [07-01 16:11:58.521 ty D][0x60e75fa8][wukong_ai_mode_free.c:501] mode free state change from LISTEN to LISTEN
+[16:11:58.632] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:11:58.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:11:58.635] [RX ] [RAW_WRITE] data_size: 27648(Bytes), 6KB/s 
+[16:11:58.635] [RX ] [ONBOARD_SPK] data_size: 27520(Bytes), 6KB/s 
+[16:11:58.636] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:11:58.637] [RX ] [WIFI_RX] data_size: 66304(Bytes), 16KB/s 
+[16:12:00.136] [RX ] [07-01 16:12:00.273 ty D][0x28052358][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:12:00.136] [RX ] 
+[16:12:00.139] [RX ] [07-01 16:12:00.273 ty D][0x60dc72ec][wukong_audio_input_board.c:164] wukong audio input -> wakup flag is 1, auto vad set from 2 to 1!
+[16:12:00.140] [RX ] [07-01 16:12:00.274 ty D][0x28052358][wukong_kws.c:315] wukong kws vad on
+[16:12:00.902] [RX ] [07-01 16:12:01.038 ty D][0x60dc72ec][wukong_audio_input_board.c:123] wukong audio input -> vad stat change to flag 1
+[16:12:00.907] [RX ] [07-01 16:12:01.040 ty D][0x60dc72ec][wukong_ai_mode_free.c:608] [====ai_free] vad: [1]
+[16:12:00.908] [RX ] [07-01 16:12:01.044 ty D][0x60dc72ec][tuya_ai_input.c:376] ai input start, state:1
+[16:12:00.918] [RX ] [07-01 16:12:01.054 ty D][0x60dc72ec][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:0
+[16:12:00.919] [RX ] [07-01 16:12:01.055 ty D][0x60e76164][tuya_ai_input.c:456] recv queue state 1, scode 
+[16:12:00.922] [RX ] [07-01 16:12:01.056 ty D][0x60e76164][tuya_ai_agent.c:776] use session 1460b65c-ccf2-47b7-ae3a-ed55-825a225e
+[16:12:00.923] [RX ] [07-01 16:12:01.059 ty D][0x60e76164][tuya_ai_event.c:57] send event rt:0, type:0
+[16:12:00.926] [RX ] [07-01 16:12:01.060 ty N][0x60e76164][tuya_ai_event.c:85] event id is e836db3b-c538-4548-993e
+[16:12:00.927] [RX ] [07-01 16:12:01.061 ty D][0x60e76164][tuya_ai_input.c:493] start lazy queue sync
+[16:12:00.929] [RX ] [07-01 16:12:01.064 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:00.965] [RX ] [07-01 16:12:01.102 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 1, total_len:160, id:1
+[16:12:00.967] [RX ] [07-01 16:12:01.104 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:00.996] [RX ] [07-01 16:12:01.130 ty D][0x60e8a850][tuya_ai_agent.c:153] [====ai event cb====] type:0, sid:1460b65c-ccf2-47b7-ae3a-ed55-825a225e, eid:e836db3b-c538-4548-993e
+[16:12:01.015] [RX ] [07-01 16:12:01.151 ty D][0x28052358][wukong_audio_aec_vad.c:111] speexdsp process time: aec->6(ms), count = 3501
+[16:12:01.015] [RX ] 
+[16:12:01.018] [RX ] [07-01 16:12:01.155 ty D][0x28052358][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[16:12:01.018] [RX ] 
+[16:12:01.020] [RX ] [07-01 16:12:01.155 ty D][0x28052358][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->3(ms), flag=1, count = 3501
+[16:12:01.020] [RX ] 
+[16:12:01.034] [RX ] [07-01 16:12:01.168 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[16:12:01.046] [RX ] [07-01 16:12:01.183 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.062] [RX ] [07-01 16:12:01.185 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.089] [RX ] [07-01 16:12:01.226 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[16:12:01.126] [RX ] [07-01 16:12:01.263 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.265] [RX ] [07-01 16:12:01.401 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.267] [RX ] [07-01 16:12:01.403 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:01.352] [RX ] [07-01 16:12:01.489 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[16:12:01.360] [RX ] [07-01 16:12:01.496 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.362] [RX ] [07-01 16:12:01.497 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.364] [RX ] [07-01 16:12:01.498 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.366] [RX ] [07-01 16:12:01.498 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.368] [RX ] [07-01 16:12:01.499 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.369] [RX ] [07-01 16:12:01.501 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.491] [RX ] [07-01 16:12:01.629 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.498] [RX ] [07-01 16:12:01.635 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:01.596] [RX ] [07-01 16:12:01.733 ty D][0x60d870f0][tuya_ipc_p2p.c:4097] session cmd recv proc alive [12000] num[0]
+[16:12:01.600] [RX ] [07-01 16:12:01.735 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:01.727] [RX ] [07-01 16:12:01.864 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:01.822] [RX ] [07-01 16:12:01.960 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.827] [RX ] [07-01 16:12:01.962 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.905] [RX ] [07-01 16:12:01.965 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:01.912] [RX ] [07-01 16:12:02.049 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:02.127] [RX ] [07-01 16:12:02.263 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[16:12:02.263] [RX ] [07-01 16:12:02.399 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.264] [RX ] [07-01 16:12:02.400 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.374] [RX ] [07-01 16:12:02.404 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.386] [RX ] [07-01 16:12:02.523 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:02.456] [RX ] [07-01 16:12:02.593 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[16:12:02.506] [RX ] [07-01 16:12:02.643 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:02.520] [RX ] [07-01 16:12:02.656 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.523] [RX ] [07-01 16:12:02.658 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.524] [RX ] [07-01 16:12:02.659 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.526] [RX ] [07-01 16:12:02.661 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.624] [RX ] [07-01 16:12:02.663 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.626] [RX ] [07-01 16:12:02.761 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:02.632] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:12:02.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:12:02.635] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:12:02.635] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:12:02.637] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:12:02.637] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:12:02.802] [RX ] [07-01 16:12:02.939 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.808] [RX ] [07-01 16:12:02.944 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:02.882] [RX ] [07-01 16:12:03.018 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[16:12:02.886] [RX ] [07-01 16:12:03.022 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.887] [RX ] [07-01 16:12:03.023 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.984] [RX ] [07-01 16:12:03.121 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:02.986] [RX ] [07-01 16:12:03.123 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:03.087] [RX ] [07-01 16:12:03.125 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.089] [RX ] [07-01 16:12:03.224 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:03.099] [RX ] [07-01 16:12:03.235 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.102] [RX ] [07-01 16:12:03.236 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.103] [RX ] [07-01 16:12:03.237 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.105] [RX ] [07-01 16:12:03.238 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.204] [RX ] [07-01 16:12:03.341 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:03.208] [RX ] [07-01 16:12:03.345 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.397] [RX ] [07-01 16:12:03.532 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:03.414] [RX ] [07-01 16:12:03.537 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.414] [RX ] [07-01 16:12:03.541 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.414] [RX ] [07-01 16:12:03.543 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.513] [RX ] [07-01 16:12:03.650 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:03.705] [RX ] [07-01 16:12:03.842 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:03.767] [RX ] [07-01 16:12:03.904 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[16:12:03.803] [RX ] [07-01 16:12:03.938 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.805] [RX ] [07-01 16:12:03.940 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.807] [RX ] [07-01 16:12:03.941 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.810] [RX ] [07-01 16:12:03.941 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.811] [RX ] [07-01 16:12:03.943 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:03.969] [RX ] [07-01 16:12:04.106 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:04.087] [RX ] [07-01 16:12:04.223 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:04.101] [RX ] [07-01 16:12:04.238 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:04.353] [RX ] [07-01 16:12:04.239 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:04.359] [RX ] [07-01 16:12:04.495 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:320 flag 2, total_len:320, id:1
+[16:12:04.542] [RX ] [07-01 16:12:04.679 ty N][0x60dc72ec][wukong_ai_mode.c:292] ai toy -> recv wukong mic data: 2560
+[16:12:04.545] [RX ] [07-01 16:12:04.682 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[16:12:04.558] [RX ] [07-01 16:12:04.694 ty D][0x28052358][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[16:12:04.558] [RX ] 
+[16:12:04.559] [RX ] [07-01 16:12:04.695 ty D][0x28052358][wukong_kws.c:317] wukong kws vad end
+[16:12:04.606] [RX ] [07-01 16:12:04.741 ty D][0x60dc72ec][wukong_audio_input_board.c:164] wukong audio input -> wakup flag is 1, auto vad set from 1 to 2!
+[16:12:04.608] [RX ] [07-01 16:12:04.742 ty D][0x60dc72ec][wukong_audio_input_board.c:123] wukong audio input -> vad stat change to flag 2
+[16:12:04.646] [RX ] [07-01 16:12:04.744 ty D][0x60dc72ec][wukong_ai_mode_free.c:608] [====ai_free] vad: [2]
+[16:12:04.648] [RX ] [07-01 16:12:04.785 ty D][0x60dc72ec][tuya_ai_input.c:402] ai input stop, state:4
+[16:12:04.658] [RX ] [07-01 16:12:04.793 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:160 flag 2, total_len:160, id:1
+[16:12:04.673] [RX ] [07-01 16:12:04.811 ty D][0x60e76164][tuya_ai_input.c:456] recv queue state 4, scode 
+[16:12:04.687] [RX ] [07-01 16:12:04.823 ty D][0x60e76164][tuya_ai_agent.c:1486] [ptype 31 upload stream] len:0 flag 3, total_len:0, id:1
+[16:12:04.696] [RX ] [07-01 16:12:04.834 ty D][0x60e76164][tuya_ai_event.c:57] send event rt:0, type:2
+[16:12:04.754] [RX ] [07-01 16:12:04.891 ty D][0x60dc72ec][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:1
+[16:12:04.920] [RX ] [07-01 16:12:05.057 ty D][0x60e8a850][tuya_ai_agent.c:506] ASR text: Device mcp load MCD example加。
+[16:12:04.923] [RX ] [07-01 16:12:05.057 ty N][0x60e8a850][wukong_ai_skills.c:87] wukong text -> ASR result: Device mcp load MCD example加。
+[16:12:04.926] [RX ] [07-01 16:12:05.059 ty D][0x60e8a850][wukong_ai_mode_free.c:396] [====ai_free] event type: 1
+[16:12:04.927] [RX ] [07-01 16:12:05.059 ty D][0x60e8a850][wukong_ai_mode_free.c:410] mode free state change from LISTEN to THINK
+[16:12:04.929] [RX ] [07-01 16:12:05.060 ty D][0x60e8a850][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[16:12:04.929] [RX ] 
+[16:12:04.960] [RX ] [07-01 16:12:05.098 ty D][0x60d5a24c][wukong_ai_mode_free.c:210] [====ai_free] think
+[16:12:04.963] [RX ] [07-01 16:12:05.101 ty D][0x60d5a24c][tuya_led.c:170] pinname:56
+[16:12:04.966] [RX ] [07-01 16:12:05.103 ty D][0x60d5a24c][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:1
+[16:12:04.981] [RX ] [07-01 16:12:05.117 ty D][0x60d5a24c][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[16:12:04.981] [RX ] 
+[16:12:05.377] [RX ] [07-01 16:12:05.513 ty D][0x28052358][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:12:05.377] [RX ] 
+[16:12:05.378] [RX ] [07-01 16:12:05.514 ty D][0x28052358][wukong_kws.c:315] wukong kws vad on
+[16:12:06.262] [RX ] [07-01 16:12:06.398 ty D][0x28052358][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[16:12:06.262] [RX ] 
+[16:12:06.263] [RX ] [07-01 16:12:06.399 ty D][0x28052358][wukong_kws.c:317] wukong kws vad end
+[16:12:06.467] [RX ] [07-01 16:12:06.602 ty D][0x60e8a850][tuya_ai_agent.c:153] [====ai event cb====] type:1000, sid:1460b65c-ccf2-47b7-ae3a-ed55-825a225e, eid:e836db3b-c538-4548-993e
+[16:12:06.471] [RX ] [07-01 16:12:06.603 ty D][0x60e8a850][tuya_ai_agent.c:1816] mcp data: {"jsonrpc":"2.0","id":"call_lgllmhqbzvp1g9wmtlh2fnz5","method":"tools/call","params":{"name":"device_mcp_load_mcd_example","arguments":{}}}
+[16:12:06.633] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:12:06.634] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:12:06.636] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:12:06.636] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:12:06.637] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:12:06.637] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:12:07.304] [RX ] AP crash happend, rr: 0x12
+[16:12:07.305] [RX ] build time => Jul  1 2026 00:25:39 !
+[16:12:07.305] [RX ] CPU1 Current regs:
+[16:12:07.305] [RX ] 0 r0 x 0x7
+[16:12:07.305] [RX ] 1 r1 x 0x7e
+[16:12:07.305] [RX ] 2 r2 x 0x9d8
+[16:12:07.307] [RX ] 3 r3 x 0x3
+[16:12:07.307] [RX ] 4 r4 x 0x60fdce4c
+[16:12:07.307] [RX ] 5 r5 x 0x60fdcead
+[16:12:07.308] [RX ] 6 r6 x 0x60fdd004
+[16:12:07.308] [RX ] 7 r7 x 0x60fdd000
+[16:12:07.308] [RX ] 8 r8 x 0x8080808
+[16:12:07.308] [RX ] 9 r9 x 0x9090909
+[16:12:07.309] [RX ] 10 r10 x 0x10101010
+[16:12:07.309] [RX ] 11 r11 x 0x11111111
+[16:12:07.309] [RX ] 12 r12 x 0xc
+[16:12:07.311] [RX ] 14 sp x 0x60fdce40
+[16:12:07.311] [RX ] 15 lr x 0x2184711
+[16:12:07.311] [RX ] 16 pc x 0x8
+[16:12:07.311] [RX ] 17 xpsr x 0x60100000
+[16:12:07.312] [RX ] 18 msp x 0x28065f48
+[16:12:07.312] [RX ] 19 psp x 0x60fdcdd8
+[16:12:07.312] [RX ] 20 primask x 0x1
+[16:12:07.314] [RX ] 21 basepri x 0x0
+[16:12:07.314] [RX ] 22 faultmask x 0x0
+[16:12:07.314] [RX ] 23 fpscr x 0x0
+[16:12:07.315] [RX ] 30 CPU1 xPSR x 0x4
+[16:12:07.315] [RX ] 31 LR x 0xffffffed
+[16:12:07.315] [RX ] 32 control x 0xc
+[16:12:07.315] [RX ] 40 MMFAR x 0xe000ed34
+[16:12:07.316] [RX ] 41 BFAR x 0xe000ed38
+[16:12:07.316] [RX ] 42 CFSR x 0x1
+[16:12:07.316] [RX ] 43 HFSR x 0x0
+[16:12:07.316] [RX ] MemFault
+[16:12:07.316] [RX ] 
+[16:12:07.319] [RX ] Firmware name: app, hardware version: V1.0.0, software version: V1.0.0
+[16:12:07.319] [RX ] Fault on thread wq_system
+[16:12:07.320] [RX ] ===== Thread stack information =====
+[16:12:07.320] [RX ]   addr: 60fdce40    data: 00000001
+[16:12:07.322] [RX ]   addr: 60fdce44    data: 00000006
+[16:12:07.322] [RX ]   addr: 60fdce48    data: 0000007e
+[16:12:07.324] [RX ]   addr: 60fdce4c    data: 00000003
+[16:12:07.324] [RX ]   addr: 60fdce50    data: 00000000
+[16:12:07.324] [RX ]   addr: 60fdce54    data: 00000000
+[16:12:07.326] [RX ]   addr: 60fdce58    data: 00000000
+[16:12:07.326] [RX ]   addr: 60fdce5c    data: 00000000
+[16:12:07.327] [RX ]   addr: 60fdce60    data: 00000000
+[16:12:07.327] [RX ]   addr: 60fdce64    data: 00000000
+[16:12:07.329] [RX ]   addr: 60fdce68    data: 00000000
+[16:12:07.329] [RX ]   addr: 60fdce6c    data: e5a6bae9
+[16:12:07.330] [RX ]   addr: 60fdce70    data: 8ae593bd
+[16:12:07.330] [RX ]   addr: 60fdce74    data: 434d20b3
+[16:12:07.331] [RX ]   addr: 60fdce78    data: 00000050
+[16:12:07.333] [RX ]   addr: 60fdce7c    data: 00000000
+[16:12:07.333] [RX ]   addr: 60fdce80    data: 00000000
+[16:12:07.334] [RX ]   addr: 60fdce84    data: 00000000
+[16:12:07.334] [RX ]   addr: 60fdce88    data: 00000000
+[16:12:07.336] [RX ]   addr: 60fdce8c    data: 00000000
+[16:12:07.336] [RX ]   addr: 60fdce90    data: 00000000
+[16:12:07.337] [RX ]   addr: 60fdce94    data: 00000000
+[16:12:07.338] [RX ]   addr: 60fdce98    data: 00000000
+[16:12:07.338] [RX ]   addr: 60fdce9c    data: 00000000
+[16:12:07.340] [RX ]   addr: 60fdcea0    data: 00000000
+[16:12:07.340] [RX ]   addr: 60fdcea4    data: 00000000
+[16:12:07.341] [RX ]   addr: 60fdcea8    data: 00000000
+[16:12:07.341] [RX ]   addr: 60fdceac    data: 74746804
+[16:12:07.343] [RX ]   addr: 60fdceb0    data: 2f3a7370
+[16:12:07.343] [RX ]   addr: 60fdceb4    data: 70636d2f
+[16:12:07.344] [RX ]   addr: 60fdceb8    data: 64636d2e
+[16:12:07.345] [RX ]   addr: 60fdcebc    data: 006e632e
+[16:12:07.345] [RX ]   addr: 60fdcec0    data: 00000000
+[16:12:07.347] [RX ]   addr: 60fdcec4    data: 00000000
+[16:12:07.347] [RX ]   addr: 60fdcec8    data: 00000000
+[16:12:07.348] [RX ]   addr: 60fdcecc    data: 00000000
+[16:12:07.348] [RX ]   addr: 60fdced0    data: 00000000
+[16:12:07.349] [RX ]   addr: 60fdced4    data: 00000000
+[16:12:07.351] [RX ]   addr: 60fdced8    data: 00000000
+[16:12:07.351] [RX ]   addr: 60fdcedc    data: 00000000
+[16:12:07.352] [RX ]   addr: 60fdcee0    data: 00000000
+[16:12:07.352] [RX ]   addr: 60fdcee4    data: 00000000
+[16:12:07.354] [RX ]   addr: 60fdcee8    data: 00000000
+[16:12:07.354] [RX ]   addr: 60fdceec    data: 00000000
+[16:12:07.355] [RX ]   addr: 60fdcef0    data: 00000000
+[16:12:07.355] [RX ]   addr: 60fdcef4    data: 00000000
+[16:12:07.356] [RX ]   addr: 60fdcef8    data: 00000000
+[16:12:07.358] [RX ]   addr: 60fdcefc    data: 00000000
+[16:12:07.358] [RX ]   addr: 60fdcf00    data: 00000000
+[16:12:07.359] [RX ]   addr: 60fdcf04    data: 00000000
+[16:12:07.359] [RX ]   addr: 60fdcf08    data: 00000000
+[16:12:07.360] [RX ]   addr: 60fdcf0c    data: 00000000
+[16:12:07.360] [RX ]   addr: 60fdcf10    data: 00000000
+[16:12:07.362] [RX ]   addr: 60fdcf14    data: 00000000
+[16:12:07.363] [RX ]   addr: 60fdcf18    data: 00000000
+[16:12:07.363] [RX ]   addr: 60fdcf1c    data: 00000000
+[16:12:07.365] [RX ]   addr: 60fdcf20    data: 00000000
+[16:12:07.365] [RX ]   addr: 60fdcf24    data: 00000000
+[16:12:07.366] [RX ]   addr: 60fdcf28    data: 00000000
+[16:12:07.366] [RX ]   addr: 60fdcf2c    data: 00000000
+[16:12:07.367] [RX ]   addr: 60fdcf30    data: 00000000
+[16:12:07.367] [RX ]   addr: 60fdcf34    data: 00000000
+[16:12:07.369] [RX ]   addr: 60fdcf38    data: 00000000
+[16:12:07.370] [RX ]   addr: 60fdcf3c    data: 00000000
+[16:12:07.370] [RX ]   addr: 60fdcf40    data: 00000000
+[16:12:07.371] [RX ]   addr: 60fdcf44    data: 00000000
+[16:12:07.371] [RX ]   addr: 60fdcf48    data: 00000000
+[16:12:07.373] [RX ]   addr: 60fdcf4c    data: 00000000
+[16:12:07.373] [RX ]   addr: 60fdcf50    data: 00000000
+[16:12:07.374] [RX ]   addr: 60fdcf54    data: 00000000
+[16:12:07.376] [RX ]   addr: 60fdcf58    data: 00000000
+[16:12:07.376] [RX ]   addr: 60fdcf5c    data: 00000000
+[16:12:07.377] [RX ]   addr: 60fdcf60    data: 00000000
+[16:12:07.377] [RX ]   addr: 60fdcf64    data: 00000000
+[16:12:07.378] [RX ]   addr: 60fdcf68    data: 00000000
+[16:12:07.378] [RX ]   addr: 60fdcf6c    data: 00000000
+[16:12:07.380] [RX ]   addr: 60fdcf70    data: 00000000
+[16:12:07.380] [RX ]   addr: 60fdcf74    data: 00000000
+[16:12:07.381] [RX ]   addr: 60fdcf78    data: 00000000
+[16:12:07.382] [RX ]   addr: 60fdcf7c    data: 00000000
+[16:12:07.382] [RX ]   addr: 60fdcf80    data: 00000000
+[16:12:07.384] [RX ]   addr: 60fdcf84    data: 00000000
+[16:12:07.384] [RX ]   addr: 60fdcf88    data: 00000000
+[16:12:07.385] [RX ]   addr: 60fdcf8c    data: 00000000
+[16:12:07.385] [RX ]   addr: 60fdcf90    data: 00000000
+[16:12:07.387] [RX ]   addr: 60fdcf94    data: 00000000
+[16:12:07.388] [RX ]   addr: 60fdcf98    data: 00000000
+[16:12:07.388] [RX ]   addr: 60fdcf9c    data: 00000000
+[16:12:07.393] [RX ]   addr: 60fdcfa0    data: 00000000
+[16:12:07.393] [RX ]   addr: 60fdcfa4    data: 00000000
+[16:12:07.393] [RX ]   addr: 60fdcfa8    data: 00000000
+[16:12:07.393] [RX ]   addr: 60fdcfac    data: 00000000
+[16:12:07.393] [RX ]   addr: 60fdcfb0    data: 60d52ce0
+[16:12:07.393] [RX ]   addr: 60fdcfb4    data: 00000001
+[16:12:07.394] [RX ]   addr: 60fdcfb8    data: 00000002
+[16:12:07.395] [RX ]   addr: 60fdcfbc    data: 00000001
+[16:12:07.395] [RX ]   addr: 60fdcfc0    data: 00000000
+[16:12:07.396] [RX ]   addr: 60fdcfc4    data: 00000000
+[16:12:07.396] [RX ]   addr: 60fdcfc8    data: 28063b68
+[16:12:07.398] [RX ]   addr: 60fdcfcc    data: 60fd0280
+[16:12:07.398] [RX ]   addr: 60fdcfd0    data: 02351cf1
+[16:12:07.399] [RX ]   addr: 60fdcfd4    data: 02351cfb
+[16:12:07.400] [RX ]   addr: 60fdcfd8    data: 60fdd004
+[16:12:07.400] [RX ]   addr: 60fdcfdc    data: 60fd0280
+[16:12:07.402] [RX ]   addr: 60fdcfe0    data: 02351cf1
+[16:12:07.402] [RX ]   addr: 60fdcfe4    data: 00000000
+[16:12:07.403] [RX ]   addr: 60fdcfe8    data: 07070707
+[16:12:07.403] [RX ]   addr: 60fdcfec    data: 02333d1f
+[16:12:07.404] [RX ]   addr: 60fdcff0    data: 00000000
+[16:12:07.404] [RX ]   addr: 60fdcff4    data: 021669cf
+[16:12:07.406] [RX ]   addr: 60fdcff8    data: 28063b68
+[16:12:07.407] [RX ]   addr: 60fdcffc    data: 00000000
+[16:12:07.407] [RX ]   addr: 60fdd000    data: 00000000
+[16:12:07.409] [RX ]   addr: 60fdd004    data: 00000000
+[16:12:07.409] [RX ]   addr: 60fdd008    data: 60fdd0c0
+[16:12:07.410] [RX ]   addr: 60fdd00c    data: 00000000
+[16:12:07.410] [RX ]   addr: 60fdd010    data: 00000000
+[16:12:07.411] [RX ]   addr: 60fdd014    data: 021a4e51
+[16:12:07.413] [RX ]   addr: 60fdd018    data: 02333cc9
+[16:12:07.413] [RX ]   addr: 60fdd01c    data: 60fd0280
+[16:12:07.414] [RX ]   addr: 60fdd020    data: 60fdd064
+[16:12:07.414] [RX ]   addr: 60fdd024    data: 05050505
+[16:12:07.416] [RX ]   addr: 60fdd028    data: 60fdd080
+[16:12:07.416] [RX ]   addr: 60fdd02c    data: 021a4359
+[16:12:07.417] [RX ]   addr: 60fdd030    data: 60fdd080
+[16:12:07.417] [RX ]   addr: 60fdd034    data: 60fdafe4
+[16:12:07.418] [RX ]   addr: 60fdd038    data: 60fdd064
+[16:12:07.420] [RX ]   addr: 60fdd03c    data: 60fdafe4
+[16:12:07.420] [RX ]   addr: 60fdd040    data: 02020202
+[16:12:07.421] [RX ]   addr: 60fdd044    data: 04040404
+[16:12:07.421] [RX ]   addr: 60fdd048    data: 05050505
+[16:12:07.422] [RX ]   addr: 60fdd04c    data: 06060606
+[16:12:07.422] [RX ]   addr: 60fdd050    data: 07070707
+[16:12:07.424] [RX ]   addr: 60fdd054    data: 02155859
+[16:12:07.425] [RX ]   addr: 60fdd058    data: a5a5a5a5
+[16:12:07.425] [RX ] ====================================
+[16:12:07.427] [RX ] Memory management fault is caused by instruction access violation
+[16:12:07.428] [RX ] Show more call stack info by run: arm-none-eabi-addr2line -e app.elf -a -f 00000000 
+[16:12:07.542] [RX ]  
+[16:12:07.542] [RX ]  u_bootloader enter
+[16:12:07.542] [RX ] ty heap base: 28000A00 size: 65280
+[16:12:07.544] [RX ] __read_manage_block: mag->blockid=255, id=0, mag->state=255.
+[16:12:07.546] [RX ] __read_manage_block: mag->magic=0xFFFFFFFF, rescrc=0x0, mag->crc32=0xFFFFFFFF.
+[16:12:07.548] [RX ] __read_manage_block: mag->blockid=255, id=1, mag->state=255.
+[16:12:07.549] [RX ] __read_manage_block: mag->magic=0xFFFFFFFF, rescrc=0x0, mag->crc32=0xFFFFFFFF.
+[16:12:07.549] [RX ] _judge_ota_info checkerr0:1, checkerr1:1
+[16:12:07.550] [RX ] jump toxx:0x2010000
+[16:12:07.572] [RX ] jump toxx:0x2010000�
+[16:12:07.572] [RX ] ---------------------------
+[16:12:07.572] [RX ] tuya l2 boot
+[16:12:07.572] [RX ] block 7C9000 invalid, blockid=255, id=0, state=255, magic=0xFFFFFFFF, rescrc=0x0, crc32=0xFFFFFFFF
+[16:12:07.572] [RX ] block 7CA000 invalid, blockid=255, id=1, state=255, magic=0xFFFFFFFF, rescrc=0x0, crc32=0xFFFFFFFF
+[16:12:07.572] [RX ] manage info check: 0x3
+[16:12:07.572] [RX ] block 6C9000 invalid, blockid=255, id=0, state=255, magic=0xFFFFFFFF, rescrc=0x0, crc32=0xFFFFFFFF
+[16:12:07.572] [RX ] block 6CA000 invalid, blockid=255, id=1, state=255, magic=0xFFFFFFFF, rescrc=0x0, crc32=0xFFFFFFFF
+[16:12:07.572] [RX ] manage info check1: 0x3
+[16:12:07.572] [RX ] no action in boot
+[16:12:07.572] [RX ] jump toxx:0x2020000
+[16:12:07.682] [RX ] jump toxx:0x2020000�flash txpwr table:0xf
+[16:12:07.683] [RX ] xtal_cali:62
+[16:12:07.685] [RX ] rosc:E(95):should not be here: bk_rosc_32k_get_tick_diff 301
+[16:12:07.690] [RX ] rwnx_cal_set_rfconfig(0x101) phy on; rf off
+[16:12:07.693] [RX ] -------- co-procresser startup, left heap: 32832, reset reason: 10
+[16:12:07.693] [RX ] cust:W(102):custstart cp1
+[16:12:07.940] [RX ] ret_code444444444=0
+[16:12:07.941] [RX ] wakeup
+[16:12:07.942] [RX ] netif_set_link_up 1006
+[16:12:07.942] [RX ] netif_set_up 860
+[16:12:07.943] [RX ] wakeup
+[16:12:07.943] [RX ] 
+[16:12:07.946] [RX ] $wdrv_tx_cmd_buffer_init, addr[0]=0x2801403c, pattern_addr=0x28014038
+[16:12:07.947] [RX ] wdrv_tx_cmd_buffer_init, addr[1]=0x2801435c, pattern_addr=0x28014358
+[16:12:07.948] [RX ] wdrv_tx_cmd_buffer_init, addr[2]=0x2801467c, pattern_addr=0x28014678
+[16:12:07.948] [RX ] W(357):cif_handle_bk_cmd_get_mac_addr_req
+[16:12:07.950] [RX ] W(357):base mac: 80:64:7c:3f:9e:b4
+[16:12:07.950] [RX ] bluetoot:W(360):bk_bluetooth_init bluetooth already initialised
+[16:12:08.031] [RX ] -------- app startup, left sram: 150384, psram: 9043968, reset reason: 12
+[16:12:08.033] [RX ] parameter: 0xffffffff, 0xffffffff
+[16:12:08.033] [RX ] go to tuya
+[16:12:08.034] [RX ] [01-01 00:00:00 ty D][fdef][tuya_svc_lan.c:2465] lan disable
+[16:12:08.044] [RX ] [01-01 00:00:00 ty D][fdd0][tal_thread.c:224] Thread:sys_timer Exec Start. Set to Running Stat 0x60fdd0dc
+[16:12:08.047] [RX ] [01-01 00:00:00 ty I][fdef][tal_thread.c:200] thread_create name:sys_timer,stackDepth:6144,totalstackDepth:10240,priority:5
+[16:12:08.050] [RX ] [01-01 00:00:00 ty I][fdef][tal_thread.c:200] thread_create name:wq_system,stackDepth:8192,totalstackDepth:18432,priority:3
+[16:12:08.052] [RX ] [01-01 00:00:00 ty D][fd9a][tal_thread.c:224] Thread:wq_highpri Exec Start. Set to Running Stat 0x60fd9aec
+[16:12:08.088] [RX ] [01-01 00:00:00 ty D][fdaf][tal_thread.c:224] Thread:wq_system Exec Start. Set to Running Stat 0x60fdafe4
+[16:12:08.091] [RX ] [01-01 00:00:00 ty I][fdef][tal_thread.c:200] thread_create name:wq_highpri,stackDepth:5120,totalstackDepth:23552,priority:4
+[16:12:08.092] [RX ] [01-01 00:00:00 ty D][fdef][tuya_tls.c:939] TLS version: mbed TLS 3.1.0
+[16:12:08.095] [RX ] [01-01 00:00:00 ty N][fdef][tuya_ai_toy_key.c:123] ai toy -> power up/down 3 times reset counter start
+[16:12:08.097] [RX ] [01-01 00:00:00 ty D][fdef][tuya_ai_toy_key.c:46] uf open OK
+[16:12:08.098] [RX ] [01-01 00:00:00 ty D][fdef][tuya_ai_toy_key.c:48] uf file rst_cnt read data 0!
+[16:12:08.179] [RX ] [01-01 00:00:00 ty D][fdef][tuya_ai_toy_key.c:130] start reset cnt clear timer
+[16:12:08.181] [RX ] [01-01 00:00:00 ty D][fdef][tuya_svc_netmgr_linkage.c:72] link[9] is registered [0]
+[16:12:08.182] [RX ] [01-01 00:00:00 ty D][fdef][tuya_svc_netmgr_linkage.c:72] link[2] is registered [1]
+[16:12:08.183] [RX ] tkl_wifi_init
+[16:12:08.185] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:0
+[16:12:08.186] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:1
+[16:12:08.187] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:2
+[16:12:08.189] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:3
+[16:12:08.190] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:4
+[16:12:08.193] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:5
+[16:12:08.194] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:6
+[16:12:08.196] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:7
+[16:12:08.197] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:8
+[16:12:08.198] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:114] add new node,type:9
+[16:12:08.200] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:58] init watchdog, interval: 60
+[16:12:08.201] [RX ] tkl_watchdog_init interval_ms(30000)!
+[16:12:08.203] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:161] update type:7,period:10
+[16:12:08.205] [RX ] [01-01 00:00:00 ty D][fdef][tuya_devos_health.c:554] watch_dog_interval:60, monitor_detect_interval:600
+[16:12:08.208] [RX ] [01-01 00:00:00 ty D][fd87][tal_thread.c:224] Thread:health_monitor Exec Start. Set to Running Stat 0x60fd87f8
+[16:12:08.211] [RX ] [01-01 00:00:00 ty I][fdef][tal_thread.c:200] thread_create name:health_monitor,stackDepth:3072,totalstackDepth:26624,priority:5
+[16:12:08.212] [RX ] [01-01 00:00:00 ty I][fdef][mqc_app.c:544] mqc app init ...
+[16:12:08.214] [RX ] [01-01 00:00:00 ty E][fdef][mqc_app.c:130] handler cnt is zero
+[16:12:08.215] [RX ] [01-01 00:00:00 ty D][fdef][mqc_app.c:123] mq_pro:5 cnt:1
+[16:12:08.216] [RX ] [01-01 00:00:00 ty D][fdef][mqc_app.c:123] mq_pro:31 cnt:2
+[16:12:08.218] [RX ] [01-01 00:00:00 ty D][fdef][tuya_svc_online_log.c:291] svc online log init success
+[16:12:08.219] [RX ] [01-01 00:00:00 ty E][fdef][log_seq.c:930] logseq empty
+[16:12:08.220] [RX ] [01-01 00:00:00 ty D][fdef][tuya_ws_db.c:466] init fs. Path: null 
+[16:12:08.222] [RX ] [01-01 00:00:00 ty D][fdef][kv_storge.c:46] *****************kvs_init. 
+[16:12:08.223] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:206] protected init. addr:0x007cd000
+[16:12:08.226] [RX ] [01-01 00:00:00 ty N][fdef][simple_flash_protected.c:87] init protected data length 1167 wr_cnt 110
+[16:12:08.227] [RX ] [01-01 00:00:00 ty N][fdef][simple_flash.c:447] key_addr: 0x7fd000   block_sz 4096
+[16:12:08.229] [RX ] [01-01 00:00:00 ty N][fdef][simple_flash.c:533] get key:
+[16:12:08.230] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:216] protected verify begin
+[16:12:08.233] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:231] check [gw_bi][234]
+[16:12:08.234] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:231] check [kv.ccode.avtive][2]
+[16:12:08.236] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:231] check [rcs.active][612]
+[16:12:08.238] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:231] check [gw_wsm][175]
+[16:12:08.240] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:243] protected verify end
+[16:12:08.240] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash.c:877] begin try update kv version
+[16:12:08.270] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash.c:884] pre kv version is 2
+[16:12:08.332] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash.c:1185] 111 k=1  i=15 1
+[16:12:08.348] [RX ] [01-01 00:00:00 ty N][fdef][tuya_tls.c:923] uni_random_init...
+[16:12:08.371] [RX ] [01-01 00:00:00 ty N][fdef][tuya_tls.c:358] tuya_tls_rand_init ok!
+[16:12:08.371] [RX ] [01-01 00:00:00 ty D][fdef][tuya_ai_toy_key.c:46] uf open OK
+[16:12:08.371] [RX ] [01-01 00:00:00 ty D][fdef][tuya_ai_toy_key.c:48] uf file rst_cnt read data 1!
+[16:12:08.371] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protectedh_protected.c:343] protected rea[01-01 00:00:00 ty D][fdef][simple_flash_protected.c:387] protected read ret:0 length:234
+[16:12:08.371] [RX ] [01-01 00:00:00 ty D][fdef][ws_db_gw.h_protected.c:343] protected read [gw_wsm]
+[16:12:08.376] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:387] protected read ret:0 length:175
+[16:12:08.377] [RX ] [01-01 00:00:00 ty D][fdef][ws_db_gw.c:257] gw_wsm read ret:0
+[16:12:08.378] [RX ] [01-01 00:00:00 ty N][fdef][tuya_svc_devos.c:377] gw_cntl->gw_wsm.stat:2
+[16:12:08.379] [RX ] [01-01 00:00:00 ty D][fdef][ws_db_gw.c:374] gw_di read ret:0
+[16:12:08.382] [RX ] [01-01 00:00:00 ty D][fdef][ws_db_gw.c:457] gw_ai read ret:0
+[16:12:08.385] [RX ] [01-01 00:00:00 ty D][fdef][uni_network.c:230] cache dns [http://a.tuyacn.com/d.json]<->[47.100.118.152]
+[16:12:08.388] [RX ] [01-01 00:00:00 ty D][fdef][uni_network.c:230] cache dns [https://a6.tuyacn.com/d.json]<->[8.153.105.238]
+[16:12:08.389] [RX ] [01-01 00:00:00 ty D][fdef][uni_network.c:230] cache dns [https://a3.tuyacn.com/d.json]<->[47.116.198.59]
+[16:12:08.392] [RX ] [01-01 00:00:00 ty D][fdef][uni_network.c:230] cache dns [m2.tuyacn.com:1883]<->[8.153.104.247]
+[16:12:08.393] [RX ] [01-01 00:00:00 ty D][fdef][uni_network.c:230] cache dns [m6.tuyacn.com:8886]<->[8.153.104.55]
+[16:12:08.396] [RX ] [01-01 00:00:00 ty D][fdef][uni_network.c:230] cache dns [m3.tuyacn.com:8886]<->[8.153.104.55]
+[16:12:08.397] [RX ] [01-01 00:00:00 ty D][fdef][uni_network.c:230] cache dns [baal.tuyacn.com:443]<->[8.153.12.144]
+[16:12:08.400] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:343] protected read [rcs.active]
+[16:12:08.402] [RX ] [01-01 00:00:00 ty D][fdef][simple_flash_protected.c:387] protected read ret:0 length:612
+[16:12:08.404] [RX ] [01-01 00:00:00 ty D][fdef][tuya_cert_manager.c:527] tls_ca_cnt:1 and parse:1
+[16:12:08.405] [RX ] [01-01 00:00:00 ty D][fdef][tuya_cert_manager.c:557] Parse DER tls_ca0:540 success
+[16:12:08.407] [RX ] [01-01 00:00:00 ty D][fdef][tuya_cert_manager.c:1024] psk key was 1.0
+[16:12:08.408] [RX ] [01-01 00:00:00 ty D][fdef][tuya_cert_manager.c:1117] cert manager init
+[16:12:08.410] [RX ] [01-01 08:00:00 ty D][fdef][tuya_wifi_connect.c:328] set station.
+[16:12:08.413] [RX ] [01-01 08:00:00 ty D][fdef][simple_flash_protected.c:343] protected read [kv.ccode.avtive]
+[16:12:08.414] [RX ] [01-01 08:00:00 ty D][fdef][simple_flash_protected.c:387] protected read ret:0 length:2
+[16:12:08.416] [RX ] [01-01 08:00:00 ty N][fdef][tuya_wifi_link.c:707] kv has ccode CN
+[16:12:08.417] [RX ] [01-01 08:00:00 ty D][fdef][tal_wifi.c:884] set ccode to env CN
+[16:12:08.419] [RX ] tkl_wifi_set_country_code_v2: set country code [CN]
+[16:12:08.420] [RX ] [01-01 08:00:00 ty N][fdef][tuya_wifi_connect.c:88] fast connect mode:0
+[16:12:08.423] [RX ] [01-01 08:00:00 ty D][fdef][tuya_wifi_connect.c:80] ap_info_v2 read success
+[16:12:08.424] [RX ] [01-01 08:00:00 ty D][fdef][tal_wifi_reconnet.c:199] wifi auto reconn ssid Y/OURSPACE
+[16:12:08.425] [RX ] [01-01 08:00:00 ty N][fdef][tal_wifi_reconnet.c:203] fast connect
+[16:12:08.427] [RX ] tkl_wifi_station_fast_connect, ssid: Y/OURSPACE
+[16:12:08.427] [RX ] wifi:I(821):fast_connect
+[16:12:08.428] [RX ] wifid:I(828):mm_add_if_req: succ 0, vif_idx=0, type=0, p2p=0
+[16:12:08.430] [RX ] wpa:I(832):update psk, scan pending 0
+[16:12:08.430] [RX ] wifi:I(832):XXX: fast connect 1, pmk_len 0
+[16:12:08.432] [RX ] [01-01 08:00:00 ty N][fdef][tuya_wifi_status.c:175] cur stat:5  0x0 -->>
+[16:12:08.434] [RX ] [01-01 08:00:00 ty N][fdef][tuya_wifi_status.c:177] wifi netstat changed to:5  -->>
+[16:12:08.454] [RX ] [01-01 08:00:00 ty D][fdef][tuya_wifi_connect.c:341] wf fast connect succ.
+[16:12:08.454] [RX ] wifid:I(834):[KW:]scanu_start_req:src_id=15,vif=0,dur=0,chan_cnt=1,ssid_len=10,bssid=0xffff-ffff-ffff
+[16:12:08.454] [RX ] wifid:I(834):[KW:]scanu_start_req:ssid=Y/OURSPACE
+[16:12:08.454] [RX ] wifid:I(834):[KW:]scanu_start_req:chan_idx=6
+[16:12:08.454] [RX ] [01-01 08:00:00 ty N][fdef][tuya_app_main.c:593] sdk_info:< TuyaOS V:3.13.6 BS:40.08:00:00.394 ty D][0x60fdef34][simple_flash_protected.c:343]-01 022_26 BY ci_manage FOR tuyaos-ai AT T5 >
+[16:12:08.456] [RX ] IOT DEFS < WIFI_GW:1 DEBUG:1 KV_FILE:0 LITTLE_END:1 SL:1 OPERATING_SYSTEM:98 RELIABLE_8:00:00.394 ty D][0x60fdef34][simple_flash_protected.c:343] protected read [gw_bi]
+[16:12:08.456] [RX ] os:I(839):psram:0x60700000,size:262144
+[16:12:08.458] [RX ] [01-01 08:00:00.401 ty D][0x60fdef34][simple_flash_protected.c:387] protected read ret:0 length:234
+[16:12:08.460] [RX ] [01-01 08:00:00.402 ty D][0x60fdef34][ws_db_gw.c:148] gw_bi read ret:0
+[16:12:08.463] [RX ] [01-01 08:00:00.402 ty D][0x60fdef34][prod_test.c:318] s_prodtest_app_cfg.ssid_count 1
+[16:12:08.464] [RX ] [01-01 08:00:00.402 ty D][0x60fdef34][prod_test.c:323] app ssid -> ty_ai_mf_test_1
+[16:12:08.465] [RX ] [01-01 08:00:00.402 ty N][0x60fdef34][tuya_app_main.c:467] ty_ai_toy_mf_test_init
+[16:12:08.468] [RX ] [01-01 08:00:00.404 ty D][0x60fdef34][simple_flash_protected.c:343] protected read [gw_wsm]
+[16:12:08.469] [RX ] [01-01 08:00:00.409 ty D][0x60fdef34][simple_flash_protected.c:387] protected read ret:0 length:175
+[16:12:08.471] [RX ] [01-01 08:00:00.410 ty D][0x60fdef34][ws_db_gw.c:257] gw_wsm read ret:0
+[16:12:08.472] [RX ] [01-01 08:00:00.410 ty D][0x60fdef34][prod_test.c:353] read_gw_wsm.nc_tp 9
+[16:12:08.494] [RX ] [01-01 08:00:00.411 ty D][0x60fdef34][prod_test.c:356] read_gw_wsm.nc_tp >= GWNS_TY_SMARTCFG
+[16:12:08.494] [RX ] [01-01 08:00:00.411 ty N][0x60fdef34][tuya_app_main.c:473] prodtest_ssid_scan ignored
+[16:12:08.494] [RX ] [01-01 08:00:00.411 ty D][0x60fdef34][tal_sleep.c:22] cpu_set_lp_mode_cnt:0
+[16:12:08.494] [RX ] -- cpu sleep set enable:1, mode:0
+[16:12:08.494] [RX ] [01-01 08:00:00.412 ty D][0x60fdef34][tal_sleep.c:29] set cpu lp mode:1
+[16:12:08.494] [RX ] -- cpu sleep set enfi 08:00:00.415 ty D][0x60fdef34][tuya_wifi_link.c:1007] tuya wic:96] <tal_cpu_lp>  disable_cnt:1
+[16:12:08.495] [RX ] [01-01 08:00:00.413 ty D][0x60fdef34][tal_sleep.c:96] <tal_cpu_lp>  disable_cnt:2
+[16:12:08.496] [RX ] -- wifi lpfi link init mthd:0,wifi start mode:4, enable_station_ap:0
+[16:12:08.498] [RX ] [01-01 08:00:00.417 ty D][0x60fdef34][simple_flash_protected.c:343] protected read [gw_wsm]
+[16:12:08.500] [RX ] [01-01 08:00:00.423 ty D][0x60fdef34][simple_flash_protected.c:387] protected read ret:0 length:175
+[16:12:08.503] [RX ] [01-01 08:00:00.424 ty D][0x60fdef34][ws_db_gw.c:257] gw_wsm read ret:0
+[16:12:08.504] [RX ] [01-01 08:00:00.424 ty N][0x60fdef34][tuya_wifi_link.c:108] start wifi link params validate, nc_tp:9 md:3
+[16:12:08.505] [RX ] [01-01 08:00:00.424 ty N][0x60fdef34][tuya_wifi_link.c:130] gw_wsm.nc_tp:9
+[16:12:08.508] [RX ] [01-01 08:00:00.425 ty N][0x60fdef34][tuya_wifi_link.c:131] gw_wsm.md:3
+[16:12:08.509] [RX ] [01-01 08:00:00.425 ty D][0x60fdef34][tuya_bt_link.c:287] bt init...
+[16:12:08.511] [RX ] [01-01 08:00:00.425 ty D][0x60fdef34][tuya_ble_svc.c:2505] get_wifi_list eanbled
+[16:12:08.512] [RX ] [01-01 08:00:00.425 ty D][0x60fdef34][tuya_ble_svc.c:2511] get_netcfg_stat eanbled
+[16:12:08.515] [RX ] [01-01 08:00:00.425 ty D][0x60fdef34][tuya_ble_svc.c:2515] get_dev_log eanbled
+[16:12:08.516] [RX ] [01-01 08:00:00.426 ty D][0x60fdef34][tuya_ble_svc.c:2521] get_ap_name eanbled
+[16:12:08.518] [RX ] [01-01 08:00:00.426 ty D][0x60fdef34][tuya_ble_svc.c:2527] get_multi_net eanbled
+[16:12:08.521] [RX ] [01-01 08:00:00.426 ty D][0x60fdef34][tuya_svc_netmgr_linkage.c:72] link[3] is registered [2]
+[16:12:08.522] [RX ] [01-01 08:00:00.428 ty D][0x60fdef34][simple_flash_protected.c:343] protected read [gw_wsm]
+[16:12:08.525] [RX ] wifid:I(876):[KW:]scanu_confirm:status=0,req_type=0,upload_cnt=4,recv_cnt=4,time=42802us,result=3,rfcli=1
+[16:12:08.526] [RX ] [01-01 08:00:00.434 ty D][0x60fdef34][simple_flash_protected.c:387] protected read ret:0 length:175
+[16:12:08.529] [RX ] wifid:I(878):[KW:]conn vif0-0,auth_type:0,bssid:f9c0-15b0-10c8,ssid:Y/OURSPACE,is encryp:8.
+[16:12:08.530] [RX ] [01-01 08:00:00.435 ty D][0x60fdef34][ws_db_gw.c:257] gw_wsm read ret:0
+[16:12:08.530] [RX ] bk_value:12 / 10 / 12, ty_value:2
+[16:12:08.533] [RX ] [01-01 08:00:00.435 ty N][0x60fdef34][tuya_svc_devos.c:605] Last reset reason: 2
+[16:12:08.533] [RX ] wifid:I(880):mm_sta_add:vif 0,sta 0,status 0
+[16:12:08.536] [RX ] [01-01 08:00:00.442 ty D][0x60fdef34][ws_db_gw.c:374] gw_di read ret:0
+[16:12:08.537] [RX ] [01-01 08:00:00.443 ty D][0x60fdef34][tuya_devos_stride.c:55] stride from flash: 0.
+[16:12:08.539] [RX ] [01-01 08:00:00.444 ty D][0x60fdef34][tuya_devos_stride.c:83] ver no change.
+[16:12:08.540] [RX ] [01-01 08:00:00.444 ty N][0x60fdef34][tuya_svc_devos.c:434] gw_cntl->gw_if.abi:0 input:0
+[16:12:08.543] [RX ] [01-01 08:00:00.444 ty N][0x60fdef34][tuya_svc_devos.c:435] gw_cntl->gw_if.product_key:5rkngypnnu9k3qdq, input:5rkngypnnu9k3qdq
+[16:12:08.545] [RX ] [01-01 08:00:00.444 ty N][0x60fdef34][tuya_svc_devos.c:436] gw_cntl->gw_if.tp:0, input:0
+[16:12:08.547] [RX ] [01-01 08:00:00.446 ty D][0x60fdef34][ws_db_gw.c:534] schema e1o0609o read success
+[16:12:08.549] [RX ] [01-01 08:00:00.447 ty D][0x60fdef34][tuya_devos_utils.c:1197] create dev_cntl Success 
+[16:12:08.551] [RX ] [01-01 08:00:00.448 ty N][0x60fdef34][tuya_svc_devos.c:638] enter success_proc
+[16:12:08.552] [RX ] [01-01 08:00:00.448 ty N][0x60fdef34][tuya_svc_devos.c:645] serial_no:80647c3f9eb4
+[16:12:08.554] [RX ] [01-01 08:00:00.449 ty D][0x60fdef34][tuya_devos_utils.c:306] timer ID:1627223156
+[16:12:08.556] [RX ] [01-01 08:00:00.449 ty D][0x60fdef34][tuya_svc_upgrade.c:1517] tuya svc upgrade init success!
+[16:12:08.561] [RX ] [01-01 08:00:00.451 ty D][0x60fdef34][ty_meta_report.c:117] meta in kv {"metas":{"supportBleWifiProtect":true,"timerCapability":1,"supportLocalKeyChange":true,"secureVersion":"1.0.0","rtcCapability":7}}
+[16:12:08.562] [RX ] [01-01 08:00:00.452 ty D][0x60fdef34][mqc_app.c:123] mq_pro:300 cnt:3
+[16:12:08.563] [RX ] [01-01 08:00:00.452 ty D][0x60fdef34][mqc_app.c:123] mq_pro:302 cnt:4
+[16:12:08.565] [RX ] [01-01 08:00:00.452 ty D][0x60fdef34][mqc_app.c:123] mq_pro:304 cnt:5
+[16:12:08.567] [RX ] [01-01 08:00:00.453 ty D][0x60fdef34][mqc_app.c:123] mq_pro:307 cnt:6
+[16:12:08.569] [RX ] [01-01 08:00:00.453 ty D][0x60fdef34][mqc_app.c:123] mq_pro:308 cnt:7
+[16:12:08.570] [RX ] [01-01 08:00:00.453 ty D][0x60fdef34][mqc_app.c:123] mq_pro:312 cnt:8
+[16:12:08.572] [RX ] [01-01 08:00:00.453 ty D][0x60fdef34][tuya_ipc_mqtt_subscribe.c:290] iot_register_extra_mqt_cb done
+[16:12:08.574] [RX ] [01-01 08:00:00.453 ty E][0x60fdef34][tuya_ring_buffer.c:113] ring buffer list not inited!
+[16:12:08.576] [RX ] [01-01 08:00:00.454 ty E][0x60fdef34][tuya_ring_buffer.c:113] ring buffer list not inited!
+[16:12:08.579] [RX ] [01-01 08:00:00.454 ty E][0x60fdef34][tuya_ring_buffer.c:113] ring buffer list not inited!
+[16:12:08.580] [RX ] [01-01 08:00:00.454 ty E][0x60fdef34][tuya_ring_buffer.c:113] ring buffer list not inited!
+[16:12:08.583] [RX ] [01-01 08:00:00.454 ty E][0x60fdef34][tuya_ring_buffer.c:113] ring buffer list not inited!
+[16:12:08.584] [RX ] [01-01 08:00:00.454 ty E][0x60fdef34][tuya_ring_buffer.c:113] ring buffer list not inited!
+[16:12:08.585] [RX ] [01-01 08:00:00.455 ty E][0x60fdef34][tuya_ring_buffer.c:113] ring buffer list not inited!
+[16:12:08.588] [RX ] [01-01 08:00:00.455 ty E][0x60fdef34][tuya_ring_buffer.c:113] ring buffer list not inited!
+[16:12:08.589] [RX ] [01-01 08:00:00.455 ty N][0x60fdef34][tuya_p2p_sdk.c:196] OnIotInited success
+[16:12:08.591] [RX ] [01-01 08:00:00.455 ty D][0x60fd9aec][tuya_svc_devos.c:901] state change from 0 to 3
+[16:12:08.594] [RX ] [01-01 08:00:00.456 ty D][0x60fdef34][tuya_svc_netmgr_linkage.c:72] link[1] is registered [3]
+[16:12:08.596] [RX ] [01-01 08:00:00.456 ty N][0x60fdef34][tuya_device_board.c:52] product SPI LCD: SPI0 G2 pinmux 44/45/46/47
+[16:12:08.598] [RX ] [01-01 08:00:00.456 ty D][0x60fd9aec][ty_meta_report.c:190] need_report 0 mode 0
+[16:12:08.599] [RX ] [01-01 08:00:00.456 ty D][0x60fd9aec][tuya_ble_data_handler.c:1101] report ble wifi protect meta
+[16:12:08.602] [RX ] [01-01 08:00:00.456 ty D][0x60fd9aec][tuya_ble_data_handler.c:1110] register wifi protect cmd ok
+[16:12:08.603] [RX ] check i2c pin whether used by other function.
+[16:12:08.603] [RX ] i2c pin not set, use hardware i2c port 0!
+[16:12:08.606] [RX ] [01-01 08:00:00.457 ty D][0x60fd9aec][tuya_wifi_protect.c:1849] wifi protect init
+[16:12:08.607] [RX ] [01-01 08:00:00.457 ty D][0x60fd9aec][tuya_wifi_reset.c:611] reset init mthd:0, short timer:0 long timer:0
+[16:12:08.610] [RX ] [01-01 08:00:00.457 ty D][0x60fd9aec][tuya_wifi_netcfg.c:488] do proxy actived work,mode:2,stat:2,nc_tp:9
+[16:12:08.612] [RX ] [01-01 08:00:00.458 ty D][0x60fd9aec][tuya_wifi_netcfg.c:844] nc_tp:9
+[16:12:08.613] [RX ] [01-01 08:00:00.458 ty N][0x60fd9aec][tuya_bt_link.c:64] bt startup attr:1
+[16:12:08.616] [RX ] [01-01 08:00:00.458 ty I][0x60fdef34][tuya_axp2101.c:234] [axp2101] detected, chip id=0x4a
+[16:12:08.617] [RX ] [01-01 08:00:00.458 ty N][0x60fd9aec][tuya_svc_devos.c:289] __devos_init_evt success
+[16:12:08.618] [RX ] [01-01 08:00:00.459 ty N][0x60fd9aec][tuya_svc_devos.c:106] already bind
+[16:12:08.621] [RX ] [01-01 08:00:00.459 ty D][0x60fd9aec][tuya_app_main.c:200] SOC TUYA-Cloud Status:3
+[16:12:08.623] [RX ] [01-01 08:00:00.459 ty I][0x60fd9aec][mqc_app.c:585] mqc app start ...
+[16:12:08.624] [RX ] [01-01 08:00:00.460 ty D][0x60fd9aec][mqc_app.c:632] MQTT Protocol URL:m6.tuyacn.com:8886 Port:8883
+[16:12:08.627] [RX ] [01-01 08:00:00.460 ty I][0x60fd9aec][tal_thread.c:200] thread_create name:mqtt_thread,stackDepth:5120,totalstackDepth:31744,priority:4
+[16:12:08.629] [RX ] [01-01 08:00:00.461 ty D][0x60fd6744][tal_thread.c:224] Thread:mqtt_thread Exec Start. Set to Running Stat 0x60fd6744
+[16:12:08.632] [RX ] [01-01 08:00:00.461 ty D][0x60fd9aec][mqc_app.c:676] mqtt send topic:smart/device/out/6c4193aadd3af18223pj5q
+[16:12:08.635] [RX ] [01-01 08:00:00.461 ty I][0x60fdef34][tuya_axp2101.c:248] [axp2101] TS measure disabled (won't block charging)
+[16:12:08.636] [RX ] [01-01 08:00:00.462 ty D][0x60fd9aec][mqc_app.c:678] mqtt-media send topic:d/m/o/6c4193aadd3af18223pj5q
+[16:12:08.639] [RX ] [01-01 08:00:00.462 ty N][0x60fd9aec][tuya_svc_mqtt_client.c:190] [mqtts://m6.tuyacn.com:8886] mqtt state change 0 -> 1
+[16:12:08.640] [RX ] [01-01 08:00:00.462 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:64 cnt:9
+[16:12:08.642] [RX ] [01-01 08:00:00.462 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:19 cnt:10
+[16:12:08.645] [RX ] [01-01 08:00:00.462 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:22 cnt:11
+[16:12:08.646] [RX ] [01-01 08:00:00.462 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:55 cnt:12
+[16:12:08.648] [RX ] [01-01 08:00:00.463 ty E][0x60fd9aec][tuya_svc_timer_task.c:1385] read timer_full_key failed
+[16:12:08.650] [RX ] [01-01 08:00:00.464 ty I][0x60fdef34][tuya_axp2101.c:266] [axp2101] ADC enabled: VBAT/VBUS/VSYS/Tdie, battery detection enabled
+[16:12:08.652] [RX ] [01-01 08:00:00.465 ty D][0x60fd9aec][tuya_svc_timer_task.c:1489] --- timer_cnt = 0
+[16:12:08.654] [RX ] [01-01 08:00:00.466 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:15 cnt:13
+[16:12:08.656] [RX ] [01-01 08:00:00.466 ty D][0x60fd9aec][tuya_svc_upgrade.c:1554] upgrade active success
+[16:12:08.658] [RX ] [01-01 08:00:00.466 ty D][0x60fd9aec][tuya_svc_online_log.c:205] mqtt log topic init log/realtime/6c4193aadd3af18223pj5q
+[16:12:08.661] [RX ] [01-01 08:00:00.467 ty D][0x60fd9aec][tuya_svc_online_log.c:206] mqtt log topic init log/runstat/6c4193aadd3af18223pj5q
+[16:12:08.663] [RX ] [01-01 08:00:00.467 ty D][0x60fd9aec][tuya_svc_online_log.c:313] svc online log active success
+[16:12:08.665] [RX ] [01-01 08:00:00.467 ty I][0x60fdef34][tuya_axp2101.c:275] [axp2101] system power-down voltage set to 3300mV
+[16:12:08.667] [RX ] [01-01 08:00:00.468 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:11 cnt:14
+[16:12:08.668] [RX ] [01-01 08:00:00.468 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:41 cnt:15
+[16:12:08.669] [RX ] [01-01 08:00:00.468 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:27 cnt:16
+[16:12:08.672] [RX ] [01-01 08:00:00.468 ty D][0x60fd9aec][tuya_devos_localkey_update.c:272] localkey.init------>localkey[']
+[16:12:08.674] [RX ] [01-01 08:00:00.469 ty E][0x60fd9aec][astro_timer.c:326] astro timer read fail:-6
+[16:12:08.675] [RX ] [01-01 08:00:00.469 ty E][0x60fd9aec][astro_timer.c:861] read fail:-6
+[16:12:08.678] [RX ] [01-01 08:00:00.469 ty D][0x60fd9aec][astro_timer.c:154] update time tp:60000, delay:113s
+[16:12:08.679] [RX ] [01-01 08:00:00.470 ty D][0x60fd9aec][mqc_app.c:123] mq_pro:100 cnt:17
+[16:12:08.680] [RX ] [01-01 08:00:00.470 ty D][0x60fd9aec][tuya_bt_link.c:238] __bt_run_event
+[16:12:08.682] [RX ] [01-01 08:00:00.470 ty D][0x60fd9aec][tuya_wifi_protect.c:1788] wifi protect ap info init
+[16:12:08.685] [RX ] [01-01 08:00:00.471 ty N][0x60fd9aec][tuya_svc_lan.c:2325] Lan disabled
+[16:12:08.686] [RX ] [01-01 08:00:00.471 ty D][0x60fd9aec][ty_meta_report.c:190] need_report 0 mode 0
+[16:12:08.687] [RX ] [01-01 08:00:00.471 ty D][0x60fd9aec][tuya_devos_localkey_update.c:246] Localkey update run
+[16:12:08.690] [RX ] [01-01 08:00:00.472 ty D][0x60fd9aec][ty_meta_report.c:190] need_report 0 mode 0
+[16:12:08.691] [RX ] [01-01 08:00:00.472 ty D][0x60fd9aec][tuya_wifi_connect.c:387] __wifi_net_conn.
+[16:12:08.693] [RX ] [01-01 08:00:00.473 ty D][0x60fd9aec][tuya_wifi_connect.c:290] status:5,mode:2
+[16:12:08.696] [RX ] [01-01 08:00:00.473 ty D][0x60fd9aec][tuya_wifi_connect.c:395] __wifi_net_conn, enable_station_ap:0
+[16:12:08.697] [RX ] [01-01 08:00:00.473 ty D][0x60fd9aec][tuya_wifi_link.c:729] set ccode CN to hardware
+[16:12:08.698] [RX ] [01-01 08:00:00.473 ty D][0x60fd9aec][tal_wifi.c:884] set ccode to env CN
+[16:12:08.700] [RX ] tkl_wifi_set_country_code_v2: set country code [CN]
+[16:12:08.701] [RX ] [01-01 08:00:00.474 ty D][0x60fd9aec][tuya_wifi_connect.c:290] status:5,mode:2
+[16:12:08.704] [RX ] [01-01 08:00:00.474 ty D][0x60fd9aec][tuya_wifi_connect.c:428] start wf connect, ssid:Y/OURSPACE, pwd:qc123456789
+[16:12:08.705] [RX ] [01-01 08:00:00.475 ty D][0x60fd9aec][tal_wifi_reconnet.c:162] wifi stat 1
+[16:12:08.708] [RX ] [01-01 08:00:00.475 ty D][0x60fd9aec][tuya_wifi_connect.c:439] wf connect success!
+[16:12:08.709] [RX ] [01-01 08:00:00.475 ty N][0x60fd9aec][tuya_wifi_status.c:175] cur stat:5  0x0 -->>
+[16:12:08.712] [RX ] [01-01 08:00:00.477 ty I][0x60fdef34][tuya_axp2101.c:320] [axp2101] charge init: VINDPM=4200mV ILIM=500mA ICC=1000mA CV=4.2V enabled
+[16:12:08.715] [RX ] [01-01 08:00:00.477 ty I][0x60fdef34][tuya_axp2101.c:340] [axp2101] --- register dump (compare with datasheet) ---
+[16:12:08.716] [RX ] [01-01 08:00:00.478 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x00 = 0x38
+[16:12:08.718] [RX ] [01-01 08:00:00.478 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x01 = 0x32
+[16:12:08.719] [RX ] wifid:I(923):[KW:]auth_send:seq1, txtype0, auth_type0, seq4
+[16:12:08.722] [RX ] [01-01 08:00:00.479 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x10 = 0x34
+[16:12:08.723] [RX ] [01-01 08:00:00.480 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x12 = 0x00
+[16:12:08.725] [RX ] [01-01 08:00:00.480 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x14 = 0x65
+[16:12:08.727] [RX ] [01-01 08:00:00.481 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x15 = 0x04
+[16:12:08.729] [RX ] [01-01 08:00:00.482 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x16 = 0x01
+[16:12:08.730] [RX ] [01-01 08:00:00.482 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x18 = 0x0a
+[16:12:08.733] [RX ] [01-01 08:00:00.483 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x24 = 0x07
+[16:12:08.734] [RX ] [01-01 08:00:00.484 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x30 = 0x1d
+[16:12:08.736] [RX ] [01-01 08:00:00.484 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x34 = 0x0f
+[16:12:08.739] [RX ] [01-01 08:00:00.485 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x35 = 0x10
+[16:12:08.740] [RX ] [01-01 08:00:00.485 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x38 = 0x14
+[16:12:08.741] [RX ] [01-01 08:00:00.486 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x39 = 0x1a
+[16:12:08.742] [RX ] [01-01 08:00:00.487 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x3a = 0x0f
+[16:12:08.745] [RX ] [01-01 08:00:00.487 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x3b = 0x09
+[16:12:08.747] [RX ] [01-01 08:00:00.488 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x3c = 0x1b
+[16:12:08.748] [RX ] [01-01 08:00:00.489 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x3d = 0x02
+[16:12:08.751] [RX ] [01-01 08:00:00.489 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x50 = 0x12
+[16:12:08.752] [RX ] [01-01 08:00:00.490 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x61 = 0x08
+[16:12:08.754] [RX ] [01-01 08:00:00.491 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x62 = 0x10
+[16:12:08.756] [RX ] [01-01 08:00:00.491 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x63 = 0x11
+[16:12:08.758] [RX ] [01-01 08:00:00.492 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x64 = 0x03
+[16:12:08.759] [RX ] [01-01 08:00:00.493 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x68 = 0x01
+[16:12:08.762] [RX ] [01-01 08:00:00.493 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x69 = 0x01
+[16:12:08.763] [RX ] [01-01 08:00:00.494 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x80 = 0x0f
+[16:12:08.765] [RX ] [01-01 08:00:00.494 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x81 = 0x00
+[16:12:08.767] [RX ] [01-01 08:00:00.495 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x82 = 0x12
+[16:12:08.769] [RX ] [01-01 08:00:00.496 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x83 = 0x28
+[16:12:08.770] [RX ] [01-01 08:00:00.496 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x84 = 0x28
+[16:12:08.771] [RX ] [01-01 08:00:00.497 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x85 = 0x3c
+[16:12:08.774] [RX ] [01-01 08:00:00.498 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x86 = 0x19
+[16:12:08.776] [RX ] [01-01 08:00:00.498 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x90 = 0x75
+[16:12:08.777] [RX ] [01-01 08:00:00.499 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x91 = 0x00
+[16:12:08.780] [RX ] [01-01 08:00:00.500 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x92 = 0x0d
+[16:12:08.781] [RX ] [01-01 08:00:00.500 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x93 = 0x17
+[16:12:08.782] [RX ] [01-01 08:00:00.501 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x94 = 0x17
+[16:12:08.785] [RX ] [01-01 08:00:00.502 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x95 = 0x18
+[16:12:08.787] [RX ] [01-01 08:00:00.502 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x96 = 0x17
+[16:12:08.788] [RX ] [01-01 08:00:00.503 ty I][0x60fdef34][tuya_axp2101.c:344] [axp2101] reg0x97 = 0x0d
+[16:12:08.792] [RX ] [01-01 08:00:00.507 ty I][0x60fdef34][tuya_axp2101.c:360] [axp2101] ADC voltage: VBAT=3856mV(raw=3856) VBUS=5146mV(raw=5146) VSYS=3840mV(raw=3840)
+[16:12:08.793] [RX ] [01-01 08:00:00.507 ty I][0x60fdef34][tuya_axp2101.c:367] [axp2101] ADC tdie raw=6914 (datasheet unit: 0.1mV/LSB)
+[16:12:08.796] [RX ] wifid:I(953):[KW:]sm_auth_handler: status code 0, tx status 0x80800500
+[16:12:08.799] [RX ] [01-01 08:00:00.510 ty I][0x60fdef34][tuya_axp2101.c:389] [axp2101] STATUS0=0x38 vbus_good=1 batfet=1 bat_present=1 bat_active=0 thermal=0 ilim=0
+[16:12:08.802] [RX ] [01-01 08:00:00.510 ty I][0x60fdef34][tuya_axp2101.c:392] [axp2101] STATUS1=0x32 bat_dir=1 sys_on=1 vindpm=0 chg_stage=2
+[16:12:08.804] [RX ] [01-01 08:00:00.510 ty I][0x60fdef34][tuya_axp2101.c:394] [axp2101] IRQ[0..2]=0x10 0xa1 0x08 (对照 datasheet 0x48~0x4A 找 TS/charger fault)
+[16:12:08.807] [RX ] [01-01 08:00:00.534 ty I][0x60fdef34][tuya_axp2101.c:455] [axp2101] camera rails on: BLDO1=2800mV BLDO2=1800mV ALDO3=2800mV
+[16:12:08.810] [RX ] [01-01 08:00:00.536 ty I][0x60fdef34][tuya_axp2101.c:430] [axp2101] camera rails verify: reg0x90=0x75 BLDO1(en=1 2800mV) BLDO2(en=1 1800mV) ALDO3(en=1 2800mV)
+[16:12:08.814] [RX ] [01-01 08:00:00.536 ty I][0x60fdef34][tal_thread.c:200] thread_create name:motor_dbg,stackDepth:4096,totalstackDepth:35840,priority:2
+[16:12:08.816] [RX ] [01-01 08:00:00.537 ty N][0x60fdef34][tuya_app_main.c:523] ai toy -> init ui
+[16:12:08.818] [RX ] [01-01 08:00:00.537 ty N][0x60fdef34][tuya_ai_display.c:1287] tuya_gui_poweron_page_quick_start-1287, run time here :'0 ms'
+[16:12:08.821] [RX ] [01-01 08:00:00.537 ty I][0x60fdef34][tuya_ai_display.c:1137] tuya_gui_lcd_driver_init-1137: find 1/1 lcd disp driver type '3', name 'spi_st7789v2'
+[16:12:08.824] [RX ] [01-01 08:00:00.537 ty D][0x60fd3570][tal_thread.c:224] Thread:motor_dbg Exec Start. Set to Running Stat 0x60fd3570
+[16:12:08.825] [RX ] ---- trace bk_dma_alloc 282, user id: 23, chan id: 0
+[16:12:08.826] [RX ] ---- trace bk_dma_alloc 282, user id: 24, chan id: 1
+[16:12:08.826] [RX ] wifid:I(985):[KW:]assoc_rsp:status0,tx_s0x80800000
+[16:12:08.829] [RX ] wifid:I(985):[KW:]mm_set_vif_state,vif=0,vif_type=0,is_active=1, aid=0x1,rssi=-50
+[16:12:08.831] [RX ] [01-01 08:00:00.561 ty N][0x60fd6744][tuya_svc_mqtt_client.c:1322] mqtt_thread paused
+[16:12:08.832] [RX ] [01-01 08:00:00.561 ty N][0x60fd6744][tuya_svc_mqtt_client.c:695] mqtt close
+[16:12:09.627] [RX ] W(2039):cif_bk_send_event
+[16:12:09.628] [RX ] netif_set_up 860
+[16:12:09.629] [RX ] _wifi_event_cb 2
+[16:12:09.629] [RX ] EVENT_WIFI_STA_CONNECTED 2
+[16:12:09.631] [RX ] _netif_event_cb 0
+[16:12:09.631] [RX ] WFE_CONNECTED 0
+[16:12:09.632] [RX ] __notify_wifi_event report event: 0
+[16:12:09.633] [RX ] [01-01 08:00:01.598 ty N][0x60fd9aec][tal_wifi_reconnet.c:377] wifi status changed to 0, stat: 1
+[16:12:09.636] [RX ] [01-01 08:00:01.598 ty D][0x60fd9aec][tuya_svc_devos.c:911] set netcfgstat, stage:2, status:0
+[16:12:09.637] [RX ] [01-01 08:00:01.598 ty D][0x60fd9aec][tuya_wifi_link.c:321] stat:6
+[16:12:09.640] [RX ] [01-01 08:00:01.599 ty D][0x60fd9aec][tuya_svc_netmgr_linkage.c:104] link[2][1] is_up[1] active_link[2][1] status[0]
+[16:12:09.642] [RX ] [01-01 08:00:01.599 ty I][0x60fd9aec][mqc_app.c:585] mqc app start ...
+[16:12:09.643] [RX ] [01-01 08:00:01.599 ty D][0x60fd9aec][tuya_app_main.c:268] network status changed!
+[16:12:09.646] [RX ] [01-01 08:00:01.599 ty D][0x60fd9aec][tuya_app_main.c:270] linkage status changed, current status is up
+[16:12:09.647] [RX ] [01-01 08:00:01.600 ty D][0x60fdafe4][ty_meta_report.c:190] need_report 0 mode 0
+[16:12:09.648] [RX ] [01-01 08:00:01.600 ty N][0x60fdafe4][tuya_svc_devos_daemons.c:316] Main Module: v1.0.0 (0.0.43)
+[16:12:09.651] [RX ] [01-01 08:00:01.601 ty N][0x60fd9aec][tuya_wifi_status.c:175] cur stat:6  0x0 -->>
+[16:12:09.652] [RX ] [01-01 08:00:01.601 ty N][0x60fd9aec][tuya_wifi_status.c:177] wifi netstat changed to:6  -->>
+[16:12:09.654] [RX ] [01-01 08:00:01.601 ty D][0x60fd9aec][tal_wifi_reconnet.c:396] wifi connected in check
+[16:12:09.733] [RX ] [01-01 08:00:01.699 ty N][0x60fd6744][tuya_svc_mqtt_client.c:968] connect to mqtt broker mqtts://m6.tuyacn.com:8886 port 8886
+[16:12:09.736] [RX ] [01-01 08:00:01.699 ty N][0x60fd6744][tuya_svc_mqtt_client.c:984] mqtt client ip:10.100.158.45, link-tp:2
+[16:12:09.739] [RX ] [01-01 08:00:01.700 ty D][0x60fd6744][uni_network.c:356] unw_gethostbyname m6.tuyacn.com, prio 1
+[16:12:09.740] [RX ] [01-01 08:00:01.700 ty D][0x60fd6744][uni_network.c:372] use dynamic dns ip:8.153.104.55 for domain:m6.tuyacn.com
+[16:12:09.742] [RX ] tkl_net_socket_create type(0), fd(0)!
+[16:12:09.743] [RX ] [01-01 08:00:01.701 ty D][0x60fd6744][tcp_transporter.c:75] bind ip:0a649e2d port:40953 ok
+[16:12:09.862] [RX ] [01-01 08:00:01.827 ty D][0x60fd6744][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:12:09.865] [RX ] [01-01 08:00:01.827 ty D][0x60fd6744][tuya_tls.c:1037] TUYA_TLS Begin Connect m6.tuyacn.com:8886
+[16:12:09.866] [RX ] [01-01 08:00:01.828 ty D][0x60fd6744][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:12:09.869] [RX ] [01-01 08:00:01.828 ty D][0x60fd6744][tuya_tls.c:796] load m6.tuyacn.com cert, port 8886
+[16:12:09.871] [RX ] [01-01 08:00:01.828 ty D][0x60fd6744][tuya_cert_manager.c:273] p_url:m6.tuyacn.com:8886, rcs.urlx:h6-ay.iot-dns.com
+[16:12:09.873] [RX ] [01-01 08:00:01.828 ty D][0x60fd6744][tuya_cert_manager.c:296] tuya public url
+[16:12:09.874] [RX ] [01-01 08:00:01.829 ty D][0x60fd6744][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:12:09.876] [RX ] [01-01 08:00:01.830 ty D][0x60fd6744][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:12:10.194] [RX ] [01-01 08:00:02.159 ty D][0x60fceb68][tal_thread.c:224] Thread:spi_task Exec Start. Set to Running Stat 0x60fceb68
+[16:12:10.197] [RX ] [01-01 08:00:02.159 ty I][0x60fdef34][tal_thread.c:200] thread_create name:spi_task,stackDepth:2048,totalstackDepth:37888,priority:5
+[16:12:10.199] [RX ] [01-01 08:00:02.162 ty N][0x60fdef34][product_board_lcd_debug.c:64] lcd dbg: red full-screen test start (240x320)
+[16:12:10.572] [RX ] [01-01 08:00:02.538 ty N][0x60fd3570][tuya_stepper_28byj48.c:101] stepper M0 init A=22 B=23 C=24 D=25 delay=24ms
+[16:12:10.575] [RX ] [01-01 08:00:02.538 ty N][0x60fd3570][tuya_stepper_28byj48.c:101] stepper M1 init A=50 B=49 C=18 D=19 delay=1ms
+[16:12:10.578] [RX ] [01-01 08:00:02.538 ty N][0x60fd3570][product_board_motor_debug.c:45] motor demo: LR ±30deg(341 steps) UD ±2rev(8192 steps)
+[16:12:10.580] [RX ] [01-01 08:00:02.538 ty N][0x60fd3570][product_board_motor_debug.c:50] motor demo: [0] fwd
+[16:12:10.656] [RX ] [01-01 08:00:02.621 ty D][0x60fd6744][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:12:10.680] [RX ] [01-01 08:00:02.621 ty D][0x60fd6744][tuya_tls.c:1190] handshake finish for m6.tuyacn.com. set send/recv to user set
+[16:12:10.680] [RX ] [01-01 08:00:02.622 ty D][0x60fd6744][tuya_tls.c:1195] TUYA_TLS Success Connect m6.tuyacn.com:8886 Suit:TLS-ECDHE-ECDSA-WITH-AES-128-GCM-SHA256
+[16:12:10.680] [RX ] [01-01 08:00:02.622 ty N][0x60fd6744][tuya_svc_mqtt_client.c:1021] setup mqtt transporter success
+[16:12:10.680] [RX ] [01-01 08:00:02.622 ty N][0x60fd6744][tuya_svc_mqtt_client.c:190] [mqtt 2 -> 3
+[16:12:10.680] [RX ] t.c:190] [mqtts://m6.tuyacn.com:8886] mqtt state change2.623 ty N][0x60fd6744][tuya_svc_mqtt_client.c:1047] send mqtt connect success
+[16:12:10.680] [RX ] [01-01 08:00:02.623 ty N][0x60fd6744][tuya_svc_m 2 -> 3
+[16:12:10.692] [RX ] [01-01 08:00:02.657 ty N][0x60fd6744][tuya_svc_mqtt_client.c:1077] mqtt connect success
+[16:12:10.695] [RX ] [01-01 08:00:02.657 ty N][0x60fd6744][tuya_svc_mqtt_client.c:190] [mqtts://m6.tuyacn.com:8886] mqtt state change 3 -> 4
+[16:12:10.696] [RX ] [01-01 08:00:02.658 ty N][0x60fd6744][tuya_svc_mqtt_client.c:810] mqtt topics cnt 1
+[16:12:10.699] [RX ] [01-01 08:00:02.659 ty N][0x60fd6744][tuya_svc_mqtt_client.c:824] send mqtt subscribe success
+[16:12:10.700] [RX ] [01-01 08:00:02.659 ty N][0x60fd6744][tuya_svc_mqtt_client.c:190] [mqtts://m6.tuyacn.com:8886] mqtt state change 4 -> 5
+[16:12:10.728] [RX ] [01-01 08:00:02.693 ty N][0x60fd6744][tuya_svc_mqtt_client.c:1118] mqtt subscribe success
+[16:12:10.731] [RX ] [01-01 08:00:02.694 ty N][0x60fd6744][tuya_svc_mqtt_client.c:190] [mqtts://m6.tuyacn.com:8886] mqtt state change 5 -> 6
+[16:12:10.732] [RX ] [01-01 08:00:02.694 ty D][0x60fd9aec][mqc_app.c:456] mqtt connect success 1
+[16:12:10.735] [RX ] [01-01 08:00:02.695 ty D][0x60fdafe4][mqc_app.c:874] Send MQTT Msg.P:18 N:5519 Q:1 Data:{"reqType":"sntp"}
+[16:12:10.738] [RX ] [01-01 08:00:02.695 ty D][0x60fd9aec][tuya_svc_netmgr_linkage.c:104] link[2][1] is_up[1] active_link[2][1] status[2]
+[16:12:10.739] [RX ] [01-01 08:00:02.696 ty N][0x60fd9aec][tuya_wifi_status.c:175] cur stat:7  0x0 -->>
+[16:12:10.740] [RX ] [01-01 08:00:02.696 ty N][0x60fd9aec][tuya_wifi_status.c:177] wifi netstat changed to:7  -->>
+[16:12:10.743] [RX ] ----------------------------------------------------------------------------------------
+[16:12:10.743] [RX ] get connected ap info
+[16:12:10.743] [RX ] ssid: Y/OURSPACE
+[16:12:10.780] [RX ] [01-01 08:00:02.697 ty D][0x60fdafe4][tuya_svc_mqtt_client.c:455] packet id: 2
+[16:12:10.780] [RX ] bssid: c0:f9:b0:15:c8:10
+[16:12:10.780] [RX ] security: 16, chan: 6
+[16:12:10.781] [RX ] psk: ********************************, pmf: 0
+[16:12:10.781] [RX ] pwd: ****************
+[16:12:10.783] [RX ] ip: 10.100.158.45
+[16:12:10.783] [RX ] netmask: 255.255.254.0
+[16:12:10.783] [RX ] gw: 10.100.158.1
+[16:12:10.784] [RX ] dns1: 223.5.5.5
+[16:12:10.786] [RX ] ----------------------------------------------------------------------------------------
+[16:12:10.787] [RX ] [01-01 08:00:02.702 ty D][0x60fd9aec][tuya_wifi_connect.c:80] ap_info_v2 read success
+[16:12:10.902] [RX ] [01-01 08:00:02.902 ty D][0x60fd9aec][tuya_wifi_connect.c:55] ap_info_v2 write success
+[16:12:10.903] [RX ] [01-01 08:00:02.902 ty D][0x60fd9aec][smart_frame.c:2754] sync chan:1
+[16:12:10.904] [RX ] [01-01 08:00:02.902 ty D][0x60fd9aec][tuya_app_main.c:268] network status changed!
+[16:12:10.907] [RX ] [01-01 08:00:02.903 ty D][0x60fd9aec][tuya_app_main.c:270] linkage status changed, current status is up
+[16:12:10.908] [RX ] [01-01 08:00:02.903 ty D][0x60fd9aec][tuya_app_main.c:272] mqtt is connected!
+[16:12:11.032] [RX ] [01-01 08:00:03.030 ty D][0x60fd6744][mqc_app.c:409] Rev MQTT:{"data":{"t":1782893531244,"reqType":"sntp"},"protocol":19,"s":1105924,"t":1782893531,"type":"update"}
+[16:12:11.035] [RX ] [07-01 16:12:11.000 ty N][0x60fd6744][tuya_svc_online_log.c:253] timeout,delete uf local log
+[16:12:11.035] [RX ] [07-01 16:12:11.001 ty E][0x60fdafe4][tuya_bt_link.c:160] tuya_ble_save_beacon_key err -1
+[16:12:11.150] [RX ] [07-01 16:12:11.119 ty D][0x60fd9aec][tuya_svc_online_log.c:161] load env success T5
+[16:12:11.151] [RX ] [07-01 16:12:11.119 ty D][0x60fd9aec][tuya_svc_online_log.c:164] env T5 same. need not to update
+[16:12:11.161] [RX ] [07-01 16:12:11.131 ty N][0x60fdef34][product_board_lcd_debug.c:73] lcd dbg: red full-screen test done
+[16:12:11.164] [RX ] [07-01 16:12:11.131 ty D][0x60fdef34][img_direct_flush.c:728] [tuya_img_direct_flush_poweronpage_start:728]:------empty poweronpage input ???
+[16:12:11.164] [RX ] 
+[16:12:11.167] [RX ] [07-01 16:12:11.131 ty E][0x60fdef34][tuya_ai_display.c:1302] ignore img direct flush poweronpage !
+[16:12:11.168] [RX ] [07-01 16:12:11.131 ty D][0x60fdef34][log_seq.c:987] log seq enable: 0
+[16:12:11.169] [RX ] [07-01 16:12:11.132 ty N][0x60fdef34][tuya_ai_toy.c:724] ai toy -> init
+[16:12:11.171] [RX ] [07-01 16:12:11.132 ty N][0x60fdef34][tuya_ai_toy.c:150] ai toy -> load config
+[16:12:11.174] [RX ] [07-01 16:12:11.132 ty D][0x60fdef34][tuya_ai_toy.c:160] ai toy -> no saved config, use default
+[16:12:11.175] [RX ] [07-01 16:12:11.132 ty D][0x60fdef34][tuya_ai_toy_led.c:79] ai toy -> init led 56
+[16:12:11.176] [RX ] GPIO56 not found in GPIO_DEFAULT_DEV_CONFIG table
+[16:12:11.178] [RX ] [07-01 16:12:11.133 ty D][0x60fdef34][tuya_ai_toy_key.c:220] ai toy -> init key 12
+[16:12:11.180] [RX ] [07-01 16:12:11.133 ty D][0x60fd2e28][tal_thread.c:224] Thread:key_handle Exec Start. Set to Running Stat 0x60fd2e28
+[16:12:11.183] [RX ] [07-01 16:12:11.134 ty I][0x60fdef34][tal_thread.c:200] thread_create name:key_handle,stackDepth:4096,totalstackDepth:41984,priority:5
+[16:12:11.186] [RX ] [07-01 16:12:11.134 ty D][0x60fdef34][tuya_ai_toy_key.c:242] ai toy key 12 seqk time 200, longk time 400
+[16:12:11.187] [RX ] [07-01 16:12:11.134 ty N][0x60fdef34][tuya_ai_toy.c:745] ai toy -> init camera
+[16:12:11.190] [RX ] [07-01 16:12:11.134 ty I][0x60fdef34][tuya_device_camera.c:225] tuya device camera init
+[16:12:11.192] [RX ] [07-01 16:12:11.145 ty I][0x60fdef34][tal_dvp.c:595] set dvp i2c, clk: 20 sda: 21, idx: 0
+[16:12:11.192] [RX ] 
+[16:12:11.193] [RX ] [07-01 16:12:11.145 ty I][0x60fdef34][tal_dvp.c:604] dvp i2c: reuse board-inited I2C0
+[16:12:11.193] [RX ] 
+[16:12:11.200] [RX ] [07-01 16:12:11.169 ty I][0x60fdef34][tuya_axp2101.c:455] [axp2101] camera rails on: BLDO1=2800mV BLDO2=1800mV ALDO3=2800mV
+[16:12:11.203] [RX ] [07-01 16:12:11.171 ty I][0x60fdef34][tuya_axp2101.c:430] [axp2101] camera rails verify: reg0x90=0x75 BLDO1(en=1 2800mV) BLDO2(en=1 1800mV) ALDO3(en=1 2800mV)
+[16:12:11.290] [RX ] i2c(0) master_write get ack failed
+[16:12:11.293] [RX ] [07-01 16:12:11.261 ty E][0x60fdef34][tal_dvp.c:681] dvp i2c write reg failed, port:0 addr:0x3C reg:0x00F0 ret:-1
+[16:12:11.293] [RX ] 
+[16:12:11.294] [RX ] dvp_gc2145_detect, Act id_h 0x00, Obj id_h 0x21
+[16:12:11.294] [RX ] i2c(0) master_write get ack failed
+[16:12:11.297] [RX ] [07-01 16:12:11.261 ty E][0x60fdef34][tal_dvp.c:681] dvp i2c write reg failed, port:0 addr:0x3C reg:0x00F0 ret:-1
+[16:12:11.297] [RX ] 
+[16:12:11.298] [RX ] dvp_gc2145_detect, Act id_h 0x00, Obj id_h 0x21
+[16:12:11.298] [RX ] i2c(0) master_write get ack failed
+[16:12:11.301] [RX ] [07-01 16:12:11.262 ty E][0x60fdef34][tal_dvp.c:681] dvp i2c write reg failed, port:0 addr:0x3C reg:0x00F0 ret:-1
+[16:12:11.301] [RX ] 
+[16:12:11.302] [RX ] dvp_gc2145_detect, Act id_h 0x00, Obj id_h 0x21
+[16:12:11.305] [RX ] [07-01 16:12:11.262 ty E][0x60fdef34][tal_dvp.c:906] Detect dvp failed, Please check the connection between the host and the DVP
+[16:12:11.305] [RX ] 
+[16:12:11.308] [RX ] [07-01 16:12:11.262 ty I][0x60fdef34][tal_dvp.c:633] dvp i2c: keep board I2C0 alive on deinit
+[16:12:11.308] [RX ] 
+[16:12:11.309] [RX ] [07-01 16:12:11.264 ty E][0x60fdef34][tal_camera.c:183] tal_dvp_init failed
+[16:12:11.311] [RX ] [07-01 16:12:11.264 ty E][0x60fdef34][tuya_device_camera.c:240] tal_camera_init failed
+[16:12:11.313] [RX ] [07-01 16:12:11.266 ty N][0x60fdef34][tuya_p2p_app.c:337] [p2p] already activated, trigger event_active directly
+[16:12:11.315] [RX ] [07-01 16:12:11.266 ty N][0x60fdef34][tuya_p2p_app.c:318] __event_active_cb start
+[16:12:11.317] [RX ] [07-01 16:12:11.266 ty N][0x60fdef34][tuya_p2p_app.c:344] [p2p] link already up, trigger ipc start directly
+[16:12:11.320] [RX ] [07-01 16:12:11.267 ty D][0x60fd2ce4][tal_thread.c:224] Thread:tuya_ipc_thread Exec Start. Set to Running Stat 0x60fd2ce4
+[16:12:11.322] [RX ] [07-01 16:12:11.267 ty N][0x60fd2ce4][tuya_p2p_app.c:294] tuya_ipc_thread start
+[16:12:11.324] [RX ] [07-01 16:12:11.267 ty D][0x60fd2ce4][tuya_ipc_media_adapter.c:98] media adapter init success. avaliable_res_size:5000
+[16:12:11.327] [RX ] [07-01 16:12:11.268 ty I][0x60fdef34][tal_thread.c:200] thread_create name:tuya_ipc_thread,stackDepth:8192,totalstackDepth:50176,priority:3
+[16:12:11.330] [RX ] [07-01 16:12:11.268 ty D][0x60fd2ce4][tuya_ipc_media_adapter.c:466] insert media info node success! device:[0] channel:[0]
+[16:12:11.333] [RX ] [07-01 16:12:11.269 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:0 Enable:1
+[16:12:11.334] [RX ] [07-01 16:12:11.269 ty D][0x60fd2ce4][tuya_p2p_sdk.c:95] video_bitrate 1024, video_fps 25
+[16:12:11.337] [RX ] [07-01 16:12:11.269 ty D][0x60fdef34][tuya_ipc_mqtt_subscribe.c:87] __mqtt_subscribe_init
+[16:12:11.338] [RX ] [07-01 16:12:11.269 ty D][0x60fd2ce4][tuya_ring_buffer.c:637] Init Ring Buffer. ch0st0tr0 bitrate:1024 fps:25
+[16:12:11.341] [RX ] [07-01 16:12:11.270 ty D][0x60fdef34][tuya_tmm_control.c:128] register proto num 308
+[16:12:11.344] [RX ] [07-01 16:12:11.270 ty D][0x60fd2ce4][tuya_ring_buffer.c:660] Ring buffer malloc 1310720 bytes for ch0st0tr0, max frame size 196608
+[16:12:11.345] [RX ] [07-01 16:12:11.270 ty D][0x60fdef34][tuya_tmm_control.c:100] report_rtc_capability
+[16:12:11.346] [RX ] [07-01 16:12:11.271 ty D][0x60fdef34][ty_meta_report.c:190] need_report 1 mode 1
+[16:12:11.349] [RX ] [07-01 16:12:11.272 ty D][0x60fd2f5c][tal_thread.c:224] Thread:tuya_tmm_contro Exec Start. Set to Running Stat 0x60fd2f5c
+[16:12:11.352] [RX ] [07-01 16:12:11.272 ty I][0x60fdef34][tal_thread.c:200] thread_create name:tuya_tmm_control,stackDepth:2048,totalstackDepth:52224,priority:4
+[16:12:11.355] [RX ] [07-01 16:12:11.274 ty D][0x60fdef34][mqc_app.c:123] mq_pro:9000 cnt:18
+[16:12:11.356] [RX ] [07-01 16:12:11.275 ty D][0x60e8a854][tal_thread.c:224] Thread:ai_client Exec Start. Set to Running Stat 0x60e8a854
+[16:12:11.359] [RX ] [07-01 16:12:11.276 ty N][0x60e8a854][tuya_ai_client.c:100] ***** ai client state 0 -> 1 *****
+[16:12:11.362] [RX ] [07-01 16:12:11.276 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_client,stackDepth:4096,totalstackDepth:56320,priority:4
+[16:12:11.364] [RX ] [07-01 16:12:11.277 ty N][0x60fdef34][tuya_ai_client.c:626] ai client init success, version:2
+[16:12:11.366] [RX ] [07-01 16:12:11.279 ty D][0x60fdef34][tuya_ai_encoder_opus.c:82] opus encoder bitrate: 16000
+[16:12:11.367] [RX ] [07-01 16:12:11.279 ty D][0x60fdef34][tuya_ai_encoder_opus.c:94] opus encoder bandwidth: 1102
+[16:12:11.370] [RX ] [07-01 16:12:11.279 ty D][0x60fdef34][tuya_ai_encoder_opus.c:106] opus encoder vbr: 0, dtx: 0, complexity: 0
+[16:12:11.373] [RX ] [07-01 16:12:11.281 ty D][0x60fdef34][tuya_ai_agent.c:1189] create audio encoder success 0x60e88578
+[16:12:11.375] [RX ] [07-01 16:12:11.281 ty D][0x60e76154][tal_thread.c:224] Thread:ai_agent_input Exec Start. Set to Running Stat 0x60e76154
+[16:12:11.378] [RX ] [07-01 16:12:11.282 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_agent_input,stackDepth:40960,totalstackDepth:97280,priority:4
+[16:12:11.380] [RX ] [07-01 16:12:11.283 ty D][0x60fdef34][tuya_ai_input.c:587] ai input init success
+[16:12:11.382] [RX ] [07-01 16:12:11.283 ty D][0x60e63c78][tal_thread.c:224] Thread:ai_agent_output Exec Start. Set to Running Stat 0x60e63c78
+[16:12:11.385] [RX ] [07-01 16:12:11.283 ty N][0x60e8a854][tuya_ai_protocol.c:324] ai proto init success, sl:4
+[16:12:11.389] [RX ] [07-01 16:12:11.284 ty D][0x60e8a854][mqc_app.c:874] Send MQTT Msg.P:9000 N:5520 Q:0 Data:{"bizType":"EVENT","bizId":"07d9c73f-8f59-449e-805d-851b-b00857f6","data":{"type":"thingGetServerInfo", "pv":2}}
+[16:12:11.392] [RX ] [07-01 16:12:11.285 ty I][0x60fd2ce4][tuya_ring_buffer.c:681] Init Ring Buffer success: ch0st0tr0 size:1310720 nodes:250
+[16:12:11.393] [RX ] [07-01 16:12:11.286 ty D][0x60fd2ce4][tuya_p2p_sdk.c:103] init ring buffer success. channel:0
+[16:12:11.396] [RX ] [07-01 16:12:11.286 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:1 Enable:0
+[16:12:11.397] [RX ] [07-01 16:12:11.286 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:2 Enable:0
+[16:12:11.400] [RX ] [07-01 16:12:11.286 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:3 Enable:0
+[16:12:11.403] [RX ] [07-01 16:12:11.286 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:4 Enable:0
+[16:12:11.404] [RX ] [07-01 16:12:11.286 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:5 Enable:0
+[16:12:11.407] [RX ] [07-01 16:12:11.287 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:6 Enable:0
+[16:12:11.408] [RX ] [07-01 16:12:11.287 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:7 Enable:0
+[16:12:11.411] [RX ] [07-01 16:12:11.287 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:8 Enable:0
+[16:12:11.414] [RX ] [07-01 16:12:11.287 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:9 Enable:1
+[16:12:11.415] [RX ] [07-01 16:12:11.287 ty D][0x60fd2ce4][tuya_p2p_sdk.c:86] audio_sample 8000, audio_databits 16, audio_fps 25
+[16:12:11.418] [RX ] [07-01 16:12:11.288 ty D][0x60fd2ce4][tuya_ring_buffer.c:637] Init Ring Buffer. ch0st0tr9 bitrate:125 fps:25
+[16:12:11.421] [RX ] [07-01 16:12:11.288 ty D][0x60fd2ce4][tuya_ring_buffer.c:660] Ring buffer malloc 160000 bytes for ch0st0tr9, max frame size 23936
+[16:12:11.424] [RX ] [07-01 16:12:11.288 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_agent_output,stackDepth:4096,totalstackDepth:101376,priority:4
+[16:12:11.426] [RX ] [07-01 16:12:11.289 ty D][0x60fdef34][tuya_ai_output.c:219] ai output init success
+[16:12:11.428] [RX ] [07-01 16:12:11.290 ty I][0x60fd2ce4][tuya_ring_buffer.c:681] Init Ring Buffer success: ch0st0tr9 size:160000 nodes:250
+[16:12:11.430] [RX ] [07-01 16:12:11.290 ty N][0x60fdef34][tuya_ai_agent.c:1268] ai agent init
+[16:12:11.432] [RX ] [07-01 16:12:11.290 ty D][0x60fd2ce4][tuya_p2p_sdk.c:103] init ring buffer success. channel:9
+[16:12:11.435] [RX ] [07-01 16:12:11.290 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:10 Enable:0
+[16:12:11.437] [RX ] [07-01 16:12:11.291 ty D][0x60e63bc4][tal_thread.c:224] Thread:ai_player Exec Start. Set to Running Stat 0x60e63bc4
+[16:12:11.439] [RX ] [07-01 16:12:11.291 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:11 Enable:0
+[16:12:11.441] [RX ] [07-01 16:12:11.291 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:12 Enable:0
+[16:12:11.443] [RX ] [07-01 16:12:11.291 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:13 Enable:0
+[16:12:11.446] [RX ] [07-01 16:12:11.292 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:14 Enable:0
+[16:12:11.448] [RX ] [07-01 16:12:11.292 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_player,stackDepth:12288,totalstackDepth:113664,priority:4
+[16:12:11.451] [RX ] [07-01 16:12:11.293 ty D][0x60fd2ce4][tuya_p2p_sdk.c:77] init ring buffer Channel:0 Stream:15 Enable:0
+[16:12:11.452] [RX ] [07-01 16:12:11.293 ty D][0x60fdef34][wukong_audio_input_board.c:202] recorder vad mode 1
+[16:12:11.457] [RX ] [07-01 16:12:11.293 ty D][0x60fdef34][wukong_audio_input_board.c:203] recorder total ms 19201, slice ms 80, vad active 200 ms, vad off timeout 1000
+[16:12:11.457] [RX ] --- audio trace, init, sample: 16000, frame size: 640
+[16:12:11.459] [RX ] [07-01 16:12:11.294 ty D][0x60fd2ce4][tuya_ring_buffer.c:767] ch0st0tr0 open with type 1
+[16:12:11.461] [RX ] [07-01 16:12:11.294 ty D][0x60fd2ce4][tuya_ring_buffer.c:767] ch0st0tr9 open with type 1
+[16:12:11.464] [RX ] [07-01 16:12:11.294 ty D][0x60fd2ce4][tuya_ipc_media_stream.c:570] malloc size :444
+[16:12:11.464] [RX ] ---- trace bk_dma_alloc 282, user id: 3, chan id: 2
+[16:12:11.466] [RX ] [07-01 16:12:11.295 ty D][0x60fd2ce4][tuya_ipc_media_stream.c:67] P2P API Version: 244.3.2.14
+[16:12:11.466] [RX ] 
+[16:12:11.468] [RX ] [07-01 16:12:11.295 ty D][0x60fd2ce4][tuya_ipc_media_stream.c:406] gw actived
+[16:12:11.470] [RX ] [07-01 16:12:11.296 ty D][0x60fd2ce4][tuya_media_service_rtc.c:8475] tuya p2p rtc sdk version: 0xf403020e
+[16:12:11.470] [RX ] 
+[16:12:11.473] [RX ] [07-01 16:12:11.297 ty D][0x60fd2ce4][tuya_p2p_lite_platform.c:1338] tuya_p2p_lib_init_platfrom_pthread create the timer-thread-function
+[16:12:11.475] [RX ] ---- trace bk_dma_alloc 282, user id: 3, chan id: 3
+[16:12:11.476] [RX ] [07-01 16:12:11.299 ty D][0x60fd2ce4][tuya_media_service_rtc.c:8503] tuya_ctx_init_worker_thread.
+[16:12:11.476] [RX ] 
+[16:12:11.479] [RX ] [07-01 16:12:11.299 ty D][0x60e17f2c][tuya_media_service_rtc.c:7522] tuya_ctx_worker_thread_func start
+[16:12:11.479] [RX ] 
+[16:12:11.481] [RX ] [07-01 16:12:11.300 ty D][0x60e15eac][tuya_media_service_rtc.c:881] ctx async task thread start
+[16:12:11.481] [RX ] 
+[16:12:11.483] [RX ] [07-01 16:12:11.301 ty I][0x60e13e2c][tuya_media_service_rtc.c:760] ctx_signaling_mqtt_thread_func start
+[16:12:11.483] [RX ] 
+[16:12:11.487] [RX ] [07-01 16:12:11.301 ty D][0x60e15eac][tuya_ipc_media_stream.c:78] [RTC LOG] {"tuya_p2p_sdk_version":"tuya_p2p_sdk_v3.2.14, Apr 15 2026 18:23:54"}
+[16:12:11.488] [RX ] [07-01 16:12:11.302 ty D][0x60fd2ce4][tuya_media_service_rtc.c:8512] init the p2p-module success.
+[16:12:11.488] [RX ] 
+[16:12:11.490] [RX ] audio init complete, sample: 16000
+[16:12:11.490] [RX ] [aec_alg] aec dual_dmic:0,init_flags:0x1f
+[16:12:11.492] [RX ] [aec_alg] aec ver:20250916 fs:16000,aec frame samp cnt:320, frame_size:640
+[16:12:11.494] [RX ] aec_cfg 1:mode:0,dual_ch:0,flags:0x1f,interweave:0,dual_perp:1,dist:1,mic_swap:0,vol:13
+[16:12:11.496] [RX ] aec_cfg 2:ec_filter:0x27,ec_depth:10,drc_mode:10,mic_delay:16,max_mic_delay:1000
+[16:12:11.497] [RX ] aec_cfg 3:spcnt:0,ns_type:2,ns_filter:0x7,vad:1,vad_en:1,ec_only_out:1
+[16:12:11.499] [RX ] [07-01 16:12:11.306 ty D][0x60fd2ce4][tuya_ipc_p2p.c:5107] tuya_ipc_p2p_init
+[16:12:11.501] [RX ] [07-01 16:12:11.307 ty D][0x60fd2ce4][tuya_ipc_p2p.c:5111] malloc size:480
+[16:12:11.502] [RX ] [07-01 16:12:11.308 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4904] video codec[18] fps[25] gop[25]
+[16:12:11.505] [RX ] [07-01 16:12:11.308 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4905] height[480] width[480] bitrate[1024]
+[16:12:11.506] [RX ] [07-01 16:12:11.311 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4916] video codec[18] fps[25] gop[25]
+[16:12:11.509] [RX ] [07-01 16:12:11.312 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4917] height[480] width[480] bitrate[1024]
+[16:12:11.510] [RX ] [07-01 16:12:11.312 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4916] video codec[0] fps[0] gop[0]
+[16:12:11.512] [RX ] [07-01 16:12:11.313 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4917] height[0] width[0] bitrate[0]
+[16:12:11.515] [RX ] [07-01 16:12:11.313 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4916] video codec[0] fps[0] gop[0]
+[16:12:11.516] [RX ] [07-01 16:12:11.313 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4917] height[0] width[0] bitrate[0]
+[16:12:11.519] [RX ] [07-01 16:12:11.314 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4916] video codec[0] fps[0] gop[0]
+[16:12:11.520] [RX ] [07-01 16:12:11.315 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4917] height[0] width[0] bitrate[0]
+[16:12:11.521] [RX ] [07-01 16:12:11.315 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4916] video codec[0] fps[0] gop[0]
+[16:12:11.524] [RX ] [07-01 16:12:11.315 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4917] height[0] width[0] bitrate[0]
+[16:12:11.526] [RX ] [07-01 16:12:11.315 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4916] video codec[0] fps[0] gop[0]
+[16:12:11.528] [RX ] [07-01 16:12:11.316 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4917] height[0] width[0] bitrate[0]
+[16:12:11.530] [RX ] [07-01 16:12:11.318 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4916] video codec[0] fps[0] gop[0]
+[16:12:11.531] [RX ] [07-01 16:12:11.319 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4917] height[0] width[0] bitrate[0]
+[16:12:11.534] [RX ] [07-01 16:12:11.320 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4916] video codec[0] fps[0] gop[0]
+[16:12:11.535] [RX ] [07-01 16:12:11.321 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4917] height[0] width[0] bitrate[0]
+[16:12:11.538] [RX ] [07-01 16:12:11.322 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4919] audio codec[133] sample[0]
+[16:12:11.539] [RX ] [07-01 16:12:11.324 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4920] databits[1] channel[0]
+[16:12:11.541] [RX ] [07-01 16:12:11.327 ty D][0x60fd2ce4][tuya_ipc_p2p.c:4925] videoNum[1]
+[16:12:11.542] [RX ] [07-01 16:12:11.328 ty D][0x60fd2ce4][tuya_ipc_p2p.c:5137] p2p max_client_num[1]
+[16:12:11.545] [RX ] [07-01 16:12:11.329 ty D][0x60fd2ce4][tuya_ipc_p2p.c:5156] need speaker audio codec[137] sample[0] databits[1] channel[0] def_live_mode[0]
+[16:12:11.548] [RX ] [07-01 16:12:11.330 ty D][0x60fdef34][wukong_audio_input_board.c:284] sample 16000, databits 16, channel 1
+[16:12:11.550] [RX ] [07-01 16:12:11.331 ty D][0x60fdef34][wukong_audio_input_board.c:285] spk io 17, spk io level 0
+[16:12:11.552] [RX ] [07-01 16:12:11.341 ty D][0x60fd2ce4][tuya_ipc_p2p_common.c:308] check p2p auth update or not
+[16:12:11.555] [RX ] [07-01 16:12:11.372 ty D][0x60fd2ce4][tuya_ipc_p2p_common.c:371] no need update p2p_auth_info from service
+[16:12:11.557] [RX ] [07-01 16:12:11.378 ty D][0x60fd2ce4][tuya_ipc_media_adapter.c:497] attach media info success! device:[0] channel:[0] cb:[0x21ecc79]
+[16:12:11.560] [RX ] [07-01 16:12:11.379 ty D][0x60fdef34][wukong_audio_aec_vad.c:63] wukong aec -> init, frame size 640, aec 0x60ddf1d8, vad 0x60dcc634, lineraraec 0x60dc6914
+[16:12:11.563] [RX ] [07-01 16:12:11.380 ty D][0x60db6894][tuya_ipc_p2p.c:2421] media recv proc alive [0]
+[16:12:11.566] [RX ] [07-01 16:12:11.381 ty I][0x60fdef34][tal_thread.c:200] thread_create name:record_task,stackDepth:2560,totalstackDepth:116224,priority:0
+[16:12:11.568] [RX ] [07-01 16:12:11.383 ty N][0x60fdef34][wukong_audio_input_board.c:213] wukong audio input -> start! mode is 1, task is 0x60dce4e4
+[16:12:11.570] [RX ] [07-01 16:12:11.383 ty D][0x60d91d0c][tuya_ipc_p2p.c:4442] into p2p video send
+[16:12:11.571] [RX ] [07-01 16:12:11.384 ty D][0x60d91d0c][tuya_ipc_p2p.c:4450] media send proc alive [0]
+[16:12:11.578] [RX ] [07-01 16:12:11.390 ty D][0x28051d34][wukong_audio_aec_vad.c:111] speexdsp process time: aec->6(ms), count = 1
+[16:12:11.578] [RX ] 
+[16:12:11.578] [RX ] [07-01 16:12:11.391 ty D][0x28051d34][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[16:12:11.578] [RX ] 
+[16:12:11.579] [RX ] [07-01 16:12:11.391 ty D][0x28051d34][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->0(ms), flag=2, count = 1
+[16:12:11.579] [RX ] 
+[16:12:11.582] [RX ] [07-01 16:12:11.392 ty D][0x60fdef34][wukong_audio_input_board.c:217] need hunman voice detect, start __record_task
+[16:12:11.583] [RX ] [07-01 16:12:11.393 ty D][0x60d81c8c][tuya_ipc_p2p.c:4097] session cmd recv proc alive [0] num[0]
+[16:12:11.585] [RX ] [07-01 16:12:11.394 ty D][0x60fd2ce4][tuya_ipc_p2p.c:5259] P2P init success
+[16:12:11.588] [RX ] [07-01 16:12:11.395 ty D][0x60fdef34][wukong_kws.c:497] default KWS tutuclear ver 802
+[16:12:11.590] [RX ] [07-01 16:12:11.396 ty D][0x60e25ca0][tal_thread.c:224] Thread:wukong_kws Exec Start. Set to Running Stat 0x60e25ca0
+[16:12:11.593] [RX ] [07-01 16:12:11.397 ty I][0x60fdef34][tal_thread.c:200] thread_create name:wukong_kws,stackDepth:6144,totalstackDepth:122368,priority:4
+[16:12:11.595] [RX ] [07-01 16:12:11.398 ty D][0x60fdef34][wukong_kws.c:393] wukong kws init success vad 1
+[16:12:11.597] [RX ] [07-01 16:12:11.398 ty D][0x60fdef34][tuya_iot_wifi_api.c:528] register wifi network monitor. interval:1
+[16:12:11.599] [RX ] [07-01 16:12:11.399 ty D][0x60fdef34][tuya_wifi_status.c:207] report wifi netstat[7] to callback  -->>
+[16:12:11.601] [RX ] [07-01 16:12:11.400 ty D][0x60fdef34][app_ipc_command.c:44] [aic_msg_send][44]-----------------cp1 recv cb no ready ???
+[16:12:11.601] [RX ] 
+[16:12:11.604] [RX ] [07-01 16:12:11.402 ty N][0x60fdef34][tuya_ai_display.c:1429] tuya_ai_text_msg_process: screen does not loaded, delay to process ai msg!!!
+[16:12:11.604] [RX ] 
+[16:12:11.607] [RX ] [07-01 16:12:11.403 ty D][0x60fdef34][tuya_ai_toy.c:228] network status = 7, region AY, language 0
+[16:12:11.608] [RX ] [07-01 16:12:11.403 ty D][0x60fdef34][smart_frame.c:4372] rept chan:1
+[16:12:11.630] [RX ] [07-01 16:12:11.410 ty D][0x60fd2ce4][iot_httpc.c:979] Post Data: {"skill":"{\"sdk_version\":\"3.13.6\",\"channel_num\":1,\"p2p\":3,\"px\":1,\"max_p2p_sessions\":1,\"video_num\":1,\"security_ability\":8}��������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������
+[16:12:11.633] [RX ] [07-01 16:12:11.412 ty D][0x60fdef34][smart_frame.c:428] dp<3> check. need_update:1 pv_stat:0 trig_t:0 dp_rept_type:0 force_send:0 prop_tp:1
+[16:12:11.636] [RX ] [07-01 16:12:11.413 ty D][0x60fdef34][smart_frame.c:450] dp_cntl value:0, dp_data value:50
+[16:12:11.639] [RX ] [07-01 16:12:11.414 ty D][0x60fdef34][smart_frame.c:583] is_need_update:1, is_dp_passive:0, pv_stat:2, uling_cnt:0
+[16:12:11.643] [RX ] [07-01 16:12:11.415 ty D][0x60fd2ce4][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=tuya.device.skill.update&devId=6c4193aadd3af18223pj5q&et=3&t=1782893531&v=1.0&sign=6897d84b200bee0519028e6b678ab79d
+[16:12:11.644] [RX ] [07-01 16:12:11.416 ty D][0x60fdef34][smart_frame.c:2806] dp rept_type:0, data:{"3":50}
+[16:12:11.647] [RX ] [07-01 16:12:11.418 ty D][0x60fdef34][mqc_app.c:874] Send MQTT Msg.P:4 N:5521 Q:1 Data:{"dps":{"3":50}}
+[16:12:11.648] [RX ] [07-01 16:12:11.419 ty D][0x60fd2ce4][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:12:11.651] [RX ] [07-01 16:12:11.420 ty D][0x60fd2ce4][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 1
+[16:12:11.654] [RX ] [07-01 16:12:11.420 ty D][0x60fd2ce4][uni_network.c:372] use dynamic dns ip:8.153.105.238 for domain:a6.tuyacn.com
+[16:12:11.654] [RX ] tkl_net_socket_create type(0), fd(1)!
+[16:12:11.657] [RX ] [07-01 16:12:11.424 ty D][0x60fd2ce4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:12:11.658] [RX ] [07-01 16:12:11.434 ty D][0x60fdef34][tuya_svc_mqtt_client.c:455] packet id: 3
+[16:12:11.659] [RX ] [07-01 16:12:11.436 ty D][0x60da280c][tuya_ipc_p2p.c:4796] Begin to session detect
+[16:12:11.662] [RX ] [07-01 16:12:11.437 ty D][0x60fdef34][app_ipc_command.c:44] [aic_msg_send][44]-----------------cp1 recv cb no ready ???
+[16:12:11.662] [RX ] 
+[16:12:11.665] [RX ] [07-01 16:12:11.439 ty N][0x60fdef34][tuya_ai_display.c:1429] tuya_ai_text_msg_process: screen does not loaded, delay to process ai msg!!!
+[16:12:11.665] [RX ] 
+[16:12:11.666] [RX ] [07-01 16:12:11.440 ty D][0x60fdef34][tuya_led.c:170] pinname:56
+[16:12:11.669] [RX ] [07-01 16:12:11.442 ty D][0x60fdef34][tuya_ai_agent.c:1810] mcp cb set
+[16:12:11.670] [RX ] [07-01 16:12:11.454 ty I][0x60fdef34][mcp_server.c:337] MCP server initialized: Wukong AI v3.0
+[16:12:11.684] [RX ] [07-01 16:12:11.455 ty D][0x60fd6744][mqc_app.c:409] Rev MQTT:{"data":{"bizType":"EVENT","data":{"data":{"data":{"tcpport":8884,"udpport_backup":443,"wss_url":"wss://rtc.tuya.com:443/steam","derived_client_id":"6c4193aadd3af18223pj5q:1782897131:ElTBh5D4XiYmnIySC6LAK5y4QSnUfi8W3cEO+H0Oyqo=","hosts":["106.14.173.164","106.15.94.140"],"ecc_tls_port":443,"expire":1782897131,"domains":["rtc.tuyacn.com","rtc.tuyacn.com"],"udpport":10006},"success":true,"errorCode":"","time":1782893531688},"type":"cloudReturnServerInfo"},"bizId":"07d9c73f-8f59-449e-805d-851b-b00857f6"},"protocol":9000,"s":1634307,"t":1782893531}
+[16:12:11.686] [RX ] [07-01 16:12:11.460 ty D][0x60fd6744][smart_frame.c:2347] msg_data:{"dps":{"3":50}}, mqtt async dp cb:0
+[16:12:11.688] [RX ] [07-01 16:12:11.461 ty D][0x60fd6744][smart_frame.c:224] set short dp rate rule, dpID:3, curr_t:1782893531, rept_cnt:1.
+[16:12:11.691] [RX ] [07-01 16:12:11.462 ty D][0x60fd6744][smart_frame.c:232] set long dp rate rule, dpID:3, curr_t:1782893531, rept_cnt:0.
+[16:12:11.694] [RX ] [07-01 16:12:11.462 ty D][0x60fd6744][smart_frame.c:241] set all dp rate rule, dpID:3, curr_t:1782893531, rept_cnt:0.
+[16:12:11.696] [RX ] [07-01 16:12:11.463 ty N][0x60e8a854][tuya_ai_client.c:219] connect refresh success,expire:1782897131 current:1782893531 next 3590 s
+[16:12:11.698] [RX ] [07-01 16:12:11.463 ty N][0x60e8a854][tuya_ai_client.c:100] ***** ai client state 1 -> 2 *****
+[16:12:11.701] [RX ] [07-01 16:12:11.466 ty N][0x60e8a854][tuya_ai_protocol.c:2067] connect to domain[0]:rtc.tuyacn.com, port:443
+[16:12:11.703] [RX ] [07-01 16:12:11.470 ty D][0x60e8a854][uni_network.c:356] unw_gethostbyname rtc.tuyacn.com, prio 1
+[16:12:11.705] [RX ] [07-01 16:12:11.473 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_info_get
+[16:12:11.708] [RX ] [07-01 16:12:11.475 ty D][0x60fd2ce4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:12:11.709] [RX ] [07-01 16:12:11.476 ty D][0x60fd2ce4][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:12:11.712] [RX ] [07-01 16:12:11.476 ty D][0x60fd2ce4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:12:11.713] [RX ] [07-01 16:12:11.477 ty D][0x60fd2ce4][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:12:11.716] [RX ] [07-01 16:12:11.477 ty D][0x60fd2ce4][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:12:11.717] [RX ] [07-01 16:12:11.479 ty D][0x60fd2ce4][tuya_cert_manager.c:296] tuya public url
+[16:12:11.720] [RX ] [07-01 16:12:11.481 ty D][0x60fd2ce4][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:12:11.723] [RX ] [07-01 16:12:11.481 ty D][0x60fd2ce4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:12:11.726] [RX ] [07-01 16:12:11.483 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Get device information such as model, serial number, and firmware version.
+[16:12:11.728] [RX ] [07-01 16:12:11.493 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{}}
+[16:12:11.730] [RX ] [07-01 16:12:11.494 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_audio_volume_get
+[16:12:11.732] [RX ] [07-01 16:12:11.495 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Query the current device volume level (0-100).
+[16:12:11.735] [RX ] [07-01 16:12:11.495 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{}}
+[16:12:11.738] [RX ] [07-01 16:12:11.496 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_audio_volume_set
+[16:12:11.739] [RX ] [07-01 16:12:11.497 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Sets the device's volume level.
+[16:12:11.742] [RX ] If you don't know the current volume, call device_audio_volume_get first to query it.
+[16:12:11.742] [RX ] Returns OK if the volume was set successfully.
+[16:12:11.748] [RX ] [07-01 16:12:11.497 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"volume":{"type":"integer","description":"The volume level to set (0-100).","minimum":0,"maximum":100}},"required":["volume"]}
+[16:12:11.750] [RX ] [07-01 16:12:11.498 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_audio_mode_set
+[16:12:11.754] [RX ] [07-01 16:12:11.499 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Set the device's audio interaction mode. This controls how the device listens for and responds to voice input.
+[16:12:11.760] [RX ] [07-01 16:12:11.504 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"mode":{"type":"integer","description":"The desired interaction mode: 0=hold_to_talk, 1=press_to_talk, 2=wake_word, 3=free_conversation","minimum":0,"maximum":3}},"required":["mode"]}
+[16:12:11.763] [RX ] [07-01 16:12:11.516 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_alarm_set
+[16:12:11.770] [RX ] [07-01 16:12:11.518 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Manage local alarms (one-time or recurring). Triggers an audible RINGTONE; the `message` field is a note for storage/query only and is NOT spoken aloud. If the user needs a specific message spoken at the scheduled time, use `device_schedule_set` instead (one-time only).
+[16:12:11.774] [RX ] Default is ONE-TIME (repeat_type=0): requires year/month/day/hour/minute, time must be in the future. Use this when user says 'set an alarm at 10:15' without mentioning repeat.
+[16:12:11.776] [RX ] For RECURRING, set repeat_type explicitly: 1=daily, 2=weekly, 3=monthly. Use recurring ONLY when user says 'every day', 'every morning', 'weekday', etc.
+[16:12:11.778] [RX ] Workday alarm: repeat_type=2, weekday_mask=62. Weekend: weekday_mask=65.
+[16:12:11.781] [RX ] Add returns `already_exists` with `existing_id` if a same-time alarm exists.
+[16:12:11.782] [RX ] Resolve relative dates (today/tomorrow) to concrete local dates before calling.
+[16:12:11.783] [RX ] Update merges only provided fields; omitted fields keep existing values.
+[16:12:11.806] [RX ] [07-01 16:12:11.534 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"operation":{"type":"integer","description":"Alarm operation (0=add, 1=delete, 2=update, 3=ack ringing alarm)","minimum":0,"maximum":3},"id":{"type":"string","description":"Alarm identifier (required for all operations; for add, provide a unique id)"},"repeat_type":{"type":"integer","description":"Repeat type (0=once [default], 1=daily, 2=weekly, 3=monthly). Use 0 unless user explicitly says 'every day/morning/weekday'. For workday alarms use 2 (weekly).","minimum":0,"maximum":3},"year":{"type":"integer","description":"Alarm local year (required for once alarms on add)","minimum":1970,"maximum":2099},"month":{"type":"integer","description":"Alarm local month (required for once alarms on add)","minimum":1,"maximum":12},"day":{"type":"integer","description":"Alarm local day of month (required for once alarms on add)","minimum":1,"maximum":31},"hour":{"type":"integer","description":"Alarm hour in local t
+[16:12:11.808] [RX ] [07-01 16:12:11.554 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_alarm_query
+[16:12:11.811] [RX ] [07-01 16:12:11.559 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Query all local alarms (one-time and recurring, ringtone-based).
+[16:12:11.811] [RX ] Call this when user asks 'what alarms do I have'.
+[16:12:11.814] [RX ] This does NOT include spoken reminders; for those use device_schedule_query.
+[16:12:11.815] [RX ] If user asks 'what reminders do I have' without specifying type, query BOTH this tool and device_schedule_query.
+[16:12:11.818] [RX ] [07-01 16:12:11.563 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{}}
+[16:12:11.821] [RX ] [07-01 16:12:11.576 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_countdown_timer_set
+[16:12:11.823] [RX ] [07-01 16:12:11.576 ty D][0x60e8a854][uni_network.c:384] use system dns ip 47.100.4.74 for domain rtc.tuyacn.com
+[16:12:11.823] [RX ] 
+[16:12:11.825] [RX ] [07-01 16:12:11.577 ty D][0x60e8a854][uni_network.c:230] cache dns [rtc.tuyacn.com]<->[47.100.4.74]
+[16:12:11.826] [RX ] tkl_net_socket_create type(0), fd(2)!
+[16:12:11.828] [RX ] [07-01 16:12:11.579 ty D][0x60e8a854][tcp_transporter.c:75] bind ip:0a649e2d port:65143 ok
+[16:12:11.832] [RX ] [07-01 16:12:11.594 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Single-instance countdown timer; in-place modification is not supported.
+[16:12:11.833] [RX ] If another countdown already exists, create returns {"success":false,"reason":"already_exists","current":...}.
+[16:12:11.836] [RX ] Query (4) returns remaining_sec, duration_sec, elapsed_sec. Pause/delete success return remaining_sec and elapsed_sec.
+[16:12:11.838] [RX ] [07-01 16:12:11.596 ty D][0x60e25ca0][tutuclear.c:35] tutuClear DM usage = 18808 bytes, addr = 0x2804af44
+[16:12:11.838] [RX ] 
+[16:12:11.841] [RX ] WAKEUP_info:nihaotuya-xiaozhitongxue-heytuya-hituya--200KB--20250804--MAT--RAW--FOR--TUYA--FROM--EASE--ON--T5-E1--info_end
+[16:12:11.854] [RX ] [07-01 16:12:11.602 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"hour_duration":{"type":"integer","description":"Countdown hours (create only, 0-24)","minimum":0,"maximum":24},"minute_duration":{"type":"integer","description":"Countdown minutes (create only, 0-60)","minimum":0,"maximum":60},"second_duration":{"type":"integer","description":"Countdown seconds (create only, 0-60)","minimum":0,"maximum":60},"operation":{"type":"integer","description":"Operation (0=create, 1=pause, 2=resume, 3=delete, 4=query)","minimum":0,"maximum":4}},"required":["operation"]}
+[16:12:11.856] [RX ] [07-01 16:12:11.603 ty D][0x60e8a854][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:12:11.859] [RX ] [07-01 16:12:11.604 ty D][0x60e8a854][tuya_tls.c:1037] TUYA_TLS Begin Connect rtc.tuyacn.com:443
+[16:12:11.861] [RX ] [07-01 16:12:11.604 ty D][0x60e8a854][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:12:11.863] [RX ] [07-01 16:12:11.606 ty D][0x60e8a854][tuya_tls.c:796] load rtc.tuyacn.com cert, port 443
+[16:12:11.865] [RX ] [07-01 16:12:11.613 ty D][0x60e8a854][tuya_cert_manager.c:273] p_url:rtc.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:12:11.868] [RX ] [07-01 16:12:11.613 ty D][0x60e8a854][tuya_cert_manager.c:301] third cloud url
+[16:12:11.869] [RX ] [07-01 16:12:11.619 ty D][0x60e8a854][tuya_ai_client.c:592] load url rtc.tuyacn.com ca to tls 0
+[16:12:11.872] [RX ] [07-01 16:12:11.620 ty D][0x60e8a854][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:12:11.873] [RX ] [07-01 16:12:11.623 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_stopwatch_timer_set
+[16:12:11.876] [RX ] [07-01 16:12:11.637 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Single-instance count-up stopwatch from 0.
+[16:12:11.878] [RX ] Repeated start returns {"success":false,"reason":"already_exists","current":...}.
+[16:12:11.901] [RX ] Pause/stop/reset return {"success":true,"elapsed_sec":N}. Query (5) returns active/paused/elapsed_sec while running.
+[16:12:11.901] [RX ] [07-01 16:12:11.641 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"operation":{"type":"integer","description":"Operation (0=start, 1=pause, 2=resume, 3=stop, 4=reset, 5=query)","minimum":0,"maximum":5}},"required":["operation"]}
+[16:12:11.901] [RX ] [07-01 16:12:11.643 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_pomodoro_timer_set
+[16:12:12.022] [RX ] [07-01 16:12:11.984 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Pomodoro focus timer. Use when user mentions 'pomodoro', 'focus timer', 'work session', or 'concentrate for X minutes'.
+[16:12:12.024] [RX ] Single instance; stop first before recreating with new durations. Repeated start returns {"success":false,"reason":"already_exists","current":...}.
+[16:12:12.025] [RX ] Query: remaining_sec/elapsed_sec are seconds; speak in minutes when reporting.
+[16:12:12.048] [RX ] [07-01 16:12:12.002 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"work_duration":{"type":"integer","description":"Work session duration in minutes (default 25)","minimum":1,"maximum":120},"short_break_duration":{"type":"integer","description":"Short break duration in minutes (default 5)","minimum":1,"maximum":30},"long_break_duration":{"type":"integer","description":"Long break duration in minutes (default 15)","minimum":5,"maximum":60},"work_sessions_before_long_break":{"type":"integer","description":"Completed work sessions before a long break (default 4)","minimum":1,"maximum":12},"operation":{"type":"integer","description":"Operation (0=start, 1=pause, 2=resume, 3=stop, 4=query)","minimum":0,"maximum":4}},"required":["operation"]}
+[16:12:12.050] [RX ] [07-01 16:12:12.003 ty D][0x60e8a854][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:12:12.053] [RX ] [07-01 16:12:12.003 ty D][0x60e8a854][tuya_tls.c:1190] handshake finish for rtc.tuyacn.com. set send/recv to user set
+[16:12:12.055] [RX ] [07-01 16:12:12.005 ty D][0x60e8a854][tuya_tls.c:1195] TUYA_TLS Success Connect rtc.tuyacn.com:443 Suit:TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256
+[16:12:12.058] [RX ] [07-01 16:12:12.007 ty N][0x60e8a854][tuya_ai_client.c:100] ***** ai client state 2 -> 3 *****
+[16:12:12.059] [RX ] [07-01 16:12:12.012 ty N][0x60e8a854][tuya_ai_client.c:100] ***** ai client state 3 -> 4 *****
+[16:12:12.062] [RX ] [07-01 16:12:12.012 ty N][0x60e8a854][tuya_ai_client.c:100] ***** ai client state 4 -> 5 *****
+[16:12:12.064] [RX ] [07-01 16:12:12.015 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_schedule_set
+[16:12:12.071] [RX ] [07-01 16:12:12.024 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Manage ONE-TIME spoken reminders. When triggered, the device SPEAKS the message aloud via AI TTS. Use this when the user needs a specific message delivered at a future time — e.g. 'remind me at 3pm today to call mom', 'tomorrow 9am remind me about the meeting'.
+[16:12:12.076] [RX ] Only one-time reminders are supported. Recurring spoken reminders are NOT available. If the user asks for a daily/weekly reminder with a message, create a one-time reminder for the next occurrence and tell the user it will only fire once.
+[16:12:12.077] [RX ] For a silent ringtone-only alarm (no spoken message), use `device_alarm_set`.
+[16:12:12.082] [RX ] Add requires year/month/day/hour/minute in local time and message. The time MUST be in the future; if today's time has passed, use tomorrow's date.
+[16:12:12.083] [RX ] Resolve relative dates (today/tonight/tomorrow) to concrete local dates before calling.
+[16:12:12.084] [RX ] Update merges only provided fields; omitted fields keep existing values.
+[16:12:12.086] [RX ] Returns `success`, `start_timestamp`, `reminder_id`. On 
+[16:12:12.087] [RX ] [07-01 16:12:12.035 ty N][0x60e8a854][tuya_ai_protocol.c:1883] auth success
+[16:12:12.090] [RX ] [07-01 16:12:12.036 ty N][0x60e8a854][tuya_ai_protocol.c:1899] connection id:225b6979-6bd4-47e2-9f62-ab81249bdac7
+[16:12:12.093] [RX ] [07-01 16:12:12.037 ty N][0x60e8a854][tuya_ai_client.c:100] ***** ai client state 5 -> 6 *****
+[16:12:12.094] [RX ] [07-01 16:12:12.038 ty D][0x60e8a854][iot_httpc.c:979] Post Data: {"t":1782893532}
+[16:12:12.098] [RX ] [07-01 16:12:12.040 ty D][0x60e8a854][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=thing.km.secret.get.device&devId=6c4193aadd3af18223pj5q&et=3&t=1782893532&v=1.0&sign=019a12f6be4c3910d5185ad2742c9b97
+[16:12:12.101] [RX ] [07-01 16:12:12.042 ty D][0x60e8a854][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:12:12.102] [RX ] [07-01 16:12:12.044 ty D][0x60e8a854][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 1
+[16:12:12.105] [RX ] [07-01 16:12:12.049 ty D][0x60e8a854][uni_network.c:372] use dynamic dns ip:8.153.105.238 for domain:a6.tuyacn.com
+[16:12:12.106] [RX ] tkl_net_socket_create type(0), fd(3)!
+[16:12:12.108] [RX ] [07-01 16:12:12.050 ty D][0x60e8a854][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:12:12.130] [RX ] [07-01 16:12:12.058 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"operation":{"type":"integer","description":"Operation (0=add, 1=delete, 2=update)","minimum":0,"maximum":2},"id":{"type":"string","description":"Reminder identifier (required for all operations; for add, provide a unique id)"},"categories":{"type":"integer","description":"Reminder category (0=meeting, 1=work, 2=personal, 3=health, 4=learning, 5=social, 6=other)","minimum":0,"maximum":6},"year":{"type":"integer","description":"Reminder local year (required for add)","minimum":1970,"maximum":2099},"month":{"type":"integer","description":"Reminder local month (required for add)","minimum":1,"maximum":12},"day":{"type":"integer","description":"Reminder local day of month (required for add)","minimum":1,"maximum":31},"hour":{"type":"integer","description":"Reminder local hour (required for add)","minimum":0,"maximum":23},"minute":{"type":"integer","description":"Reminder local minute (required for add)","
+[16:12:12.133] [RX ] [07-01 16:12:12.075 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_schedule_query
+[16:12:12.134] [RX ] [07-01 16:12:12.075 ty D][0x60e8a854][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:12:12.137] [RX ] [07-01 16:12:12.076 ty D][0x60e8a854][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:12:12.138] [RX ] [07-01 16:12:12.077 ty D][0x60e8a854][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:12:12.141] [RX ] [07-01 16:12:12.077 ty D][0x60e8a854][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:12:12.144] [RX ] [07-01 16:12:12.078 ty D][0x60e8a854][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:12:12.145] [RX ] [07-01 16:12:12.079 ty D][0x60e8a854][tuya_cert_manager.c:296] tuya public url
+[16:12:12.146] [RX ] [07-01 16:12:12.080 ty D][0x60e8a854][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:12:12.149] [RX ] [07-01 16:12:12.081 ty D][0x60e8a854][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:12:12.152] [RX ] [07-01 16:12:12.083 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Query one-time spoken reminders (those that speak a message via TTS).
+[16:12:12.155] [RX ] This does NOT include ringtone-based alarms; for those use device_alarm_query.
+[16:12:12.156] [RX ] If user asks 'what reminders do I have' without specifying type, query BOTH this tool and device_alarm_query.
+[16:12:12.157] [RX ] Use `start_timestamp`/`end_timestamp` as inclusive UTC Unix bounds.
+[16:12:12.173] [RX ] [07-01 16:12:12.100 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"query_method":{"type":"integer","description":"Query method (0=by time range, 1=by category, 2=by keyword)","minimum":0,"maximum":2},"start_timestamp":{"type":"integer","description":"Inclusive lower bound as UTC Unix timestamp in seconds","minimum":0,"maximum":2147483647},"end_timestamp":{"type":"integer","description":"Inclusive upper bound as UTC Unix timestamp in seconds","minimum":0,"maximum":2147483647},"categories":{"type":"integer","description":"Category filter (0-6)","minimum":0,"maximum":6},"keyword":{"type":"string","description":"Keyword matched against reminder message"}}}
+[16:12:12.175] [RX ] [07-01 16:12:12.103 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_mcp_config_list
+[16:12:12.326] [RX ] [07-01 16:12:12.293 ty I][0x60fdef34][mcp_server_tools.c:204] Description: List configured third-party MCP servers (secrets redacted)
+[16:12:12.327] [RX ] [07-01 16:12:12.294 ty D][0x28051d34][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:12:12.327] [RX ] 
+[16:12:12.904] [RX ] [07-01 16:12:12.872 ty D][0x60fd9aec][smart_frame.c:2658] Start To Sync Dev:6c4193aadd3af18223pj5q, dp_rept_chan:1
+[16:12:12.906] [RX ] [07-01 16:12:12.873 ty D][0x60fd9aec][smart_frame.c:3114] Pack local dp, reset_flow_ctl:1,dpnum:4.
+[16:12:12.908] [RX ] [07-01 16:12:12.874 ty D][0x60fd9aec][smart_frame.c:3214] Nothing To Pack
+[16:12:12.909] [RX ] [07-01 16:12:12.874 ty D][0x60fd9aec][smart_frame.c:2686] OUT IS NULL
+[16:12:12.910] [RX ] [07-01 16:12:12.874 ty D][0x60fd9aec][smart_frame.c:2745] Sync Finish
+[16:12:13.159] [RX ] [07-01 16:12:13.117 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[16:12:13.278] [RX ] [07-01 16:12:13.190 ty D][0x60fdd0dc][tuya_ai_toy_key.c:94] reset cnt clear!
+[16:12:13.399] [RX ] [07-01 16:12:13.321 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{}}
+[16:12:13.403] [RX ] [07-01 16:12:13.335 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_mcp_test_connection
+[16:12:13.408] [RX ] [07-01 16:12:13.340 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Test connection to a third-party MCP server by mcpId
+[16:12:13.424] [RX ] [07-01 16:12:13.355 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"mcpId":{"type":"string","description":"MCP server id e.g. mcd"}},"required":["mcpId"]}
+[16:12:13.426] [RX ] [07-01 16:12:13.358 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_mcp_refresh_tools
+[16:12:13.429] [RX ] [07-01 16:12:13.359 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Refresh aggregated tools/list from all enabled MCP servers
+[16:12:13.431] [RX ] [07-01 16:12:13.361 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{}}
+[16:12:13.438] [RX ] [07-01 16:12:13.372 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_mcp_list_tools
+[16:12:13.445] [RX ] [07-01 16:12:13.378 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Return cached namespaced external MCP tools
+[16:12:13.457] [RX ] [07-01 16:12:13.390 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{}}
+[16:12:13.458] [RX ] [07-01 16:12:13.391 ty D][0x60e8a854][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:12:13.461] [RX ] [07-01 16:12:13.392 ty D][0x60e8a854][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[16:12:13.465] [RX ] [07-01 16:12:13.393 ty D][0x60e8a854][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:12:13.466] [RX ] [07-01 16:12:13.393 ty D][0x60e8a854][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[16:12:13.479] [RX ] [07-01 16:12:13.411 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_mcp_call_tool
+[16:12:13.503] [RX ] [07-01 16:12:13.432 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Call a namespaced external MCP tool (e.g. mcd.query-meals)
+[16:12:13.508] [RX ] [07-01 16:12:13.437 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{"tool":{"type":"string","description":"Namespaced tool name"},"userConfirmed":{"type":"boolean","description":"User confirmed high-risk action"}},"required":["tool"]}
+[16:12:13.511] [RX ] [07-01 16:12:13.439 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_mcp_food_recommend
+[16:12:13.513] [RX ] [07-01 16:12:13.440 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Food ordering scene: map query-only MCP tools for recommendations
+[16:12:13.535] [RX ] [07-01 16:12:13.453 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{}}
+[16:12:13.535] [RX ] [07-01 16:12:13.458 ty I][0x60fdef34][mcp_server_tools.c:203] Tool registered: device_mcp_load_mcd_example
+[16:12:13.535] [RX ] [07-01 16:12:13.459 ty I][0x60fdef34][mcp_server_tools.c:204] Description: Load McDonald MCP example config (placeholder token)
+[16:12:13.538] [RX ] [07-01 16:12:13.471 ty I][0x60fdef34][mcp_server_tools.c:205] Input schema: {"type":"object","properties":{}}
+[16:12:13.544] [RX ] [07-01 16:12:13.474 ty D][0x60e8a854][iot_httpc.c:619] Decode Rev:{"result":{"devId":"6c4193aadd3af18223pj5q","secretValue":"OTE0MDNmOGQwN2FmNDRjNg=="},"t":1782893533,"success":true}
+[16:12:13.547] [RX ] [07-01 16:12:13.477 ty D][0x60fdef34][wukong_ai_mcp.c:76] MCP Server initialized successfully
+[16:12:13.548] [RX ] [07-01 16:12:13.479 ty D][0x60e8a854][tls_transporter.c:93] tls transporter close socket fd:3
+[16:12:13.551] [RX ] [07-01 16:12:13.481 ty D][0x60e8a854][tcp_transporter.c:173] tcp transporter close socket fd:3
+[16:12:13.554] [RX ] [07-01 16:12:13.484 ty D][0x60e8a854][tls_transporter.c:101] tls transporter close tls handler:0x60d55bf8
+[16:12:13.555] [RX ] [07-01 16:12:13.484 ty D][0x60e8a854][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[16:12:13.557] [RX ] [07-01 16:12:13.485 ty D][0x60e8a854][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[16:12:13.558] [RX ] [07-01 16:12:13.485 ty D][0x60e8a854][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:12:13.561] [RX ] [07-01 16:12:13.485 ty N][0x60e8a854][tuya_ai_biz.c:1320] ai biz init success
+[16:12:13.563] [RX ] [07-01 16:12:13.490 ty D][0x60e8a854][wukong_picture_output.c:89] {"sys.device.img_resize.width":{"value":320},"sys.device.img_resize.height":{"value":480}}
+[16:12:13.565] [RX ] [07-01 16:12:13.490 ty N][0x60e8a854][tuya_ai_toy.c:333] ai toy -> connected to server
+[16:12:13.568] [RX ] [07-01 16:12:13.491 ty W][0x60e8a854][wukong_ai_mode.c:131] [ai_mode] active mode does not support: client
+[16:12:13.569] [RX ] [07-01 16:12:13.492 ty W][0x60e8a854][wukong_ai_mode.c:137] [ai_mode] active mode does not support: event
+[16:12:13.597] [RX ] [07-01 16:12:13.530 ty D][0x60fdafe4][tuya_ai_agent.c:933] ai session new
+[16:12:13.620] [RX ] [07-01 16:12:13.550 ty D][0x60fdafe4][mqc_app.c:874] Send MQTT Msg.P:9000 N:5522 Q:0 Data:{"bizType":"EVENT","bizId":"e5508266-2586-4a3a-9fd6-db0a-7ce46358","devId":"6c4193aadd3af18223pj5q","data":{"type":"thingGetAgentToken","data":{"aiSolutionCode":""}}}
+[16:12:13.638] [RX ] [07-01 16:12:13.572 ty D][0x60fdef34][wukong_tm_alarm.c:598] alarm -> no stored data, starting fresh
+[16:12:13.644] [RX ] [07-01 16:12:13.578 ty D][0x60fdef34][wukong_tm_reminder.c:346] reminder -> no stored data, starting fresh
+[16:12:13.661] [RX ] [07-01 16:12:13.594 ty D][0x60fdef34][wukong_ai_mode.c:420] [ai_mode] init chat sub-mode 3 (free)
+[16:12:13.663] [RX ] [07-01 16:12:13.596 ty D][0x60fdef34][wukong_ai_mode_free.c:262] [====ai_free] init
+[16:12:13.665] [RX ] [07-01 16:12:13.600 ty D][0x60fdef34][tuya_led.c:170] pinname:56
+[16:12:13.679] [RX ] [07-01 16:12:13.612 ty N][0x60fdef34][wukong_audio_input_board.c:322] wukong audio input -> wakeup mode set from 1 to 1!
+[16:12:13.684] [RX ] [07-01 16:12:13.617 ty D][0x60fdef34][wukong_ai_mode_free.c:274] mode free state change from INIT to IDLE
+[16:12:13.690] [RX ] [07-01 16:12:13.622 ty D][0x60fdef34][app_ipc_command.c:44] [aic_msg_send][44]-----------------cp1 recv cb no ready ???
+[16:12:13.690] [RX ] 
+[16:12:13.696] [RX ] [07-01 16:12:13.630 ty D][0x28051d34][wukong_kws.c:315] wukong kws vad on
+[16:12:13.702] [RX ] [07-01 16:12:13.635 ty N][0x60fdef34][tuya_ai_display.c:1429] tuya_ai_text_msg_process: screen does not loaded, delay to process ai msg!!!
+[16:12:13.702] [RX ] 
+[16:12:13.707] [RX ] [07-01 16:12:13.638 ty I][0x60fdef34][tal_thread.c:200] thread_create name:ai_toy_state,stackDepth:3072,totalstackDepth:125440,priority:0
+[16:12:13.707] [RX ] [07-01 16:12:13.640 ty N][0x60fdef34][tuya_ai_toy.c:486] ai toy -> start success
+[16:12:13.717] [RX ] [07-01 16:12:13.652 ty N][0x60fdef34][tuya_ai_toy.c:771] ai toy -> init success
+[16:12:13.738] [RX ] [07-01 16:12:13.670 ty N][0x60fdef34][tuya_ai_display.c:1326] ------------------not published develop package version------------------
+[16:12:13.745] [RX ] [07-01 16:12:13.679 ty N][0x60fdef34][tuya_app_gui_gw_core0.c:1761] ----------tuya_gui_lcd_open lcd *re-inited*!
+[16:12:13.749] [RX ] [07-01 16:12:13.680 ty D][0x60fdef34][tuya_app_gui.c:644] tuya_gui_lvgl_start:644: screen resolution width '320', height '240', rotate '0'
+[16:12:13.749] [RX ] 
+[16:12:13.760] [RX ] [07-01 16:12:13.693 ty D][0x60fdef34][tuya_app_gui.c:654] MVE (Helium) not supported
+[16:12:13.760] [RX ] 
+[16:12:13.765] [RX ] [07-01 16:12:13.697 ty D][0x60fdef34][tuya_app_gui.c:659] DSP instructions supported
+[16:12:13.765] [RX ] 
+[16:12:13.826] [RX ] [07-01 16:12:13.758 ty D][0x60fdef34][tuya_app_gui.c:464] tuya_app_gui_lvgl_init-464: darw_buffer count 2, frame_buffer count 2, psram total 9043968, free 6375492, minimum 6359492 
+[16:12:13.826] [RX ] 
+[16:12:13.829] [RX ] [07-01 16:12:13.758 ty D][0x60fdef34][tuya_app_gui.c:442] tuya_app_gui_draw_buff_size_calc-442: final row '24' draw buff size '15360' bytes
+[16:12:13.829] [RX ] 
+[16:12:13.838] [RX ] [07-01 16:12:13.770 ty D][0x60fdef34][tuya_app_gui.c:389] tuya_app_gui_draw_buf_align_alloc-389: original buf ptr '0x60d4da0c'
+[16:12:13.840] [RX ] 
+[16:12:13.843] [RX ] [07-01 16:12:13.773 ty D][0x60fdef34][tuya_app_gui.c:392] tuya_app_gui_draw_buf_align_alloc-392: aligned buf ptr '0x60d4da0c'
+[16:12:13.843] [RX ] 
+[16:12:13.844] [RX ] [07-01 16:12:13.776 ty D][0x60fdef34][tuya_app_gui.c:389] tuya_app_gui_draw_buf_align_alloc-389: original buf ptr '0x60d49e04'
+[16:12:13.844] [RX ] 
+[16:12:13.857] [RX ] [07-01 16:12:13.790 ty D][0x60fdef34][tuya_app_gui.c:392] tuya_app_gui_draw_buf_align_alloc-392: aligned buf ptr '0x60d49e04'
+[16:12:13.858] [RX ] 
+[16:12:13.867] [RX ] [07-01 16:12:13.791 ty D][0x60fd6744][mqc_app.c:409] Rev MQTT:{"data":{"bizType":"EVENT","data":{"data":{"data":{"agentToken":"6c8486b28155b5321a","bizConfig":{"sendData":["audio","video","text","image","file"],"revData":["text","audio","image","video","file"],"bizCode":65537}},"success":true,"errorCode":"","time":1782893534066},"type":"cloudReturnAgentToken"},"bizId":"e5508266-2586-4a3a-9fd6-db0a-7ce46358"},"protocol":9000,"s":1851395,"t":1782893534}
+[16:12:13.871] [RX ] [07-01 16:12:13.801 ty D][0x60fdafe4][tuya_ai_agent.c:1095] create session:0f2415f0-7895-47d1-97f2-ef3a-a480c859 success, scode:
+[16:12:13.928] [RX ] [07-01 16:12:13.860 ty D][0x60fdef34][tuya_app_gui.c:409] tuya_app_gui_frame_buf_align_alloc-409: original buf ptr '0x60d245fc'
+[16:12:13.928] [RX ] 
+[16:12:13.939] [RX ] [07-01 16:12:13.872 ty D][0x60fdef34][tuya_app_gui.c:412] tuya_app_gui_frame_buf_align_alloc-412: aligned buf ptr '0x60d245fc'
+[16:12:13.939] [RX ] 
+[16:12:13.947] [RX ] [07-01 16:12:13.879 ty D][0x60e8a854][tuya_ai_agent.c:153] [====ai event cb====] type:1000, sid:0f2415f0-7895-47d1-97f2-ef3a-a480c859, eid:1782893534
+[16:12:13.953] [RX ] [07-01 16:12:13.880 ty D][0x60e8a854][tuya_ai_agent.c:1816] mcp data: {"jsonrpc":"2.0","id":"1782893534","method":"initialize","params":{"capabilities":{"elicitation":{}},"clientInfo":{"name":"omniClient","version":"1.0.0"},"protocolVersion":"2025-06-18"}}
+[16:12:13.959] [RX ] [07-01 16:12:13.881 ty D][0x60e8a854][mcp_server.c:65] MCP -> [173] {"jsonrpc":"2.0","id":"1782893534","result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"Wukong AI","version":"3.0"}}}
+[16:12:13.960] [RX ] [07-01 16:12:13.888 ty D][0x60e8a854][tuya_ai_event.c:57] send event rt:0, type:1000
+[16:12:13.963] [RX ] [07-01 16:12:13.893 ty D][0x60fdef34][tuya_app_gui.c:409] tuya_app_gui_frame_buf_align_alloc-409: original buf ptr '0x60cfedf4'
+[16:12:13.963] [RX ] 
+[16:12:13.965] [RX ] [07-01 16:12:13.895 ty D][0x60fdef34][tuya_app_gui.c:412] tuya_app_gui_frame_buf_align_alloc-412: aligned buf ptr '0x60cfedf4'
+[16:12:13.965] [RX ] 
+[16:12:13.967] [RX ] [07-01 16:12:13.900 ty D][0x60fdef34][tuya_app_gui.c:516] lvgl init: 
+[16:12:13.967] [RX ] 
+[16:12:13.979] [RX ] [07-01 16:12:13.912 ty D][0x60fdef34][tuya_app_gui.c:517] 	x: 320, y: 240, color: 2, rotate: 0
+[16:12:13.979] [RX ] 
+[16:12:13.981] [RX ] [07-01 16:12:13.913 ty D][0x60e8a854][tuya_ai_agent.c:153] [====ai event cb====] type:1000, sid:0f2415f0-7895-47d1-97f2-ef3a-a480c859, eid:1782893534
+[16:12:13.985] [RX ] [07-01 16:12:13.913 ty D][0x60e8a854][tuya_ai_agent.c:1816] mcp data: {"jsonrpc":"2.0","id":"1782893534","method":"notifications/initialized"}
+[16:12:13.986] [RX ] [07-01 16:12:13.917 ty I][0x60e8a854][mcp_server.c:281] Client initialized notification received
+[16:12:13.992] [RX ] [07-01 16:12:13.924 ty D][0x60e8a854][tuya_ai_agent.c:153] [====ai event cb====] type:1000, sid:0f2415f0-7895-47d1-97f2-ef3a-a480c859, eid:0f2415
+[16:12:13.994] [RX ] [07-01 16:12:13.924 ty D][0x60e8a854][tuya_ai_agent.c:1816] mcp data: {"jsonrpc":"2.0","id":"0f2415","method":"tools/list"}
+[16:12:14.045] [RX ] [07-01 16:12:13.957 ty D][0x60e8a854][mcp_server.c:65] MCP -> [11377] {"jsonrpc":"2.0","id":"0f2415","result":{"tools":[{"name":"device_mcp_load_mcd_example","description":"Load McDonald MCP example config (placeholder token)","inputSchema":{"type":"object","properties":{}}},{"name":"device_mcp_food_recommend","description":"Food ordering scene: map query-only MCP tools for recommendations","inputSchema":{"type":"object","properties":{}}},{"name":"device_mcp_call_tool","description":"Call a namespaced external MCP tool (e.g. mcd.query-meals)","inputSchema":{"type":"object","properties":{"tool":{"type":"string","description":"Namespaced tool name"},"userConfirmed":{"type":"boolean","description":"User confirmed high-risk action"}},"required":["tool"]}},{"name":"device_mcp_list_tools","description":"Return cached namespaced external MCP tools","inputSchema":{"type":"object","properties":{}}},{"name":"device_mcp_refresh_tools","description":"Refresh aggregated tools/list from all enabled MCP servers","inputSc
+[16:12:14.047] [RX ] [07-01 16:12:13.981 ty D][0x60e8a854][tuya_ai_event.c:57] send event rt:0, type:1000
+[16:12:14.059] [RX ] [07-01 16:12:13.991 ty D][0x60fdef34][tuya_app_gui.c:522] 	draw buf1 60d4da0c, buf2 60d49e04, size 7680, in psram
+[16:12:14.059] [RX ] 
+[16:12:14.062] [RX ] [07-01 16:12:13.995 ty D][0x60fdef34][tuya_app_gui.c:528] 	frame buf1 60d245fc, buf2 60cfedf4
+[16:12:14.062] [RX ] 
+[16:12:14.065] [RX ] [07-01 16:12:13.996 ty D][0x60fdef34][tuya_app_gui.c:681] LVGL task priority '5', stack size '8192'
+[16:12:14.065] [RX ] 
+[16:12:14.066] [RX ] [07-01 16:12:13.998 ty D][0x60fdef34][tuya_port_disp.c:402] tkl_lvgl_tp_open 402 : tp not initialized ?
+[16:12:14.066] [RX ] 
+[16:12:14.140] [RX ] [07-01 16:12:14.061 ty D][0x60fdef34][tuya_port_disp.c:142] tkl_lvgl_dma2d_init: DMA2D disabled!
+[16:12:14.140] [RX ] 
+[16:12:14.147] [RX ] [07-01 16:12:14.080 ty D][0x60d529f8][tuya_app_gui.c:324] [Warn]	(6.329, +6329)	 gui_main_task: ------>[357]
+[16:12:14.148] [RX ]  	(in tuya_app_gui.c line #357)
+[16:12:14.148] [RX ] 
+[16:12:14.151] [RX ] [07-01 16:12:14.080 ty N][0x60d529f8][tuya_app_gui_gw_core0.c:1280] [tuya_gui_event_cb][1280]--------------->>>>>>>>>>>>>>>>>>>> fs path type '1'!
+[16:12:14.154] [RX ] [07-01 16:12:14.081 ty D][0x60d529f8][tuya_app_gui.c:246] tuya_app_gui_fs_path_type_init:246-------------------------------------curr_path_type '1'
+[16:12:14.154] [RX ] 
+[16:12:14.158] [RX ] [07-01 16:12:14.081 ty D][0x60d529f8][tuya_app_gui_fs_path.c:63] tuya_app_gui_set_path_type:63=================================path type '1'
+[16:12:14.158] [RX ] 
+[16:12:14.160] [RX ] [07-01 16:12:14.082 ty D][0x60d529f8][tuya_app_gui.c:248] tuya_app_gui_fs_path_type_init:248----test top path '/t5_fs/'
+[16:12:14.160] [RX ] 
+[16:12:14.162] [RX ] [07-01 16:12:14.082 ty N][0x60d529f8][tuya_ai_display.c:357] --------------->recv requested default language as '1' !!!
+[16:12:14.163] [RX ] 
+[16:12:14.165] [RX ] [07-01 16:12:14.083 ty D][0x60d529f8][env_data.c:46] [ed_set_default_language][46]current default language is '1' !
+[16:12:14.165] [RX ] 
+[16:12:14.167] [RX ] [07-01 16:12:14.083 ty N][0x60d529f8][tuya_ai_display.c:364] --------------->recv requested mf_test mode as 'false' !!!
+[16:12:14.167] [RX ] 
+[16:12:14.171] [RX ] [07-01 16:12:14.083 ty N][0x60d529f8][tuya_app_gui_gw_core0.c:1255] [tuya_gui_event_cb][1255]--------------->>>>>>>>>>>>>>>>>>>>dp info create request ok !
+[16:12:14.174] [RX ] [07-01 16:12:14.083 ty D][0x60d529f8][tuya_app_gui.c:260] tuya_app_gui_dp_struct_init:260-------------------------------------dp struct create request ok
+[16:12:14.174] [RX ] 
+[16:12:14.178] [RX ] [07-01 16:12:14.084 ty D][0x60d529f8][tuya_app_gui_gw_core1.c:204] ############################## dev_cntl num:4 ####################################
+[16:12:14.178] [RX ] 
+[16:12:14.181] [RX ] [07-01 16:12:14.084 ty D][0x60d529f8][tuya_app_gui_gw_core1.c:124] __ty_gw_DpInfoDump:124=================================dump start
+[16:12:14.181] [RX ] 
+[16:12:14.183] [RX ] [07-01 16:12:14.084 ty D][0x60d529f8][tuya_app_gui_gw_core1.c:135] obj DP 3 value:50 
+[16:12:14.183] [RX ] 
+[16:12:14.184] [RX ] [07-01 16:12:14.084 ty D][0x60d529f8][tuya_app_gui_gw_core1.c:144] obj DP 5 enum:0 
+[16:12:14.184] [RX ] 
+[16:12:14.187] [RX ] [07-01 16:12:14.084 ty D][0x60d529f8][tuya_app_gui_gw_core1.c:135] obj DP 101 value:0 
+[16:12:14.187] [RX ] 
+[16:12:14.188] [RX ] [07-01 16:12:14.085 ty D][0x60d529f8][tuya_app_gui_gw_core1.c:155] raw DP 102 
+[16:12:14.188] [RX ] 
+[16:12:14.191] [RX ] [07-01 16:12:14.085 ty D][0x60d529f8][tuya_app_gui_gw_core1.c:159] __ty_gw_DpInfoDump:159=================================dump end
+[16:12:14.191] [RX ] 
+[16:12:14.193] [RX ] [07-01 16:12:14.085 ty D][0x60d529f8][tuya_app_gui_display_text.c:519] [tuya_app_display_text_init][519] no config file system !!! 
+[16:12:14.193] [RX ] 
+[16:12:14.196] [RX ] [07-01 16:12:14.085 ty D][0x60d529f8][tuya_ai_display.c:202] -------[tuya_ai_display_demo 202] 
+[16:12:14.196] [RX ] 
+[16:12:14.199] [RX ] [07-01 16:12:14.100 ty I][0x60d529f8][tal_thread.c:200] thread_create name:ai_display,stackDepth:6144,totalstackDepth:131584,priority:4
+[16:12:14.203] [RX ] [07-01 16:12:14.100 ty N][0x60d529f8][tuya_app_gui_gw_core0.c:1407] [tuya_gui_event_cb][1407]--------------->>>>>>>>>>>>>>>>>>>>main screen startup completed without bootOnPage !
+[16:12:14.206] [RX ] [07-01 16:12:14.101 ty D][0x60d529f8][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[16:12:14.206] [RX ] 
+[16:12:14.207] [RX ] [07-01 16:12:14.102 ty D][0x60d529f8][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[16:12:14.207] [RX ] 
+[16:12:14.210] [RX ] [07-01 16:12:14.102 ty D][0x60d529f8][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[16:12:14.210] [RX ] 
+[16:12:14.213] [RX ] [07-01 16:12:14.103 ty D][0x60cfc768][tal_thread.c:224] Thread:ai_display Exec Start. Set to Running Stat 0x60cfc768
+[16:12:14.215] [RX ] [07-01 16:12:14.110 ty D][0x60fdef34][tuya_app_gui.c:600] tuya_gui_main gui main task run completed, LVGL v8.3.9, LV_COLOR_DEPTH '16'
+[16:12:14.215] [RX ] 
+[16:12:14.361] [RX ] [07-01 16:12:14.292 ty I][0x60fdef34][tuya_app_gui_gw_core0.c:2383] tuya_gui_init-2383: pre init user hdl without bootonpage !
+[16:12:14.361] [RX ] 
+[16:12:14.449] [RX ] [07-01 16:12:14.381 ty I][0x60fdef34][tuya_app_gui_gw_core0.c:2392] tuya_gui_init-2392: start screen backlight on !
+[16:12:14.449] [RX ] 
+[16:12:14.464] [RX ] [07-01 16:12:14.396 ty N][0x60fdef34][tuya_ai_display.c:339] --------------->recv tp detect wakeup !!!
+[16:12:14.464] [RX ] 
+[16:12:14.466] [RX ] [07-01 16:12:14.398 ty D][0x60fdef34][app_ipc_command.c:213] [aic_backlight_open][213]
+[16:12:14.466] [RX ] 
+[16:12:14.466] [RX ] [07-01 16:12:14.399 ty D][0x60fdef34][tal_thread.c:265] Del Thrd:tuya_app_main
+[16:12:14.501] [RX ] [07-01 16:12:14.434 ty D][0x28051d34][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[16:12:14.501] [RX ] 
+[16:12:14.503] [RX ] [07-01 16:12:14.435 ty D][0x28051d34][wukong_kws.c:317] wukong kws vad end
+[16:12:14.598] [RX ] [07-01 16:12:14.512 ty D][0x60fdef34][tal_thread.c:240] Thread:tuya_app_main Exec Finish. Set to Del Stat
+[16:12:14.601] [RX ] [07-01 16:12:14.534 ty D][0x60fdef34][tal_thread.c:95] del list not empty...deleting 0x60fdffe0, next 0x60fdfff0
+[16:12:14.612] [RX ] [07-01 16:12:14.535 ty D][0x60fdef34][tal_thread.c:103] Final Free Thread:tuya_app_main, is_self:1
+[16:12:14.612] [RX ] [07-01 16:12:14.536 ty D][0x60fdef34][tal_thread.c:107] delay to delete thread self
+[16:12:14.612] [RX ] [07-01 16:12:14.539 ty D][0x60fdef34][tal_thread.c:119] finally delete thread self
+[16:12:14.612] [RX ] [07-01 16:12:14.541 ty D][0x60fdef34][tal_thread.c:73] real delete thread:0x60fdef34
+[16:12:15.361] [RX ] [ONBOARD_MIC] data_size: 248960(Bytes), 60KB/s 
+[16:12:15.363] [RX ] [RAW_READ] data_size: 124160(Bytes), 30KB/s 
+[16:12:15.364] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:12:15.364] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:12:15.365] [RX ] [WIFI_TX] data_size: 124160(Bytes), 30KB/s 
+[16:12:15.366] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:12:16.004] [RX ] [07-01 16:12:15.938 ty E][0x60fdafe4][uf_flash_file_app.c:338] uf_open netcfg_log err 8
+[16:12:16.208] [RX ] [07-01 16:12:16.140 ty D][0x60dedcdc][tuya_ipc_p2p_wrapper.c:25] listen task start
+[16:12:16.208] [RX ] 
+[16:12:16.219] [RX ] [07-01 16:12:16.151 ty D][0x60dedcdc][tuya_media_service_rtc.c:3361] [P2P]ctx_new_session_accept try to waite new-session..
+[16:12:16.219] [RX ] 
+[16:12:16.222] [RX ] [07-01 16:12:16.152 ty D][0x60d57528][tal_thread.c:224] Thread:ai_toy_state Exec Start. Set to Running Stat 0x60d57528
+[16:12:16.224] [RX ] [07-01 16:12:16.153 ty D][0x60d57528][wukong_ai_mode_free.c:131] [====ai_free] idle
+[16:12:16.226] [RX ] [07-01 16:12:16.155 ty D][0x60d57528][tuya_led.c:170] pinname:56
+[16:12:16.228] [RX ] [07-01 16:12:16.157 ty D][0x60da1d8c][tal_thread.c:224] Thread:record_task Exec Start. Set to Running Stat 0x60da1d8c
+[16:12:16.230] [RX ] [07-01 16:12:16.160 ty D][0x60d57528][tuya_ai_toy.c:848] [====ai_toy] idle timer ctrl enable:0
+[16:12:16.231] [RX ] [07-01 16:12:16.162 ty D][0x60d57528][tuya_ai_toy.c:838] [====ai_toy] lowpower timer ctrl enable:1
+[16:12:16.253] [RX ] [07-01 16:12:16.171 ty D][0x60d57528][app_ipc_command.c:100] [aic_cpu1_callback][100]<-----evt user private 
+[16:12:16.253] [RX ] 
+[16:12:16.259] [RX ] [07-01 16:12:16.192 ty D][0x60fd2ce4][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:12:16.262] [RX ] [07-01 16:12:16.193 ty D][0x60fd2ce4][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[16:12:16.265] [RX ] [07-01 16:12:16.194 ty D][0x60fd2ce4][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:12:16.266] [RX ] [07-01 16:12:16.194 ty D][0x60fd2ce4][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[16:12:16.322] [RX ] [07-01 16:12:16.253 ty D][0x60fd2ce4][iot_httpc.c:619] Decode Rev:{"t":1782893536,"success":false,"errorCode":"REMOTE_API_RUN_UNKNOW_FAILED","errorMsg":"Remote api run unknown failed"}
+[16:12:16.325] [RX ] [07-01 16:12:16.254 ty E][0x60fd2ce4][iot_httpc.c:801] errorCode:REMOTE_API_RUN_UNKNOW_FAILED
+[16:12:16.326] [RX ] [07-01 16:12:16.256 ty D][0x60fd2ce4][tls_transporter.c:93] tls transporter close socket fd:1
+[16:12:16.329] [RX ] [07-01 16:12:16.257 ty D][0x60fd2ce4][tcp_transporter.c:173] tcp transporter close socket fd:1
+[16:12:16.332] [RX ] [07-01 16:12:16.259 ty D][0x60fd2ce4][tls_transporter.c:101] tls transporter close tls handler:0x60d642d4
+[16:12:16.332] [RX ] [07-01 16:12:16.260 ty D][0x60fd2ce4][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[16:12:16.338] [RX ] [07-01 16:12:16.271 ty D][0x60fd2ce4][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[16:12:16.339] [RX ] [07-01 16:12:16.272 ty D][0x60fdafe4][ty_meta_report.c:44] report meta to cloud
+[16:12:16.341] [RX ] [07-01 16:12:16.274 ty D][0x60fd2ce4][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:12:16.346] [RX ] [07-01 16:12:16.274 ty D][0x60fdafe4][iot_httpc.c:979] Post Data: {"metas":{"supportBleWifiProtect":true,"timerCapability":1,"supportLocalKeyChange":true,"secureVersion":"1.0.0","rtcCapability":7},"t":1782893536}
+[16:12:16.350] [RX ] [07-01 16:12:16.278 ty D][0x60fdafe4][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=tuya.device.meta.save&devId=6c4193aadd3af18223pj5q&et=3&t=1782893536&v=1.0&sign=b3eea04efe95dde4b7ea557d3fd2dfec
+[16:12:16.352] [RX ] [07-01 16:12:16.280 ty D][0x60fdafe4][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:12:16.374] [RX ] [07-01 16:12:16.282 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 1
+[16:12:16.374] [RX ] [07-01 16:12:16.282 ty D][0x60fdafe4][uni_network.c:372] use dynamic dns ip:8.153.105.238 for domain:a6.tuyacn.com
+[16:12:16.374] [RX ] tkl_net_socket_create type(0), fd(1)!
+[16:12:16.374] [RX ] [07-01 16:12:16.290 ty D][0x60fdafe4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:12:16.374] [RX ] [07-01 16:12:16.292 ty E][0x60fd2ce4][iot_httpc.c:5] Del Thrd:tuya_ipc_thread
+[16:12:16.374] [RX ] 4375
+[16:12:16.374] [RX ] [07-01 16:12:16.293 ty N][0x60fd2ce4][tuya_p2p_sdk.c:261] tuya_p2p_sdk_init success low_power=0 ring=1
+[16:12:16.375] [RX ] [07-01 16:12:16.294 ty D][0x60fd2ce4][tal_thread.c:265] Del Thrd:tuya_ipc_thread
+[16:12:16.377] [RX ] [07-01 16:12:16.310 ty D][0x60fd2ce4][tal_thread.c:240] Thread:tuya_ipc_thread Exec Finish. Set to Del Stat
+[16:12:16.380] [RX ] [07-01 16:12:16.311 ty D][0x60fd2ce4][tal_thread.c:95] del list not empty...deleting 0x60fd2d88, next 0x60fdfff0
+[16:12:16.383] [RX ] [07-01 16:12:16.311 ty D][0x60fd2ce4][tal_thread.c:103] Final Free Thread:tuya_ipc_thread, is_self:1
+[16:12:16.384] [RX ] [07-01 16:12:16.312 ty D][0x60fd2ce4][tal_thread.c:107] delay to delete thread self
+[16:12:16.385] [RX ] [07-01 16:12:16.312 ty D][0x60fd2ce4][tal_thread.c:119] finally delete thread self
+[16:12:16.388] [RX ] [07-01 16:12:16.313 ty D][0x60fd2ce4][tal_thread.c:73] real delete thread:0x60fd2ce4
+[16:12:16.390] [RX ] [07-01 16:12:16.316 ty D][0x60fdafe4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:12:16.392] [RX ] [07-01 16:12:16.319 ty D][0x60fdafe4][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:12:16.394] [RX ] [07-01 16:12:16.320 ty D][0x60fdafe4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:12:16.396] [RX ] [07-01 16:12:16.320 ty D][0x60fdafe4][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:12:16.398] [RX ] [07-01 16:12:16.328 ty D][0x60fdafe4][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:12:16.401] [RX ] [07-01 16:12:16.328 ty D][0x60fdafe4][tuya_cert_manager.c:296] tuya public url
+[16:12:16.403] [RX ] [07-01 16:12:16.331 ty D][0x28051d34][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:12:16.403] [RX ] 
+[16:12:16.405] [RX ] [07-01 16:12:16.331 ty D][0x28051d34][wukong_kws.c:315] wukong kws vad on
+[16:12:16.406] [RX ] [07-01 16:12:16.333 ty D][0x60fdafe4][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:12:16.408] [RX ] [07-01 16:12:16.337 ty D][0x60fdafe4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:12:16.742] [RX ] [07-01 16:12:16.673 ty D][0x60fdd0dc][iot_httpc.c:979] Post Data: {"codes":["w.temp","w.thigh","w.tlow","w.humidity","w.conditionNum","w.date.1"],"t":1782893536}
+[16:12:16.746] [RX ] [07-01 16:12:16.675 ty D][0x60fdd0dc][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=thing.weather.get&devId=6c4193aadd3af18223pj5q&et=3&t=1782893536&v=1.0&sign=53c6e46d517dcea79e8ecc147f417c8e
+[16:12:16.749] [RX ] [07-01 16:12:16.678 ty D][0x60fdd0dc][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:12:16.750] [RX ] [07-01 16:12:16.678 ty D][0x60fdd0dc][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 1
+[16:12:16.753] [RX ] [07-01 16:12:16.679 ty D][0x60fdd0dc][uni_network.c:372] use dynamic dns ip:8.153.105.238 for domain:a6.tuyacn.com
+[16:12:16.754] [RX ] tkl_net_socket_create type(0), fd(3)!
+[16:12:16.755] [RX ] [07-01 16:12:16.680 ty D][0x60fdd0dc][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:12:16.769] [RX ] [07-01 16:12:16.701 ty D][0x60fdd0dc][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:12:16.772] [RX ] [07-01 16:12:16.702 ty D][0x60fdd0dc][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:12:16.773] [RX ] [07-01 16:12:16.703 ty D][0x60fdd0dc][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:12:16.776] [RX ] [07-01 16:12:16.703 ty D][0x60fdd0dc][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:12:16.777] [RX ] [07-01 16:12:16.704 ty D][0x60fdd0dc][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:12:16.780] [RX ] [07-01 16:12:16.704 ty D][0x60fdd0dc][tuya_cert_manager.c:296] tuya public url
+[16:12:16.781] [RX ] [07-01 16:12:16.705 ty D][0x60fdd0dc][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:12:16.783] [RX ] [07-01 16:12:16.706 ty D][0x60fdd0dc][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:12:17.981] [RX ] [07-01 16:12:17.914 ty D][0x60fdd0dc][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:12:17.984] [RX ] [07-01 16:12:17.915 ty D][0x60fdd0dc][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[16:12:17.986] [RX ] [07-01 16:12:17.915 ty D][0x60fdd0dc][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:12:17.988] [RX ] [07-01 16:12:17.915 ty D][0x60fdd0dc][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[16:12:18.099] [RX ] [07-01 16:12:18.029 ty D][0x60fdd0dc][iot_httpc.c:619] Decode Rev:{"result":{"data":{"w.temp.0":25,"w.thigh.0":25,"w.tlow.0":23,"w.humidity.0":97,"w.conditionNum.0":"143"},"expiration":24},"t":1782893538,"success":true}
+[16:12:18.100] [RX ] [07-01 16:12:18.031 ty D][0x60fdd0dc][tls_transporter.c:93] tls transporter close socket fd:3
+[16:12:18.102] [RX ] [07-01 16:12:18.032 ty D][0x60fdd0dc][tcp_transporter.c:173] tcp transporter close socket fd:3
+[16:12:18.105] [RX ] [07-01 16:12:18.037 ty D][0x60fdd0dc][tls_transporter.c:101] tls transporter close tls handler:0x60fcc578
+[16:12:18.107] [RX ] [07-01 16:12:18.039 ty D][0x60fdd0dc][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[16:12:18.109] [RX ] [07-01 16:12:18.040 ty D][0x60fdd0dc][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[16:12:18.111] [RX ] [07-01 16:12:18.040 ty D][0x60fdd0dc][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:12:18.111] [RX ] raw weather data-88:
+[16:12:18.120] [RX ] 0x01 0x08 0x77 0x2E 0x74 0x65 0x6D 0x70 0x2E 0x30 0x00 0x04 0x00 0x00 0x00 0x19 0x09 0x77 0x2E 0x74 0x68 0x69 0x67 0x68 0x2E 0x30 0x00 0x04 0x00 0x00 0x00 0x19 0x08 0x77 0x2E 0x74 0x6C 0x6F 0x77 0x2E 0x30 0x00 0x04 0x00 0x00 0x00 0x17 0x0C 0x77 0x2E 0x68 0x75 0x6D 0x69 0x64 0x69 0x74 0x79 0x2E 0x30 0x00 0x04 0x00 0x00 0x00 0x61 0x10 0x77 0x2E 0x63 0x6F 0x6E 0x64 0x69 0x74 0x69 0x6F 0x6E 0x4E 0x75 0x6D 0x2E 0x30 0x01 0x03 0x31 0x34 0x33 
+[16:12:18.122] [RX ] [07-01 16:12:18.052 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.136] [RX ] [07-01 16:12:18.069 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.155] [RX ] [07-01 16:12:18.089 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.176] [RX ] [07-01 16:12:18.109 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.194] [RX ] [07-01 16:12:18.127 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.213] [RX ] [07-01 16:12:18.147 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.232] [RX ] [07-01 16:12:18.166 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.258] [RX ] [07-01 16:12:18.191 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.274] [RX ] [07-01 16:12:18.207 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.300] [RX ] [07-01 16:12:18.233 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.313] [RX ] [07-01 16:12:18.247 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.334] [RX ] [07-01 16:12:18.267 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.355] [RX ] [07-01 16:12:18.288 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:18.373] [RX ] [07-01 16:12:18.307 ty D][0x28051d34][wukong_kws.c:245] wukong kws feed overflow data 640, write 0
+[16:12:19.361] [RX ] [ONBOARD_MIC] data_size: 249600(Bytes), 60KB/s 
+[16:12:19.363] [RX ] [RAW_READ] data_size: 124800(Bytes), 30KB/s 
+[16:12:19.364] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:12:19.364] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:12:19.364] [RX ] [WIFI_TX] data_size: 124800(Bytes), 30KB/s 
+[16:12:19.366] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:12:20.242] [RX ] [07-01 16:12:20.173 ty D][0x60fdafe4][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:12:20.247] [RX ] [07-01 16:12:20.180 ty D][0x60fdafe4][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[16:12:20.250] [RX ] [07-01 16:12:20.180 ty D][0x60fdafe4][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:12:20.278] [RX ] [07-01 16:12:20.212 ty D][0x60fdafe4][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[16:12:20.348] [RX ] [07-01 16:12:20.280 ty D][0x60fdafe4][iot_httpc.c:619] Decode Rev:{"result":true,"t":1782893540,"success":true}
+[16:12:20.350] [RX ] [07-01 16:12:20.281 ty D][0x60fdafe4][tls_transporter.c:93] tls transporter close socket fd:1
+[16:12:20.352] [RX ] [07-01 16:12:20.281 ty D][0x60fdafe4][tcp_transporter.c:173] tcp transporter close socket fd:1
+[16:12:20.354] [RX ] [07-01 16:12:20.282 ty D][0x60fdafe4][tls_transporter.c:101] tls transporter close tls handler:0x60d652dc
+[16:12:20.356] [RX ] [07-01 16:12:20.283 ty D][0x60fdafe4][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[16:12:20.358] [RX ] [07-01 16:12:20.283 ty D][0x60fdafe4][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[16:12:20.359] [RX ] [07-01 16:12:20.284 ty D][0x60fdafe4][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:12:21.753] [RX ] [07-01 16:12:21.686 ty D][0x60fdafe4][iot_httpc.c:979] Post Data: {"type":"[\"timezone\",\"rateRule\",\"seniorAbility\",\"localMeshKey\"]","t":1782893541}
+[16:12:21.758] [RX ] [07-01 16:12:21.688 ty D][0x60fdafe4][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=tuya.device.dynamic.config.get&devId=6c4193aadd3af18223pj5q&et=3&t=1782893541&v=2.0&sign=de6cdf232492a45f26c818dd303b5412
+[16:12:21.761] [RX ] [07-01 16:12:21.690 ty D][0x60fdafe4][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:12:21.762] [RX ] [07-01 16:12:21.692 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 1
+[16:12:21.768] [RX ] [07-01 16:12:21.702 ty D][0x60fdafe4][uni_network.c:372] use dynamic dns ip:8.153.105.238 for domain:a6.tuyacn.com
+[16:12:21.769] [RX ] tkl_net_socket_create type(0), fd(1)!
+[16:12:21.770] [RX ] [07-01 16:12:21.703 ty D][0x60fdafe4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:12:21.789] [RX ] [07-01 16:12:21.723 ty D][0x60fdafe4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:12:21.792] [RX ] [07-01 16:12:21.725 ty D][0x60fdafe4][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:12:21.795] [RX ] [07-01 16:12:21.727 ty D][0x60fdafe4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:12:21.796] [RX ] [07-01 16:12:21.729 ty D][0x60fdafe4][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:12:21.799] [RX ] [07-01 16:12:21.729 ty D][0x60fdafe4][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:12:21.801] [RX ] [07-01 16:12:21.730 ty D][0x60fdafe4][tuya_cert_manager.c:296] tuya public url
+[16:12:21.802] [RX ] [07-01 16:12:21.732 ty D][0x60fdafe4][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:12:21.804] [RX ] [07-01 16:12:21.733 ty D][0x60fdafe4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:12:21.827] [RX ] [07-01 16:12:21.744 ty D][0x28051d34][wukong_audio_aec_vad.c:111] speexdsp process time: aec->10(ms), count = 501
+[16:12:21.827] [RX ] 
+[16:12:21.827] [RX ] [07-01 16:12:21.749 ty D][0x28051d34][wukong_audio_aec_vad.c:131] rnn_date_version: 25082101 
+[16:12:21.827] [RX ] 
+[16:12:21.827] [RX ] [07-01 16:12:21.750 ty D][0x28051d34][wukong_audio_aec_vad.c:132] rnn vad process time: rnn vad->4(ms), flag=1, count = 501
+[16:12:21.827] [RX ] 
+[16:12:23.183] [RX ] [07-01 16:12:23.118 ty D][0x60fd87f8][tuya_devos_health.c:71] feed watchdog
+[16:12:23.360] [RX ] [ONBOARD_MIC] data_size: 246400(Bytes), 60KB/s 
+[16:12:23.362] [RX ] [RAW_READ] data_size: 122880(Bytes), 30KB/s 
+[16:12:23.363] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:12:23.363] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:12:23.363] [RX ] [WIFI_TX] data_size: 122880(Bytes), 30KB/s 
+[16:12:23.365] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 
+[16:12:24.128] [RX ] [07-01 16:12:24.061 ty D][0x28051d34][wukong_audio_aec_vad.c:123] ################ [vad stop] ################ 
+[16:12:24.128] [RX ] 
+[16:12:24.129] [RX ] [07-01 16:12:24.062 ty D][0x28051d34][wukong_kws.c:317] wukong kws vad end
+[16:12:24.869] [RX ] [07-01 16:12:24.802 ty D][0x28051d34][wukong_audio_aec_vad.c:120] ################ [vad start] ################ 
+[16:12:24.869] [RX ] 
+[16:12:24.870] [RX ] [07-01 16:12:24.803 ty D][0x28051d34][wukong_kws.c:315] wukong kws vad on
+[16:12:25.060] [RX ] [07-01 16:12:24.994 ty D][0x60d81c8c][tuya_ipc_p2p.c:4097] session cmd recv proc alive [2000] num[0]
+[16:12:26.015] [RX ] [07-01 16:12:25.948 ty D][0x60fdafe4][tuya_tls.c:756] mbedtls_cert_pkey_free.
+[16:12:26.016] [RX ] [07-01 16:12:25.950 ty D][0x60fdafe4][tuya_tls.c:1190] handshake finish for a6.tuyacn.com. set send/recv to user set
+[16:12:26.038] [RX ] [07-01 16:12:25.968 ty D][0x60fdafe4][tuya_tls.c:1195] TUYA_TLS Success Connect a6.tuyacn.com:443 Suit:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256
+[16:12:26.039] [RX ] [07-01 16:12:25.971 ty D][0x60fdafe4][httpc.c:641] Connect: a6.tuyacn.com Port: 443  --<< ,r:0
+[16:12:26.433] [RX ] [07-01 16:12:26.353 ty D][0x60fdafe4][iot_httpc.c:619] Decode Rev:{"result":{"localMeshKey":{"ackId":"1","localMeshKey":"cn'yh(9KQ>Z8O^l:"},"seniorAbility":{},"timezone":{"config":{},"time":1782893546,"validTime":1800}},"t":1782893546,"success":true}
+[16:12:26.436] [RX ] [07-01 16:12:26.368 ty D][0x60fdafe4][tls_transporter.c:93] tls transporter close socket fd:1
+[16:12:26.437] [RX ] [07-01 16:12:26.369 ty D][0x60fdafe4][tcp_transporter.c:173] tcp transporter close socket fd:1
+[16:12:26.440] [RX ] [07-01 16:12:26.370 ty D][0x60fdafe4][tls_transporter.c:101] tls transporter close tls handler:0x60d603c0
+[16:12:26.441] [RX ] [07-01 16:12:26.371 ty D][0x60fdafe4][tuya_tls.c:1272] TUYA_TLS Disconnect ENTER
+[16:12:26.444] [RX ] [07-01 16:12:26.372 ty D][0x60fdafe4][tuya_tls.c:1297] TUYA_TLS Disconnect Success
+[16:12:26.445] [RX ] [07-01 16:12:26.373 ty D][0x60fdafe4][tuya_tls.c:990] tuya_tls_connect_destroy.
+[16:12:26.447] [RX ] [07-01 16:12:26.373 ty N][0x60fdafe4][tuya_devos_utils.c:109] reset dp rate rule finish.
+[16:12:26.449] [RX ] [07-01 16:12:26.383 ty D][0x60fdafe4][iot_httpc.c:2230] NO ackId
+[16:12:26.449] [RX ] bk_value:12 / 10 / 12, ty_value:2
+[16:12:26.450] [RX ] bk_value:12 / 10 / 12, ty_value:2
+[16:12:26.453] [RX ] [07-01 16:12:26.388 ty D][0x60fdafe4][iot_httpc.c:979] Post Data: {"data":"2","t":1782893546}
+[16:12:26.516] [RX ] [07-01 16:12:26.448 ty D][0x60fdafe4][iot_httpc.c:991] Post URL: https://a6.tuyacn.com/d.json?a=atop.online.debug.log&devId=6c4193aadd3af18223pj5q&et=3&t=1782893546&sign=def209a9daaa9dc031b0c86bf875bfa1
+[16:12:26.534] [RX ] [07-01 16:12:26.469 ty D][0x60fdafe4][httpc.c:639] Connect: a6.tuyacn.com Port: 443  -->>
+[16:12:26.537] [RX ] [07-01 16:12:26.470 ty D][0x60fdafe4][uni_network.c:356] unw_gethostbyname a6.tuyacn.com, prio 1
+[16:12:26.540] [RX ] [07-01 16:12:26.472 ty D][0x60fdafe4][uni_network.c:372] use dynamic dns ip:8.153.105.238 for domain:a6.tuyacn.com
+[16:12:26.540] [RX ] tkl_net_socket_create type(0), fd(1)!
+[16:12:26.542] [RX ] [07-01 16:12:26.473 ty D][0x60fdafe4][tcp_transporter.c:75] bind ip:0a649e2d port:0 ok
+[16:12:26.614] [RX ] [07-01 16:12:26.548 ty D][0x60fdafe4][tuya_tls.c:1028] MAX SECURITY_LEVEL:1, TUYA SECURITY_LEVEL:1, mode:1
+[16:12:26.617] [RX ] [07-01 16:12:26.548 ty D][0x60fdafe4][tuya_tls.c:1037] TUYA_TLS Begin Connect a6.tuyacn.com:443
+[16:12:26.618] [RX ] [07-01 16:12:26.549 ty D][0x60fdafe4][tuya_tls.c:783] mbedtls authmode: MBEDTLS_SSL_VERIFY_REQUIRED
+[16:12:26.642] [RX ] [07-01 16:12:26.549 ty D][0x60fdafe4][tuya_tls.c:796] load a6.tuyacn.com cert, port 443
+[16:12:26.642] [RX ] [07-01 16:12:26.551 ty D][0x60fdafe4][tuya_cert_manager.c:273] p_url:a6.tuyacn.com, rcs.urlx:h6-ay.iot-dns.com
+[16:12:26.642] [RX ] [07-01 16:12:26.551 ty D][0x60fdafe4][tuya_cert_manager.c:296] tuya public url
+[16:12:26.642] [RX ] [07-01 16:12:26.552 ty D][0x60fdafe4][tuya_cert_manager.c:1158] parse crt <0> len <540> ret <0>
+[16:12:26.642] [RX ] [07-01 16:12:26.553 ty D][0x60fdafe4][tuya_tls.c:1128] socket fd is set. set to inner send/recv to handshake
+[16:12:27.372] [RX ] [ONBOARD_MIC] data_size: 256000(Bytes), 62KB/s 
+[16:12:27.372] [RX ] [RAW_READ] data_size: 128000(Bytes), 31KB/s 
+[16:12:27.372] [RX ] [RAW_WRITE] data_size: 0(Bytes), 0KB/s 
+[16:12:27.372] [RX ] [ONBOARD_SPK] data_size: 0(Bytes), 0KB/s 
+[16:12:27.372] [RX ] [WIFI_TX] data_size: 128000(Bytes), 31KB/s 
+[16:12:27.372] [RX ] [WIFI_RX] data_size: 0(Bytes), 0KB/s 

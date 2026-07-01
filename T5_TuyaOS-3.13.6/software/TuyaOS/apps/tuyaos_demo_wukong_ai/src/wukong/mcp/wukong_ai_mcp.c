@@ -30,6 +30,11 @@
 #include "tools/mcp_tool_social.h"
 #include "tools/mcp_tool_camera.h"
 #include "tools/mcp_tool_motion.h"
+#if defined(ENABLE_TOOLKITS_EXTERNAL_MCP) && (ENABLE_TOOLKITS_EXTERNAL_MCP == 1)
+#include "tools/mcp_tool_external_mcp.h"
+#include "client/mcp_client_manager.h"
+#include "client/mcp_client_bridge.h"
+#endif
 
 OPERATE_RET wukong_ai_mcp_init(VOID)
 {
@@ -60,6 +65,12 @@ OPERATE_RET wukong_ai_mcp_init(VOID)
 
 #if defined(ENABLE_TOOLKITS_MOTION) && (ENABLE_TOOLKITS_MOTION == 1)
     TUYA_CALL_ERR_LOG(mcp_tool_motion_init());
+#endif
+
+#if defined(ENABLE_TOOLKITS_EXTERNAL_MCP) && (ENABLE_TOOLKITS_EXTERNAL_MCP == 1)
+    TUYA_CALL_ERR_LOG(mcp_client_bridge_init());
+    TUYA_CALL_ERR_LOG(mcp_client_manager_init());
+    TUYA_CALL_ERR_LOG(mcp_tool_external_mcp_init());
 #endif
 
     TAL_PR_DEBUG("MCP Server initialized successfully");
