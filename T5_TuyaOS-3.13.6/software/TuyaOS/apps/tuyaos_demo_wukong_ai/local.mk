@@ -138,12 +138,16 @@ endif
 # git tag 可能仍为 0.0.33，此处强制产品版本号便于烧录核对（P2P 低功耗修复从 0.0.37 起）。
 VER := $(shell echo $(APP_VER) | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 ifeq ($(VER),)
-VER := 0.0.44
+VER := 0.0.46
 endif
 # 开发阶段固定版本，避免 get_ver_tag.sh 的 git tag 覆盖修复版
 # 0.0.43：T5AI_BOARD I2C 引脚修正 + 第三方 MCP Client 聚合 MVP
 # 0.0.44：修复 mcp_client_now_unix 误用 tal_time_get(POSIX_TM_S*) 导致的 PC=0x8 MemFault 重启
-VER := 0.0.44
+# 0.0.45：MCP 128KB + food_scene + ASR 路由 + secrets 令牌 + QUERY 工具免确认查菜单
+# 0.0.46：nearby searchType=2+city、Markdown 内嵌 JSON 解析、优惠券 ASR 路由
+# 0.0.47：MCP 点餐/查券结果摘要回灌 UI + 云端 TTS 朗读
+# 0.0.48：MCP Python bridge/server packaging update
+VER := 0.0.48
 LOCAL_TUYA_SDK_CFLAGS := -DUSER_SW_VER=\"$(VER)\" -DAPP_BIN_NAME=\"$(APP_NAME)\" -DAI_PLAYER_SUPPORT_DEFAULT_CONSUMER=0
 # wukong includes via CFLAGS (not SDK_INC) to prevent recursive find from
 # pulling in tm/tests/stubs/ which shadows real headers (ty_cJSON.h etc.)
@@ -561,4 +565,3 @@ include $(OUT_COMPILE_INFO)
 
 
 #---------------------------------------
-

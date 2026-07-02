@@ -58,6 +58,7 @@ STATIC OPERATE_RET __http_sync_cb(HTTP_INF_H_S *hand)
 
     ctx = (MCP_HTTP_SYNC_CTX_T *)*hand->pri_data;
     ctx->resp.status_code = hand->status_code;
+    ctx->transport_rt = OPRT_OK;
 
     if (hand->status_code == 429) {
         ctx->transport_rt = OPRT_EXCEED_UPPER_LIMIT;
@@ -99,7 +100,7 @@ STATIC OPERATE_RET __http_sync_cb(HTTP_INF_H_S *hand)
     buf[total] = '\0';
     ctx->resp.body = buf;
     ctx->resp.body_len = total;
-    ctx->transport_rt = OPRT_OK;
+    /* 缓冲区溢出时保留 OPRT_BUFFER_NOT_ENOUGH，勿覆盖为 OPRT_OK */
     tal_semaphore_post(ctx->sem);
     return OPRT_OK;
 }
@@ -160,19 +161,89 @@ VOID mcp_client_transport_free_resp(MCP_CLIENT_HTTP_RESP_T *resp)
     resp->body_len = 0;
 }
 
-STATIC OPERATE_RET __parse_jsonrpc_result(CONST CHAR_T *body, ty_cJSON **out_result, INT_T http_status)
+STATIC VOID __log_body_diag(CONST CHAR_T *stage, UINT_T body_len, CONST CHAR_T *body)
+{
+    CHAR_T prefix[129];
+    UINT_T n;
+
+    if (!body || body_len == 0) {
+        TAL_PR_WARN("MCP jsonrpc %s fail body_len=0", stage);
+        return;
+    }
+
+    n = body_len > 128 ? 128 : body_len;
+    memcpy(prefix, body, n);
+    prefix[n] = '\0';
+    TAL_PR_WARN("MCP jsonrpc %s fail body_len=%u prefix=%s", stage, body_len, prefix);
+}
+
+/* StreamableHTTP 允许服务端以 SSE 帧（text/event-stream）返回 JSON-RPC */
+STATIC ty_cJSON *__parse_sse_or_json(CONST CHAR_T *body)
+{
+    ty_cJSON *root;
+    ty_cJSON *fallback = NULL;
+    CONST CHAR_T *p;
+
+    root = ty_cJSON_Parse(body);
+    if (root)
+        return root;
+
+    p = body;
+    while ((p = strstr(p, "data:")) != NULL) {
+        CONST CHAR_T *s = p + 5;
+        CONST CHAR_T *e;
+        SIZE_T len;
+        CHAR_T *line;
+
+        while (*s == ' ' || *s == '\t')
+            s++;
+        e = s;
+        while (*e && *e != '\n' && *e != '\r')
+            e++;
+
+        len = (SIZE_T)(e - s);
+        if (len > 0) {
+            line = (CHAR_T *)tal_malloc(len + 1);
+            if (line) {
+                memcpy(line, s, len);
+                line[len] = '\0';
+                root = ty_cJSON_Parse(line);
+                tal_free(line);
+                if (root) {
+                    if (ty_cJSON_GetObjectItem(root, "jsonrpc") ||
+                        ty_cJSON_GetObjectItem(root, "result") ||
+                        ty_cJSON_GetObjectItem(root, "error"))
+                        return root;
+                    if (!fallback)
+                        fallback = root;
+                    else
+                        ty_cJSON_Delete(root);
+                }
+            }
+        }
+        p = (*e) ? e + 1 : e;
+    }
+
+    return fallback;
+}
+
+STATIC OPERATE_RET __parse_jsonrpc_result(CONST CHAR_T *body, UINT_T body_len,
+                                          ty_cJSON **out_result, INT_T http_status)
 {
     ty_cJSON *root, *result, *error;
 
     if (!body || !out_result)
         return OPRT_INVALID_PARM;
 
-    root = ty_cJSON_Parse(body);
-    if (!root)
+    root = __parse_sse_or_json(body);
+    if (!root) {
+        __log_body_diag("parse", body_len, body);
         return OPRT_COM_ERROR;
+    }
 
     error = ty_cJSON_GetObjectItem(root, "error");
     if (error) {
+        __log_body_diag("jsonrpc_error", body_len, body);
         ty_cJSON_Delete(root);
         if (http_status == 429)
             return OPRT_EXCEED_UPPER_LIMIT;
@@ -181,13 +252,18 @@ STATIC OPERATE_RET __parse_jsonrpc_result(CONST CHAR_T *body, ty_cJSON **out_res
 
     result = ty_cJSON_GetObjectItem(root, "result");
     if (!result) {
+        __log_body_diag("missing_result", body_len, body);
         ty_cJSON_Delete(root);
         return OPRT_COM_ERROR;
     }
 
     *out_result = ty_cJSON_Duplicate(result, 1);
     ty_cJSON_Delete(root);
-    return (*out_result) ? OPRT_OK : OPRT_MALLOC_FAILED;
+    if (!*out_result) {
+        __log_body_diag("dup_result", body_len, body);
+        return OPRT_MALLOC_FAILED;
+    }
+    return OPRT_OK;
 }
 
 OPERATE_RET mcp_client_transport_jsonrpc(CONST MCP_CLIENT_SERVER_CFG_T *server,
@@ -233,6 +309,9 @@ OPERATE_RET mcp_client_transport_jsonrpc(CONST MCP_CLIENT_SERVER_CFG_T *server,
     rt = __http_post_json(server, payload, &resp, out_http_status);
     ty_cJSON_FreeBuffer(payload);
     if (rt != OPRT_OK) {
+        if (rt == OPRT_BUFFER_NOT_ENOUGH)
+            TAL_PR_WARN("MCP transport rsp truncated mcp=%s method=%s max=%u",
+                        server->id, method, (UINT_T)MCP_CLIENT_HTTP_RESP_MAX);
         mcp_client_transport_free_resp(&resp);
         return rt;
     }
@@ -242,7 +321,7 @@ OPERATE_RET mcp_client_transport_jsonrpc(CONST MCP_CLIENT_SERVER_CFG_T *server,
         return OPRT_COM_ERROR;
     }
 
-    rt = __parse_jsonrpc_result(resp.body, out_result, resp.status_code);
+    rt = __parse_jsonrpc_result(resp.body, resp.body_len, out_result, resp.status_code);
     mcp_client_transport_free_resp(&resp);
     return rt;
 }

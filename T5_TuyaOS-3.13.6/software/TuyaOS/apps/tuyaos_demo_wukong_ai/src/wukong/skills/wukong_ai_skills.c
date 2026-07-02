@@ -11,6 +11,9 @@
 #include "tal_memory.h"
 #include "ty_cJSON.h"
 #include <stdio.h>
+#if defined(ENABLE_TOOLKITS_EXTERNAL_MCP) && (ENABLE_TOOLKITS_EXTERNAL_MCP == 1)
+#include "client/mcp_client_food_scene.h"
+#endif
 
 STATIC BOOL_T __s_chat_break = FALSE;
 OPERATE_RET __wukong_ai_skill_process(AI_TEXT_TYPE_E type, ty_cJSON *root, BOOL_T eof)
@@ -85,6 +88,12 @@ OPERATE_RET __wukong_ai_asr_process(AI_TEXT_TYPE_E type, ty_cJSON *root, BOOL_T 
     // TUYA_CHECK_NULL_RETURN(data, OPRT_INVALID_PARM);
     CHAR_T *content =  ty_cJSON_GetStringValue(root);
     TAL_PR_NOTICE("wukong text -> ASR result: %s", content);
+
+#if defined(ENABLE_TOOLKITS_EXTERNAL_MCP) && (ENABLE_TOOLKITS_EXTERNAL_MCP == 1)
+    /* 端侧关键词路由：麦当劳/汉堡/点餐 → 异步拉 MCP 菜单（不阻塞 ASR 回调） */
+    if (content && mcp_client_food_scene_try_asr(content))
+        TAL_PR_INFO("Food MCP ASR keyword route scheduled");
+#endif
     
     // send data to register cb
     WUKONG_AI_TEXT_T text;

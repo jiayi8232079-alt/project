@@ -166,10 +166,18 @@ STATIC OPERATE_RET __mcp_call_namespaced(CONST CHAR_T *name, CONST ty_cJSON *arg
 STATIC OPERATE_RET __mcp_food_recommend(CONST CHAR_T *name, CONST ty_cJSON *args,
                                         ty_cJSON **out_content, BOOL_T *is_error, VOID *user_data)
 {
+    CONST CHAR_T *user_query = NULL;
+    ty_cJSON *j;
+
     (VOID)name;
-    (VOID)args;
     (VOID)user_data;
-    return mcp_client_food_scene_recommend(out_content, is_error);
+
+    if (args) {
+        j = ty_cJSON_GetObjectItem(args, "userQuery");
+        if (j && ty_cJSON_IsString(j))
+            user_query = j->valuestring;
+    }
+    return mcp_client_food_scene_recommend(user_query, out_content, is_error);
 }
 
 STATIC OPERATE_RET __mcp_load_example(CONST CHAR_T *name, CONST ty_cJSON *args,
@@ -221,8 +229,12 @@ OPERATE_RET mcp_tool_external_mcp_init(VOID)
                  NULL);
 
     MCP_TOOL_ADD("device_mcp_food_recommend",
-                 "Food ordering scene: map query-only MCP tools for recommendations",
-                 __mcp_food_recommend, NULL, NULL);
+                 "McDonald order: query-nearby-stores(searchType=2,city from device config) "
+                 "then query-meals. For 优惠券 use available-coupons / query-my-coupons. "
+                 "Prefer over NLG for 麦当劳/汉堡/点餐/优惠券.",
+                 __mcp_food_recommend, NULL,
+                 MCP_SCHEMA_STR_OPT("userQuery", "User utterance e.g. 点一份麦当劳"),
+                 NULL);
 
     MCP_TOOL_ADD("device_mcp_load_mcd_example",
                  "Load McDonald MCP example config (placeholder token)",

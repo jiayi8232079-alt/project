@@ -22,7 +22,8 @@ extern "C" {
 #define MCP_CLIENT_TOOL_NAME_MAX    64
 #define MCP_CLIENT_TOOL_DESC_MAX    256
 #define MCP_CLIENT_HTTP_TIMEOUT_MS  15000
-#define MCP_CLIENT_HTTP_RESP_MAX    (32 * 1024)
+/* 麦当劳 tools/list 响应约 65KB，留余量避免截断导致 JSON 解析失败 */
+#define MCP_CLIENT_HTTP_RESP_MAX    (128 * 1024)
 
 /** MCP Server 传输类型（MVP 仅实现 streamablehttp） */
 typedef enum {

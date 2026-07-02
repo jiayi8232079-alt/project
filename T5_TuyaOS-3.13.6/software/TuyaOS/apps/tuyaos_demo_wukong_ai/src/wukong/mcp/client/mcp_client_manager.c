@@ -22,6 +22,28 @@ STATIC MCP_CLIENT_TOOL_CACHE_T s_tools[MCP_CLIENT_MAX_TOOLS];
 STATIC UINT_T s_tool_count = 0;
 STATIC MUTEX_HANDLE s_mutex = NULL;
 
+STATIC CONST CHAR_T *__mcp_rt_label(OPERATE_RET rt)
+{
+    switch (rt) {
+    case OPRT_OK:
+        return "ok";
+    case OPRT_COM_ERROR:
+        return "com_error";
+    case OPRT_BUFFER_NOT_ENOUGH:
+        return "buffer_not_enough";
+    case OPRT_AUTHENTICATION_FAIL:
+        return "auth_fail";
+    case OPRT_EXCEED_UPPER_LIMIT:
+        return "rate_limit";
+    case OPRT_TIMEOUT:
+        return "timeout";
+    case OPRT_MALLOC_FAILED:
+        return "malloc_fail";
+    default:
+        return "other";
+    }
+}
+
 /* 启动后异步 refresh，避免在 tuya_app_main 栈上同步 TLS */
 STATIC VOID __boot_refresh_worker(VOID_T *data)
 {
@@ -44,6 +66,7 @@ STATIC VOID __clear_tools(VOID)
 
 STATIC OPERATE_RET __cache_tools_from_server(CONST MCP_CLIENT_SERVER_CFG_T *server)
 {
+    UINT_T before_count;
     ty_cJSON *params, *result, *tools;
     INT_T http_status = 0;
     OPERATE_RET rt;
@@ -52,6 +75,8 @@ STATIC OPERATE_RET __cache_tools_from_server(CONST MCP_CLIENT_SERVER_CFG_T *serv
     if (!server || !server->enabled)
         return OPRT_OK;
 
+    before_count = s_tool_count;
+
     params = ty_cJSON_CreateObject();
     if (!params)
         return OPRT_MALLOC_FAILED;
@@ -59,7 +84,8 @@ STATIC OPERATE_RET __cache_tools_from_server(CONST MCP_CLIENT_SERVER_CFG_T *serv
     rt = mcp_client_transport_jsonrpc(server, "tools/list", params, &result, &http_status);
     ty_cJSON_Delete(params);
     if (rt != OPRT_OK) {
-        TAL_PR_WARN("MCP tools/list failed id=%s rt=%d http=%d", server->id, rt, http_status);
+        TAL_PR_WARN("MCP tools/list failed id=%s rt=%d(%s) http=%d",
+                    server->id, rt, __mcp_rt_label(rt), http_status);
         return rt;
     }
 
@@ -109,7 +135,7 @@ STATIC OPERATE_RET __cache_tools_from_server(CONST MCP_CLIENT_SERVER_CFG_T *serv
     }
 
     ty_cJSON_Delete(result);
-    TAL_PR_INFO("MCP cached tools id=%s count=%d", server->id, s_tool_count);
+    TAL_PR_INFO("MCP cached tools id=%s count=%u", server->id, s_tool_count - before_count);
     return OPRT_OK;
 }
 
@@ -185,7 +211,7 @@ OPERATE_RET mcp_client_manager_test_connection(CONST CHAR_T *mcp_id, CHAR_T *det
     {
         ty_cJSON *ci = ty_cJSON_CreateObject();
         ty_cJSON_AddStringToObject(ci, "name", "wukong-mcp-client");
-        ty_cJSON_AddStringToObject(ci, "version", "0.0.44");
+        ty_cJSON_AddStringToObject(ci, "version", "0.0.46");
         ty_cJSON_AddItemToObject(params, "clientInfo", ci);
     }
 
@@ -349,6 +375,9 @@ OPERATE_RET mcp_client_manager_call_tool(CONST CHAR_T *namespaced, CONST ty_cJSO
         ty_cJSON_Delete(server.headers);
 
     if (rt != OPRT_OK) {
+        if (rt == OPRT_BUFFER_NOT_ENOUGH)
+            TAL_PR_WARN("MCP tools/call rsp truncated ns=%s max=%u", namespaced,
+                        (UINT_T)MCP_CLIENT_HTTP_RESP_MAX);
         *out_content = ty_cJSON_CreateArray();
         if (*out_content)
             ty_cJSON_AddItemToArray(*out_content, mcp_content_make_text("External MCP call failed"));

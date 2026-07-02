@@ -4,8 +4,10 @@
  */
 
 #include "mcp_client_config.h"
+#include "mcp_client_secrets.h"
 #include "mcp_client_util.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #include "tal_log.h"
@@ -324,19 +326,29 @@ OPERATE_RET mcp_client_config_remove(CONST CHAR_T *id)
 OPERATE_RET mcp_client_config_load_example_mcd(VOID)
 {
     MCP_CLIENT_SERVER_CFG_T entry;
+    CHAR_T headers_json[256];
 
     memset(&entry, 0, sizeof(entry));
     snprintf(entry.id, sizeof(entry.id), "mcd");
     snprintf(entry.name, sizeof(entry.name), "麦当劳 MCP");
     entry.type = MCP_CLIENT_TYPE_STREAMABLEHTTP;
-    snprintf(entry.url, sizeof(entry.url), "https://mcp.mcd.cn");
-    entry.headers = ty_cJSON_Parse("{\"Authorization\":\"Bearer YOUR_MCP_TOKEN\"}");
+    snprintf(entry.url, sizeof(entry.url), "%s", MCD_MCP_URL);
+    snprintf(headers_json, sizeof(headers_json),
+             "{\"Authorization\":\"Bearer %s\"}", MCD_MCP_TOKEN);
+    entry.headers = ty_cJSON_Parse(headers_json);
+    if (!entry.headers)
+        return OPRT_MALLOC_FAILED;
     entry.enabled = TRUE;
-    entry.risk_level = MCP_CLIENT_RISK_PURCHASE;
-    entry.require_user_confirm = TRUE;
+    /* server 默认 QUERY；下单类工具仍由 policy 按工具名升为 PURCHASE 并需确认 */
+    entry.risk_level = MCP_CLIENT_RISK_QUERY;
+    entry.require_user_confirm = FALSE;
     entry.created_at = mcp_client_now_unix();
     entry.updated_at = entry.created_at;
 
-    TAL_PR_INFO("MCP example config upsert id=%s url=%s (token placeholder)", entry.id, entry.url);
+    if (MCD_MCP_TOKEN_IS_PLACEHOLDER()) {
+        TAL_PR_WARN("MCP example config upsert id=%s url=%s (token placeholder)", entry.id, entry.url);
+    } else {
+        TAL_PR_INFO("MCP example config upsert id=%s url=%s", entry.id, entry.url);
+    }
     return mcp_client_config_upsert(&entry);
 }

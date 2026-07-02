@@ -59,6 +59,14 @@ VOID mcp_client_policy_decide(CONST MCP_CLIENT_SERVER_CFG_T *server,
     out->effective_risk = effective;
     out->require_user_confirm = (server && server->require_user_confirm);
 
+    /* 只读 QUERY 工具（query/search/list/get）不受 server 级 PURCHASE 连坐，便于语音查菜单 */
+    if (tool_risk == MCP_CLIENT_RISK_QUERY) {
+        out->effective_risk = MCP_CLIENT_RISK_QUERY;
+        out->require_user_confirm = FALSE;
+        out->allow_auto_call = TRUE;
+        return;
+    }
+
     if (effective >= MCP_CLIENT_RISK_PURCHASE)
         out->require_user_confirm = TRUE;
 
