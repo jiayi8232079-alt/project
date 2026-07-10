@@ -7,7 +7,7 @@
  *
  * 视觉：纯 LVGL 图元，无图片资源
  *  - 黑底
- *  - 双眼：纯白发光圆环（lv_arc 画满 360° 背景弧）+ 半透明柔光环
+ *  - 双眼：纯白单层发光圆环（lv_arc 画满 360° 背景弧），黑色中空
  *  - 嘴：白色 U 形微笑弧
  *
  * 让表情“活”起来（比静态照片更俏皮）：
@@ -24,7 +24,7 @@
  *  - loving / love / lovestruck  → 微笑（柔光更亮）
  *  - sad                         → 嘴角下弯，收敛俏皮动作（只眨眼）
  *  - thinking                    → 左眼半眯 + 中性嘴
- *  - listening / wake / awake    → 唤醒/聆听：聚焦睁眼 + 柔光提亮 + 中性嘴
+ *  - listening / wake / awake    → 唤醒/聆听：聚焦睁眼 + 中性嘴
  *  - querying / searching        → 查询中：整脸轻微扫动 + 三点循环 + 中性嘴
  *  - 其它                        → neutral 微笑
  *
@@ -46,19 +46,21 @@
 /* 圆环眼 */
 #define EYE_D               50          /* 外径 */
 #define EYE_RING_W          4           /* 细线圆环，贴近实物屏显 */
-#define EYE_HALO_W          10          /* 柔光略宽于主线 */
+#define EYE_HALO_W          10          /* 仅保留为隐藏动画占位，默认不显示第二层圆 */
 
 /* 最高亮度：RGB565 纯白（color swap 安全色） */
 #define COL_GLOW            lv_color_white()
 #define COL_GLOW_HALO       lv_color_white()
-#define HALO_OPA_MAX        LV_OPA_50   /* 柔光半透明，避免视觉上把圆环“加粗” */
-#define HALO_OPA_SAD        LV_OPA_80
+#define HALO_OPA_MAX        LV_OPA_0    /* 参考渲染图只要单层眼圈，避免出现“双圈” */
+#define HALO_OPA_SAD        LV_OPA_0
+#define MOUTH_OPA_SAD       LV_OPA_80
 #define EYE_GAP             54
 #define EYES_BLOCK_W        (EYE_D * 2 + EYE_GAP)
 #define LEFT_EYE_X          ((SCREEN_W - EYES_BLOCK_W) / 2)
 #define RIGHT_EYE_X         (LEFT_EYE_X + EYE_D + EYE_GAP)
 #define EYE_Y               68
-#define EYE_BLINK_MIN       6           /* 闭眼时圆环压扁到的高度 */
+#define EYE_BLINK_MIN       6           /* legacy squint; blink uses eyelids */
+#define EYE_LID_CLOSE_H     (EYE_D / 2 + 6)
 #define EYE_SQUINT_H        (EYE_D * 3 / 5)  /* 眯眼坏笑时的高度 */
 #define EYE_THINK_H         (EYE_D / 2)  /* thinking 时左眼半眯高度 */
 
@@ -110,6 +112,10 @@ typedef enum {
 static lv_obj_t *s_face          = NULL;
 static lv_obj_t *s_left_eye      = NULL;
 static lv_obj_t *s_right_eye     = NULL;
+static lv_obj_t *s_left_lid_top  = NULL;
+static lv_obj_t *s_left_lid_bot  = NULL;
+static lv_obj_t *s_right_lid_top = NULL;
+static lv_obj_t *s_right_lid_bot = NULL;
 static lv_obj_t *s_left_halo     = NULL;
 static lv_obj_t *s_right_halo    = NULL;
 static lv_obj_t *s_mouth         = NULL;
@@ -140,6 +146,25 @@ static uint32_t prand(void)
 static void blink_h_anim_cb(void *obj, int32_t val)
 {
     lv_obj_set_height((lv_obj_t *)obj, (lv_coord_t)val);
+}
+
+static void lid_top_anim_cb(void *obj, int32_t val)
+{
+    lv_obj_set_height((lv_obj_t *)obj, (lv_coord_t)val);
+}
+
+static void lid_bot_anim_cb(void *obj, int32_t val)
+{
+    lv_obj_t *lid = (lv_obj_t *)obj;
+    lv_coord_t h = (lv_coord_t)val;
+
+    lv_obj_set_height(lid, h);
+    lv_obj_set_y(lid, (lv_coord_t)(EYE_Y + EYE_D - h));
+}
+
+static void eye_opa_anim_cb(void *obj, int32_t val)
+{
+    lv_obj_set_style_arc_opa((lv_obj_t *)obj, (lv_opa_t)val, LV_PART_MAIN);
 }
 
 static void face_x_anim_cb(void *obj, int32_t val)
@@ -227,6 +252,7 @@ static lv_obj_t *create_ring_eye_halo(lv_obj_t *parent, lv_coord_t x, lv_coord_t
     lv_obj_set_pos(halo, x, y);
     lv_obj_set_size(halo, (lv_coord_t)EYE_D, (lv_coord_t)EYE_D);
     style_glow_arc(halo, EYE_HALO_W, COL_GLOW_HALO, HALO_OPA_MAX);
+    lv_obj_add_flag(halo, LV_OBJ_FLAG_HIDDEN);
     return halo;
 }
 
@@ -238,6 +264,22 @@ static lv_obj_t *create_ring_eye(lv_obj_t *parent, lv_coord_t x, lv_coord_t y)
     lv_obj_set_size(eye, (lv_coord_t)EYE_D, (lv_coord_t)EYE_D);
     style_glow_arc(eye, EYE_RING_W, COL_GLOW, LV_OPA_COVER);
     return eye;
+}
+
+static lv_obj_t *create_eye_lid(lv_obj_t *parent, lv_coord_t x, lv_coord_t y, BOOL_T is_top)
+{
+    lv_obj_t *lid = lv_obj_create(parent);
+
+    lv_obj_set_pos(lid, x, y);
+    lv_obj_set_size(lid, (lv_coord_t)EYE_D, 0);
+    lv_obj_set_style_bg_color(lid, lv_color_black(), LV_PART_MAIN);
+    lv_obj_set_style_bg_opa(lid, LV_OPA_COVER, LV_PART_MAIN);
+    lv_obj_set_style_border_width(lid, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_all(lid, 0, LV_PART_MAIN);
+    lv_obj_set_style_radius(lid, is_top ? (lv_coord_t)(EYE_D / 2) : 0, LV_PART_MAIN);
+    lv_obj_clear_flag(lid, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_clear_flag(lid, LV_OBJ_FLAG_CLICKABLE);
+    return lid;
 }
 
 static lv_obj_t *create_smile_mouth(lv_obj_t *parent)
@@ -321,42 +363,57 @@ static void stop_mouth_wiggle(void)
 
 /* ── 一次性俏皮动作（全部用 playback 自动回弹到基线，无需善后定时器） ── */
 
-/* 单只眼连同柔光一起眨：count=1 单眨，count=2 双眨 */
-static void blink_pair(lv_obj_t *eye, lv_obj_t *halo, lv_coord_t base_h, uint8_t count)
+/* 单眼眨眼：黑底眼睑上下闭合，圆环保持圆形不压扁 */
+static void blink_eye_lids(lv_obj_t *top, lv_obj_t *bot, uint8_t count)
 {
-    lv_obj_t *objs[2];
-    int i;
+    lv_anim_t a;
 
-    objs[0] = eye;
-    objs[1] = halo;
-
-    for (i = 0; i < 2; i++) {
-        lv_anim_t a;
-
-        if (NULL == objs[i]) {
-            continue;
-        }
-        /* 先清残留并复位到基线，确保 playback 回弹点正确 */
-        lv_anim_del(objs[i], blink_h_anim_cb);
-        lv_obj_set_height(objs[i], base_h);
-
+    if (top) {
+        lv_anim_del(top, lid_top_anim_cb);
+        lv_obj_set_height(top, 0);
         lv_anim_init(&a);
-        lv_anim_set_var(&a, objs[i]);
-        lv_anim_set_exec_cb(&a, blink_h_anim_cb);
-        lv_anim_set_values(&a, (int32_t)base_h, (int32_t)EYE_BLINK_MIN);
-        lv_anim_set_time(&a, 110);          /* 闭眼 */
-        lv_anim_set_playback_time(&a, 130); /* 睁眼略慢更自然 */
+        lv_anim_set_var(&a, top);
+        lv_anim_set_exec_cb(&a, lid_top_anim_cb);
+        lv_anim_set_values(&a, 0, (int32_t)EYE_LID_CLOSE_H);
+        lv_anim_set_time(&a, 85);
+        lv_anim_set_playback_time(&a, 110);
         lv_anim_set_repeat_count(&a, count);
-        lv_anim_set_repeat_delay(&a, 90);   /* 双眨之间的停顿 */
-        lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+        lv_anim_set_repeat_delay(&a, 70);
+        lv_anim_set_path_cb(&a, lv_anim_path_ease_in);
+        lv_anim_start(&a);
+    }
+
+    if (bot) {
+        lv_anim_del(bot, lid_bot_anim_cb);
+        lv_obj_set_height(bot, 0);
+        lv_obj_set_y(bot, (lv_coord_t)(EYE_Y + EYE_D));
+        lv_anim_init(&a);
+        lv_anim_set_var(&a, bot);
+        lv_anim_set_exec_cb(&a, lid_bot_anim_cb);
+        lv_anim_set_values(&a, 0, (int32_t)EYE_LID_CLOSE_H);
+        lv_anim_set_time(&a, 85);
+        lv_anim_set_playback_time(&a, 110);
+        lv_anim_set_repeat_count(&a, count);
+        lv_anim_set_repeat_delay(&a, 70);
+        lv_anim_set_path_cb(&a, lv_anim_path_ease_in);
         lv_anim_start(&a);
     }
 }
 
+/* 单只眼连同柔光一起眨：count=1 单眨，count=2 双眨 */
+static void blink_pair(lv_obj_t *eye, lv_obj_t *halo, lv_obj_t *lid_top, lv_obj_t *lid_bot,
+                       lv_coord_t base_h, uint8_t count)
+{
+    (void)eye;
+    (void)halo;
+    (void)base_h;
+    blink_eye_lids(lid_top, lid_bot, count);
+}
+
 static void blink_both(uint8_t count)
 {
-    blink_pair(s_left_eye,  s_left_halo,  s_left_base_h,  count);
-    blink_pair(s_right_eye, s_right_halo, s_right_base_h, count);
+    blink_pair(s_left_eye,  s_left_halo,  s_left_lid_top,  s_left_lid_bot,  s_left_base_h,  count);
+    blink_pair(s_right_eye, s_right_halo, s_right_lid_top, s_right_lid_bot, s_right_base_h, count);
 }
 
 /* 整脸横移一下再回来：像好奇地往一侧瞄了一眼 */
@@ -476,29 +533,28 @@ static void wake_focus_pop(void)
     }
 }
 
-/* 柔光透明度从基线短促提亮到全亮再回落，表现“轻微亮起”（playback 回到 HALO_OPA_MAX） */
+/* 唤醒态：主环轻微提亮脉冲（不再使用第二层柔光圈） */
 static void wake_glow_pulse(void)
 {
-    lv_obj_t *halos[2];
+    lv_obj_t *eyes[2];
     int i;
 
-    halos[0] = s_left_halo;
-    halos[1] = s_right_halo;
-
+    eyes[0] = s_left_eye;
+    eyes[1] = s_right_eye;
     for (i = 0; i < 2; i++) {
         lv_anim_t a;
 
-        if (NULL == halos[i]) {
+        if (NULL == eyes[i]) {
             continue;
         }
-        lv_anim_del(halos[i], halo_opa_anim_cb);
+        lv_anim_del(eyes[i], eye_opa_anim_cb);
         lv_anim_init(&a);
-        lv_anim_set_var(&a, halos[i]);
-        lv_anim_set_exec_cb(&a, halo_opa_anim_cb);
-        lv_anim_set_values(&a, (int32_t)HALO_OPA_MAX, (int32_t)LV_OPA_COVER);
+        lv_anim_set_var(&a, eyes[i]);
+        lv_anim_set_exec_cb(&a, eye_opa_anim_cb);
+        lv_anim_set_values(&a, (int32_t)LV_OPA_70, (int32_t)LV_OPA_COVER);
         lv_anim_set_time(&a, 220);
-        lv_anim_set_playback_time(&a, 320);
-        lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+        lv_anim_set_playback_time(&a, 380);
+        lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
         lv_anim_start(&a);
     }
 }
@@ -646,7 +702,7 @@ static void schedule_next(void)
 {
     if (s_play_timer) {
         /* 1.8 ~ 3.7s 抖动，避免机械周期感 */
-        lv_timer_set_period(s_play_timer, 1800 + (prand() % 1900));
+        lv_timer_set_period(s_play_timer, 1200 + (prand() % 1600));
     }
 }
 
@@ -664,9 +720,14 @@ static void behavior_timer_cb(lv_timer_t *timer)
 
     r = prand() % 100U;
 
-    /* 难过 / 唤醒时收敛俏皮动作，只保留眨眼（唤醒态保持警觉聆听） */
-    if (s_expr == EXPR_SAD || s_expr == EXPR_WAKE) {
+    /* 难过时收敛俏皮动作；唤醒时保留眨眼与 wink */
+    if (s_expr == EXPR_SAD) {
         r = 0U;
+    } else if (s_expr == EXPR_WAKE) {
+        r = (prand() % 100U);
+        if (r >= 55U) {
+            r = 0U;
+        }
     }
 
     if (r < 45U) {
@@ -674,11 +735,10 @@ static void behavior_timer_cb(lv_timer_t *timer)
     } else if (r < 60U) {
         blink_both(2);                       /* 双眨 */
     } else if (r < 78U) {
-        /* 单眼 wink：左右随机 —— 俏皮核心 */
         if (prand() & 1U) {
-            blink_pair(s_left_eye, s_left_halo, s_left_base_h, 1);
+            blink_pair(s_left_eye, s_left_halo, s_left_lid_top, s_left_lid_bot, s_left_base_h, 1);
         } else {
-            blink_pair(s_right_eye, s_right_halo, s_right_base_h, 1);
+            blink_pair(s_right_eye, s_right_halo, s_right_lid_top, s_right_lid_bot, s_right_base_h, 1);
         }
     } else if (r < 92U) {
         do_glance((prand() & 1U) ? 1 : -1);  /* 左右张望 */
@@ -728,7 +788,7 @@ static void apply_expression(robot_expr_t e)
         set_eye_base_height(s_right_eye, s_right_halo, EYE_D);
         set_halo_brightness(s_left_halo,  HALO_OPA_SAD);
         set_halo_brightness(s_right_halo, HALO_OPA_SAD);
-        set_mouth_glow(HALO_OPA_SAD);
+        set_mouth_glow(MOUTH_OPA_SAD);
         set_mouth_shape(ANG_FROWN_S, ANG_FROWN_E);
         stop_mouth_wiggle();
         break;
@@ -804,6 +864,22 @@ void robot_face_ui_init(void)
     s_right_halo = create_ring_eye_halo(s_face, (lv_coord_t)RIGHT_EYE_X, (lv_coord_t)EYE_Y);
     s_left_eye   = create_ring_eye(s_face, (lv_coord_t)LEFT_EYE_X,  (lv_coord_t)EYE_Y);
     s_right_eye  = create_ring_eye(s_face, (lv_coord_t)RIGHT_EYE_X, (lv_coord_t)EYE_Y);
+    s_left_lid_top  = create_eye_lid(s_face, (lv_coord_t)LEFT_EYE_X,  (lv_coord_t)EYE_Y, TRUE);
+    s_left_lid_bot  = create_eye_lid(s_face, (lv_coord_t)LEFT_EYE_X,  (lv_coord_t)(EYE_Y + EYE_D), FALSE);
+    s_right_lid_top = create_eye_lid(s_face, (lv_coord_t)RIGHT_EYE_X, (lv_coord_t)EYE_Y, TRUE);
+    s_right_lid_bot = create_eye_lid(s_face, (lv_coord_t)RIGHT_EYE_X, (lv_coord_t)(EYE_Y + EYE_D), FALSE);
+    if (s_left_lid_top) {
+        lv_obj_move_foreground(s_left_lid_top);
+    }
+    if (s_left_lid_bot) {
+        lv_obj_move_foreground(s_left_lid_bot);
+    }
+    if (s_right_lid_top) {
+        lv_obj_move_foreground(s_right_lid_top);
+    }
+    if (s_right_lid_bot) {
+        lv_obj_move_foreground(s_right_lid_bot);
+    }
     s_mouth      = create_smile_mouth(s_face);
 
     /* 思考小点（查询态用）：默认隐藏，居中置于嘴部下方 */
@@ -869,16 +945,34 @@ void robot_face_ui_msg_handler(TY_DISPLAY_MSG_T *msg)
 {
     robot_expr_t new_expr;
 
-    if (NULL == msg || NULL == msg->data) {
+    if (NULL == msg) {
         return;
     }
 
     if (TY_DISPLAY_TP_EMOJI == msg->type) {
+        if (NULL == msg->data) {
+            return;
+        }
         new_expr = robot_face_emoji_to_expr((const char *)msg->data);
     } else if (TY_DISPLAY_TP_CHAT_STAT == msg->type) {
+        if (NULL == msg->data) {
+            return;
+        }
         if (!robot_face_chat_state_to_expr(msg->data[0], &new_expr)) {
             return;
         }
+    } else if (TY_DISPLAY_TP_HUMAN_CHAT == msg->type ||
+               TY_DISPLAY_TP_STAT_WAKEUP == msg->type ||
+               TY_DISPLAY_TP_STAT_LISTEN == msg->type) {
+        new_expr = EXPR_WAKE;
+    } else if (TY_DISPLAY_TP_AI_CHAT_START == msg->type ||
+               TY_DISPLAY_TP_AI_CHAT_DATA == msg->type ||
+               TY_DISPLAY_TP_STAT_SPEAK == msg->type) {
+        new_expr = EXPR_HAPPY;
+    } else if (TY_DISPLAY_TP_AI_CHAT_STOP == msg->type ||
+               TY_DISPLAY_TP_STAT_IDLE == msg->type ||
+               TY_DISPLAY_TP_STAT_SLEEP == msg->type) {
+        new_expr = EXPR_NEUTRAL;
     } else {
         return;
     }

@@ -1,0 +1,1064 @@
+@brand-green: #4CAF50;
+@brand-green-dark: #388E3C;
+@royal-obsidian: #1A1A1A;
+@warm-champagne: #D4AF37;
+@deep-gray: #333333;
+@soft-gray: #94A3B8;
+@alabaster: #F8F9FA;
+@medical-gray: #F5F7FA;
+@border-light: rgba(51, 51, 51, 0.06);
+@shadow-premium: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+@radius-squircle: 48rpx;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.btn-haptic {
+  transition: all 0.2s @ease-organic;
+  &:active { transform: scale(0.97); opacity: 0.9; }
+}
+
+.wb {
+  background: @alabaster;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.wb__admin-banner {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2a5298 100%);
+  flex-shrink: 0;
+
+  &-inner {
+    display: flex;
+    align-items: center;
+    padding: 20rpx 24rpx;
+  }
+
+  &-left {
+    width: 72rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .material-symbols-outlined {
+      font-size: 40rpx;
+      color: #fff;
+    }
+  }
+
+  &-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12rpx;
+    .material-symbols-outlined {
+      font-size: 36rpx;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &-text {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1rpx;
+  }
+}
+
+.anim-item { opacity: 0; }
+.wb--loaded .anim-item {
+  animation: fadeSlideUp 0.48s @ease-organic forwards;
+}
+.anim-0 { animation-delay: 0s; }
+.anim-1 { animation-delay: 0.06s; }
+.anim-2 { animation-delay: 0.12s; }
+.anim-3 { animation-delay: 0.18s; }
+
+.wb__scroll { flex: 1; min-height: 0; width: 100%; }
+
+.wb__header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(248, 249, 250, 0.8);
+  backdrop-filter: blur(40rpx);
+  padding: 24rpx 32rpx 16rpx;
+  border-bottom: 0.5rpx solid @border-light;
+}
+
+.wb__header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wb__title {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  letter-spacing: -1rpx;
+  display: block;
+}
+
+.wb__greeting {
+  font-size: 24rpx;
+  color: @soft-gray;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.wb__income {
+  margin: 20rpx 32rpx 0;
+  background: linear-gradient(135deg, @brand-green 0%, @brand-green-dark 100%);
+  border-radius: @radius-squircle;
+  padding: 40rpx;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12rpx 40rpx -8rpx rgba(76, 175, 80, 0.35);
+}
+
+.wb__income-bg {
+  position: absolute;
+  right: -20rpx;
+  top: -20rpx;
+  opacity: 0.1;
+  .material-symbols-outlined { font-size: 200rpx; }
+}
+
+.wb__income-body {
+  position: relative;
+  z-index: 2;
+}
+
+.wb__income-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.wb__income-amount {
+  font-size: 52rpx;
+  font-weight: 700;
+  display: block;
+  line-height: 1.1;
+  margin-bottom: 32rpx;
+}
+
+.wb__income-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.wb__income-col {
+  flex: 1;
+  text-align: center;
+}
+
+.wb__income-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  display: block;
+  line-height: 1.1;
+}
+
+.wb__income-unit {
+  font-size: 22rpx;
+  opacity: 0.7;
+  margin-top: 8rpx;
+  display: block;
+}
+
+.wb__income-divider {
+  width: 1rpx;
+  height: 56rpx;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.wb__income-unit-inline {
+  font-size: 22rpx;
+  opacity: 0.7;
+}
+
+// ── 订单状态统计条
+.wb__stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: @radius-squircle;
+  margin: 20rpx 32rpx 0;
+  padding: 28rpx 0;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+}
+
+.wb__stats-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.wb__stats-num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__stats-num--green {
+  color: @brand-green;
+}
+
+.wb__stats-label {
+  font-size: 22rpx;
+  color: @soft-gray;
+}
+
+.wb__stats-divider {
+  width: 1rpx;
+  height: 40rpx;
+  background: @border-light;
+}
+
+// ── 底部Tab栏
+.wb__tabbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(40rpx);
+  border-top: 0.5rpx solid @border-light;
+  padding: 16rpx 0;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -5rpx 40rpx rgba(0, 0, 0, 0.03);
+}
+
+.wb__tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  opacity: 0.3;
+
+  .material-symbols-outlined { font-size: 48rpx; }
+}
+
+.wb__tab-dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: 18rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #f56c6c;
+  border: 3rpx solid rgba(255, 255, 255, 0.95);
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.wb__tab--active {
+  opacity: 1;
+  .material-symbols-outlined { color: @brand-green; }
+}
+
+.wb__tab-label {
+  font-size: 20rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__tab--active .wb__tab-label {
+  color: @brand-green;
+}
+
+.wb__actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16rpx;
+  padding: 24rpx 32rpx 0;
+}
+
+.wb__action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  padding: 20rpx 0;
+}
+
+.wb__action-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .material-symbols-outlined { font-size: 44rpx; }
+}
+
+.wb__action-icon--green {
+  background: rgba(76, 175, 80, 0.1);
+  .material-symbols-outlined { color: @brand-green; }
+}
+
+.wb__action-icon--champagne {
+  background: rgba(212, 175, 55, 0.1);
+  .material-symbols-outlined { color: @warm-champagne; }
+}
+
+.wb__action-icon--blue {
+  background: rgba(59, 130, 246, 0.08);
+  .material-symbols-outlined { color: #3B82F6; }
+}
+
+.wb__action-icon--gold {
+  background: rgba(212, 175, 55, 0.08);
+  .material-symbols-outlined { color: @warm-champagne; }
+}
+
+/* 按 tone 变色（多角色工作台通用） */
+.wb__action-icon--tone-primary {
+  background: rgba(76, 175, 80, 0.12);
+  .material-symbols-outlined { color: #4CAF50; }
+}
+.wb__action-icon--tone-success {
+  background: rgba(76, 175, 80, 0.12);
+  .material-symbols-outlined { color: #43A047; }
+}
+.wb__action-icon--tone-info {
+  background: rgba(59, 130, 246, 0.12);
+  .material-symbols-outlined { color: #1E88E5; }
+}
+.wb__action-icon--tone-warning {
+  background: rgba(251, 140, 0, 0.12);
+  .material-symbols-outlined { color: #FB8C00; }
+}
+
+/* 顶部角色标记 */
+.wb__role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.22);
+  margin-bottom: 10rpx;
+
+  .wb__role-icon {
+    font-size: 28rpx;
+    color: #fff;
+  }
+  .wb__role-label {
+    font-size: 22rpx;
+    color: #fff;
+    font-weight: 600;
+  }
+}
+
+.wb__role-specialties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 12rpx;
+}
+
+.wb__role-specialty {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 20rpx;
+}
+
+.wb__action-icon-slot {
+  position: relative;
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wb__icon-badge {
+  position: absolute;
+  top: -4rpx;
+  right: -8rpx;
+  min-width: 34rpx;
+  height: 34rpx;
+  padding: 0 8rpx;
+  border-radius: 40rpx;
+  background: #f56c6c;
+  color: #fff;
+  font-size: 20rpx;
+  font-weight: 700;
+  line-height: 34rpx;
+  text-align: center;
+  border: 3rpx solid #fff;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.wb__action-name {
+  font-size: 22rpx;
+  color: @deep-gray;
+  font-weight: 500;
+}
+
+.wb__schedule {
+  padding: 28rpx 32rpx 0;
+}
+
+.wb__schedule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.wb__schedule-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__schedule-more {
+  display: flex;
+  align-items: center;
+  gap: 2rpx;
+  font-size: 24rpx;
+  color: @brand-green;
+  font-weight: 500;
+
+  .material-symbols-outlined { font-size: 28rpx; }
+}
+
+.wb__schedule-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+  gap: 12rpx;
+}
+
+.wb__schedule-empty-icon {
+  font-size: 64rpx;
+  color: rgba(76, 175, 80, 0.15);
+}
+
+.wb__schedule-empty-text {
+  font-size: 26rpx;
+  color: @soft-gray;
+}
+
+.wb__timeline {
+  position: relative;
+}
+
+.wb__tl-item {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 24rpx;
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.wb__tl-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 28rpx;
+  padding-top: 8rpx;
+}
+
+.wb__tl-dot {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  border: 6rpx solid rgba(148, 163, 184, 0.3);
+  background: #fff;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.wb__tl-dot--active {
+  border-color: @brand-green;
+  box-shadow: 0 0 0 6rpx rgba(76, 175, 80, 0.12);
+}
+
+.wb__tl-line {
+  width: 2rpx;
+  flex: 1;
+  background: rgba(148, 163, 184, 0.2);
+  margin-top: 8rpx;
+}
+
+.wb__tl-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 28rpx;
+  padding: 24rpx;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+}
+
+.wb__tl-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.wb__tl-time {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__tl-badge {
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 4rpx 14rpx;
+  border-radius: 100rpx;
+}
+
+.wb__tl-badge--in_progress {
+  background: rgba(76, 175, 80, 0.1);
+  color: @brand-green;
+}
+
+.wb__tl-badge--emergency {
+  background: rgba(255, 107, 87, 0.12);
+  color: #e85a4a;
+}
+
+.wb__tl-badge--pending_service {
+  background: rgba(255, 152, 0, 0.1);
+  color: #FF9800;
+}
+
+.wb__tl-badge--completed {
+  background: rgba(148, 163, 184, 0.1);
+  color: @soft-gray;
+}
+
+.wb__tl-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: @royal-obsidian;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.wb__tl-meta {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  font-size: 24rpx;
+  color: @soft-gray;
+
+  .material-symbols-outlined { font-size: 26rpx; }
+}
+
+.wb__tl-sep {
+  width: 1rpx;
+  height: 20rpx;
+  background: rgba(148, 163, 184, 0.3);
+  margin: 0 6rpx;
+}
+
+.wb__tl-completion {
+  margin-top: 14rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  padding: 14rpx 16rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 152, 0, 0.1);
+}
+
+.wb__tl-completion--done {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.wb__tl-completion-text {
+  font-size: 22rpx;
+  font-weight: 700;
+  color: #a16207;
+}
+
+.wb__tl-completion--done .wb__tl-completion-text,
+.wb__tl-completion--done .wb__tl-completion-desc {
+  color: @brand-green;
+}
+
+.wb__tl-completion-desc {
+  font-size: 22rpx;
+  color: #b45309;
+}
+
+.wb__more {
+  margin: 24rpx 32rpx;
+  background: #fff;
+  border-radius: @radius-squircle;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+  overflow: hidden;
+}
+
+.wb__more-row {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  gap: 16rpx;
+
+  & + & {
+    border-top: 0.5rpx solid @border-light;
+  }
+}
+
+.wb__more-icon {
+  font-size: 36rpx;
+  color: @soft-gray;
+}
+
+.wb__more-label {
+  flex: 1;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: @deep-gray;
+}
+
+.wb__more-arrow {
+  font-size: 28rpx;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.wb__empty {
+  flex: 1;
+  padding: 120rpx 48rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.wb__empty-icon {
+  font-size: 96rpx;
+  color: rgba(76, 175, 80, 0.2);
+  margin-bottom: 24rpx;
+}
+
+.wb__empty-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  margin-bottom: 16rpx;
+}
+
+.wb__empty-desc {
+  font-size: 26rpx;
+  color: @soft-gray;
+  line-height: 1.6;
+  margin-bottom: 48rpx;
+}
+
+.wb__empty-btn {
+  padding: 20rpx 48rpx;
+  background: @brand-green;
+  color: #fff;
+  border-radius: 100rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 24rpx -4rpx rgba(76, 175, 80, 0.35);
+}
+
+.safe-bottom {
+  height: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+// ══════════════════════════════════════════
+// Tab 1 — 全部日程
+// ══════════════════════════════════════════
+
+.wb__header--all {
+  padding-bottom: 0;
+}
+
+.wb__header-row--spread {
+  margin-bottom: 16rpx;
+}
+
+.wb__header-title-wrap {
+  flex: 1;
+}
+
+.wb__filter-btn {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+
+  .material-symbols-outlined { font-size: 40rpx; color: @deep-gray; }
+}
+
+// ── 分段选择器
+.wb__seg {
+  display: flex;
+  background: rgba(148, 163, 184, 0.08);
+  border-radius: 20rpx;
+  padding: 4rpx;
+  margin: 0 0 4rpx;
+}
+
+.wb__seg-item {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  padding: 12rpx 0;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: @soft-gray;
+  border-radius: 16rpx;
+  transition: all 0.2s @ease-organic;
+  white-space: nowrap;
+}
+
+.wb__seg-item--active {
+  background: #fff;
+  color: @royal-obsidian;
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+// ── 日程分组
+.wb__grp {
+  padding: 0 32rpx;
+  margin-top: 36rpx;
+}
+
+.wb__grp-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.wb__grp-date {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__grp-count {
+  font-size: 22rpx;
+  color: @brand-green;
+  font-weight: 500;
+}
+
+.wb__grp-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.wb__grp-card {
+  background: #fff;
+  border-radius: 32rpx;
+  padding: 28rpx;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  animation: fadeSlideUp 0.3s @ease-organic;
+}
+
+.wb__grp-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wb__grp-time {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__grp-badge {
+  font-size: 20rpx;
+  font-weight: 700;
+  padding: 4rpx 16rpx;
+  border-radius: 100rpx;
+  background: @medical-gray;
+  color: @soft-gray;
+}
+
+.wb__grp-badge--in_progress {
+  background: rgba(255, 152, 0, 0.1);
+  color: #FF9800;
+}
+
+.wb__grp-badge--canceled {
+  background: rgba(244, 67, 54, 0.08);
+  color: #F44336;
+}
+
+.wb__grp-badge--pending_sign,
+.wb__grp-badge--pending_service,
+.wb__grp-badge--pending_accept {
+  background: rgba(148, 163, 184, 0.1);
+  color: @soft-gray;
+}
+
+.wb__grp-badge--completed {
+  background: rgba(76, 175, 80, 0.08);
+  color: @brand-green;
+}
+
+.wb__grp-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__grp-meta {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.wb__grp-patient,
+.wb__grp-dept {
+  font-size: 24rpx;
+  color: @soft-gray;
+}
+
+.wb__grp-sep {
+  width: 1rpx;
+  height: 18rpx;
+  background: rgba(148, 163, 184, 0.3);
+  margin: 0 6rpx;
+}
+
+// ══════════════════════════════════════════
+// Tab 2 — 我的
+// ══════════════════════════════════════════
+
+.wb__mine-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+  padding-bottom: 48rpx;
+}
+
+.wb__mine-avatar-wrap {
+  position: relative;
+  margin-bottom: 24rpx;
+}
+
+.wb__mine-avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  border: 4rpx solid @brand-green;
+  padding: 4rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.wb__mine-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.wb__mine-avatar-char {
+  font-size: 60rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__mine-badge {
+  position: absolute;
+  bottom: -8rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: @warm-champagne;
+  color: #fff;
+  font-size: 20rpx;
+  font-weight: 700;
+  padding: 6rpx 20rpx;
+  border-radius: 100rpx;
+  box-shadow: 0 4rpx 12rpx rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+
+  .material-symbols-outlined { font-size: 22rpx; }
+}
+
+.wb__mine-badge-text {
+  font-size: 20rpx;
+}
+
+.wb__mine-name {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  margin-bottom: 6rpx;
+  display: block;
+  text-align: center;
+}
+
+.wb__mine-role {
+  font-size: 24rpx;
+  color: @soft-gray;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+}
+
+// ── 统计卡
+.wb__mine-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: @radius-squircle;
+  margin: 0 32rpx;
+  padding: 32rpx 0;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+}
+
+.wb__mine-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.wb__mine-stat-num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.wb__mine-stat-label {
+  font-size: 20rpx;
+  color: @soft-gray;
+  text-align: center;
+}
+
+.wb__mine-stat-div {
+  width: 1rpx;
+  height: 48rpx;
+  background: @border-light;
+}
+
+// ── 菜单
+.wb__mine-menu {
+  margin: 24rpx 32rpx 0;
+  background: #fff;
+  border-radius: @radius-squircle;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+  overflow: hidden;
+}
+
+.wb__mine-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 32rpx;
+  gap: 24rpx;
+  border-bottom: 0.5rpx solid @border-light;
+
+  &:last-child { border-bottom: none; }
+}
+
+.wb__mine-icon {
+  font-size: 40rpx;
+  color: @soft-gray;
+  flex-shrink: 0;
+}
+
+.wb__mine-icon--gold {
+  color: @warm-champagne;
+}
+
+.wb__mine-menu-label-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  min-width: 0;
+}
+
+.wb__mine-menu-label {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: @royal-obsidian;
+}
+
+.wb__mine-count-badge {
+  flex-shrink: 0;
+  min-width: 36rpx;
+  height: 36rpx;
+  padding: 0 10rpx;
+  border-radius: 36rpx;
+  background: #f56c6c;
+  color: #fff;
+  font-size: 22rpx;
+  font-weight: 700;
+  line-height: 36rpx;
+  text-align: center;
+}
+
+.wb__mine-arrow {
+  font-size: 32rpx;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+// ── 退出
+.wb__mine-logout-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 48rpx 0 24rpx;
+}
+
+.wb__mine-logout {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: rgba(244, 67, 54, 0.7);
+
+  .material-symbols-outlined { font-size: 32rpx; }
+}

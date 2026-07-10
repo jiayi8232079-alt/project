@@ -1,0 +1,75 @@
+<view class="assigned">
+  <scroll-view scroll-y class="assigned__scroll" refresher-enabled bind:refresherrefresh="onRefresh" refresher-triggered="{{refreshing}}">
+    <view wx:if="{{loading && orders.length === 0}}" class="assigned__empty">
+      <text class="material-symbols-outlined assigned__empty-icon">hourglass_top</text>
+      <text class="assigned__empty-text">加载中...</text>
+    </view>
+
+    <view wx:elif="{{orders.length === 0}}" class="assigned__empty">
+      <text class="material-symbols-outlined assigned__empty-icon">assignment</text>
+      <text class="assigned__empty-title">暂无指派任务</text>
+      <text class="assigned__empty-hint">后台指派后任务将出现在此，确认后即进入服务准备</text>
+    </view>
+
+    <view wx:else class="assigned__list">
+      <view wx:for="{{orders}}" wx:key="id" class="assigned__card">
+        <view class="assigned__card-header">
+          <view class="assigned__badge-wrap">
+            <view class="assigned__type-row">
+              <text class="assigned__badge">{{item.serviceType}}</text>
+              <text class="assigned__risk assigned__risk--{{item.riskBadgeClass}}">{{item.riskLabel}}</text>
+            </view>
+            <view class="assigned__right">
+              <view wx:if="{{item.attendantIncome}}" class="assigned__income">
+                <text class="assigned__income-label">收入</text>
+                <text class="assigned__income-amount">¥{{item.attendantIncome}}</text>
+              </view>
+              <view class="assigned__meta">
+                <text class="assigned__status assigned__status--{{item.status}}">{{item.statusText}}</text>
+                <text class="assigned__order-no">{{item.orderNumber}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="assigned__card-body">
+          <view class="assigned__info-row">
+            <text class="material-symbols-outlined assigned__info-icon">local_hospital</text>
+            <text class="assigned__info-text">{{item.hospital}} · {{item.department}}</text>
+          </view>
+          <view class="assigned__info-row">
+            <text class="material-symbols-outlined assigned__info-icon">schedule</text>
+            <text class="assigned__info-text">{{item.serviceTime}}</text>
+          </view>
+          <view class="assigned__info-row">
+            <text class="material-symbols-outlined assigned__info-icon">person</text>
+            <text class="assigned__info-text">{{item.patientName}} {{item.patientGender}} {{item.patientAge}}</text>
+          </view>
+          <view class="assigned__info-row" wx:if="{{item.remark}}">
+            <text class="material-symbols-outlined assigned__info-icon">sticky_note_2</text>
+            <text class="assigned__info-text assigned__info-text--muted">{{item.remark}}</text>
+          </view>
+        </view>
+
+        <view class="assigned__card-footer">
+          <view class="assigned__archive-btn btn-haptic" bind:tap="viewHealthProfile" data-id="{{item.id}}">
+            <text class="material-symbols-outlined assigned__archive-icon">description</text>
+            <text>查看健康档案</text>
+          </view>
+          <view class="assigned__actions">
+            <button class="assigned__reject-btn btn-haptic" catchtap="onReject" data-id="{{item.id}}">
+              <text class="material-symbols-outlined">close</text>
+              <text>拒绝</text>
+            </button>
+            <button class="assigned__accept-btn btn-haptic" catchtap="onAccept" data-id="{{item.id}}">
+              <text class="material-symbols-outlined">check</text>
+              <text>接受</text>
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="safe-bottom"></view>
+  </scroll-view>
+</view>

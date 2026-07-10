@@ -1,0 +1,318 @@
+@brand-green: #4CAF50;
+@brand-green-dark: #388E3C;
+@royal-obsidian: #1A2B3C;
+@warm-champagne: #D4AF37;
+@soft-gray: #94A3B8;
+@alabaster: #FBFBF9;
+@border-light: rgba(26, 43, 60, 0.06);
+@shadow-premium: 0 10px 30px -10px rgba(26, 43, 60, 0.08);
+@radius-squircle: 48rpx;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.btn-haptic {
+  transition: all 0.2s @ease-organic;
+  &:active { transform: scale(0.97); opacity: 0.9; }
+}
+
+.sch {
+  background: @alabaster;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// ── 顶部导航
+.sch__header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(251, 251, 249, 0.85);
+  backdrop-filter: blur(40rpx);
+  padding: 0 32rpx 24rpx;
+  border-bottom: 0.5rpx solid @border-light;
+}
+
+.sch__header-row {
+  display: flex;
+  align-items: center;
+  padding-top: 16rpx;
+}
+
+.sch__back {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  .material-symbols-outlined { font-size: 40rpx; color: @royal-obsidian; }
+}
+
+.sch__title {
+  flex: 1;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  margin-right: 72rpx;
+}
+
+.sch__spacer { width: 72rpx; }
+
+.sch__scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+// ── 月历卡片
+.sch__cal-card {
+  background: #fff;
+  border-radius: @radius-squircle;
+  margin: 24rpx 32rpx 0;
+  padding: 40rpx;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+  animation: fadeSlideUp 0.4s @ease-organic;
+}
+
+.sch__month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40rpx;
+}
+
+.sch__month-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.sch__month-btns {
+  display: flex;
+  gap: 32rpx;
+}
+
+.sch__month-btn {
+  .material-symbols-outlined { font-size: 36rpx; color: @soft-gray; }
+}
+
+// ── 星期头
+.sch__dow-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 16rpx;
+}
+
+.sch__dow {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: @soft-gray;
+  padding-bottom: 8rpx;
+}
+
+// ── 日历格子
+.sch__cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8rpx 0;
+}
+
+.sch__cal-day {
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 50%;
+  margin: 4rpx auto;
+  width: 72rpx;
+  transition: all 0.2s @ease-organic;
+
+  &:active:not(.sch__cal-day--empty):not(.sch__cal-day--past) {
+    transform: scale(0.9);
+  }
+}
+
+.sch__cal-day--empty { opacity: 0; pointer-events: none; }
+
+.sch__cal-num {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: @royal-obsidian;
+}
+
+.sch__cal-day--past .sch__cal-num {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.sch__cal-day--scheduled {
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 8rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8rpx;
+    height: 8rpx;
+    border-radius: 50%;
+    background: rgba(76, 175, 80, 0.35);
+  }
+}
+
+.sch__cal-day--selected {
+  background: @brand-green;
+  box-shadow: 0 8rpx 24rpx rgba(76, 175, 80, 0.35);
+  width: 72rpx;
+
+  .sch__cal-num {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  &::after { display: none; }
+}
+
+// ── 时段设置
+.sch__slots-section {
+  margin: 24rpx 32rpx 0;
+  animation: fadeSlideUp 0.4s @ease-organic 0.08s both;
+}
+
+.sch__slots-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  display: block;
+  padding: 0 4rpx;
+  margin-bottom: 20rpx;
+}
+
+.sch__slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36rpx;
+  border-radius: @radius-squircle;
+  margin-bottom: 16rpx;
+  background: #fff;
+  border: 4rpx solid transparent;
+  box-shadow: @shadow-premium;
+  transition: all 0.2s @ease-organic;
+}
+
+.sch__slot--active {
+  background: rgba(76, 175, 80, 0.05);
+  border-color: @brand-green;
+}
+
+.sch__slot-left {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+}
+
+.sch__slot-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: rgba(76, 175, 80, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .material-symbols-outlined { font-size: 40rpx; color: @brand-green; }
+}
+
+.sch__slot-icon--dim {
+  background: rgba(148, 163, 184, 0.1);
+  .material-symbols-outlined { color: @soft-gray; }
+}
+
+.sch__slot--active .sch__slot-icon--dim {
+  background: rgba(76, 175, 80, 0.1);
+  .material-symbols-outlined { color: @brand-green; }
+}
+
+.sch__slot-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.sch__slot-time {
+  font-size: 24rpx;
+  color: @brand-green;
+  font-weight: 500;
+  display: block;
+}
+
+.sch__slot-time--dim { color: @soft-gray; }
+
+.sch__slot-check {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(148, 163, 184, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sch__slot-check--active {
+  background: @brand-green;
+  border-color: @brand-green;
+  .material-symbols-outlined { font-size: 28rpx; color: #fff; }
+}
+
+// ── 统计
+.sch__monthly-count {
+  text-align: center;
+  padding: 24rpx 0 8rpx;
+}
+
+.sch__monthly-text {
+  font-size: 26rpx;
+  color: @soft-gray;
+  font-weight: 500;
+}
+
+.sch__monthly-num {
+  color: @brand-green;
+  font-weight: 700;
+}
+
+// ── 底部按钮
+.sch__bottom {
+  padding: 24rpx 32rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  background: rgba(251, 251, 249, 0.92);
+  backdrop-filter: blur(40rpx);
+  border-top: 0.5rpx solid @border-light;
+}
+
+.sch__submit-btn {
+  width: 100%;
+  height: 96rpx;
+  background: @brand-green;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 700;
+  border-radius: 100rpx;
+  border: none;
+  box-shadow: 0 16rpx 48rpx rgba(76, 175, 80, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::after { display: none; }
+  &[disabled] { opacity: 0.7; }
+}

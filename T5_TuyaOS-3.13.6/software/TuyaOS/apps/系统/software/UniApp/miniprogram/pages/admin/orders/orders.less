@@ -1,0 +1,247 @@
+@ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+.btn-haptic {
+  transition: all 0.18s @ease;
+  &:active { transform: scale(0.97); opacity: 0.88; }
+}
+
+.orders {
+  background: #F4F6FB;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.orders__nav {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 28rpx 20rpx;
+  background: #fff;
+  border-bottom: 0.5rpx solid rgba(0,0,0,0.06);
+}
+
+.orders__back {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  .material-symbols-outlined { font-size: 44rpx; color: #333; }
+}
+
+.orders__title {
+  flex: 1;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.orders__search-wrap {
+  background: #fff;
+  padding: 16rpx 28rpx;
+  border-bottom: 0.5rpx solid rgba(0,0,0,0.04);
+}
+
+.search-box {
+  background: #F4F6FB;
+  border-radius: 100rpx;
+  display: flex;
+  align-items: center;
+  padding: 14rpx 24rpx;
+  gap: 12rpx;
+}
+
+.search-box__icon {
+  font-size: 36rpx;
+  color: #94A3B8;
+  flex-shrink: 0;
+}
+
+.search-box__input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #334155;
+}
+
+.orders__filter-scroll {
+  background: #fff;
+  border-bottom: 0.5rpx solid rgba(0,0,0,0.04);
+  white-space: nowrap;
+}
+
+.orders__filter-row {
+  display: inline-flex;
+  align-items: center;
+  padding: 16rpx 20rpx;
+  gap: 12rpx;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 10rpx 28rpx;
+  border-radius: 100rpx;
+  border: 1.5rpx solid #E2E8F0;
+  background: #fff;
+  font-size: 26rpx;
+  color: #64748B;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-chip--active {
+  background: #EFF6FF;
+  border-color: #3B82F6;
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+.orders__list {
+  flex: 1;
+  min-height: 0;
+  padding: 20rpx 28rpx calc(env(safe-area-inset-bottom) + 24rpx);
+  box-sizing: border-box;
+}
+
+.orders__count {
+  font-size: 24rpx;
+  color: #94A3B8;
+  margin-bottom: 16rpx;
+}
+
+.order-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+}
+
+.order-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18rpx;
+}
+
+.order-card__no {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.order-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  margin-bottom: 18rpx;
+}
+
+.order-card__row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.order-card__ico {
+  font-size: 30rpx;
+  color: #94A3B8;
+  flex-shrink: 0;
+}
+
+.order-card__val {
+  font-size: 26rpx;
+  color: #475569;
+}
+
+.order-card__val--muted {
+  color: #94A3B8;
+}
+
+.role-tag {
+  margin-left: 8rpx;
+  padding: 2rpx 14rpx;
+  border-radius: 100rpx;
+  background: #F0F9FF;
+  color: #0284C7;
+  font-size: 20rpx;
+  font-weight: 500;
+}
+
+.order-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16rpx;
+  border-top: 0.5rpx solid #F1F5F9;
+  padding-top: 16rpx;
+}
+
+.order-card__amount {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.order-card__arrow {
+  font-size: 32rpx;
+  color: #CBD5E1;
+}
+
+// Status tags
+.status-tag {
+  padding: 6rpx 16rpx;
+  border-radius: 100rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.status-tag--pending_dispatch { background: #FFF7ED; color: #F97316; }
+.status-tag--pending_accept  { background: #FFF7ED; color: #F97316; }
+.status-tag--pending_grab    { background: #FEF3C7; color: #D97706; }
+.status-tag--pending_sign    { background: #EDE9FE; color: #7C3AED; }
+.status-tag--pending_service { background: #EFF6FF; color: #3B82F6; }
+.status-tag--in_progress     { background: #E0F2FE; color: #0284C7; }
+.status-tag--pending_review  { background: #F0FDF4; color: #22C55E; }
+.status-tag--completed       { background: #F0FDF4; color: #16A34A; }
+.status-tag--canceled        { background: #F1F5F9; color: #94A3B8; }
+.status-tag--emergency       { background: #FFF1F2; color: #E11D48; }
+
+// Payment tags
+.payment-tag {
+  padding: 4rpx 14rpx;
+  border-radius: 100rpx;
+  font-size: 20rpx;
+  font-weight: 500;
+}
+
+.payment-tag--unpaid  { background: #FFF1F2; color: #F43F5E; }
+.payment-tag--paid    { background: #F0FDF4; color: #16A34A; }
+.payment-tag--refunded{ background: #FFF7ED; color: #F97316; }
+
+.loading-tip, .end-tip {
+  text-align: center;
+  padding: 32rpx;
+  font-size: 24rpx;
+  color: #94A3B8;
+}
+
+.empty-tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 0;
+  gap: 16rpx;
+}
+
+.empty-tip__icon {
+  font-size: 80rpx;
+  color: #CBD5E1;
+}
+
+.empty-tip__text {
+  font-size: 26rpx;
+  color: #94A3B8;
+}

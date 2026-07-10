@@ -1,0 +1,361 @@
+<wxs module="fu" src="./ai-consult.wxs"></wxs>
+<view class="ai-page">
+  <view class="ai-page__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ai-page__nav-side" style="width: {{navSideWidth}}px;">
+      <view class="ai-page__nav-back btn-haptic" bind:tap="goBack">
+        <text class="material-symbols-outlined ai-page__nav-icon">arrow_back_ios_new</text>
+      </view>
+    </view>
+    <view class="ai-page__nav-title-wrap">
+      <view class="ai-page__nav-title-row">
+        <text class="ai-page__nav-title">AI 健康顾问</text>
+        <ai-badge size="sm" tone="light" text="AI 生成" ext-class="ai-page__nav-badge" />
+      </view>
+      <view wx:if="{{subjects.length > 0}}" class="ai-page__nav-picker" bindtap="toggleSubjectPicker">
+        <text class="ai-page__nav-sub">{{consultingSubtitle || '选择咨询对象'}}</text>
+        <text class="material-symbols-outlined ai-page__nav-arrow">{{showSubjectPicker ? 'expand_less' : 'expand_more'}}</text>
+      </view>
+      <text wx:elif="{{consultingSubtitle}}" class="ai-page__nav-sub">{{consultingSubtitle}}</text>
+    </view>
+    <view class="ai-page__nav-side" style="width: {{navSideWidth}}px;"></view>
+  </view>
+
+  <!-- 顶部下拉选人面板 -->
+  <view wx:if="{{showSubjectPicker}}" class="ai-page__subject-dropdown">
+    <view class="ai-page__subject-dropdown-mask" catchtap="toggleSubjectPicker"></view>
+    <view class="ai-page__subject-dropdown-panel">
+      <view
+        wx:for="{{subjects}}"
+        wx:key="id"
+        class="ai-page__subject-option {{targetIndex === index ? 'ai-page__subject-option--active' : ''}}"
+        bindtap="onSubjectPickerTap"
+        data-index="{{index}}"
+      >
+        <text class="ai-page__subject-option-name">{{item.name}}</text>
+        <text wx:if="{{item.age}}" class="ai-page__subject-option-age">{{item.age}}岁</text>
+        <text wx:if="{{targetIndex === index}}" class="material-symbols-outlined ai-page__subject-option-check">check</text>
+      </view>
+      <view class="ai-page__subject-option ai-page__subject-option--link" bindtap="goHealthProfile">
+        <text class="material-symbols-outlined" style="font-size: 32rpx; margin-right: 8rpx;">person_add</text>
+        <text>管理健康档案</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 对话区域 -->
+  <scroll-view
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="ai-page__chat"
+    scroll-into-view="{{scrollTarget}}"
+    scroll-with-animation
+  >
+    <view class="ai-page__chat-inner">
+
+      <!-- 切换提示（胶囊已移至导航栏下拉） -->
+      <view class="ai-page__target-hint" wx:if="{{subjects.length > 1}}">
+        <text class="ai-page__target-hint-text">点顶部「正在为：{{subjects[targetIndex].name}}」可切换家人</text>
+      </view>
+
+      <!-- 顶部提示条 -->
+      <view class="ai-page__tip" wx:if="{{messages.length > 0}}">
+        <text class="material-symbols-outlined ai-page__tip-icon">info</text>
+        <view class="ai-page__tip-col">
+          <text class="ai-page__tip-text">本页回复由<text class="ai-page__tip-emph">人工智能生成</text>，仅供参考，不能代替医生诊断或急症判断；不适加重请及时就医或拨打 120。</text>
+          <text class="ai-page__tip-sub">「就诊摘要」仅供门诊沟通参考，非正式病历，详见摘要内说明。</text>
+        </view>
+      </view>
+
+      <!-- 加载最近会话 -->
+      <view class="ai-page__boot-loading" wx:if="{{messages.length === 0 && _loadingLatestSession}}">
+        <view class="ai-page__typing ai-page__typing--center">
+          <view class="ai-page__typing-dot"></view>
+          <view class="ai-page__typing-dot"></view>
+          <view class="ai-page__typing-dot"></view>
+        </view>
+        <text class="ai-page__boot-loading-text">正在加载当前家人的对话…</text>
+      </view>
+
+      <!-- 欢迎卡片 -->
+      <view class="ai-page__welcome" wx:if="{{messages.length === 0 && !loading && !_loadingLatestSession}}">
+        <view class="ai-page__welcome-icon-wrap">
+          <text class="material-symbols-outlined ai-page__welcome-icon">psychology</text>
+        </view>
+        <text class="ai-page__welcome-title">你好，我是陪了个伴 AI 健康顾问</text>
+        <text class="ai-page__welcome-hint">每位家人有独立会话。可点下方常见症状；顾问追问时可多选选项后点「提交所选答案」。若要问一个和当前聊天无关的新症状，请先点「新对话」再提问，避免混在一起。</text>
+        <view class="ai-page__welcome-row" wx:if="{{showTriageLink}}">
+          <view class="ai-page__welcome-pill btn-haptic" bind:tap="goTriage">
+            <text class="material-symbols-outlined ai-page__welcome-pill-icon">transfer_within_a_station</text>
+            <text>智能导诊 · 分科室/服务</text>
+          </view>
+        </view>
+        <view class="ai-page__welcome-notice" catchtap="">
+          <text class="material-symbols-outlined ai-page__welcome-notice-icon">policy</text>
+          <text class="ai-page__welcome-notice-text">本服务为<text class="ai-page__welcome-notice-emph">人工智能生成</text>的健康咨询辅助，非诊断、非处方；急症请就医。「就诊摘要」仅供参考，以面诊与检查为准。</text>
+        </view>
+        <view class="ai-page__quick-tags">
+          <view class="ai-page__quick-tag" bind:tap="onQuickTap" data-text="最近经常头痛，尤其是下午" hover-class="btn-haptic">头痛</view>
+          <view class="ai-page__quick-tag" bind:tap="onQuickTap" data-text="胃部不舒服，吃完东西感觉胀气" hover-class="btn-haptic">胃不舒服</view>
+          <view class="ai-page__quick-tag" bind:tap="onQuickTap" data-text="最近老是失眠，很难入睡" hover-class="btn-haptic">失眠</view>
+          <view class="ai-page__quick-tag" bind:tap="onQuickTap" data-text="膝盖疼痛，走路和上楼梯时加重" hover-class="btn-haptic">关节疼痛</view>
+        </view>
+      </view>
+
+      <!-- 消息列表 -->
+      <view wx:for="{{messages}}" wx:for-index="msgIdx" wx:key="id" id="msg-{{msgIdx}}" class="ai-page__msg ai-page__msg--{{item.role}}">
+        <view class="ai-page__msg-avatar">
+          <image wx:if="{{item.role === 'user' && userAvatarUrl}}" class="ai-page__msg-avatar-img" src="{{userAvatarUrl}}" mode="aspectFill" />
+          <text wx:elif="{{item.role === 'user'}}" class="material-symbols-outlined">person</text>
+          <text wx:else class="material-symbols-outlined ai-page__msg-avatar-ai">smart_toy</text>
+        </view>
+        <view class="ai-page__msg-bubble">
+          <ai-badge
+            wx:if="{{item.role === 'assistant'}}"
+            size="sm"
+            tone="default"
+            text="AI 生成"
+            ext-class="ai-page__msg-ai-badge"
+          />
+          <text class="ai-page__msg-text">{{item.content}}</text>
+          <!-- AI 追问：点选选项或下方打字 -->
+          <view wx:if="{{item.followUpBlocks && item.followUpBlocks.length > 0}}" class="ai-page__followup">
+            <view class="ai-page__followup-head">
+              <text class="material-symbols-outlined" style="font-size: 26rpx; color: #7B1FA2;">chat</text>
+              <text class="ai-page__followup-title">我想进一步了解</text>
+            </view>
+            <view
+              wx:for="{{item.followUpBlocks}}"
+              wx:for-item="block"
+              wx:for-index="bi"
+              wx:key="bi"
+              class="ai-page__followup-block"
+            >
+              <view class="ai-page__followup-qrow">
+                <text class="ai-page__followup-qnum">{{bi + 1}}</text>
+                <text class="ai-page__followup-qtext">{{block.question}}</text>
+              </view>
+              <view class="ai-page__followup-chips">
+                <view
+                  wx:for="{{block.choices}}"
+                  wx:for-item="ch"
+                  wx:key="*this"
+                  class="ai-page__followup-chip {{msgIdx === messages.length - 1 && item.role === 'assistant' && !loading ? (fu.includes(block.selectedChoices, ch) ? 'ai-page__followup-chip--on' : '') : 'ai-page__followup-chip--muted'}} {{msgIdx === messages.length - 1 && item.role === 'assistant' && !loading ? 'btn-haptic' : 'ai-page__followup-chip--disabled'}}"
+                  bindtap="toggleFollowUpChip"
+                  data-msg-index="{{msgIdx}}"
+                  data-bi="{{bi}}"
+                  data-choice="{{ch}}"
+                  hover-class="{{msgIdx === messages.length - 1 && item.role === 'assistant' && !loading ? 'btn-haptic' : 'none'}}"
+                >{{ch}}</view>
+              </view>
+            </view>
+            <view wx:if="{{msgIdx === messages.length - 1 && item.role === 'assistant' && !loading}}" class="ai-page__followup-submit-row">
+              <view class="ai-page__followup-submit btn-haptic" bindtap="submitFollowUpSelections" data-msg-index="{{msgIdx}}" hover-class="btn-haptic">提交所选答案</view>
+            </view>
+            <text class="ai-page__followup-hint">可多选，点「提交所选答案」一并发送；若要详细说明，仍可在下方输入框发送文字。</text>
+          </view>
+          <!-- 推荐科室标签 -->
+          <view wx:if="{{item.departments && item.departments.length > 0}}" class="ai-page__dept-list">
+            <text class="ai-page__dept-title">推荐科室：</text>
+            <view wx:for="{{item.departments}}" wx:for-item="dept" wx:key="name" class="ai-page__dept-tag">
+              <text>{{dept.name}}</text>
+              <text class="ai-page__dept-conf">{{dept.confidence}}%</text>
+            </view>
+          </view>
+          <!-- 就诊准备事项 -->
+          <view wx:if="{{item.preparationChecklist && item.preparationChecklist.length > 0}}" class="ai-page__checklist ai-page__checklist--prep">
+            <view class="ai-page__checklist-head">
+              <text class="material-symbols-outlined" style="font-size: 26rpx; color: #FF9800;">checklist</text>
+              <text class="ai-page__checklist-title">就诊准备事项</text>
+            </view>
+            <view wx:for="{{item.preparationChecklist}}" wx:for-item="c" wx:key="*this" class="ai-page__checklist-item">
+              <text class="material-symbols-outlined ai-page__checklist-check">check_circle</text>
+              <text class="ai-page__checklist-text">{{c}}</text>
+            </view>
+          </view>
+          <!-- 紧急提示 -->
+          <view wx:if="{{item.severity === 'emergency' || item.severity === 'high'}}" class="ai-page__severity ai-page__severity--{{item.severity}}">
+            <text class="material-symbols-outlined" style="font-size: 28rpx;">{{item.severity === 'emergency' ? 'emergency' : 'warning'}}</text>
+            <text>{{item.severity === 'emergency' ? '紧急情况，请立即就医或拨打120' : '建议尽快就医'}}</text>
+          </view>
+          <!-- 评价助手回复 -->
+          <view wx:if="{{item.role === 'assistant' && item.serverMessageId}}" class="ai-page__feedback-row">
+            <block wx:if="{{item.feedbackHelpful == null}}">
+              <text class="ai-page__feedback-label">这条回复对您有帮助吗？</text>
+              <view class="ai-page__feedback-btns">
+                <view class="ai-page__feedback-btn" bind:tap="onFeedbackHelpful" data-mid="{{item.serverMessageId}}" data-helpful="1" hover-class="btn-haptic">有用</view>
+                <view class="ai-page__feedback-btn ai-page__feedback-btn--outline" bind:tap="onFeedbackHelpful" data-mid="{{item.serverMessageId}}" data-helpful="0" hover-class="btn-haptic">没用</view>
+              </view>
+            </block>
+            <text wx:else class="ai-page__feedback-done">{{item.feedbackHelpful ? '感谢您的反馈' : '已记录，我们会持续改进'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- AI 正在输入 -->
+      <view wx:if="{{loading}}" class="ai-page__msg ai-page__msg--assistant" id="msg-loading">
+        <view class="ai-page__msg-avatar">
+          <text class="material-symbols-outlined ai-page__msg-avatar-ai">smart_toy</text>
+        </view>
+        <view class="ai-page__msg-bubble ai-page__msg-bubble--loading">
+          <view class="ai-page__typing">
+            <view class="ai-page__typing-dot"></view>
+            <view class="ai-page__typing-dot"></view>
+            <view class="ai-page__typing-dot"></view>
+          </view>
+        </view>
+      </view>
+
+      <view style="height: 20rpx;" id="msg-bottom"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部输入栏 -->
+  <view class="ai-page__input-bar" style="padding-bottom: {{safeBottom}}px;">
+    <view class="ai-page__toolbar">
+      <view class="ai-page__tool-btn" bind:tap="onReportInterpret" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 36rpx; color: #FF9800;">lab_profile</text>
+        <text class="ai-page__tool-label">报告解读</text>
+      </view>
+      <view class="ai-page__tool-btn ai-page__tool-btn--history" bind:tap="toggleHistory" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 36rpx; color: #2196F3;">history</text>
+        <text class="ai-page__tool-label ai-page__tool-label--blue">历史记录</text>
+      </view>
+      <view class="ai-page__tool-btn ai-page__tool-btn--new" bind:tap="onNewSession" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 36rpx; color: #4CAF50;">add_comment</text>
+        <text class="ai-page__tool-label ai-page__tool-label--green">新对话</text>
+      </view>
+      <view class="ai-page__tool-btn" bind:tap="openDoctorSummary" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 36rpx; color: #7B1FA2;">prescriptions</text>
+        <text class="ai-page__tool-label">就诊摘要</text>
+      </view>
+    </view>
+    <view class="ai-page__input-wrap">
+      <view
+        class="ai-page__voice-btn {{recording ? 'ai-page__voice-btn--active' : ''}} {{loading ? 'ai-page__voice-btn--disabled' : ''}}"
+        catchtouchstart="onVoiceTouchStart"
+        catchtouchend="onVoiceTouchEnd"
+        catchtouchcancel="onVoiceTouchCancel"
+      >
+        <text class="material-symbols-outlined">mic</text>
+      </view>
+      <input
+        class="ai-page__input"
+        value="{{inputValue}}"
+        bindinput="onInput"
+        bindconfirm="onSend"
+        placeholder="{{inputPlaceholder}}"
+        confirm-type="send"
+        disabled="{{loading}}"
+        adjust-position="{{true}}"
+      />
+      <view
+        class="ai-page__send-btn {{inputValue.trim() && !loading ? 'ai-page__send-btn--active' : ''}}"
+        bind:tap="onSend"
+        hover-class="btn-haptic"
+      >
+        <text class="material-symbols-outlined">send</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 历史会话面板 -->
+  <view wx:if="{{showHistory}}" class="ai-page__history-mask" catchtap="toggleHistory">
+    <view class="ai-page__history-panel" catchtap="noop">
+      <view class="ai-page__history-header">
+        <text class="ai-page__history-title">历史对话</text>
+        <view catchtap="toggleHistory" class="ai-page__history-close">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+      <scroll-view scroll-y class="ai-page__history-scroll">
+        <view wx:if="{{historyLoading}}" style="text-align: center; padding: 40rpx; color: #909399;">加载中...</view>
+        <view wx:elif="{{historySessions.length === 0}}" style="text-align: center; padding: 60rpx; color: #909399;">暂无历史对话</view>
+        <view
+          wx:for="{{historySessions}}"
+          wx:key="sessionId"
+          class="ai-page__history-item {{sessionId === item.sessionId ? 'ai-page__history-item--active' : ''}}"
+        >
+          <view class="ai-page__history-item-main" bind:tap="loadHistorySession" data-sid="{{item.sessionId}}">
+            <text class="ai-page__history-text">{{item.firstMessage || '对话记录'}}</text>
+            <text class="ai-page__history-count">{{item.messageCount}}条</text>
+          </view>
+          <view class="ai-page__history-item-del" catchtap="deleteHistorySession" data-sid="{{item.sessionId}}" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">delete</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 报告解读弹窗 -->
+  <view wx:if="{{showReportModal}}" class="ai-page__modal" bind:tap="closeReportModal">
+    <view class="ai-page__modal-dialog" catchtap="">
+      <view class="ai-page__modal-title-row">
+        <text class="ai-page__modal-title">健康材料智能解读</text>
+        <ai-badge size="sm" tone="default" text="AI 生成" />
+      </view>
+      <text class="ai-page__modal-hint">可粘贴化验单、体检摘要、药盒上的文字等（上传图片也可，后台需配置视觉模型才能读图）</text>
+      <text class="ai-page__modal-legal">解读结果由<text class="ai-page__modal-legal-emph">人工智能生成</text>，仅供理解材料含义，不是诊断或治疗建议；用药与检查请以医生、药师和复查为准。</text>
+      <textarea
+        class="ai-page__modal-textarea"
+        placeholder="例如：血常规：白细胞 12.5×10^9/L（偏高），血红蛋白 135g/L（正常）..."
+        maxlength="2000"
+        value="{{reportText}}"
+        bindinput="onReportInput"
+      />
+      <view class="ai-page__modal-footer">
+        <view class="ai-page__modal-btn ai-page__modal-btn--cancel" bind:tap="closeReportModal">取消</view>
+        <view class="ai-page__modal-btn ai-page__modal-btn--confirm" bind:tap="submitReportInterpret">开始解读</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 门诊用就诊摘要（病历式整理 + 可选导出图片） -->
+  <view wx:if="{{showDoctorModal}}" class="ai-page__modal" bind:tap="closeDoctorModal">
+    <view class="ai-page__modal-dialog ai-page__modal-dialog--wide" catchtap="">
+      <view class="ai-page__modal-title-row">
+        <text class="ai-page__modal-title">就诊信息摘要</text>
+        <ai-badge size="sm" tone="default" text="AI 生成" />
+      </view>
+      <text class="ai-page__modal-hint">本摘要由<text class="ai-page__modal-hint-emph">人工智能生成</text>，系统先阅读您的原述与档案再归纳；会标注信息缺口。用于和医生沟通前参考，不等同纸质病历。</text>
+      <view class="ai-page__doctor-legal" catchtap="noop">
+        <view class="ai-page__doctor-legal-bar" bind:tap="toggleDoctorLegalExpanded" hover-class="btn-haptic">
+          <text class="material-symbols-outlined ai-page__doctor-legal-ico">verified_user</text>
+          <text class="ai-page__doctor-legal-bar-title">使用说明与免责</text>
+          <text class="material-symbols-outlined ai-page__doctor-legal-chevron">{{doctorLegalExpanded ? 'expand_less' : 'expand_more'}}</text>
+        </view>
+        <view wx:if="{{!doctorLegalExpanded}}" class="ai-page__doctor-legal-short">
+          <text class="ai-page__doctor-legal-copy" selectable>摘要仅据线上描述与档案整理，未做体查与化验；不构成诊断。完整声明在下方正文中，且随「复制全文」一并复制。</text>
+        </view>
+        <view wx:if="{{doctorLegalExpanded}}" class="ai-page__doctor-legal-full">
+          <text class="ai-page__doctor-legal-copy ai-page__doctor-legal-p" selectable>1. 本材料由互联网平台根据线上文字/语音咨询及您填写的健康档案自动生成或辅助生成，未实施体格检查、实验室或影像学检查，不等同于医院官方病历。</text>
+          <text class="ai-page__doctor-legal-copy ai-page__doctor-legal-p" selectable>2. 内容可能存在转述偏差、遗漏或误解，不构成也不应被理解为医学诊断、治疗建议或预后判断；不能替代具有资质的医务人员当面评估。</text>
+          <text class="ai-page__doctor-legal-copy ai-page__doctor-legal-p" selectable>3. 任何诊疗决策须以院内规范病历、医生面诊、检验检查及法律法规为准。</text>
+        </view>
+      </view>
+      <view wx:if="{{doctorSummaryLoading}}" class="ai-page__doctor-loading">
+        <view class="ai-page__typing ai-page__typing--center">
+          <view class="ai-page__typing-dot"></view>
+          <view class="ai-page__typing-dot"></view>
+          <view class="ai-page__typing-dot"></view>
+        </view>
+        <text class="ai-page__doctor-loading-text">正在生成摘要，约需数秒…</text>
+      </view>
+      <scroll-view wx:else scroll-y class="ai-page__doctor-scroll ai-page__doctor-scroll--body">
+        <text wx:if="{{doctorMetaLine}}" class="ai-page__doctor-meta">{{doctorMetaLine}}</text>
+        <view wx:for="{{doctorHandoffBlocks}}" wx:key="title" class="ai-page__doctor-block">
+          <text class="ai-page__doctor-block-title">{{item.title}}</text>
+          <text class="ai-page__doctor-block-body" selectable>{{item.body}}</text>
+        </view>
+      </scroll-view>
+      <view class="ai-page__modal-footer ai-page__modal-footer--split">
+        <view class="ai-page__modal-btn ai-page__modal-btn--cancel" bind:tap="closeDoctorModal">关闭</view>
+        <view class="ai-page__modal-btn ai-page__modal-btn--secondary" bind:tap="copyDoctorSummary">复制全文</view>
+        <view class="ai-page__modal-btn ai-page__modal-btn--confirm" bind:tap="saveHandoffAsImage">保存图片</view>
+      </view>
+    </view>
+  </view>
+
+  <canvas type="2d" id="handoffCanvas" class="ai-page__handoff-canvas"></canvas>
+</view>

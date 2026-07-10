@@ -1,0 +1,4 @@
+<web-view wx:if="{{url}}" src="{{url}}"></web-view>
+<view wx:else class="empty-tip">
+  <text>链接加载失败或未配置</text>
+</view>

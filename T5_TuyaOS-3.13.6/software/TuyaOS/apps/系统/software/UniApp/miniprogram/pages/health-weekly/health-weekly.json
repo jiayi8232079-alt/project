@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "ai-badge": "/components/ai-badge/ai-badge"
+  },
+  "navigationBarTitleText": "健康周报"
+}

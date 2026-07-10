@@ -178,9 +178,13 @@ static const struct cli_command s_sinfo_commands[] = {
     {"rf_cali", "set rf calibration flag, just for test", cli_rf_set_cali_cmd},
 };
 
+extern void tuya_axp2101_cli_cp_init(void);
+
 int cp_cli_tuya_test_init(void)
 {
     cli_register_commands(s_sinfo_commands, TUYA_TEST_CMD_CNT);
+    /* 串口 shell 在 CP；AXP 驱动在 AP，由 app 侧 CP 桩转发到 AP 执行 */
+    tuya_axp2101_cli_cp_init();
     return 0;
 }
 

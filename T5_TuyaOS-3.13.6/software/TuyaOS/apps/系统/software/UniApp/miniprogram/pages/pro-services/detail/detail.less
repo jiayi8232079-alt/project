@@ -1,0 +1,567 @@
+// ─────────────────────────────────────────────────────────────────────────
+// 专业服务 · 详情页 · 视觉重构
+//
+// 与列表页（pro-services.less）同一套 tokens，保证品牌一致：
+//   · 主色 #2B8A6B 深翠绿  · 辅底 #F4F7F6 象牙白
+//   · 点睛 #C28A4B 暖金     · 主文本 #0F1F1A 深墨绿
+//   · 细线 hairline、单层弥散阴影，去掉彩色块 / 虚线 / 鲜红价格等塑料感元素。
+//
+// 分类 modifier（green / orange / blue / purple / pink）仍保留，
+// 但 5 种全部统一成主翠绿系 —— 产品侧若想给分类做视觉区分，
+// 只改下面 `&__hero--*` 的色相即可（icon 色、nav 色都跟着走）。
+// ─────────────────────────────────────────────────────────────────────────
+
+@ps-primary:       #2B8A6B;
+@ps-primary-deep:  #1E6B52;
+@ps-primary-darker: #143D31;
+@ps-primary-soft:  rgba(43, 138, 107, 0.08);
+@ps-primary-line:  rgba(43, 138, 107, 0.18);
+@ps-accent:        #C28A4B;
+@ps-accent-soft:   rgba(194, 138, 75, 0.10);
+@ps-bg:            #F4F7F6;
+@ps-surface:       #FFFFFF;
+@ps-text-1:        #0F1F1A;
+@ps-text-2:        #5B6B63;
+@ps-text-3:        #8FA19A;
+@ps-border:        rgba(15, 31, 26, 0.06);
+@ps-border-strong: rgba(15, 31, 26, 0.10);
+@ps-shadow-soft:   0 8rpx 24rpx rgba(20, 80, 60, 0.06);
+@ps-shadow-lift:   0 16rpx 40rpx rgba(20, 80, 60, 0.10);
+
+.psd {
+  min-height: 100vh;
+  background: @ps-bg;
+  color: @ps-text-1;
+
+  // ── 自定义导航 ──────────────────────────────────────────
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 88rpx;
+    padding: 0 24rpx;
+    background: rgba(244, 247, 246, 0.82);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: saturate(160%) blur(20rpx);
+    -webkit-backdrop-filter: saturate(160%) blur(20rpx);
+  }
+
+  &__nav-back {
+    width: 72rpx;
+    height: 72rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .material-symbols-outlined {
+      font-size: 40rpx;
+      color: @ps-text-1;
+    }
+  }
+
+  &__nav-title {
+    font-size: 30rpx;
+    font-weight: 600;
+    letter-spacing: 0.5rpx;
+    color: @ps-text-1;
+    max-width: 480rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__nav-placeholder { width: 72rpx; }
+
+  // scroll-view 不再承担左右 padding —— 微信小程序的 scroll-view 在 iOS
+  // 某些版本下 padding-right 的实际可用宽度会比左侧稍小（推测与原生
+  // UIScrollView 的 contentInset 边界计算有关），造成"Hero 右边看起来
+  // 比下面卡片更靠外"的错位。改由 &__content 承担 padding 可规避。
+  &__scroll {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120rpx 32rpx;
+    gap: 16rpx;
+  }
+
+  &__state-icon {
+    font-size: 96rpx;
+    color: @ps-text-3;
+    opacity: 0.85;
+  }
+
+  &__state-text {
+    font-size: 26rpx;
+    color: @ps-text-2;
+  }
+
+  &__retry-btn {
+    margin-top: 8rpx;
+    padding: 18rpx 44rpx;
+    border-radius: 999rpx;
+    background: @ps-text-1;
+    color: #fff;
+    font-size: 26rpx;
+    letter-spacing: 1rpx;
+  }
+
+  &__content {
+    // 上下：顶部给 Hero 留 20rpx 让它不贴 nav；底部 240rpx 给 CTA 胶囊 + safe-area 预留，
+    //       防止"服务介绍"长文最后一行被底栏盖住。
+    // 左右：由 content 承担 28rpx 左右内边距（见 &__scroll 的注释），
+    //       配合 box-sizing: border-box 保证 Hero 与 section 共享同一有效宽度。
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20rpx 28rpx 240rpx;
+  }
+
+  // ── Hero ─────────────────────────────────────────────────
+  // 深翠绿底 + 网格 + 右上暖金弥散光 + eyebrow + 图标玻璃块
+  &__hero {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 40rpx 32rpx 30rpx;
+    border-radius: 32rpx;
+    color: #fff;
+    margin-bottom: 20rpx;
+    overflow: hidden;
+    box-shadow: @ps-shadow-lift;
+    background: linear-gradient(160deg, @ps-primary-darker 0%, @ps-primary-deep 55%, @ps-primary 100%);
+
+    // 4 个分类 modifier 暂统一为主翠绿系；如需多彩再定制。
+    &--green,
+    &--orange,
+    &--blue,
+    &--purple,
+    &--pink {
+      background: linear-gradient(160deg, @ps-primary-darker 0%, @ps-primary-deep 55%, @ps-primary 100%);
+    }
+  }
+
+  &__hero-deco {
+    position: absolute;
+    inset: 0;
+    // 光斑中心从 88% → 78%，避免紧贴右上角造成"右边鼓出一块"的视觉不平衡。
+    background:
+      radial-gradient(620rpx 380rpx at 78% 8%, rgba(217, 161, 92, 0.28), transparent 60%),
+      radial-gradient(520rpx 360rpx at 0% 100%, rgba(255, 255, 255, 0.06), transparent 65%);
+    pointer-events: none;
+  }
+
+  &__hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.045) 1rpx, transparent 1rpx),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1rpx, transparent 1rpx);
+    background-size: 60rpx 60rpx;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2) 75%, transparent);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2) 75%, transparent);
+    pointer-events: none;
+  }
+
+  &__hero-cat {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10rpx;
+    padding: 8rpx 18rpx;
+    border-radius: 999rpx;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2rpx solid rgba(255, 255, 255, 0.18);
+    font-size: 22rpx;
+    font-weight: 500;
+    letter-spacing: 1rpx;
+    margin-bottom: 24rpx;
+    color: rgba(255, 255, 255, 0.94);
+  }
+
+  &__hero-cat-dot {
+    width: 10rpx;
+    height: 10rpx;
+    border-radius: 50%;
+    background: #E9B872;
+    box-shadow: 0 0 0 4rpx rgba(233, 184, 114, 0.25);
+  }
+
+  &__hero-row {
+    position: relative;
+    display: flex;
+    gap: 20rpx;
+    align-items: center;
+    margin-bottom: 24rpx;
+  }
+
+  &__hero-icon {
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 26rpx;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2rpx solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: inset 0 2rpx 0 rgba(255, 255, 255, 0.25);
+    .material-symbols-outlined {
+      font-size: 52rpx;
+      color: #fff;
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    }
+  }
+
+  &__hero-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__hero-name {
+    display: block;
+    font-size: 40rpx;
+    font-weight: 700;
+    letter-spacing: 0.5rpx;
+    line-height: 1.3;
+    margin-bottom: 10rpx;
+  }
+
+  &__hero-desc {
+    display: block;
+    font-size: 26rpx;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.5rpx;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  &__hero-meta {
+    position: relative;
+    display: flex;
+    gap: 12rpx;
+    flex-wrap: wrap;
+  }
+
+  &__hero-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8rpx;
+    padding: 10rpx 20rpx;
+    border-radius: 999rpx;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2rpx solid rgba(255, 255, 255, 0.18);
+    font-size: 22rpx;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.94);
+    letter-spacing: 0.5rpx;
+
+    .material-symbols-outlined {
+      font-size: 26rpx;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    // 价格点睛：玻璃底色换成暖金 tint，icon/文字加深，形成主次。
+    &--price {
+      background: rgba(233, 184, 114, 0.22);
+      border-color: rgba(233, 184, 114, 0.45);
+      color: #FDF0D8;
+      .material-symbols-outlined { color: #F1CC8A; }
+    }
+  }
+
+  // ── 区块通用 ─────────────────────────────────────────────
+  &__section {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 28rpx 28rpx 30rpx;
+    background: @ps-surface;
+    border-radius: 28rpx;
+    margin-bottom: 16rpx;
+    border: 2rpx solid @ps-border;
+    box-shadow: @ps-shadow-soft;
+  }
+
+  &__section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12rpx;
+    margin-bottom: 18rpx;
+  }
+
+  &__section-indicator {
+    width: 6rpx;
+    height: 24rpx;
+    border-radius: 3rpx;
+    background: @ps-primary;
+    transform: translateY(3rpx);
+  }
+
+  &__section-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: @ps-text-1;
+    letter-spacing: 0.5rpx;
+    flex: 1;
+  }
+
+  &__section-count {
+    font-size: 22rpx;
+    color: @ps-text-3;
+    letter-spacing: 0.3rpx;
+  }
+
+  // ── 适用人群 ─────────────────────────────────────────────
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10rpx;
+  }
+
+  &__tag {
+    padding: 10rpx 22rpx;
+    border-radius: 999rpx;
+    background: transparent;
+    border: 2rpx solid @ps-border-strong;
+    font-size: 24rpx;
+    color: @ps-text-2;
+    letter-spacing: 0.3rpx;
+  }
+
+  // ── 服务亮点 ─────────────────────────────────────────────
+  &__highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 12rpx;
+  }
+
+  &__highlight {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    padding: 18rpx 22rpx;
+    background: @ps-primary-soft;
+    border: 2rpx solid @ps-primary-line;
+    border-radius: 20rpx;
+  }
+
+  &__highlight-icon {
+    font-size: 34rpx;
+    color: @ps-primary;
+    flex-shrink: 0;
+    font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+  }
+
+  &__highlight-text {
+    font-size: 26rpx;
+    color: @ps-text-1;
+    line-height: 1.55;
+    flex: 1;
+    letter-spacing: 0.3rpx;
+  }
+
+  // ── 服务介绍（长文） ───────────────────────────────────
+  &__detail {
+    font-size: 26rpx;
+    color: @ps-text-2;
+    line-height: 1.85;
+    letter-spacing: 0.3rpx;
+    display: block;
+  }
+
+  // ── 服务流程（时间线） ───────────────────────────────
+  &__steps {
+    position: relative;
+  }
+
+  &__step {
+    display: flex;
+    gap: 20rpx;
+  }
+
+  &__step-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  &__step-dot {
+    width: 56rpx;
+    height: 56rpx;
+    border-radius: 50%;
+    background: @ps-primary;
+    color: #fff;
+    font-size: 26rpx;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6rpx 16rpx rgba(43, 138, 107, 0.24),
+                inset 0 2rpx 0 rgba(255, 255, 255, 0.22);
+  }
+
+  // 时间线竖线改成细 hairline + 浅主色渐隐，更干净。
+  &__step-line {
+    flex: 1;
+    width: 2rpx;
+    min-height: 40rpx;
+    background: linear-gradient(180deg, @ps-primary-line, @ps-border);
+    margin-top: 6rpx;
+  }
+
+  &__step-body {
+    flex: 1;
+    padding-bottom: 28rpx;
+    min-width: 0;
+  }
+
+  &__step-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12rpx;
+    margin-bottom: 6rpx;
+  }
+
+  &__step-title {
+    font-size: 28rpx;
+    font-weight: 700;
+    color: @ps-text-1;
+    flex: 1;
+    letter-spacing: 0.3rpx;
+  }
+
+  &__step-duration {
+    font-size: 22rpx;
+    color: @ps-text-3;
+    flex-shrink: 0;
+    padding: 4rpx 12rpx;
+    border-radius: 999rpx;
+    background: @ps-primary-soft;
+    color: @ps-primary;
+    font-weight: 500;
+  }
+
+  &__step-desc {
+    display: block;
+    font-size: 24rpx;
+    color: @ps-text-2;
+    line-height: 1.75;
+    margin-bottom: 12rpx;
+    letter-spacing: 0.3rpx;
+  }
+
+  // 检查清单：卡片内卡片，用极浅主色底 + 细线
+  &__checklist {
+    padding: 14rpx 18rpx;
+    background: @ps-primary-soft;
+    border: 2rpx solid @ps-primary-line;
+    border-radius: 16rpx;
+    display: flex;
+    flex-direction: column;
+    gap: 8rpx;
+  }
+
+  &__checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 10rpx;
+  }
+
+  &__checklist-icon {
+    font-size: 26rpx;
+    color: @ps-primary;
+    flex-shrink: 0;
+  }
+
+  &__checklist-text {
+    font-size: 24rpx;
+    color: @ps-text-1;
+    letter-spacing: 0.3rpx;
+  }
+
+  // ── 免责说明 ─────────────────────────────────────────────
+  // 换成暖金 tint 的专业感提示框，不再是俗套的黄底棕字。
+  &__notice {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    gap: 12rpx;
+    padding: 20rpx 22rpx;
+    background: @ps-accent-soft;
+    border: 2rpx solid rgba(194, 138, 75, 0.22);
+    border-radius: 20rpx;
+    font-size: 22rpx;
+    color: #6B4A25;
+    line-height: 1.65;
+    letter-spacing: 0.3rpx;
+    margin-top: 4rpx;
+
+    .material-symbols-outlined {
+      font-size: 30rpx;
+      color: @ps-accent;
+      flex-shrink: 0;
+    }
+  }
+
+  // ── 底部 CTA ─────────────────────────────────────────────
+  &__footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20rpx 24rpx calc(24rpx + env(safe-area-inset-bottom));
+    background: rgba(244, 247, 246, 0.86);
+    backdrop-filter: saturate(160%) blur(20rpx);
+    -webkit-backdrop-filter: saturate(160%) blur(20rpx);
+    border-top: 2rpx solid @ps-border;
+  }
+
+  &__footer-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14rpx;
+    height: 104rpx;
+    border-radius: 999rpx;
+    background: linear-gradient(135deg, @ps-primary 0%, @ps-primary-deep 100%);
+    color: #fff;
+    font-size: 30rpx;
+    font-weight: 600;
+    letter-spacing: 1rpx;
+    box-shadow:
+      0 12rpx 32rpx rgba(43, 138, 107, 0.32),
+      inset 0 2rpx 0 rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+
+    // 顶部高光细线 —— premium 感
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 2rpx;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    }
+
+    &:active {
+      transform: translateY(2rpx);
+      box-shadow: 0 6rpx 16rpx rgba(43, 138, 107, 0.28);
+    }
+  }
+
+  &__footer-btn-icon { font-size: 34rpx; }
+  &__footer-btn-text { flex: 0 0 auto; }
+  &__footer-btn-arrow {
+    font-size: 32rpx;
+    opacity: 0.85;
+    margin-left: 6rpx;
+  }
+}

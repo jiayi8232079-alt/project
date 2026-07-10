@@ -1,0 +1,61 @@
+<view class="inv-page">
+  <view class="inv-page__card">
+    <view class="inv-page__icon-wrap">
+      <text class="material-symbols-outlined">family_restroom</text>
+    </view>
+    <text class="inv-page__title">邀请家人加入</text>
+    <text class="inv-page__hint">分享小程序码或邀请码，家人扫码 / 输码即可加入</text>
+
+    <!-- 小程序码 -->
+    <view class="inv-page__qr-box">
+      <view wx:if="{{qrCodeBase64}}" class="inv-page__qr-wrap">
+        <image class="inv-page__qr-img" src="{{qrCodeBase64}}" mode="aspectFit" />
+        <view class="inv-page__qr-name" wx:if="{{familyName}}">{{familyName}}</view>
+      </view>
+      <view wx:elif="{{qrLoading}}" class="inv-page__qr-loading">
+        <text class="material-symbols-outlined" style="font-size:48rpx;color:#CBD5E1;">hourglass</text>
+        <text>生成中...</text>
+      </view>
+      <view wx:else class="inv-page__qr-placeholder" bind:tap="loadQrCode" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size:72rpx;color:#4CAF50;">qr_code_2</text>
+        <text>点击生成小程序码</text>
+        <text wx:if="{{qrError}}" class="inv-page__qr-error">{{qrError}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{qrCodeBase64}}" class="inv-page__qr-actions">
+      <view class="inv-page__small-btn" bind:tap="saveQrToAlbum" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 28rpx;">download</text>
+        <text>保存到相册</text>
+      </view>
+    </view>
+
+    <!-- 邀请码 -->
+    <view class="inv-page__code-label">邀请码</view>
+    <view class="inv-page__code-box">
+      <text class="inv-page__code">{{inviteCode}}</text>
+    </view>
+
+    <view class="inv-page__actions">
+      <view class="inv-page__btn" bind:tap="copyCode" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 36rpx;">content_copy</text>
+        <text>复制邀请码</text>
+      </view>
+      <button class="inv-page__btn inv-page__btn--share" open-type="share" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 36rpx;">share</text>
+        <text>分享给家人</text>
+      </button>
+      <view class="inv-page__btn inv-page__btn--refresh" bind:tap="refreshCode" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 36rpx;">refresh</text>
+        <text>刷新</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="inv-page__tips">
+    <text class="inv-page__tips-title">三种加入方式（任选）</text>
+    <text class="inv-page__tips-item">📷 让家人扫码或保存二维码再从相册"长按识别"</text>
+    <text class="inv-page__tips-item">🔗 点击"分享给家人"发到微信，家人打开即自动跳转</text>
+    <text class="inv-page__tips-item">🔢 直接告诉家人邀请码：我的家庭 → 加入家庭 → 输码</text>
+  </view>
+</view>

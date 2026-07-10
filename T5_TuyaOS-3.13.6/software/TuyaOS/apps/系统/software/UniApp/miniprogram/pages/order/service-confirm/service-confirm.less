@@ -1,0 +1,663 @@
+@brand-green: #4caf50;
+@deep-gray: #333333;
+@royal-obsidian: #1a1a1a;
+@alabaster: #f8f9fa;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+.sc-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: @alabaster;
+}
+
+.sc-nav {
+  flex-shrink: 0;
+  min-height: 88rpx;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(40rpx);
+  -webkit-backdrop-filter: blur(40rpx);
+  border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 24rpx;
+  gap: 16rpx;
+}
+
+.sc-nav-back {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-left: -8rpx;
+  .material-symbols-outlined {
+    font-size: 38rpx;
+    color: @deep-gray;
+    line-height: 1;
+  }
+  &:active {
+    opacity: 0.85;
+  }
+}
+
+.sc-nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: @royal-obsidian;
+}
+
+.sc-nav-spacer {
+  width: 72rpx;
+  flex-shrink: 0;
+}
+
+.sc-scroll {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.sc-body {
+  padding: 16rpx 32rpx 48rpx;
+}
+
+/* 大屏设备（iPad / 横屏 / Pro Max 横屏）内容居中，避免字段被无限拉伸难以操作 */
+@media (min-width: 768px) {
+  .sc-body {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .sc-terms-popup {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .sc-picker-sheet {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.sc-lead {
+  margin-bottom: 24rpx;
+}
+
+.sc-lead-text {
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.65);
+  line-height: 1.65;
+}
+
+.sc-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 8rpx 28rpx;
+  margin-bottom: 32rpx;
+  box-shadow: 0 4rpx 24rpx -8rpx rgba(0, 0, 0, 0.06);
+}
+
+.sc-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24rpx;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.sc-card-label {
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.45);
+  flex-shrink: 0;
+}
+
+.sc-card-value {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: @royal-obsidian;
+  text-align: right;
+  word-break: break-all;
+}
+
+.sc-detail-section {
+  margin-bottom: 24rpx;
+}
+
+.sc-detail-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 8rpx 28rpx;
+  box-shadow: 0 4rpx 24rpx -8rpx rgba(0, 0, 0, 0.06);
+}
+
+.sc-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24rpx;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.sc-detail-label {
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.45);
+  flex-shrink: 0;
+  min-width: 140rpx;
+}
+
+.sc-detail-value {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: @royal-obsidian;
+  text-align: right;
+  word-break: break-all;
+  flex: 1;
+}
+
+.sc-detail-row--compact {
+  padding: 14rpx 0;
+}
+
+// ─── 费用卡片 ───
+.sc-fee-card {
+  padding: 16rpx 28rpx 4rpx;
+}
+
+.sc-fee-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24rpx;
+  padding: 18rpx 0;
+  border-bottom: 1rpx dashed rgba(0, 0, 0, 0.06);
+}
+
+.sc-fee-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  flex: 1;
+}
+
+.sc-fee-label {
+  font-size: 28rpx;
+  color: @royal-obsidian;
+  font-weight: 500;
+}
+
+.sc-fee-note {
+  font-size: 22rpx;
+  color: rgba(51, 51, 51, 0.45);
+  line-height: 1.5;
+}
+
+.sc-fee-amount {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: @royal-obsidian;
+  flex-shrink: 0;
+}
+
+.sc-fee-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 20rpx 0 6rpx;
+  margin-top: 6rpx;
+  border-top: 2rpx solid rgba(76, 175, 80, 0.2);
+}
+
+.sc-fee-total-label {
+  font-size: 28rpx;
+  color: rgba(51, 51, 51, 0.6);
+}
+
+.sc-fee-total-amount {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: @brand-green;
+  letter-spacing: 1rpx;
+}
+
+.sc-fee-empty {
+  padding: 28rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.4);
+}
+
+.sc-fee-foot {
+  margin-top: 6rpx;
+  padding-top: 6rpx;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.sc-section {
+  margin-bottom: 16rpx;
+}
+
+.sc-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: @royal-obsidian;
+  margin-bottom: 20rpx;
+}
+
+.sc-section-bar {
+  width: 6rpx;
+  height: 28rpx;
+  border-radius: 3rpx;
+  background: @brand-green;
+}
+
+.sc-sign-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  padding: 20rpx 24rpx;
+  background: rgba(76, 175, 80, 0.06);
+  border-radius: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.sc-sign-notice-icon {
+  font-size: 32rpx;
+  color: @brand-green;
+  flex-shrink: 0;
+  margin-top: 2rpx;
+}
+
+.sc-sign-notice-text {
+  font-size: 24rpx;
+  color: rgba(51, 51, 51, 0.6);
+  line-height: 1.6;
+}
+
+.sc-sign-panel {
+  padding: 36rpx 28rpx;
+  background: rgba(76, 175, 80, 0.06);
+  border: 2rpx dashed rgba(76, 175, 80, 0.35);
+  border-radius: 24rpx;
+  text-align: center;
+  transition: opacity 0.2s @ease-organic;
+}
+
+.sc-sign-panel--hover:active {
+  opacity: 0.92;
+}
+
+.sc-sign-panel--readonly {
+  pointer-events: none;
+}
+
+.sc-sign-panel--blocked {
+  background: rgba(156, 163, 175, 0.08);
+  border-color: rgba(156, 163, 175, 0.35);
+  opacity: 0.75;
+}
+
+.sc-sign-panel--blocked .sc-sign-tap-icon,
+.sc-sign-panel--blocked .sc-sign-tap-text {
+  color: rgba(51, 51, 51, 0.45);
+}
+
+.sc-sign-notice--blocked {
+  background: rgba(230, 162, 60, 0.08);
+}
+
+.sc-sign-notice--blocked .sc-sign-notice-icon {
+  color: #E6A23C;
+}
+
+.sc-sign-notice--blocked .sc-sign-notice-text {
+  color: #B07A18;
+}
+
+.sc-sign-done {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  color: @brand-green;
+}
+
+.sc-sign-done-icon {
+  font-size: 40rpx;
+}
+
+.sc-sign-done-text {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.sc-sign-tap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  color: rgba(76, 175, 80, 0.85);
+}
+
+.sc-sign-tap-icon {
+  font-size: 52rpx;
+}
+
+.sc-sign-tap-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: rgba(43, 109, 90, 0.95);
+  padding: 0 16rpx;
+}
+
+.sc-actions {
+  margin-top: 32rpx;
+}
+
+.sc-btn-outline {
+  width: 100%;
+  min-height: 96rpx;
+  padding: 24rpx 20rpx;
+  border-radius: 32rpx;
+  border: 2rpx solid rgba(76, 175, 80, 0.35);
+  background: #fff;
+  color: @brand-green;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  box-sizing: border-box;
+  &:active {
+    background: rgba(76, 175, 80, 0.04);
+  }
+}
+
+.sc-btn-icon {
+  font-size: 32rpx;
+}
+
+.sc-loading,
+.sc-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #888;
+  padding: 48rpx;
+  text-align: center;
+}
+
+.sc-empty-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx;
+}
+
+.haptic:active {
+  opacity: 0.7;
+}
+
+.sc-picker-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+}
+
+.sc-picker-sheet {
+  width: 100%;
+  background: #fff;
+  border-radius: 28rpx 28rpx 0 0;
+  padding: 40rpx 32rpx calc(env(safe-area-inset-bottom) + 20rpx);
+  animation: sc-slide-up 0.25s ease-out;
+}
+
+@keyframes sc-slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.sc-picker-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 8rpx;
+}
+
+.sc-picker-desc {
+  font-size: 26rpx;
+  color: #888;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.sc-picker-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 24rpx;
+  border-radius: 16rpx;
+  background: #f7f8fa;
+  margin-bottom: 16rpx;
+  transition: background 0.15s;
+}
+
+.sc-picker-option:active {
+  background: #eef1f5;
+}
+
+.sc-picker-option-text {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.sc-picker-option-arrow {
+  font-size: 36rpx;
+  color: #bbb;
+}
+
+.sc-picker-cancel {
+  text-align: center;
+  padding: 24rpx;
+  font-size: 30rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+// ─── Terms Checkbox ───
+.sc-terms-check {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  margin-bottom: 8rpx;
+}
+
+.sc-terms-checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid rgba(51, 51, 51, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 12rpx;
+  transition: all 0.2s @ease-organic;
+}
+
+.sc-terms-checkbox--checked {
+  background: @brand-green;
+  border-color: @brand-green;
+}
+
+.sc-terms-checkbox-icon {
+  font-size: 24rpx;
+  color: #fff;
+  font-weight: 700;
+}
+
+.sc-terms-check-text {
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.6);
+}
+
+.sc-terms-check-link {
+  font-size: 26rpx;
+  color: @brand-green;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+// ─── Terms Popup ───
+@keyframes sc-fade-up {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sc-terms-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx 40rpx;
+}
+
+.sc-terms-popup {
+  width: 100%;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 32rpx;
+  overflow: hidden;
+  animation: sc-fade-up 0.3s @ease-organic;
+}
+
+.sc-terms-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 32rpx 24rpx;
+  border-bottom: 1rpx solid rgba(51, 51, 51, 0.06);
+}
+
+.sc-terms-popup-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.sc-terms-popup-close {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f5f7fa;
+  flex-shrink: 0;
+
+  .material-symbols-outlined {
+    font-size: 32rpx;
+    color: rgba(51, 51, 51, 0.5);
+  }
+}
+
+.sc-terms-popup-body {
+  height: calc(80vh - 220rpx);
+  padding: 0 32rpx;
+  box-sizing: border-box;
+}
+
+.sc-terms-content {
+  padding: 24rpx 0 40rpx;
+}
+
+.sc-terms-company {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: @brand-green;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.sc-terms-intro {
+  font-size: 26rpx;
+  color: @deep-gray;
+  line-height: 1.7;
+  display: block;
+  margin-bottom: 28rpx;
+  word-break: break-all;
+}
+
+.sc-terms-item {
+  margin-bottom: 28rpx;
+}
+
+.sc-terms-item-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.sc-terms-item-text {
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.7);
+  line-height: 1.8;
+  display: block;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.sc-terms-popup-footer {
+  padding: 24rpx 32rpx calc(env(safe-area-inset-bottom) + 24rpx);
+  border-top: 1rpx solid rgba(51, 51, 51, 0.06);
+}
+
+.sc-terms-popup-btn {
+  width: 100%;
+  height: 88rpx;
+  border-radius: 28rpx;
+  background: @brand-green;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s @ease-organic;
+  &:active { transform: scale(0.97); }
+}

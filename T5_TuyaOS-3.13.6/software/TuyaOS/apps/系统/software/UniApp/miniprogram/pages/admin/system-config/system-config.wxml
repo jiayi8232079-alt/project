@@ -1,0 +1,162 @@
+<view class="sc" style="padding-top: {{statusBarHeight}}px;">
+
+  <view class="sc__nav">
+    <view class="sc__back" bind:tap="handleBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="sc__title">系统配置</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <!-- Section Tabs -->
+  <scroll-view scroll-x class="sc__tabs-scroll" show-scrollbar="{{false}}">
+    <view class="sc__tabs-row">
+      <view
+        wx:for="{{sections}}"
+        wx:key="key"
+        class="sc__tab {{activeSection === item.key ? 'sc__tab--active' : ''}}"
+        bind:tap="switchSection"
+        data-section="{{item.key}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="sc__scroll">
+
+    <!-- 门店配置 -->
+    <block wx:if="{{activeSection === 'store'}}">
+      <view class="config-card">
+        <view class="config-card__title">
+          <text class="material-symbols-outlined">store</text>
+          <text>门店信息</text>
+        </view>
+        <view wx:for="{{storeFields}}" wx:key="key" class="config-field">
+          <text class="config-field__label">{{item.label}}</text>
+          <input
+            class="config-field__input"
+            placeholder="{{item.placeholder}}"
+            value="{{storeValues[item.key]}}"
+            data-key="{{item.key}}"
+            bindinput="onStoreInput"
+          />
+        </view>
+      </view>
+    </block>
+
+    <!-- 通知配置 -->
+    <block wx:if="{{activeSection === 'notification'}}">
+      <view class="config-card">
+        <view class="config-card__title">
+          <text class="material-symbols-outlined">notifications</text>
+          <text>通知配置</text>
+        </view>
+        <view wx:for="{{notificationFields}}" wx:key="key" class="config-field">
+          <text class="config-field__label">{{item.label}}</text>
+          <input
+            class="config-field__input"
+            placeholder="{{item.placeholder}}"
+            value="{{notificationValues[item.key]}}"
+            data-key="{{item.key}}"
+            bindinput="onNotificationInput"
+          />
+        </view>
+        <view class="config-action" bind:tap="testWebhook" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">send</text>
+          <text>测试 Webhook</text>
+        </view>
+      </view>
+    </block>
+
+    <!-- 模板配置 -->
+    <block wx:if="{{activeSection === 'template'}}">
+      <view class="config-card">
+        <view class="config-card__title">
+          <text class="material-symbols-outlined">article</text>
+          <text>订阅消息模板</text>
+        </view>
+        <view wx:for="{{templateFields}}" wx:key="key" class="config-field">
+          <text class="config-field__label">{{item.label}}</text>
+          <input
+            class="config-field__input"
+            placeholder="{{item.placeholder || '模板ID'}}"
+            value="{{templateValues[item.key]}}"
+            data-key="{{item.key}}"
+            bindinput="onTemplateInput"
+          />
+        </view>
+      </view>
+    </block>
+
+    <!-- 进阶签署 -->
+    <block wx:if="{{activeSection === 'sign'}}">
+      <view class="config-card">
+        <view class="config-card__title">
+          <text class="material-symbols-outlined">assignment_turned_in</text>
+          <text>进阶签署流程</text>
+        </view>
+        <view class="config-card__desc">
+          <text>开启后会在服务确认单签署流程中插入额外电子文书，所有改动会记录到审计日志（AuditLog）。</text>
+        </view>
+        <view wx:for="{{advancedSignFields}}" wx:key="key" class="config-toggle">
+          <view class="config-toggle__text">
+            <text class="config-toggle__label">{{item.label}}</text>
+            <text class="config-toggle__desc">{{item.description}}</text>
+          </view>
+          <switch
+            class="config-toggle__switch"
+            checked="{{advancedSignValues[item.key]}}"
+            color="#4caf50"
+            data-key="{{item.key}}"
+            bindchange="onAdvancedSignToggle"
+          />
+        </view>
+      </view>
+    </block>
+
+    <!-- 高级配置 -->
+    <block wx:if="{{activeSection === 'advanced'}}">
+      <view class="config-card">
+        <view class="config-card__title">
+          <text class="material-symbols-outlined">settings</text>
+          <text>自定义配置</text>
+          <view class="config-card__add" bind:tap="addCustomConfig" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">add</text>
+          </view>
+        </view>
+
+        <view wx:if="{{customConfigs.length === 0}}" class="config-empty">
+          <text>暂无自定义配置</text>
+        </view>
+
+        <view wx:for="{{customConfigs}}" wx:key="key" class="custom-config-item">
+          <view class="custom-config-item__head">
+            <view class="custom-config-item__key-wrap">
+              <text class="custom-config-item__key-label">{{item.key || '新配置'}}</text>
+              <text wx:if="{{item.description}}" class="custom-config-item__desc">{{item.description}}</text>
+            </view>
+            <view class="custom-config-item__del" bind:tap="removeCustomConfig" data-index="{{index}}" hover-class="btn-haptic">
+              <text class="material-symbols-outlined">delete_outline</text>
+            </view>
+          </view>
+          <input wx:if="{{!item.key}}" class="config-field__input" placeholder="配置键名 (key)" value="{{item.key}}" data-index="{{index}}" data-field="key" bindinput="onCustomInput"/>
+          <input class="config-field__input" placeholder="配置值 (value)" value="{{item.value}}" data-index="{{index}}" data-field="value" bindinput="onCustomInput"/>
+          <input wx:if="{{!item.key}}" class="config-field__input config-field__input--small" placeholder="描述（选填）" value="{{item.description}}" data-index="{{index}}" data-field="description" bindinput="onCustomInput"/>
+        </view>
+      </view>
+    </block>
+
+    <view style="height: calc(env(safe-area-inset-bottom) + 200rpx);"></view>
+  </scroll-view>
+
+  <!-- 底部固定保存栏 -->
+  <view class="sc__footer" style="padding-bottom: calc(env(safe-area-inset-bottom) + 16rpx);">
+    <view class="sc__footer-btn {{saving ? 'sc__footer-btn--loading' : ''}}" bind:tap="saveAll" hover-class="btn-haptic">
+      <text wx:if="{{saving}}" class="material-symbols-outlined sc__footer-btn-ico">progress_activity</text>
+      <text wx:else class="material-symbols-outlined sc__footer-btn-ico">save</text>
+      <text>{{saving ? '保存中...' : '保存配置'}}</text>
+    </view>
+  </view>
+
+</view>

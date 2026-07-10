@@ -87,6 +87,14 @@
 #endif
 #include "tkl_gpio.h"
 
+#ifndef AI_TOY_GPIO_WAKEUP_ONLY
+#define AI_TOY_GPIO_WAKEUP_ONLY 0
+#endif
+
+#ifndef WUKONG_KWS_DISABLED
+#define WUKONG_KWS_DISABLED 0
+#endif
+
 /* ---------------------------------------------------------------------------
  * Macros
  * --------------------------------------------------------------------------- */
@@ -109,7 +117,14 @@
  * --------------------------------------------------------------------------- */
 STATIC TY_AI_TOY_T *s_ai_toy = NULL;
 STATIC UINT8_T      s_lang = TY_AI_DEFAULT_LANG;
+#if !defined(WUKONG_KWS_DISABLED) || (WUKONG_KWS_DISABLED != 1)
 STATIC INT_T        __s_wakeup_flag = 0;
+#endif
+#if defined(AI_TOY_GPIO_WAKEUP_ONLY) && (AI_TOY_GPIO_WAKEUP_ONLY == 1)
+STATIC SEM_HANDLE   s_gpio_wakeup_sem = NULL;
+STATIC THREAD_HANDLE s_gpio_wakeup_thread = NULL;
+STATIC volatile UINT_T s_gpio_wakeup_irq_cnt = 0;
+#endif
 
 /* ---------------------------------------------------------------------------
  * Config and report helpers
@@ -286,6 +301,7 @@ STATIC VOID __ai_toy_task(VOID *args)
 }
 
 /** KWS wakeup event: set wakeup index and forward to wukong. */
+#if !defined(WUKONG_KWS_DISABLED) || (WUKONG_KWS_DISABLED != 1)
 STATIC OPERATE_RET __on_ai_toy_audio_kws(VOID_T *data)
 {
     if (data) {
@@ -295,6 +311,7 @@ STATIC OPERATE_RET __on_ai_toy_audio_kws(VOID_T *data)
 
     return wukong_ai_mode_dispatch(AI_MODE_OP_WAKEUP, NULL, 0);
 }
+#endif
 
 /** VAD state change: forward to wukong. */
 STATIC OPERATE_RET __on_ai_toy_vad_change(VOID *data)
@@ -378,7 +395,11 @@ STATIC OPERATE_RET __ai_toy_wukong_ai_agent_init(VOID)
     TUYA_CALL_ERR_LOG(wukong_audio_input_init(&audio_cfg));
 
     wukong_audio_player_set_vol(s_ai_toy->volume);
+#if defined(WUKONG_KWS_DISABLED) && (WUKONG_KWS_DISABLED == 1)
+    TAL_PR_NOTICE("ai toy -> KWS disabled, GPIO wakeup only");
+#else
     TUYA_CALL_ERR_LOG(wukong_kws_default_init());
+#endif
     return rt;
 }
 
@@ -418,7 +439,9 @@ STATIC OPERATE_RET __ai_toy_stop(VOID)
     ty_unsubscribe_event(EVENT_OTA_PROCESS_NOTIFY, "ai_toy", __on_ai_toy_ota_process_cb);
     ty_unsubscribe_event(EVENT_OTA_FAILED_NOTIFY,  "ai_toy", __on_ai_toy_ota_fail_cb);
     ty_unsubscribe_event(EVENT_AI_CLIENT_RUN,      "ai_toy", __on_ai_toy_ai_client_run);
+#if !defined(WUKONG_KWS_DISABLED) || (WUKONG_KWS_DISABLED != 1)
     ty_unsubscribe_event(EVENT_WUKONG_KWS_WAKEUP,  "ai_toy", __on_ai_toy_audio_kws);
+#endif
     ty_unsubscribe_event(EVENT_AUDIO_VAD,          "ai_toy", __on_ai_toy_vad_change);
     ty_unsubscribe_event(EVENT_RESET,              "ai_toy", __on_ai_toy_reset);
 
@@ -451,7 +474,11 @@ STATIC OPERATE_RET __ai_toy_start(VOID)
     ty_subscribe_event(EVENT_OTA_PROCESS_NOTIFY, "ai_toy", __on_ai_toy_ota_process_cb, SUBSCRIBE_TYPE_NORMAL);
     ty_subscribe_event(EVENT_OTA_FAILED_NOTIFY,  "ai_toy", __on_ai_toy_ota_fail_cb, SUBSCRIBE_TYPE_NORMAL);
     ty_subscribe_event(EVENT_AI_CLIENT_RUN,      "ai_toy", __on_ai_toy_ai_client_run, SUBSCRIBE_TYPE_NORMAL);
+#if !defined(WUKONG_KWS_DISABLED) || (WUKONG_KWS_DISABLED != 1)
     ty_subscribe_event(EVENT_WUKONG_KWS_WAKEUP,  "ai_toy", __on_ai_toy_audio_kws, SUBSCRIBE_TYPE_NORMAL);
+#else
+    TAL_PR_NOTICE("ai toy -> skip KWS wakeup event subscription");
+#endif
     ty_subscribe_event(EVENT_AUDIO_VAD,          "ai_toy", __on_ai_toy_vad_change, SUBSCRIBE_TYPE_NORMAL);
     ty_subscribe_event(EVENT_RESET,              "ai_toy", __on_ai_toy_reset, SUBSCRIBE_TYPE_NORMAL);
 
@@ -661,10 +688,132 @@ STATIC VOID __on_ai_toy_net_pin(UINT_T port, PUSH_KEY_TYPE_E type, INT_T cnt)
     }
 }
 
-/** Audio trigger key: seq = stop player, switch trigger mode and alert; else forward to wukong key handler. */
+/** Audio trigger key: GPIO-only builds dispatch wakeup directly; legacy builds keep mode-switch key behavior. */
+#if defined(AI_TOY_GPIO_WAKEUP_ONLY) && (AI_TOY_GPIO_WAKEUP_ONLY == 1)
+STATIC VOID __ai_toy_dispatch_gpio_wakeup(VOID)
+{
+    if (NULL == s_ai_toy) {
+        return;
+    }
+
+    __on_ai_toy_key_press_exit_lowpower();
+
+    if (s_ai_toy->cfg.device_mode != AI_DEVICE_MODE_CHAT) {
+        TAL_PR_NOTICE("ai toy -> gpio wake switch device mode %d -> %d",
+                      s_ai_toy->cfg.device_mode, AI_DEVICE_MODE_CHAT);
+        wukong_audio_player_stop(AI_PLAYER_ALL);
+        tuya_ai_agent_event(AI_EVENT_CHAT_BREAK, 0);
+        wukong_ai_device_mode_switch(AI_DEVICE_MODE_CHAT);
+    }
+
+    if (s_ai_toy->cfg.trigger_mode != AI_CHAT_SUB_WAKEUP) {
+        TAL_PR_NOTICE("ai toy -> gpio wake force trigger mode %d -> %d",
+                      s_ai_toy->cfg.trigger_mode, AI_CHAT_SUB_WAKEUP);
+        wukong_ai_chat_sub_mode_switch(AI_CHAT_SUB_WAKEUP);
+    }
+
+    TAL_PR_NOTICE("ai toy -> dispatch GPIO wakeup");
+    wukong_ai_mode_dispatch(AI_MODE_OP_WAKEUP, NULL, 0);
+}
+
+STATIC VOID __ai_toy_gpio_wakeup_thread(PVOID_T arg)
+{
+    UINT_T pin = (UINT_T)(uintptr_t)arg;
+
+    while (1) {
+        tal_semaphore_wait(s_gpio_wakeup_sem, SEM_WAIT_FOREVER);
+        TAL_PR_NOTICE("ai toy -> gpio wake irq pin=%d irq_cnt=%d", pin, s_gpio_wakeup_irq_cnt);
+        __ai_toy_dispatch_gpio_wakeup();
+    }
+}
+
+STATIC VOID __on_ai_toy_gpio_wakeup_irq(VOID_T *args)
+{
+    (void)args;
+
+    s_gpio_wakeup_irq_cnt++;
+    if (s_gpio_wakeup_sem) {
+        tal_semaphore_post(s_gpio_wakeup_sem);
+    }
+}
+
+STATIC OPERATE_RET __ai_toy_gpio_wakeup_init(TUYA_GPIO_NUM_E pin)
+{
+    if (TUYA_GPIO_NUM_MAX == pin) {
+        return OPRT_OK;
+    }
+
+    OPERATE_RET rt = OPRT_OK;
+    TAL_PR_NOTICE("ai toy gpio wake cfg pin=%d active=high pull=pulldown irq=rise path=direct", pin);
+
+    TUYA_GPIO_BASE_CFG_T gpio_cfg = {
+        .mode   = TUYA_GPIO_PULLDOWN,
+        .direct = TUYA_GPIO_INPUT,
+        .level  = TUYA_GPIO_LEVEL_LOW
+    };
+
+    rt = tkl_gpio_init(pin, &gpio_cfg);
+    if (rt != OPRT_OK) {
+        TAL_PR_ERR("ai toy gpio wake gpio init failed pin=%d rt=%d", pin, rt);
+        return rt;
+    }
+
+    if (NULL == s_gpio_wakeup_sem) {
+        rt = tal_semaphore_create_init(&s_gpio_wakeup_sem, 0, 10);
+        if (rt != OPRT_OK) {
+            TAL_PR_ERR("ai toy gpio wake sem create failed rt=%d", rt);
+            return rt;
+        }
+    }
+
+    if (NULL == s_gpio_wakeup_thread) {
+        THREAD_CFG_T thrd_param = {
+            .priority = THREAD_PRIO_0,
+            .stackDepth = 4096,
+            .thrdname = "gpio_wakeup"
+        };
+        rt = tal_thread_create_and_start(&s_gpio_wakeup_thread, NULL, NULL, __ai_toy_gpio_wakeup_thread,
+                                         (VOID_T *)(uintptr_t)pin, &thrd_param);
+        if (rt != OPRT_OK) {
+            s_gpio_wakeup_thread = NULL;
+            TAL_PR_ERR("ai toy gpio wake thread create failed rt=%d", rt);
+            return rt;
+        }
+    }
+
+    TUYA_GPIO_IRQ_T irq_cfg = {
+        .mode = TUYA_GPIO_IRQ_RISE,
+        .cb = __on_ai_toy_gpio_wakeup_irq,
+        .arg = (VOID_T *)(uintptr_t)pin
+    };
+    rt = tkl_gpio_irq_init(pin, &irq_cfg);
+    if (rt != OPRT_OK) {
+        TAL_PR_ERR("ai toy gpio wake irq init failed pin=%d rt=%d", pin, rt);
+        return rt;
+    }
+
+    rt = tkl_gpio_irq_enable(pin);
+    if (rt != OPRT_OK) {
+        TAL_PR_ERR("ai toy gpio wake irq enable failed pin=%d rt=%d", pin, rt);
+        return rt;
+    }
+
+    TUYA_GPIO_LEVEL_E level = TUYA_GPIO_LEVEL_LOW;
+    rt = tkl_gpio_read(pin, &level);
+    if (rt == OPRT_OK) {
+        TAL_PR_NOTICE("ai toy gpio wake ready pin=%d initial_level=%d", pin, level);
+    } else {
+        TAL_PR_ERR("ai toy gpio wake read initial level failed pin=%d rt=%d", pin, rt);
+    }
+
+    return OPRT_OK;
+}
+#endif
+
+#if !defined(AI_TOY_GPIO_WAKEUP_ONLY) || (AI_TOY_GPIO_WAKEUP_ONLY != 1)
 STATIC VOID __on_ai_toy_audio_trigger_pin(UINT_T port, PUSH_KEY_TYPE_E type, INT_T cnt)
 {
-    TAL_PR_DEBUG("ai toy -> audio trigger pin pressed %d", type);
+    TAL_PR_NOTICE("ai toy -> audio trigger pin=%d type=%d cnt=%d", port, type, cnt);
     
     /** Exit lowpower status when key press and device was in lowpower status */
     __on_ai_toy_key_press_exit_lowpower();
@@ -693,6 +842,7 @@ STATIC VOID __on_ai_toy_audio_trigger_pin(UINT_T port, PUSH_KEY_TYPE_E type, INT
     /* Single/long press: pass to wukong key handler (e.g. hold to talk). */
     wukong_ai_mode_dispatch(AI_MODE_OP_KEY, &type, 0);
 }
+#endif
 
 /* ---------------------------------------------------------------------------
  * Public API (see tuya_ai_toy.h)
@@ -736,9 +886,31 @@ OPERATE_RET tuya_ai_toy_init(TY_AI_TOY_CFG_T *cfg)
 
     TUYA_CALL_ERR_LOG(__ai_toy_config_load());
 
-    /* LED and two keys: audio trigger (short/long = SEQ_KEY_TIME/LONG_KEY_TIME), net (long = 10*LONG_KEY_TIME for reset). */
+    if (AI_TOY_GPIO_WAKEUP_ONLY == 1) {
+        if (s_ai_toy->cfg.trigger_mode != AI_CHAT_SUB_WAKEUP ||
+            s_ai_toy->cfg.device_mode != AI_DEVICE_MODE_CHAT) {
+            TAL_PR_NOTICE("ai toy -> force gpio-only mode trigger %d -> %d, device %d -> %d",
+                          s_ai_toy->cfg.trigger_mode, AI_CHAT_SUB_WAKEUP,
+                          s_ai_toy->cfg.device_mode, AI_DEVICE_MODE_CHAT);
+        }
+        s_ai_toy->cfg.trigger_mode = AI_CHAT_SUB_WAKEUP;
+        s_ai_toy->cfg.device_mode = AI_DEVICE_MODE_CHAT;
+    }
+
+    TAL_PR_NOTICE("ai toy cfg: audio_trigger_pin=%d trigger_mode=%d device_mode=%d gpio_only=%d kws_disabled=%d",
+                  s_ai_toy->cfg.audio_trigger_pin,
+                  s_ai_toy->cfg.trigger_mode,
+                  s_ai_toy->cfg.device_mode,
+                  AI_TOY_GPIO_WAKEUP_ONLY,
+                  WUKONG_KWS_DISABLED);
+
+    /* LED and two keys: audio trigger is active high; net key stays active low. */
     TUYA_CALL_ERR_GOTO(tuya_ai_toy_led_init(s_ai_toy->cfg.led_pin), __error);
-    TUYA_CALL_ERR_GOTO(tuya_ai_toy_key_init(s_ai_toy->cfg.audio_trigger_pin, TRUE, SEQ_KEY_TIME, LONG_KEY_TIME, __on_ai_toy_audio_trigger_pin), __error);
+#if defined(AI_TOY_GPIO_WAKEUP_ONLY) && (AI_TOY_GPIO_WAKEUP_ONLY == 1)
+    TUYA_CALL_ERR_GOTO(__ai_toy_gpio_wakeup_init(s_ai_toy->cfg.audio_trigger_pin), __error);
+#else
+    TUYA_CALL_ERR_GOTO(tuya_ai_toy_key_init(s_ai_toy->cfg.audio_trigger_pin, FALSE, SEQ_KEY_TIME, LONG_KEY_TIME, __on_ai_toy_audio_trigger_pin), __error);
+#endif
     TUYA_CALL_ERR_GOTO(tuya_ai_toy_key_init(s_ai_toy->cfg.net_pin, TRUE, SEQ_KEY_TIME, LONG_KEY_TIME * 10, __on_ai_toy_net_pin), __error);
 
 #if defined(ENABLE_TUYA_CAMERA) && (ENABLE_TUYA_CAMERA == 1)
@@ -812,6 +984,12 @@ AI_CHAT_SUB_MODE_E tuya_ai_toy_trigger_mode_get(VOID)
 
 VOID tuya_ai_toy_trigger_mode_set(AI_CHAT_SUB_MODE_E mode)
 {
+#if defined(AI_TOY_GPIO_WAKEUP_ONLY) && (AI_TOY_GPIO_WAKEUP_ONLY == 1)
+    if (mode != AI_CHAT_SUB_WAKEUP) {
+        TAL_PR_NOTICE("ai toy -> gpio-only ignores trigger mode %d, keep wakeup", mode);
+    }
+    mode = AI_CHAT_SUB_WAKEUP;
+#endif
     if (mode >= AI_CHAT_SUB_HOLD && mode < AI_CHAT_SUB_MAX) {
         s_ai_toy->cfg.trigger_mode = mode;
         return;

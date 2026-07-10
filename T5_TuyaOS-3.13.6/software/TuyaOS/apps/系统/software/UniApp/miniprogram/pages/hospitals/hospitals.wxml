@@ -1,0 +1,255 @@
+<view class="hosp-page {{pageLoaded ? 'hosp-page--loaded' : ''}}">
+  <!-- 顶栏 -->
+  <view class="hosp-page__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="hosp-page__nav-back" bind:tap="goBack" hover-class="hosp-page__press">
+      <text class="material-symbols-outlined hosp-page__nav-back-icon">arrow_back</text>
+    </view>
+    <view class="hosp-page__nav-center">
+      <text class="hosp-page__nav-kicker">医疗机构名录</text>
+      <text class="hosp-page__nav-title">找医院</text>
+    </view>
+    <view class="hosp-page__nav-side"></view>
+  </view>
+
+  <view class="hosp-filter anim-fade">
+    <view class="hosp-filter__head">
+      <text class="hosp-filter__title">按地区检索</text>
+      <text class="hosp-filter__hint">信息仅供参考，就诊以医院官方为准</text>
+    </view>
+
+    <block>
+      <view class="hosp-filter__field">
+        <text class="hosp-filter__field-label">省份</text>
+        <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="hosp-filter__scroll hosp-filter__scroll--block" scroll-with-animation>
+          <view class="hosp-filter__chips hosp-filter__chips--row">
+            <view
+              wx:for="{{provinceOptions}}"
+              wx:key="label"
+              wx:for-index="pidx"
+              class="hosp-filter__pill {{provinceIndex === pidx ? 'hosp-filter__pill--on' : ''}}"
+              bind:tap="onProvinceChipTap"
+              data-index="{{pidx}}"
+              hover-class="hosp-filter__pill-press"
+            >
+              <text class="hosp-filter__pill-text">{{item.label}}</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+      <view wx:if="{{showCityRow}}" class="hosp-filter__field hosp-filter__field--sub">
+        <text class="hosp-filter__field-label">城市</text>
+        <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="hosp-filter__scroll hosp-filter__scroll--block" scroll-with-animation>
+          <view class="hosp-filter__chips hosp-filter__chips--row">
+            <view
+              wx:for="{{cityOptionsRow}}"
+              wx:key="label"
+              wx:for-index="cidx"
+              class="hosp-filter__pill hosp-filter__pill--sm {{cityIndex === cidx ? 'hosp-filter__pill--on' : ''}}"
+              bind:tap="onCityChipTap"
+              data-index="{{cidx}}"
+              hover-class="hosp-filter__pill-press"
+            >
+              <text class="hosp-filter__pill-text">{{item.label}}</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 搜索 -->
+  <view class="hosp-page__search-card">
+    <text class="material-symbols-outlined hosp-page__search-icon">search</text>
+    <input
+      class="hosp-page__search-input"
+      placeholder="搜索医院名称、地址…"
+      placeholder-class="hosp-page__search-ph"
+      value="{{keyword}}"
+      confirm-type="search"
+      bindinput="onKeywordInput"
+      bindconfirm="onSearchConfirm"
+    />
+    <view class="hosp-page__search-map" bind:tap="openMap" hover-class="hosp-page__press">
+      <text class="material-symbols-outlined hosp-page__search-map-icon">map</text>
+      <text class="hosp-page__search-map-label">地图</text>
+    </view>
+  </view>
+
+  <!-- 使用页面级滚动 + onReachBottom，避免 scroll-view 无固定高度时无法触发触底加载 -->
+  <view class="hosp-page__list-area">
+    <view class="hosp-page__body">
+      <view wx:if="{{loading && items.length === 0}}" class="hosp-page__state">
+        <view class="hosp-page__skeleton"></view>
+        <text class="hosp-page__state-text">正在加载名录…</text>
+      </view>
+
+      <view
+        wx:for="{{items}}"
+        wx:key="id"
+        class="hosp-card"
+        bind:tap="openDetail"
+        data-id="{{item.id}}"
+        hover-class="hosp-page__press"
+      >
+        <view class="hosp-card__accent"></view>
+        <view class="hosp-card__media">
+          <image wx:if="{{item.imageUrl}}" class="hosp-card__img" src="{{item.imageUrl}}" mode="aspectFill" />
+          <view wx:else class="hosp-card__img hosp-card__img--ph">
+            <text class="material-symbols-outlined hosp-card__ph-icon">apartment</text>
+          </view>
+        </view>
+        <view class="hosp-card__main">
+          <view class="hosp-card__title-row">
+            <text class="hosp-card__name">{{item.name}}</text>
+          </view>
+          <view class="hosp-card__meta-row">
+            <text wx:if="{{item.hospitalLevel}}" class="hosp-card__badge">{{item.hospitalLevel}}</text>
+            <text class="hosp-card__loc">{{item.city}} {{item.district || ''}}</text>
+          </view>
+          <text class="hosp-card__addr">{{item.address}}</text>
+          <view
+            wx:if="{{item.phoneMain}}"
+            class="hosp-card__phone-row"
+            catch:tap="onListCallPhone"
+            data-phone="{{item.phoneMain}}"
+            hover-class="hosp-page__press"
+          >
+            <text class="material-symbols-outlined hosp-card__phone-icon">call</text>
+            <text class="hosp-card__phone">{{item.phoneMain}}</text>
+          </view>
+        </view>
+        <text class="material-symbols-outlined hosp-card__chev">chevron_right</text>
+      </view>
+
+      <view wx:if="{{!loading && items.length === 0}}" class="hosp-page__empty">
+        <view class="hosp-page__empty-icon-wrap">
+          <text class="material-symbols-outlined hosp-page__empty-icon">travel_explore</text>
+        </view>
+        <text class="hosp-page__empty-title">暂无匹配医院</text>
+        <text class="hosp-page__empty-sub">切换城市或修改关键词；新城市数据可由后台导入</text>
+      </view>
+
+      <view wx:if="{{items.length > 0 && loadingMore}}" class="hosp-page__foot-hint">加载更多…</view>
+      <view wx:if="{{items.length > 0 && listFinished && total > 0}}" class="hosp-page__foot-hint hosp-page__foot-hint--done">
+        已展示全部 {{total}} 条
+      </view>
+      <view class="hosp-page__safe-bottom"></view>
+    </view>
+  </view>
+
+  <!-- 详情 -->
+  <view wx:if="{{detailVisible}}" class="hosp-sheet-mask" bind:tap="closeDetail">
+    <view class="hosp-sheet" catch:tap="noop">
+      <view class="hosp-sheet__grab"></view>
+
+      <view class="hosp-sheet__hero">
+        <view class="hosp-sheet__avatar">
+          <text class="material-symbols-outlined hosp-sheet__avatar-icon">local_hospital</text>
+        </view>
+        <view class="hosp-sheet__hero-main">
+          <text class="hosp-sheet__title">{{detail.name}}</text>
+          <text wx:if="{{detail.shortName}}" class="hosp-sheet__sub">{{detail.shortName}}</text>
+          <view class="hosp-sheet__tags">
+            <text wx:if="{{detail.hospitalLevel}}" class="hosp-sheet__tag">{{detail.hospitalLevel}}</text>
+            <text wx:if="{{detail.ownershipType}}" class="hosp-sheet__tag hosp-sheet__tag--muted">{{detail.ownershipType}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="hosp-sheet__panel">
+        <view wx:if="{{detail.websiteUrl}}" class="hosp-sheet__cell hosp-sheet__cell--multiline">
+          <view class="hosp-sheet__cell-icon-wrap">
+            <text class="material-symbols-outlined hosp-sheet__cell-icon">language</text>
+          </view>
+          <view class="hosp-sheet__cell-body">
+            <text class="hosp-sheet__cell-label">官网</text>
+            <text class="hosp-sheet__cell-value hosp-sheet__cell-value--url">{{detail.websiteUrl}}</text>
+          </view>
+        </view>
+
+        <view
+          wx:if="{{detail.websiteUrl}}"
+          class="hosp-sheet__divider"
+        />
+
+        <view class="hosp-sheet__cell hosp-sheet__cell--tappable" bind:tap="onOpenLocation" hover-class="hosp-sheet__cell--press">
+          <view class="hosp-sheet__cell-icon-wrap hosp-sheet__cell-icon-wrap--accent">
+            <text class="material-symbols-outlined hosp-sheet__cell-icon">map</text>
+          </view>
+          <view class="hosp-sheet__cell-body">
+            <text class="hosp-sheet__cell-label">地址与导航</text>
+            <text class="hosp-sheet__cell-value">{{detail.city}} {{detail.district || ''}} · {{detail.address}}</text>
+            <text class="hosp-sheet__cell-hint">在微信地图中查看 · 可发起导航</text>
+          </view>
+          <text class="material-symbols-outlined hosp-sheet__cell-chev">chevron_right</text>
+        </view>
+
+        <view
+          wx:if="{{detail.phoneMain || detail.phonesExtraParts.length || detail.keyDepartmentsText}}"
+          class="hosp-sheet__divider"
+        />
+
+        <view wx:if="{{detail.phoneMain}}" class="hosp-sheet__cell hosp-sheet__cell--tappable" bind:tap="onDialPhone" data-phone="{{detail.phoneMain}}" hover-class="hosp-sheet__cell--press">
+          <view class="hosp-sheet__cell-icon-wrap">
+            <text class="material-symbols-outlined hosp-sheet__cell-icon">call</text>
+          </view>
+          <view class="hosp-sheet__cell-body">
+            <text class="hosp-sheet__cell-label">咨询电话</text>
+            <text class="hosp-sheet__cell-value hosp-sheet__cell-value--phone">{{detail.phoneMain}}</text>
+          </view>
+        </view>
+
+        <view wx:if="{{detail.phoneMain && detail.phonesExtraParts.length}}" class="hosp-sheet__divider hosp-sheet__divider--inset" />
+
+        <block wx:for="{{detail.phonesExtraParts}}" wx:for-item="extraPhone" wx:for-index="epidx" wx:key="epidx">
+          <view wx:if="{{epidx > 0}}" class="hosp-sheet__divider hosp-sheet__divider--inset" />
+          <view class="hosp-sheet__cell hosp-sheet__cell--tappable" bind:tap="onDialPhone" data-phone="{{extraPhone}}" hover-class="hosp-sheet__cell--press">
+            <view class="hosp-sheet__cell-icon-wrap">
+              <text class="material-symbols-outlined hosp-sheet__cell-icon">phone_in_talk</text>
+            </view>
+            <view class="hosp-sheet__cell-body">
+              <text class="hosp-sheet__cell-label">其他电话</text>
+              <text class="hosp-sheet__cell-value hosp-sheet__cell-value--phone">{{extraPhone}}</text>
+            </view>
+          </view>
+        </block>
+
+        <view wx:if="{{(detail.phoneMain || detail.phonesExtraParts.length) && detail.keyDepartmentsText}}" class="hosp-sheet__divider hosp-sheet__divider--inset" />
+
+        <view wx:if="{{detail.keyDepartmentsText}}" class="hosp-sheet__cell hosp-sheet__cell--multiline">
+          <view class="hosp-sheet__cell-icon-wrap">
+            <text class="material-symbols-outlined hosp-sheet__cell-icon">ward</text>
+          </view>
+          <view class="hosp-sheet__cell-body">
+            <text class="hosp-sheet__cell-label">重点科室</text>
+            <text class="hosp-sheet__cell-value">{{detail.keyDepartmentsText}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{detailDoctorsLoading}}" class="hosp-sheet__doctors-hint">正在加载本院医生信息…</view>
+      <view wx:elif="{{detailDoctors.length > 0}}" class="hosp-sheet__doctors">
+        <text class="hosp-sheet__section-kicker">医护参考</text>
+        <text class="hosp-sheet__section-title">本院医生</text>
+        <text class="hosp-sheet__doctors-disclaimer">由平台整理，出诊与职称以医院当日公示为准</text>
+        <view wx:for="{{detailDoctors}}" wx:key="id" class="hosp-doc-card">
+          <view class="hosp-doc-card__head">
+            <text class="hosp-doc-card__name">{{item.name}}</text>
+            <text wx:if="{{item.titleLevel}}" class="hosp-doc-card__title">{{item.titleLevel}}</text>
+          </view>
+          <text wx:if="{{item.department}}" class="hosp-doc-card__dept">{{item.department}}</text>
+          <text wx:if="{{item.expertise}}" class="hosp-doc-card__exp">擅长：{{item.expertise}}</text>
+          <text wx:if="{{item.introduction}}" class="hosp-doc-card__intro">简介：{{item.introduction}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{detail.remark}}" class="hosp-sheet__note">{{detail.remark}}</view>
+
+      <text class="hosp-sheet__fineprint">信息仅供参考；院区、等级与电话以医院官网及卫健公示为准</text>
+
+      <view class="hosp-sheet__footer">
+        <button class="hosp-sheet__btn hosp-sheet__btn--ghost" bind:tap="closeDetail">关闭</button>
+      </view>
+    </view>
+  </view>
+</view>

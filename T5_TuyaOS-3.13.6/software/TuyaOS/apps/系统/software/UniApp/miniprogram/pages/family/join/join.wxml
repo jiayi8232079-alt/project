@@ -1,0 +1,30 @@
+<view class="join-page">
+  <view class="join-page__card">
+    <text class="join-page__title">输入邀请码</text>
+    <text class="join-page__hint">请输入家人分享的8位邀请码</text>
+    <input class="join-page__input" placeholder="请输入邀请码" value="{{inviteCode}}" bindinput="onCodeInput" maxlength="8" />
+
+    <view wx:if="{{previewFamily}}" class="join-page__preview">
+      <text class="join-page__preview-label">即将加入</text>
+      <text class="join-page__preview-name">{{previewFamily.name}}</text>
+      <text class="join-page__preview-sub">由 {{previewFamily.creator.nickname || '家人'}} 创建 · {{previewFamily.memberCount}} 位成员</text>
+    </view>
+    <view wx:elif="{{inviteCode.length === 8 && !previewLoading}}" class="join-page__preview join-page__preview--error">
+      <text class="join-page__preview-sub">邀请码无效，请检查后重试</text>
+    </view>
+
+    <text class="join-page__label">您的身份</text>
+    <view class="join-page__relations">
+      <view wx:for="{{relations}}" wx:key="value"
+        class="join-page__rel {{selectedRelation === item.value ? 'join-page__rel--active' : ''}}"
+        bind:tap="selectRelation" data-value="{{item.value}}" hover-class="btn-haptic"
+      >{{item.label}}</view>
+    </view>
+
+    <input class="join-page__input" placeholder="家庭内昵称（选填，如：父亲）" value="{{nickname}}" bindinput="onNicknameInput" />
+
+    <view class="join-page__submit {{canSubmit ? 'join-page__submit--active' : ''}}" bind:tap="submit" hover-class="btn-haptic">
+      加入家庭
+    </view>
+  </view>
+</view>

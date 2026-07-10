@@ -1,0 +1,224 @@
+<view class="page">
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后预约到店</text>
+      <text class="page-login-gate__desc">提交预约需关联您的账号。您可先返回首页了解服务，或与客服沟通线上咨询；需要预约时再自愿登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+  <block wx:else>
+  <view class="segment">
+    <view
+      class="segment__item {{activeMethod === 'online' ? 'segment__item--active' : ''}}"
+      data-method="online"
+      bind:tap="onSwitchMethod"
+      hover-class="btn-haptic"
+    >
+      线上咨询
+    </view>
+    <view
+      class="segment__item {{activeMethod === 'store' ? 'segment__item--active' : ''}}"
+      data-method="store"
+      bind:tap="onSwitchMethod"
+      hover-class="btn-haptic"
+    >
+      到店咨询
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view wx:if="{{activeMethod === 'online'}}" class="online-wrap">
+      <view class="online-hero">
+        <image
+          class="online-hero__img"
+          mode="aspectFill"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR2QfNo1FpNIstcC3IYpKtBuXDpVbNJjoarPy0cEx4cUtIQyuHPZYQtOvgBm9GmGjfpwsOO5A3twLsoONDxRpFrmM3XZJunSoFkpzSlOTD5EnX6L8M9EDbWME5QNaWhEl8NGhRe4uw7Kwz3lwRg9jmIZohQQ4SFkpN0r9Orr6j3N_t5w6Et6_Aq308YdlQu8XLppZ-SluoDyKBxSbvA6xZx7wSRViI9X1HWNYlK1v9SOSsy3MvBqnI_30M1ULSOKpDxnMT3eKytIRM"
+        />
+        <view class="online-hero__overlay">
+          <text class="online-hero__sub">YOUR PRIVATE STEWARD</text>
+          <text class="online-hero__title">私人健康管家 · 全时在线</text>
+        </view>
+      </view>
+
+      <view class="online-actions">
+        <view class="online-action" bind:tap="onStartWechat" hover-class="btn-haptic">
+          <view class="online-action__icon online-action__icon--green">
+            <text class="material-symbols-outlined">chat</text>
+          </view>
+          <view class="online-action__body">
+            <text class="online-action__title">企业微信咨询</text>
+            <text class="online-action__desc">1对1深度沟通，方案精准对接</text>
+          </view>
+          <text class="material-symbols-outlined online-action__arrow">chevron_right</text>
+        </view>
+        <view class="online-action" bind:tap="onStartCall" hover-class="btn-haptic">
+          <view class="online-action__icon online-action__icon--gold">
+            <text class="material-symbols-outlined">call</text>
+          </view>
+          <view class="online-action__body">
+            <text class="online-action__title">拨号语音咨询</text>
+            <text class="online-action__desc">专业高效沟通，即刻为您解答</text>
+          </view>
+          <text class="material-symbols-outlined online-action__arrow">chevron_right</text>
+        </view>
+      </view>
+      <text class="online-footnote">Qiao Guo Health Premium Service</text>
+    </view>
+
+    <view wx:if="{{activeMethod === 'store'}}">
+    <view class="section section--top">
+      <view class="store-card">
+        <view class="store-card__body">
+          <text class="store-card__badge">到店咨询门店</text>
+          <text class="store-card__name">{{storeName}}</text>
+          <view class="store-card__row">
+            <text class="material-symbols-outlined">location_on</text>
+            <text>{{storeAddress}}</text>
+          </view>
+          <view class="store-card__row">
+            <text class="material-symbols-outlined">call</text>
+            <text>{{storePhone}}</text>
+          </view>
+        </view>
+        <view class="store-card__icon" bind:tap="onStartCall" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">call</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <text class="section__label">咨询类型</text>
+      <view class="chip-wrap">
+        <view class="chip-row">
+          <view
+            wx:for="{{consultCategoryOptions}}"
+            wx:key="*this"
+            class="chip {{selectedCategory === item ? 'chip--active' : ''}}"
+            data-value="{{item}}"
+            bind:tap="onCategorySelect"
+            hover-class="btn-haptic"
+          >
+            {{item}}
+          </view>
+        </view>
+        <view class="chip-row sub-chip-row" wx:if="{{selectedCategory === '医疗资源协调'}}">
+          <view
+            wx:for="{{subTypeOptions}}"
+            wx:key="*this"
+            class="chip chip--sub {{selectedSubType === item ? 'chip--active' : ''}}"
+            data-value="{{item}}"
+            bind:tap="onSubTypeSelect"
+            hover-class="btn-haptic"
+          >
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section__head">
+        <text class="section__label">联系信息</text>
+        <text class="section__caption">请先填写联系人，门店会通过该手机号与您确认预约安排</text>
+      </view>
+      <view class="contact-panel">
+        <view class="contact-panel__tip">
+          <text class="material-symbols-outlined contact-panel__tip-icon">notifications_active</text>
+          <text class="contact-panel__tip-text">建议填写方便接听电话的联系人信息</text>
+        </view>
+        <view class="contact-input">
+          <view class="contact-input__head">
+            <text class="contact-input__required">*</text>
+            <text class="contact-input__label">姓名</text>
+          </view>
+          <input class="contact-input__field" placeholder="请输入就诊人或联系人姓名" placeholder-class="contact-input__placeholder" value="{{name}}" bindinput="onNameInput" />
+        </view>
+        <view class="contact-input">
+          <view class="contact-input__head">
+            <text class="contact-input__required">*</text>
+            <text class="contact-input__label">手机号</text>
+          </view>
+          <input class="contact-input__field" type="number" maxlength="11" placeholder="请输入可接听的联系电话" placeholder-class="contact-input__placeholder" value="{{phone}}" bindinput="onPhoneInput" />
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section__head">
+        <text class="section__label">选择时间</text>
+        <text class="section__caption">先选日期，再从分组时段里选择一个合适时间</text>
+      </view>
+      <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="date-scroll">
+        <view class="date-row">
+          <view
+            wx:for="{{dateOptions}}"
+            wx:key="date"
+            class="date-card {{selectedDate === item.date ? 'date-card--active' : ''}}"
+            data-value="{{item.date}}"
+            bind:tap="onDateSelect"
+            hover-class="btn-haptic"
+          >
+            <text class="date-card__week">{{item.week}}</text>
+            <text class="date-card__day">{{item.day}}</text>
+            <text class="date-card__today" wx:if="{{item.isToday}}">今日</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="time-summary">
+        <view class="time-summary__item">
+          <text class="material-symbols-outlined time-summary__icon">calendar_month</text>
+          <view class="time-summary__body">
+            <text class="time-summary__label">预约日期</text>
+            <text class="time-summary__value">{{selectedDate || '请选择日期'}}</text>
+          </view>
+        </view>
+        <view class="time-summary__item">
+          <text class="material-symbols-outlined time-summary__icon">schedule</text>
+          <view class="time-summary__body">
+            <text class="time-summary__label">预约时段</text>
+            <text class="time-summary__value {{selectedTime ? '' : 'time-summary__value--empty'}}">{{selectedTime || '请选择时段'}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="time-groups" wx:if="{{timeGroups.length > 0}}">
+        <view class="time-group" wx:for="{{timeGroups}}" wx:key="key" wx:for-item="group">
+          <view class="time-group__head">
+            <text class="time-group__title">{{group.label}}</text>
+            <text class="time-group__hint">{{group.hint}}</text>
+          </view>
+          <view class="time-chip-wrap">
+            <view
+              wx:for="{{group.items}}"
+              wx:key="value"
+              wx:for-item="slot"
+              class="time-chip {{selectedTime === slot.value ? 'time-chip--active' : ''}} {{slot.disabled ? 'time-chip--disabled' : ''}}"
+              data-value="{{slot.value}}"
+              data-disabled="{{slot.disabled}}"
+              bind:tap="onTimeSelect"
+              hover-class="btn-haptic"
+            >
+              <view class="time-chip__main">
+                <text class="time-chip__label">{{slot.label}}</text>
+                <text class="time-chip__meta" wx:if="{{!slot.disabled && slot.remaining > 0}}">余{{slot.remaining}}</text>
+              </view>
+              <text class="time-chip__state" wx:if="{{slot.disabled}}">已满</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="time-empty" wx:else>当前日期暂无可预约时段，请切换其他日期</view>
+    </view>
+
+    <view class="safe-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-bar" wx:if="{{activeMethod === 'store'}}">
+    <button class="submit-btn" hover-class="btn-haptic" bind:tap="onSubmit" disabled="{{submitting}}">
+      <text wx:if="{{!submitting}}">提交预约申请</text>
+      <text wx:else>提交中...</text>
+    </button>
+  </view>
+  </block>
+</view>

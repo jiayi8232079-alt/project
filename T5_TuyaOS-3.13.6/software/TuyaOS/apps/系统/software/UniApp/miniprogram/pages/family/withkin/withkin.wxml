@@ -1,0 +1,88 @@
+<view class="page">
+  <scroll-view scroll-y class="scroll" enhanced show-scrollbar="{{false}}">
+    <view class="hero">
+      <text class="eyebrow">WITHKIN V4.3</text>
+      <text class="title">家庭协同</text>
+      <text class="desc">把社区通知、家庭提醒、声纹成员和机器人设置集中管理。</text>
+    </view>
+
+    <view class="card">
+      <text class="card-title">协同对象</text>
+      <view class="field-row">
+        <input class="field" value="{{familyId}}" data-key="familyId" bindinput="onInput" placeholder="家庭ID" />
+        <input class="field" value="{{elderId}}" data-key="elderId" bindinput="onInput" placeholder="老人ID" />
+        <input class="field" value="{{deviceId}}" data-key="deviceId" bindinput="onInput" placeholder="设备ID" />
+      </view>
+      <button class="ghost-btn" loading="{{loading}}" bindtap="loadAll">刷新数据</button>
+    </view>
+
+    <view class="card">
+      <text class="card-title">社区消息</text>
+      <block wx:if="{{communityContent.length}}">
+        <view wx:for="{{communityContent}}" wx:key="id" class="list-item">
+          <view>
+            <text class="item-title">{{item.title || '社区通知'}}</text>
+            <text class="item-sub">{{item.body || item.summary || ''}}</text>
+          </view>
+          <text class="pill">{{item.status || 'draft'}}</text>
+        </view>
+      </block>
+      <text wx:else class="empty">暂无社区内容</text>
+    </view>
+
+    <view class="card">
+      <text class="card-title">家属投喂与任务</text>
+      <input class="input" value="{{taskTitle}}" data-key="taskTitle" bindinput="onInput" placeholder="提醒标题" />
+      <textarea class="textarea" value="{{message}}" data-key="message" bindinput="onInput" placeholder="想对长辈说的话" />
+      <view class="actions">
+        <button class="ghost-btn" bindtap="sendMessage">发送留言</button>
+        <button class="primary-btn" bindtap="createTask">创建提醒</button>
+      </view>
+    </view>
+
+    <view class="card">
+      <text class="card-title">家庭任务</text>
+      <block wx:if="{{familyTasks.length}}">
+        <view wx:for="{{familyTasks}}" wx:key="id" class="list-item">
+          <view>
+            <text class="item-title">{{item.title || '家庭任务'}}</text>
+            <text class="item-sub">{{item.message || item.elderResponse || ''}}</text>
+          </view>
+          <text class="pill">{{item.status || 'pending'}}</text>
+        </view>
+      </block>
+      <text wx:else class="empty">暂无家庭任务</text>
+    </view>
+
+    <view class="card">
+      <text class="card-title">机器人设置</text>
+      <view class="slider-row">
+        <text>音量 {{volume}}</text>
+        <slider value="{{volume}}" min="0" max="100" activeColor="#2E86F0" bindchange="onVolumeChange" />
+      </view>
+      <view class="slider-row">
+        <text>亮度 {{brightness}}</text>
+        <slider value="{{brightness}}" min="0" max="100" activeColor="#2E86F0" bindchange="onBrightnessChange" />
+      </view>
+      <view class="switch-row">
+        <text>允许社区内容播报</text>
+        <switch checked="{{communityContentEnabled}}" bindchange="onCommunityToggle" />
+      </view>
+      <button class="primary-btn" bindtap="saveDeviceSettings">保存并下发</button>
+    </view>
+
+    <view class="card last-card">
+      <text class="card-title">声纹成员</text>
+      <block wx:if="{{voiceprints.length}}">
+        <view wx:for="{{voiceprints}}" wx:key="id" class="list-item">
+          <view>
+            <text class="item-title">成员 {{item.memberId || '-'}}</text>
+            <text class="item-sub">置信度 {{item.confidence || '--'}}</text>
+          </view>
+          <text class="pill">{{item.status || 'pending'}}</text>
+        </view>
+      </block>
+      <text wx:else class="empty">暂无声纹成员</text>
+    </view>
+  </scroll-view>
+</view>

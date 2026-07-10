@@ -1,0 +1,1480 @@
+@brand-green: #4CAF50;
+@warm-orange: #FF9800;
+@prof-blue: #2196F3;
+@deep-gray: #333333;
+@light-gray: #999999;
+@royal-obsidian: #1A1A1A;
+@alabaster: #F8F9FA;
+@medical-gray: #F5F7FA;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+// ── Page Layout ────────────────────────────────────────────
+.page {
+  background: @alabaster;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.anim-item { opacity: 0; }
+.page--loaded .anim-item {
+  animation: fadeSlideUp 0.48s @ease-organic forwards;
+}
+.anim-0 { animation-delay: 0s; }
+.anim-1 { animation-delay: 0.06s; }
+.anim-2 { animation-delay: 0.12s; }
+.anim-3 { animation-delay: 0.18s; }
+.anim-4 { animation-delay: 0.24s; }
+.anim-5 { animation-delay: 0.30s; }
+
+.btn-haptic {
+  transition: transform 0.2s @ease-organic;
+  &:active { transform: scale(0.97); }
+}
+
+// ── Glass Nav ──────────────────────────────────────────────
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(40rpx);
+  border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 100;
+}
+
+.nav__back {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  &:active { background: rgba(0, 0, 0, 0.04); }
+}
+
+.nav__placeholder {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.nav__title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: @deep-gray;
+  letter-spacing: -0.5rpx;
+}
+
+.nav__icon {
+  font-size: 44rpx;
+  color: @deep-gray;
+}
+
+// ── Content ────────────────────────────────────────────────
+.content {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.main {
+  padding: 24rpx 24rpx 40rpx;
+}
+
+// ── Progress Card ──────────────────────────────────────────
+.progress-card {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 40rpx 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+}
+
+.progress__bar {
+  position: relative;
+  padding: 0 12rpx;
+}
+
+.progress__track {
+  position: absolute;
+  top: 28rpx;
+  left: 48rpx;
+  right: 48rpx;
+  height: 4rpx;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 100rpx;
+}
+
+.progress__fill {
+  position: absolute;
+  top: 28rpx;
+  left: 48rpx;
+  height: 4rpx;
+  background: @brand-green;
+  border-radius: 100rpx;
+  transition: width 0.6s @ease-organic;
+}
+
+.progress__steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.progress__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.step__dot {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step__dot--done {
+  background: @brand-green;
+  color: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(76, 175, 80, 0.2);
+}
+
+.step__dot--current {
+  background: #fff;
+  border: 3rpx solid @brand-green;
+  box-shadow: 0 0 0 8rpx rgba(76, 175, 80, 0.12);
+}
+
+.step__dot--pending {
+  background: #fff;
+  border: 3rpx solid rgba(0, 0, 0, 0.12);
+  opacity: 0.4;
+}
+
+.step__check {
+  font-size: 28rpx;
+  color: #fff;
+}
+
+.step__pulse {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: @brand-green;
+}
+
+.step__inner {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.step__label {
+  font-size: 22rpx;
+  font-weight: 500;
+  color: @deep-gray;
+}
+
+.step__label--done {
+  color: rgba(51, 51, 51, 0.4);
+}
+
+.step__label--current {
+  color: @brand-green;
+  font-weight: 700;
+}
+
+.step__label--pending {
+  color: @deep-gray;
+  opacity: 0.4;
+}
+
+.progress__message {
+  margin-top: 32rpx;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.progress__title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: @deep-gray;
+  letter-spacing: -0.5rpx;
+}
+
+.progress__title--done {
+  color: @warm-orange;
+  font-size: 38rpx;
+}
+
+.progress__desc {
+  font-size: 26rpx;
+  color: @light-gray;
+}
+
+.progress__share-row {
+  margin-top: 28rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.progress__share-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  padding: 18rpx 32rpx;
+  border-radius: 100rpx;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.12), rgba(76, 175, 80, 0.06));
+  border: 1rpx solid rgba(76, 175, 80, 0.35);
+  box-shadow: 0 6rpx 20rpx rgba(76, 175, 80, 0.1);
+}
+
+.progress__share-ico {
+  font-size: 34rpx;
+  color: @brand-green;
+}
+
+.progress__share-text {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: darken(@brand-green, 12%);
+}
+
+.progress__done-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.progress__done-icon {
+  font-size: 44rpx;
+  color: @warm-orange;
+}
+
+.progress__message--done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24rpx;
+}
+
+.progress__eta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24rpx;
+  padding-top: 20rpx;
+  border-top: 2rpx dashed rgba(0, 0, 0, 0.06);
+}
+
+.progress__eta-label {
+  font-size: 24rpx;
+  color: rgba(51, 51, 51, 0.5);
+}
+
+.progress__eta-time {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: @deep-gray;
+  font-variant-numeric: tabular-nums;
+}
+
+// ── Matching Card (Step 0) ─────────────────────────────────
+.matching-card {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 48rpx 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20rpx;
+}
+
+.matching__icon-wrap {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: rgba(255, 152, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 8rpx;
+}
+
+.matching__icon {
+  font-size: 80rpx;
+  color: @warm-orange;
+}
+
+.matching__ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3rpx solid rgba(255, 152, 0, 0.2);
+  animation: pulse-ring 2s @ease-organic infinite;
+}
+
+.matching__title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: @warm-orange;
+}
+
+.matching__desc {
+  font-size: 28rpx;
+  color: rgba(51, 51, 51, 0.5);
+  padding: 0 24rpx;
+  line-height: 1.6;
+}
+
+.matching__bar {
+  width: 360rpx;
+  height: 12rpx;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 100rpx;
+  overflow: hidden;
+  margin-top: 8rpx;
+}
+
+.matching__bar-fill {
+  width: 33%;
+  height: 100%;
+  background: @warm-orange;
+  border-radius: 100rpx;
+}
+
+// ── 待签署确认单（样式对齐健康档案签署区，主色为品牌绿）──
+.sign-pending-card {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 32rpx 28rpx 36rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(43, 159, 124, 0.12);
+  border: 1rpx solid rgba(43, 159, 124, 0.2);
+  position: relative;
+}
+
+.sign-pending__section-bar {
+  position: absolute;
+  left: 28rpx;
+  top: 36rpx;
+  width: 6rpx;
+  height: 36rpx;
+  background: @brand-green;
+  border-radius: 100rpx;
+}
+
+.sign-pending__title-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding-left: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.sign-pending__title-ico {
+  font-size: 40rpx;
+  color: #1a6b52;
+}
+
+.sign-pending__title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.sign-pending__notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  padding: 20rpx 22rpx;
+  background: #f5fdf8;
+  border-radius: 20rpx;
+  border-left: 6rpx solid @brand-green;
+  margin-bottom: 24rpx;
+}
+
+.sign-pending__notice-ico {
+  font-size: 36rpx;
+  color: #1a6b52;
+  flex-shrink: 0;
+  margin-top: 2rpx;
+}
+
+.sign-pending__notice-text {
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.78);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.sign-pending__panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding: 28rpx 24rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, #e8f5f0 0%, #f0faf6 100%);
+  border: 2rpx dashed rgba(43, 159, 124, 0.45);
+}
+
+.sign-pending__panel:active {
+  opacity: 0.92;
+}
+
+.sign-pending__panel-ico {
+  font-size: 40rpx;
+  color: #1a6b52;
+}
+
+.sign-pending__panel-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a6b52;
+}
+
+// ── Staff Card ─────────────────────────────────────────────
+.staff-card {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.staff__left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.staff__avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.staff__avatar-frame {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  padding: 4rpx;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), transparent);
+  overflow: hidden;
+}
+
+.staff__avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4rpx solid #fff;
+}
+
+.staff__avatar-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: @medical-gray;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: @brand-green;
+  border: 4rpx solid #fff;
+}
+
+.staff__badge {
+  position: absolute;
+  bottom: -4rpx;
+  right: -4rpx;
+  background: @warm-orange;
+  color: #fff;
+  font-size: 18rpx;
+  padding: 2rpx 12rpx;
+  border-radius: 100rpx;
+  border: 4rpx solid #fff;
+  font-weight: 700;
+}
+
+.staff__info {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.staff__name-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.staff__name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.staff__title-tag {
+  font-size: 20rpx;
+  background: rgba(33, 150, 243, 0.06);
+  color: @prof-blue;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid rgba(33, 150, 243, 0.15);
+  font-weight: 500;
+}
+
+.staff__rating-row {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.staff__star {
+  font-size: 28rpx;
+  color: @warm-orange;
+}
+
+.staff__rating-text {
+  font-size: 24rpx;
+  color: @light-gray;
+}
+
+.staff__call {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: @brand-green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(76, 175, 80, 0.25);
+}
+
+.staff__call-icon {
+  font-size: 40rpx;
+  color: #fff;
+}
+
+// ── 服务人员实时位置 ─────────────────────────────────────────
+.live-loc {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 24rpx 28rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  border: 1rpx solid rgba(76, 175, 80, 0.12);
+}
+
+.live-loc__head {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 16rpx;
+}
+
+.live-loc__icon {
+  font-size: 36rpx;
+  color: @brand-green;
+}
+
+.live-loc__title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.live-loc__map {
+  width: 100%;
+  height: 320rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.live-loc__hint {
+  display: block;
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: @light-gray;
+  line-height: 1.45;
+}
+
+// ── Appointment Card ───────────────────────────────────────
+.appt-card {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+}
+
+.appt__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.appt__icon-wrap {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  background: rgba(76, 175, 80, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.appt__icon {
+  font-size: 40rpx;
+  color: @brand-green;
+}
+
+.appt__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  padding-top: 4rpx;
+}
+
+.appt__label {
+  font-size: 24rpx;
+  color: @light-gray;
+}
+
+.appt__value {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: @deep-gray;
+}
+
+.appt__sub {
+  font-size: 24rpx;
+  color: @light-gray;
+  margin-top: 4rpx;
+}
+
+.appt__divider {
+  height: 0;
+  border-top: 2rpx dashed rgba(0, 0, 0, 0.05);
+  margin: 20rpx 0;
+}
+
+// ── Service Report Card (Completed — dark) ─────────────────
+.report-card {
+  background: linear-gradient(135deg, #2D3436 0%, @royal-obsidian 100%);
+  border-radius: 48rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+
+.report__bg-icon {
+  position: absolute;
+  right: -24rpx;
+  bottom: -32rpx;
+  font-size: 280rpx;
+  color: #fff;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.report__header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.report__icon-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.report__icon {
+  font-size: 40rpx;
+  color: @brand-green;
+}
+
+.report__title-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.report__title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+.report__time {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 4rpx;
+}
+
+.report__btn {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  background: @brand-green;
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 600;
+  padding: 12rpx 20rpx;
+  border-radius: 16rpx;
+}
+
+.report__btn-arrow {
+  font-size: 28rpx;
+}
+
+// ── Order Info Card ────────────────────────────────────────
+.info-card {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+}
+
+.info-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+
+.info-card__bar {
+  width: 8rpx;
+  height: 32rpx;
+  background: @brand-green;
+  border-radius: 100rpx;
+}
+
+.info-card__title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.info-card__tag {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  background: rgba(33, 150, 243, 0.05);
+  padding: 6rpx 16rpx;
+  border-radius: 100rpx;
+}
+
+.info-card__tag-icon {
+  font-size: 28rpx;
+  color: @prof-blue;
+}
+
+.info-card__tag-text {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: @prof-blue;
+}
+
+.info-card__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.info-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.info-card__label {
+  font-size: 26rpx;
+  color: @light-gray;
+  flex-shrink: 0;
+  width: 160rpx;
+}
+
+.info-card__value {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: @deep-gray;
+  text-align: right;
+  flex: 1;
+}
+
+.info-card__value--mono {
+  font-family: 'SF Mono', 'Menlo', monospace;
+}
+
+.info-card__remark {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  padding-top: 8rpx;
+}
+
+.info-card__remark-box {
+  background: @medical-gray;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: @deep-gray;
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+  line-height: 1.5;
+}
+
+.info-card__footer {
+  padding-top: 20rpx;
+  margin-top: 12rpx;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16rpx;
+}
+
+.info-card__link {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: @prof-blue;
+}
+
+.info-card__link-icon {
+  font-size: 28rpx;
+}
+
+// 陪诊确认单入口（已签署/后续阶段）：与「服务详情」白卡片一致，避免横幅割裂感
+.confirm-doc-card {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 28rpx 28rpx 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+}
+
+.confirm-doc-card:active {
+  opacity: 0.96;
+}
+
+.confirm-doc-card__head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+  flex-wrap: wrap;
+}
+
+.confirm-doc-card__bar {
+  width: 6rpx;
+  height: 32rpx;
+  border-radius: 3rpx;
+  background: @brand-green;
+  flex-shrink: 0;
+}
+
+.confirm-doc-card__title {
+  flex: 1;
+  min-width: 0;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.confirm-doc-card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 6rpx 14rpx;
+  border-radius: 100rpx;
+  flex-shrink: 0;
+}
+
+.confirm-doc-card__tag-ico {
+  font-size: 28rpx;
+}
+
+.confirm-doc-card__tag--done {
+  background: rgba(76, 175, 80, 0.12);
+  color: #2e7d32;
+  border: 1rpx solid rgba(76, 175, 80, 0.22);
+}
+
+.confirm-doc-card__tag--wait {
+  background: rgba(255, 152, 0, 0.1);
+  color: #e65100;
+  border: 1rpx solid rgba(255, 152, 0, 0.22);
+}
+
+.confirm-doc-card__desc {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.58);
+  line-height: 1.55;
+  margin-bottom: 20rpx;
+}
+
+.confirm-doc-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.confirm-doc-card__link {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: @prof-blue;
+}
+
+.confirm-doc-card__link-ico {
+  font-size: 28rpx;
+  color: @prof-blue;
+}
+
+// ── Timeline Card ──────────────────────────────────────────
+.tl-card {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+}
+
+.tl-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 28rpx;
+}
+
+.tl-card__bar {
+  width: 6rpx;
+  height: 32rpx;
+  background: @brand-green;
+  border-radius: 100rpx;
+}
+
+.tl-card__title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.tl__list {
+  position: relative;
+  padding-left: 12rpx;
+}
+
+.tl__rail {
+  position: absolute;
+  left: 18rpx;
+  top: 16rpx;
+  bottom: 0;
+  width: 3rpx;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.tl__item {
+  position: relative;
+  display: flex;
+  gap: 20rpx;
+  padding-bottom: 32rpx;
+
+  &:last-child { padding-bottom: 0; }
+}
+
+.tl__item--faded {
+  opacity: 0.45;
+}
+
+.tl__dot {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6rpx;
+  position: relative;
+  z-index: 1;
+  border: 3rpx solid transparent;
+  box-sizing: border-box;
+}
+
+.tl__dot--active {
+  background: @brand-green;
+  border-color: @brand-green;
+  box-shadow: 0 0 0 6rpx rgba(76, 175, 80, 0.12);
+}
+
+.tl__dot--inactive {
+  background: rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.tl__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.tl__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tl__name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: @deep-gray;
+}
+
+.tl__item--active .tl__name {
+  color: @brand-green;
+  font-weight: 700;
+}
+
+.tl__time {
+  font-size: 22rpx;
+  color: rgba(51, 51, 51, 0.3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tl__desc {
+  font-size: 24rpx;
+  color: rgba(51, 51, 51, 0.5);
+  line-height: 1.6;
+}
+
+.tl__imgs {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+
+.tl__img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+}
+
+.tl__audios {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+
+.tl__audio-player {
+  width: 100%;
+}
+
+.tl__tx {
+  margin-top: 12rpx;
+  padding: 16rpx 18rpx;
+  border-radius: 16rpx;
+  background: rgba(76, 175, 80, 0.06);
+  border: 1rpx solid rgba(76, 175, 80, 0.18);
+}
+
+.tl__tx-head {
+  margin-bottom: 8rpx;
+}
+
+.tl__tx-title {
+  font-size: 22rpx;
+  font-weight: 700;
+  color: rgba(51, 51, 51, 0.75);
+}
+
+.tl__tx-body {
+  font-size: 25rpx;
+  line-height: 1.65;
+  color: @deep-gray;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tl__tx-hint {
+  font-size: 24rpx;
+  line-height: 1.55;
+  color: rgba(51, 51, 51, 0.5);
+}
+
+.tl__files {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  margin-top: 12rpx;
+}
+
+.tl__file {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  padding: 14rpx 16rpx;
+  border-radius: 18rpx;
+  background: @medical-gray;
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+}
+
+.tl__file-icon {
+  font-size: 28rpx;
+  color: @prof-blue;
+  flex-shrink: 0;
+}
+
+.tl__file-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 23rpx;
+  color: @deep-gray;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tl__file-action {
+  font-size: 22rpx;
+  color: @prof-blue;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+// ── Bottom Actions ─────────────────────────────────────────
+.bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(40rpx);
+  border-top: 0.5rpx solid rgba(0, 0, 0, 0.05);
+  padding: 20rpx 24rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  z-index: 100;
+  box-shadow: 0 -10rpx 30rpx -5rpx rgba(0, 0, 0, 0.04);
+}
+
+.bottom__row {
+  display: flex;
+  gap: 16rpx;
+  width: 100%;
+}
+
+/** 双操作并列（分享 + 联系门店），节省底部高度 */
+.bottom__row--pair {
+  gap: 20rpx;
+  align-items: stretch;
+}
+
+.bottom__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  width: 100%;
+}
+
+.bottom__review-tip {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.16), rgba(255, 152, 0, 0.08));
+  border: 2rpx solid rgba(255, 152, 0, 0.24);
+}
+
+.bottom__review-tip-icon {
+  font-size: 40rpx;
+  color: #ff9800;
+}
+
+.bottom__review-tip-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.bottom__review-tip-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.bottom__review-tip-desc {
+  font-size: 24rpx;
+  color: rgba(51, 51, 51, 0.6);
+}
+
+.bottom__review-done {
+  padding: 20rpx 24rpx;
+  border-radius: 24rpx;
+  background: rgba(76, 175, 80, 0.08);
+  border: 2rpx solid rgba(76, 175, 80, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.bottom__review-done-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bottom__review-done-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.bottom__review-done-rating {
+  display: flex;
+  gap: 4rpx;
+}
+
+.bottom__review-done-star {
+  font-size: 32rpx;
+  color: rgba(0, 0, 0, 0.15);
+}
+
+.bottom__review-done-star--on {
+  color: #ffb300;
+}
+
+.bottom__review-done-comment {
+  font-size: 26rpx;
+  color: rgba(51, 51, 51, 0.72);
+  line-height: 1.55;
+}
+
+.bottom__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  height: 96rpx;
+  border-radius: 40rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  padding: 0 24rpx;
+}
+
+.bottom__btn--pair {
+  flex: 1;
+  min-width: 0;
+  height: 88rpx;
+  border-radius: 36rpx;
+  font-size: 28rpx;
+  padding: 0 12rpx;
+}
+
+.bottom__btn-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bottom__btn--primary {
+  flex: 2;
+  background: @brand-green;
+  color: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(76, 175, 80, 0.2);
+}
+
+.bottom__btn--outline {
+  flex: 1;
+  background: #fff;
+  color: rgba(51, 51, 51, 0.6);
+  border: 2rpx solid rgba(0, 0, 0, 0.08);
+}
+
+.bottom__btn--share {
+  flex: none;
+  width: 100%;
+  background: rgba(76, 175, 80, 0.08);
+  color: @brand-green;
+  border: 2rpx solid rgba(76, 175, 80, 0.28);
+
+  &.bottom__btn--pair {
+    width: auto;
+    flex: 1;
+    box-shadow: 0 4rpx 16rpx rgba(76, 175, 80, 0.12);
+  }
+}
+
+.bottom__btn--outline-blue {
+  flex: 1;
+  background: #fff;
+  color: @prof-blue;
+  border: 3rpx solid @prof-blue;
+  font-weight: 700;
+}
+
+.bottom__btn--full {
+  flex: 1;
+}
+
+.bottom__btn-icon {
+  font-size: 36rpx;
+  color: #fff;
+}
+
+.bottom__btn-icon--green {
+  color: @brand-green;
+}
+
+.bottom__btn-icon--muted {
+  font-size: 32rpx;
+  color: rgba(51, 51, 51, 0.45);
+}
+
+// ── Cancel Modal ───────────────────────────────────────────
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal__dialog {
+  width: 80%;
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 40rpx 32rpx 32rpx;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.modal__title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @deep-gray;
+  text-align: center;
+  margin-bottom: 24rpx;
+}
+
+.modal__textarea {
+  width: 100%;
+  height: 200rpx;
+  font-size: 26rpx;
+  color: @deep-gray;
+  background: @medical-gray;
+  border-radius: 24rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+}
+
+.modal__footer {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 28rpx;
+}
+
+.modal__btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 600;
+  border-radius: 20rpx;
+  border: none;
+  padding: 0;
+}
+
+.modal__btn--cancel {
+  background: @medical-gray;
+  color: @light-gray;
+}
+
+.modal__btn--confirm {
+  background: #e53935;
+  color: #fff;
+}
+
+// ── Utility ────────────────────────────────────────────────
+.safe-bottom {
+  height: 200rpx;
+}
+
+.share-cover-canvas {
+  width: 500px;
+  height: 400px;
+  position: fixed;
+  left: -20000px;
+  top: 0;
+  pointer-events: none;
+}

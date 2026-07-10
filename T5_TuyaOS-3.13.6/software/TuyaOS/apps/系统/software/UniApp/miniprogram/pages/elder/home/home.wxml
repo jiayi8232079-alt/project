@@ -1,0 +1,145 @@
+<view class="elder-home">
+
+  <!-- 顶部：渐变 + 问候语 -->
+  <view class="elder-home__head" style="padding-top: {{statusBarHeight + 20}}px;">
+    <view class="elder-home__greet">
+      <text class="elder-home__greet-name">{{serviceTarget.name || userName || '长辈'}}，您好</text>
+      <text class="elder-home__greet-date">{{today}}</text>
+    </view>
+
+    <view wx:if="{{family}}" class="elder-home__family">
+      <text class="material-symbols-outlined elder-home__family-icon">home</text>
+      <text class="elder-home__family-name">所在家庭：{{family.name}}</text>
+    </view>
+  </view>
+
+  <!-- 四大卡片：2×2 -->
+  <view class="elder-home__grid">
+
+    <view class="elder-home__card elder-home__card--green" bind:tap="openWeekly" hover-class="elder-haptic">
+      <text class="material-symbols-outlined elder-home__card-icon">monitoring</text>
+      <text class="elder-home__card-title">健康周报</text>
+      <text class="elder-home__card-sub">本周身体变化</text>
+    </view>
+
+    <view class="elder-home__card elder-home__card--orange" bind:tap="openMedication" hover-class="elder-haptic">
+      <text class="material-symbols-outlined elder-home__card-icon">medication</text>
+      <text class="elder-home__card-title">用药提醒</text>
+      <text class="elder-home__card-sub">今日 {{todayMedications.length}} 项</text>
+    </view>
+
+    <view wx:if="{{showAiAdvisorCard}}" class="elder-home__card elder-home__card--blue" bind:tap="openAiConsult" hover-class="elder-haptic">
+      <text class="material-symbols-outlined elder-home__card-icon">smart_toy</text>
+      <text class="elder-home__card-title">AI 健康顾问</text>
+      <text class="elder-home__card-sub">有问题随时问</text>
+    </view>
+
+    <view class="elder-home__card elder-home__card--purple" bind:tap="openButler" hover-class="elder-haptic">
+      <text class="material-symbols-outlined elder-home__card-icon">support_agent</text>
+      <text class="elder-home__card-title">专属管家</text>
+      <text class="elder-home__card-sub">一键联系</text>
+    </view>
+
+  </view>
+
+  <!-- 底部：账号操作（轻盈） -->
+  <view class="elder-home__footer">
+    <view class="elder-home__footer-btn" bind:tap="switchAccount" hover-class="elder-haptic">
+      <text class="material-symbols-outlined">sync_alt</text>
+      <text>切换账号</text>
+    </view>
+    <view class="elder-home__footer-btn elder-home__footer-btn--danger" bind:tap="logout" hover-class="elder-haptic">
+      <text class="material-symbols-outlined">logout</text>
+      <text>退出登录</text>
+    </view>
+  </view>
+
+  <!-- ═══ 弹层：健康周报 ═══ -->
+  <view wx:if="{{activeModal === 'weekly'}}" class="elder-modal" bind:tap="closeModal">
+    <view class="elder-modal__panel" catch:tap="">
+      <view class="elder-modal__head">
+        <text class="elder-modal__title">健康周报</text>
+        <view class="elder-modal__close" bind:tap="closeModal">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+
+      <scroll-view scroll-y class="elder-modal__body" enhanced show-scrollbar="{{false}}">
+        <view wx:if="{{weeklyLoading}}" class="elder-modal__loading">加载中...</view>
+        <block wx:else>
+          <view wx:if="{{latestWeeklyReport}}" class="elder-weekly">
+            <text class="elder-weekly__period">
+              {{latestWeeklyReport.weekStart || ''}}{{latestWeeklyReport.weekStart ? ' 至 ' : ''}}{{latestWeeklyReport.weekEnd || ''}}
+            </text>
+            <text class="elder-weekly__content">{{weeklyContent}}</text>
+          </view>
+          <view wx:else class="elder-modal__empty">
+            <text class="material-symbols-outlined elder-modal__empty-icon">description</text>
+            <text class="elder-modal__empty-text">{{weeklyContent}}</text>
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- ═══ 弹层：用药提醒 ═══ -->
+  <view wx:if="{{activeModal === 'medication'}}" class="elder-modal" bind:tap="closeModal">
+    <view class="elder-modal__panel" catch:tap="">
+      <view class="elder-modal__head">
+        <text class="elder-modal__title">今日用药</text>
+        <view class="elder-modal__close" bind:tap="closeModal">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+
+      <scroll-view scroll-y class="elder-modal__body" enhanced show-scrollbar="{{false}}">
+        <view wx:if="{{todayMedications.length === 0}}" class="elder-modal__empty">
+          <text class="material-symbols-outlined elder-modal__empty-icon">medication</text>
+          <text class="elder-modal__empty-text">今日暂无用药提醒</text>
+        </view>
+        <view wx:for="{{todayMedications}}" wx:key="id" class="elder-med-row">
+          <view class="elder-med-row__info">
+            <text class="elder-med-row__name">{{item.name}}</text>
+            <text wx:if="{{item.dosage}}" class="elder-med-row__dose">{{item.dosage}}</text>
+          </view>
+          <view class="elder-med-row__action {{medCheckingId === item.id ? 'elder-med-row__action--loading' : ''}}"
+                bind:tap="checkInMedication" data-id="{{item.id}}">
+            <text wx:if="{{medCheckingId === item.id}}">打卡中...</text>
+            <text wx:else>已服药 ✓</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- ═══ 弹层：专属管家 ═══ -->
+  <view wx:if="{{activeModal === 'butler'}}" class="elder-modal" bind:tap="closeModal">
+    <view class="elder-modal__panel elder-modal__panel--narrow" catch:tap="">
+      <view class="elder-modal__head">
+        <text class="elder-modal__title">专属管家</text>
+        <view class="elder-modal__close" bind:tap="closeModal">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+
+      <view class="elder-butler">
+        <view class="elder-butler__avatar">
+          <text class="material-symbols-outlined">support_agent</text>
+        </view>
+        <text class="elder-butler__name">{{butler.name || '陪了个伴专属客服'}}</text>
+        <text class="elder-butler__role">陪了个伴 · 24小时在线</text>
+        <text wx:if="{{butler.phone}}" class="elder-butler__phone">{{butler.phone}}</text>
+
+        <view class="elder-butler__actions">
+          <view class="elder-butler__btn" bind:tap="callButler" hover-class="elder-haptic">
+            <text class="material-symbols-outlined">call</text>
+            <text>一键拨打</text>
+          </view>
+        </view>
+
+        <view class="elder-butler__tip">如有紧急情况，可直接拨打 120</view>
+      </view>
+    </view>
+  </view>
+
+</view>

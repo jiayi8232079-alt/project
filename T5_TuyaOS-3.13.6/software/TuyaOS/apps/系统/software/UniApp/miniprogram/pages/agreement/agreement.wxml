@@ -1,0 +1,136 @@
+<view class="page">
+  <view class="nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav__back" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="nav__title">{{title}}</text>
+    <view class="nav__placeholder"></view>
+  </view>
+
+  <scroll-view scroll-y class="content" enhanced show-scrollbar="{{false}}">
+    <view class="body">
+
+      <!-- 用户服务协议 -->
+      <block wx:if="{{type === 'agreement'}}">
+        <text class="doc-title">陪了个伴用户服务协议</text>
+        <text class="doc-date">更新日期：2026年3月28日 · 生效日期：2026年3月28日</text>
+
+        <text class="doc-intro">欢迎您使用陪了个伴管理系统（以下简称“本平台”）。在您注册、登录或使用本平台提供的各项服务前，请您仔细阅读并充分理解本协议的全部条款，特别是以合理方式提示的免责与责任限制、与医疗健康及智能辅助功能相关的说明。</text>
+
+        <text class="section-title">一、服务说明</text>
+        <text class="section-body">1.1 本平台由陪了个伴管理有限公司（以下简称“我们”）运营，致力于为用户提供非诊疗类的健康事务协助与数字化工具，包括陪诊等服务预约与协调、健康档案与家庭档案管理、用药提醒、医疗资源信息展示、就医动线参考及相关会员服务等。</text>
+        <text class="section-body">1.2 本平台提供的功能包括但不限于：陪诊等服务预约及管理、体检与专家等资源信息展示与预约协助、家庭医生档案/家庭协作、健康与就诊信息记录、用药提醒、医院与医生信息浏览、健康周报（如有）、智能导诊、AI 健康咨询（如有）及孝心年卡等会员权益，具体以产品内实际提供为准。</text>
+        <text class="section-body">1.3 本平台不从事互联网诊疗，不直接提供医疗诊断、疾病筛查、治疗处置、开具处方、药物调剂等需取得相应资质的医疗服务。需要诊疗时，您须前往具备资质的医疗机构，由执业医师等依法执业人员提供服务。</text>
+        <text class="section-body">1.4 本平台所包含的基于人工智能、算法、自动化规则或生成式技术向您输出的内容（包括但不限于：智能导诊中的科室与就医准备建议、AI 咨询的答复、健康周报的生成文本等，以下合称“智能辅助输出”），性质为一般性信息整理与就医动线参考，用于帮助您了解可能与症状相关的就诊方向或健康科普类表述。智能辅助输出在任何情况下均不构成医学诊断、病理判断、治疗方案、用药或剂量建议、预后判断或对任何药品/疗法的推荐，亦不构成医疗广告意义上的诊疗效果承诺。</text>
+        <text class="section-body">1.5 智能辅助输出不能替代执业医师、执业药师、护士等具备法定资质人员的当面诊查、体格检查、实验室与影像学检查及医嘱。您是否患病、患何病、如何用药及是否手术等，必须以医疗机构出具的诊疗结论为准。</text>
+        <text class="section-body">1.6 受技术局限、信息不完整、模型偏差及个体差异等影响，智能辅助输出可能存在错误、遗漏、滞后或与实际情况不符。您应结合自身情况独立判断，并在作出任何健康或医疗相关决定前咨询合格专业人员。除法律另有强制性规定外，您知悉使用智能辅助输出的风险并同意不就智能辅助输出本身向我们主张等同于临床诊疗意见效力的责任。</text>
+        <text class="section-body">1.7 当出现急危重症征象（如：剧烈胸痛、呼吸困难、意识障碍或昏迷、严重失血、严重外伤、抽搐、疑似脑卒中等）或您认为病情紧急时，请立即拨打 120 或前往最近医疗机构急诊，勿将本平台任何功能（含智能辅助输出）作为急救依据。</text>
+
+        <text class="section-title">二、用户注册与账号</text>
+        <text class="section-body">2.1 您通过微信授权登录即完成注册，系统将自动创建您的个人账号。</text>
+        <text class="section-body">2.2 您应确保提供的个人信息真实、准确、完整，并及时更新。因信息不实导致的服务延误或纠纷，由您自行承担。</text>
+        <text class="section-body">2.3 您的账号仅限本人使用，不得转让、出借、出售。如发现账号异常，请立即联系客服。</text>
+
+        <text class="section-title">三、服务对象与健康档案</text>
+        <text class="section-body">3.1 您可为自己或家庭成员（"服务对象"）创建健康档案并预约服务。</text>
+        <text class="section-body">3.2 您为他人创建档案时，应确保已获得该人的合法授权和知情同意。</text>
+        <text class="section-body">3.3 健康档案中的身份证号、病史、用药信息等敏感数据将按《隐私政策》严格保护。</text>
+
+        <text class="section-title">四、订单与服务</text>
+        <text class="section-body">4.1 您通过平台提交服务预约后，我们将根据需求安排专业陪诊员为您提供服务。</text>
+        <text class="section-body">4.2 订单一经确认，如需取消，请在服务开始前通过平台操作。已开始的服务取消需支付相应费用。</text>
+        <text class="section-body">4.3 服务过程中陪诊员会通过服务时间线实时记录服务进度，包括文字、图片、录音等形式。</text>
+        <text class="section-body">4.4 如遇紧急情况，陪诊员将第一时间触发紧急通知流程并协助处理。</text>
+
+        <text class="section-title">五、费用与支付</text>
+        <text class="section-body">5.1 服务费用以平台公示价格为准，包含基础服务费及可能产生的附加费用（如交通费、加时费等）。</text>
+        <text class="section-body">5.2 费用明细可在订单详情的"费用账单"中查看。</text>
+
+        <text class="section-title">六、会员服务</text>
+        <text class="section-body">6.1 孝心年卡会员享有专属权益，具体内容以会员权益页面展示为准。</text>
+        <text class="section-body">6.2 会员服务有效期内不可退款，到期后如不续费则自动失效。</text>
+
+        <text class="section-title">七、用户行为规范</text>
+        <text class="section-body">7.1 您不得利用本平台从事违法违规活动。</text>
+        <text class="section-body">7.2 您不得干扰平台正常运营或侵犯他人合法权益。</text>
+        <text class="section-body">7.3 对陪诊员的评价应客观真实，不得恶意差评或诽谤。</text>
+
+        <text class="section-title">八、免责声明与责任限制</text>
+        <text class="section-body">8.1 对医疗机构、执业医师、药师及其他第三方的诊疗、检验、用药等行为，本平台不参与实质诊疗决策，除法律另有规定外，不就上述主体的医疗过错或后果承担替代责任。</text>
+        <text class="section-body">8.2 对智能辅助输出，我们在产品内已通过页面提示等方式标明“参考 / 非诊断”等含义；在法律允许范围内，不就其完整性、准确性、特定适用性或“达到某种诊疗目的”作出保证。您因依赖、误用或未采纳智能辅助输出而作出的任何决定，相应的健康与法律后果由您自行承担。</text>
+        <text class="section-body">8.3 因不可抗力（自然灾害、政府行为、网络与电力故障、公共卫生事件等）导致服务中断或数据异常的，我们将在合理范围内协助恢复，但不保证服务持续无中断。</text>
+        <text class="section-body">8.4 因您提供虚假、隐瞒、错误或未及时更新的信息而导致服务安排偏差、智能辅助输出失真或纠纷的，由您自行承担相应后果；我们在接到纠正请求后将在合理范围内配合，但无法保证追溯修正全部历史记录。</text>
+        <text class="section-body">8.5 本协议中未排除或限制的因故意或重大过失造成人身财产损害、以及其他依法不得排除或限制的责任，仍适用法律强制性规定。</text>
+
+        <text class="section-title">九、协议修改</text>
+        <text class="section-body">9.1 我们有权根据法律法规变化或业务调整修改本协议，修改后将在平台内公示。</text>
+        <text class="section-body">9.2 您继续使用本平台即视为同意修改后的协议内容。</text>
+
+        <text class="section-title">十、联系方式</text>
+        <text class="section-body">如您对本协议有任何疑问，可通过平台内"24h专属管家"功能联系我们。</text>
+      </block>
+
+      <!-- 隐私政策 -->
+      <block wx:if="{{type === 'privacy'}}">
+        <text class="doc-title">陪了个伴隐私政策</text>
+        <text class="doc-date">更新日期：2026年3月28日 · 生效日期：2026年3月28日</text>
+
+        <text class="doc-intro">陪了个伴管理有限公司（以下简称“我们”）深知个人信息安全的重要性。本隐私政策旨在向您说明我们如何收集、使用、存储和保护您的个人信息，以及您就敏感个人信息（特别是医疗健康相关信息）所享有的权利。请您在使用含智能导诊、AI 咨询、健康周报等功能前，务必仔细阅读本政策及《用户服务协议》中关于非诊疗、非医疗建议的说明。</text>
+
+        <text class="section-title">一、我们收集的信息</text>
+        <text class="section-body">1.1 注册/登录信息：通过微信授权获取您的微信昵称、头像、OpenID 等账号标识信息。</text>
+        <text class="section-body">1.2 服务对象与身份核验信息：您主动填写的姓名、身份证号、性别、年龄、手机号、紧急联系人等（具体以产品页面为准）。</text>
+        <text class="section-body">1.3 健康档案与家庭档案信息：病史、过敏史、用药记录、症状描述、行动能力、视力听力等与健康状况相关的数据，以及家庭关系、代办人身份等家庭协作信息。</text>
+        <text class="section-body">1.4 智能辅助功能相关信息：当您使用智能导诊、AI 健康咨询（如有）、健康周报（如有）等功能时，我们会根据产品设计和您的操作，处理您主动输入或确认的主诉/症状、持续时间、严重程度自评、就诊目标、既往病史与用药、城市与行动信息、会话与留言内容，以及由此生成的导诊结果文本、AI 回复、周报内容等。该类信息可能构成敏感个人信息，我们仅在最小必要范围内处理并用于向您提供对应功能、安全审计与投诉处理，不会将其用于与您已同意目的明显无关的商业画像或对外营销（法律法规另有规定的除外）。</text>
+        <text class="section-body">1.5 订单与履约信息：服务类型、就诊医院、就诊科室、预约时间、服务备注、费用与评价等。</text>
+        <text class="section-body">1.6 服务过程信息：服务时间线中的文字记录、图片、录音、文件等。</text>
+        <text class="section-body">1.7 设备与日志信息：设备型号、操作系统版本、网络状况、操作日志等，用于保障账号安全、排查故障与改进体验。</text>
+
+        <text class="section-title">二、信息使用目的与规则</text>
+        <text class="section-body">2.1 履行合同与核心功能：为您提供陪诊等服务预约与协调、健康档案与家庭档案管理、用药提醒、医院与医生等信息浏览、智能导诊与 AI 咨询等信息展示类功能（均以产品内非诊疗提示为前提）。</text>
+        <text class="section-body">2.2 人员协同：向经授权的服务人员或您指定的家庭协作者传递完成订单或家庭管理所必要的信息。</text>
+        <text class="section-body">2.3 消息通知：向您发送服务状态、用药提醒、重要规则更新等通知（您可按产品指引管理推送偏好）。</text>
+        <text class="section-body">2.4 安全与合规：用于身份验证、风控、日志留存、配合监管与争议处理。</text>
+        <text class="section-body">2.5 产品改进：在去标识化或统计汇总前提下，用于分析功能使用与故障率；涉及可用于识别您个人的算法测评与模型优化时，我们将在法律要求时另行征得同意或提供退出机制（如适用）。</text>
+        <text class="section-body">2.6 重要说明：智能导诊、AI 咨询等功能所产生的输出仅供您个人参考，不构成诊疗；我们对您输入信息的处理目的限于提供该等信息工具，不因该等处理与您建立医患关系。</text>
+
+        <text class="section-title">三、敏感个人信息与存储保护</text>
+        <text class="section-body">3.1 本政策所称敏感个人信息包括您的医疗健康相关信息（如症状、病史、用药）、生物识别信息（如法律法规定义的范畴）、金融账户与行踪轨迹等，具体以实际处理为准。对敏感个人信息，我们仅在具有特定目的、充分必要性并采取严格保护措施的前提下处理；在您首次使用相关业务场景时，我们将通过弹窗、勾选或其他显著方式提示并征得您的单独同意，法律另有规定除外。</text>
+        <text class="section-body">3.2 您的个人信息存储在境内符合安全要求的服务器中，传输过程采用 HTTPS/TLS 等加密通道。</text>
+        <text class="section-body">3.3 身份证号、症状与健康描述等高敏感字段在存储与展示时采取加密、权限隔离、脱敏展示等一种或多种措施。</text>
+        <text class="section-body">3.4 我们建立访问控制、操作审计、安全事件应急预案，并定期评估第三方组件与供应商的安全能力。</text>
+        <text class="section-body">3.5 保存期限：在达成本政策所述目的所需的最短期限内保存；您注销账号后，我们将在法定期限届满或完成删除/匿名化（以适用法律为准），除非法律要求继续留存。</text>
+
+        <text class="section-title">四、信息共享</text>
+        <text class="section-body">4.1 我们不会向第三方出售您的个人信息。</text>
+        <text class="section-body">4.2 以下情况可能与第三方共享或委托处理必要信息：</text>
+        <text class="section-body">  · 为完成服务，向指定的陪诊员提供就诊人基本信息；</text>
+        <text class="section-body">  · 为提供智能导诊、AI 咨询等功能，向受我们约束的云服务或技术服务商委托处理（用于计算与存储），其不得超出受托目的使用；</text>
+        <text class="section-body">  · 根据法律法规、司法机关或行政机关的强制要求；</text>
+        <text class="section-body">  · 在紧急情况下为保护您或他人的人身安全。</text>
+
+        <text class="section-title">五、您的权利</text>
+        <text class="section-body">5.1 查阅与复制：您可在产品相应页面查阅健康档案、家庭档案及与账号相关的资料（部分信息需完成身份核验）。</text>
+        <text class="section-body">5.2 更正与补充：您可随时更正不准确或不完整的个人信息。</text>
+        <text class="section-body">5.3 删除与注销：您可申请删除特定信息或注销账号；删除或注销后，我们可能无法在技术上立即从所有备份中清除，但将停止除法定留存外的日常处理。</text>
+        <text class="section-body">5.4 撤回同意：对于基于同意处理的敏感个人信息或可选功能（如智能导诊、AI 咨询等），您可通过关闭功能、撤回授权或联系我们撤回，不影响撤回前基于合法依据已进行的处理。</text>
+        <text class="section-body">5.5 限制处理、解释说明与申诉：在适用法律允许的范围内，您可就自动化决策（如有）寻求说明，并可通过下方联系方式投诉举报。</text>
+
+        <text class="section-title">六、未成年人保护</text>
+        <text class="section-body">6.1 本平台主要面向成年用户。如未成年人需要使用，应在监护人同意和指导下进行。</text>
+
+        <text class="section-title">七、Cookie 与类似技术</text>
+        <text class="section-body">7.1 本小程序使用微信本地存储（Storage）保存登录态和偏好设置，不使用 Cookie。</text>
+
+        <text class="section-title">八、政策更新</text>
+        <text class="section-body">8.1 我们可能根据法律法规变化或业务调整更新本政策，更新后将在平台内通知您。</text>
+        <text class="section-body">8.2 重大变更时，我们将以弹窗或其他显著方式提醒您重新阅读。</text>
+
+        <text class="section-title">九、联系我们</text>
+        <text class="section-body">如您对本隐私政策有任何疑问或投诉，可通过平台内"24h专属管家"功能联系我们，我们将在15个工作日内予以回复。</text>
+      </block>
+
+      <view style="height: 120rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

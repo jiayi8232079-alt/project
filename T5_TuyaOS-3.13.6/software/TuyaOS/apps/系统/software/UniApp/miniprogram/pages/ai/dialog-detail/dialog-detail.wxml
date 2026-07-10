@@ -1,0 +1,72 @@
+<view class="ai-detail">
+  <view class="ai-detail__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ai-detail__nav-back" bind:tap="goBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="ai-detail__nav-title">对话详情</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="ai-detail__scroll">
+    <view class="ai-detail__body">
+
+      <view wx:if="{{loading}}" class="ai-detail__loading">加载中...</view>
+
+      <block wx:else>
+        <!-- 会话概要 -->
+        <view wx:if="{{session}}" class="ai-detail__summary {{session.hasCrisis ? 'ai-detail__summary--crisis' : ''}}">
+          <view class="ai-detail__summary-head">
+            <text class="ai-detail__summary-time">{{session.startedAtText}}</text>
+            <view wx:if="{{session.hasCrisis}}" class="ai-detail__crisis-tag">
+              <text class="material-symbols-outlined">warning</text>
+              <text>需关注</text>
+            </view>
+          </view>
+          <view class="ai-detail__summary-meta">
+            <text>{{session.turns}} 轮对话</text>
+            <text wx:if="{{session.durationText}}"> · {{session.durationText}}</text>
+          </view>
+          <view wx:if="{{session.summary}}" class="ai-detail__summary-text">
+            <text class="ai-detail__summary-label">摘要</text>
+            <text>{{session.summary}}</text>
+          </view>
+          <view wx:if="{{session.crisisWords}}" class="ai-detail__summary-crisis">
+            命中危机词：{{session.crisisWords}}
+          </view>
+        </view>
+
+        <!-- 对话气泡 -->
+        <view class="ai-detail__chat">
+          <view
+            wx:for="{{logs}}"
+            wx:key="id"
+            class="ai-bubble {{item.isUser ? 'ai-bubble--user' : 'ai-bubble--assistant'}}"
+          >
+            <view class="ai-bubble__avatar">
+              <text class="material-symbols-outlined">{{item.isUser ? 'elderly' : 'smart_toy'}}</text>
+            </view>
+            <view class="ai-bubble__content">
+              <view class="ai-bubble__text">{{item.text}}</view>
+              <view wx:if="{{item.toolText}}" class="ai-bubble__tool">
+                <text class="material-symbols-outlined">build</text>
+                <text>调用：{{item.toolText}}</text>
+              </view>
+              <view class="ai-bubble__foot">
+                <text wx:if="{{item.emotionLabel}}" class="ai-bubble__emotion">{{item.emotionLabel}}</text>
+                <text class="ai-bubble__time">{{item.timeText}}</text>
+              </view>
+              <view wx:if="{{item.crisisWords}}" class="ai-bubble__crisis">⚠ {{item.crisisWords}}</view>
+            </view>
+          </view>
+
+          <view wx:if="{{logs.length === 0}}" class="ai-detail__empty">
+            <text class="material-symbols-outlined">chat_bubble</text>
+            <text>本次会话暂无对话内容</text>
+          </view>
+        </view>
+      </block>
+
+      <view style="height:60rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

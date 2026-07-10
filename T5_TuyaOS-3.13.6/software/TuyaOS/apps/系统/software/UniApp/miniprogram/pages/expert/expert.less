@@ -1,0 +1,195 @@
+@brand-green: #4CAF50;
+@royal-obsidian: #1A1A1A;
+@deep-gray: #333333;
+@alabaster: #F8F9FA;
+@medical-gray: #F5F7FA;
+@card-radius: 48rpx;
+@shadow-card: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+@shadow-float: 0 10px 30px -5px rgba(76, 175, 80, 0.25);
+@ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page {
+  background: @alabaster;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.anim-item { opacity: 0; }
+.page--loaded .anim-item { animation: fadeSlideUp 0.48s @ease forwards; }
+.anim-0 { animation-delay: 0s; }
+.anim-1 { animation-delay: 0.08s; }
+.anim-2 { animation-delay: 0.16s; }
+.anim-3 { animation-delay: 0.24s; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 24rpx;
+}
+.nav__back {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.nav__back .material-symbols-outlined {
+  font-size: 44rpx;
+  color: @royal-obsidian;
+}
+.nav__title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: @royal-obsidian;
+  flex: 1;
+  text-align: center;
+  margin-right: 64rpx;
+}
+.nav__placeholder { width: 0; }
+
+.scroll-area { flex: 1; min-height: 0; width: 100%; }
+.content { padding: 0 32rpx; padding-bottom: env(safe-area-inset-bottom); }
+.safe-spacer { height: 200rpx; }
+
+.hero-card {
+  margin-top: 40rpx;
+  margin-bottom: 48rpx;
+  background: #fff;
+  border-radius: @card-radius;
+  padding: 48rpx;
+  box-shadow: @shadow-card;
+  border: 0.5px solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.hero-card__icon-wrap {
+  width: 120rpx;
+  height: 120rpx;
+  background: rgba(76, 175, 80, 0.06);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 36rpx;
+}
+.hero-card__icon-wrap .material-symbols-outlined {
+  font-size: 72rpx;
+  color: @brand-green;
+  font-weight: 200;
+}
+.hero-card__desc {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: @royal-obsidian;
+  font-weight: 500;
+  padding: 0 16rpx;
+}
+
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.service-card {
+  background: #fff;
+  border-radius: @card-radius;
+  padding: 36rpx;
+  box-shadow: @shadow-card;
+  border: 0.5px solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  gap: 24rpx;
+  transition: transform 0.2s @ease;
+}
+.service-card__left { flex-shrink: 0; }
+.service-card__icon-box {
+  width: 72rpx;
+  height: 72rpx;
+  background: rgba(76, 175, 80, 0.06);
+  border-radius: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.service-card__icon-box .material-symbols-outlined {
+  font-size: 40rpx;
+  color: @brand-green;
+}
+.service-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.service-card__title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  margin-bottom: 12rpx;
+}
+.service-card__desc {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+.service-card__action {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+.service-card__action text {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: @brand-green;
+}
+.service-card__action .material-symbols-outlined {
+  font-size: 28rpx;
+  color: @brand-green;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24rpx 32rpx calc(24rpx + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+.cta-btn {
+  width: 100%;
+  height: 96rpx;
+  background: @brand-green;
+  border-radius: 100rpx;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: @shadow-float;
+  white-space: nowrap;
+}
+
+.btn-haptic:active {
+  transform: scale(0.97);
+  opacity: 0.92;
+}

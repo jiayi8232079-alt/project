@@ -1,0 +1,87 @@
+<view class="attendants" style="padding-top: {{statusBarHeight}}px;">
+
+  <view class="attendants__nav">
+    <view class="attendants__back" bind:tap="handleBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="attendants__title">陪诊员管理</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <!-- 搜索 -->
+  <view class="attendants__search-wrap">
+    <view class="search-box">
+      <text class="material-symbols-outlined search-box__icon">search</text>
+      <input
+        class="search-box__input"
+        placeholder="搜索姓名/手机号"
+        confirm-type="search"
+        bind:confirm="onSearch"
+        value="{{searchKeyword}}"
+      />
+    </view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <scroll-view scroll-x class="attendants__filter-scroll" show-scrollbar="{{false}}">
+    <view class="attendants__filter-row">
+      <view
+        wx:for="{{statusOptions}}"
+        wx:key="value"
+        class="filter-chip {{filterStatus === item.value ? 'filter-chip--active' : ''}}"
+        bind:tap="onFilterStatus"
+        data-status="{{item.value}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 列表 -->
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="attendants__list">
+    <view class="attendants__count">共 {{total}} 位陪诊员</view>
+
+    <view wx:if="{{loaded && attendants.length === 0}}" class="empty-tip">
+      <text class="material-symbols-outlined empty-tip__icon">badge</text>
+      <text class="empty-tip__text">暂无陪诊员</text>
+    </view>
+
+    <view wx:for="{{attendants}}" wx:key="id" class="attendant-card">
+      <view class="attendant-card__left">
+        <view class="attendant-card__avatar">
+          <image wx:if="{{item.user && item.user.avatarUrl}}" src="{{item.user.avatarUrl}}" class="attendant-card__avatar-img" mode="aspectFill"/>
+          <text wx:else class="material-symbols-outlined">person</text>
+        </view>
+        <view class="attendant-card__info">
+          <view class="attendant-card__name-row">
+            <text class="attendant-card__name">{{item.displayName}}</text>
+            <view class="status-badge status-badge--{{item.status}}">
+              <text>{{item.statusLabel}}</text>
+            </view>
+          </view>
+          <text wx:if="{{item.user && item.user.phone}}" class="attendant-card__phone">{{item.user.phone}}</text>
+          <text wx:if="{{item.specialties}}" class="attendant-card__specialty">{{item.specialties}}</text>
+        </view>
+      </view>
+      <view class="attendant-card__actions">
+        <view class="icon-btn icon-btn--indigo" bind:tap="goWorkbenchView" data-id="{{item.id}}" data-name="{{item.displayName}}" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">visibility</text>
+        </view>
+        <view wx:if="{{item.user && item.user.phone}}" class="icon-btn icon-btn--green" bind:tap="callAttendant" data-phone="{{item.user.phone}}" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">call</text>
+        </view>
+        <view class="icon-btn icon-btn--blue" bind:tap="goOrders" data-id="{{item.id}}" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">receipt_long</text>
+        </view>
+        <view wx:if="{{canManage}}" class="icon-btn {{item.status === 'active' ? 'icon-btn--red' : 'icon-btn--gray'}}" bind:tap="toggleStatus" data-id="{{item.id}}" data-status="{{item.status}}" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">{{item.status === 'active' ? 'block' : 'check_circle'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-tip"><text>加载中...</text></view>
+    <view wx:if="{{!hasMore && attendants.length > 0}}" class="end-tip"><text>— 已加载全部 —</text></view>
+    <view style="height: calc(env(safe-area-inset-bottom) + 24rpx);"></view>
+  </scroll-view>
+
+</view>

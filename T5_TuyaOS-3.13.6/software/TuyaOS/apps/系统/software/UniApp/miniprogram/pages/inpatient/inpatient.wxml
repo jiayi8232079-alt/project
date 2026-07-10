@@ -1,0 +1,68 @@
+<view class="page {{loaded ? 'page--loaded' : ''}}">
+  <view class="nav anim-item anim-0">
+    <view class="nav__inner" style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav__back" bind:tap="goBack" hover-class="btn-haptic">
+        <text class="material-symbols-outlined">arrow_back</text>
+      </view>
+      <text class="nav__title">住院协调</text>
+      <view class="nav__placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="content">
+
+      <view class="hero anim-item anim-1">
+        <view class="hero__banner">
+          <image class="hero__img" src="https://images.pexels.com/photos/20081928/pexels-photo-20081928.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+          <view class="hero__overlay"></view>
+          <view class="hero__body">
+            <text class="hero__tag">优先保障</text>
+            <text class="hero__title">床位紧张？我们为您协调优先入院。</text>
+            <text class="hero__desc">全程跟进入院手续及术后关怀</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="services anim-item anim-2">
+        <text class="section-title">服务内容</text>
+        <view class="services__list">
+          <view class="service-card" wx:for="{{services}}" wx:key="id" hover-class="btn-haptic">
+            <view class="service-card__img-wrap">
+              <image class="service-card__img" src="{{item.img}}" mode="aspectFill"></image>
+            </view>
+            <view class="service-card__body">
+              <view class="service-card__head">
+                <text class="material-symbols-outlined service-card__icon">{{item.icon}}</text>
+                <text class="service-card__title">{{item.title}}</text>
+              </view>
+              <text class="service-card__desc">{{item.desc}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="hospitals anim-item anim-3">
+        <text class="hospitals__label">优先合作医院</text>
+        <view class="hospitals__grid">
+          <view class="hospitals__item" wx:for="{{hospitals}}" wx:key="name">
+            <view class="hospitals__icon-wrap">
+              <text class="material-symbols-outlined">{{item.icon}}</text>
+            </view>
+            <text class="hospitals__name">{{item.name}}</text>
+          </view>
+        </view>
+        <text class="hospitals__note">*以上为部分合作医疗机构，实际资源覆盖全国 200+ 三甲医院</text>
+      </view>
+
+      <view class="safe-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-bar anim-item anim-4">
+    <button class="cta-btn" hover-class="btn-haptic" bind:tap="onBook">
+      <text>立即咨询住院协调</text>
+      <text class="material-symbols-outlined cta-btn__icon">arrow_forward</text>
+    </button>
+  </view>
+</view>

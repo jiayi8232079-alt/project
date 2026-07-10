@@ -1,0 +1,93 @@
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  src: url('https://wx.qiaoguo.vip/uploads/fonts/material-symbols-outlined.woff2') format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  background: #F8F9FA;
+  overflow-x: hidden;
+}
+
+/* 需登录页：未登录时友好门闸（非强制跳转） */
+.page-login-gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx 40rpx;
+  box-sizing: border-box;
+  background: #f5f7fa;
+}
+
+.page-login-gate__card {
+  width: 100%;
+  max-width: 620rpx;
+  background: #fff;
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx 40rpx;
+  box-shadow: 0 8rpx 40rpx rgba(0, 0, 0, 0.06);
+}
+
+.page-login-gate__title {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 16rpx;
+}
+
+.page-login-gate__desc {
+  display: block;
+  font-size: 26rpx;
+  line-height: 1.55;
+  color: rgba(26, 26, 26, 0.55);
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.page-login-gate__btn {
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  background: #4caf50;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  margin-bottom: 24rpx;
+}
+
+.page-login-gate__btn::after {
+  display: none;
+}
+
+.page-login-gate__skip {
+  text-align: center;
+  font-size: 28rpx;
+  color: rgba(26, 26, 26, 0.45);
+  padding: 16rpx;
+}

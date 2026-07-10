@@ -1,0 +1,70 @@
+<view class="grab">
+  <view class="grab__header">
+    <view class="grab__status-bar">
+      <view class="grab__status-pill">
+        <view class="grab__status-dot"></view>
+        <text class="grab__status-text">实时抢单</text>
+      </view>
+    </view>
+    <text class="grab__title">抢单大厅</text>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="grab__scroll" refresher-enabled refresher-triggered="{{refreshing}}" bind:refresherrefresh="onRefresh">
+    <view class="grab__list">
+      <block wx:if="{{orders.length > 0}}">
+        <view class="grab__card" wx:for="{{orders}}" wx:key="id">
+          <view class="grab__card-top" bind:tap="goDetail" data-id="{{item.id}}" hover-class="btn-haptic">
+            <view class="grab__card-left">
+              <view class="grab__badge-row">
+                <text class="grab__badge">{{item.serviceType || '陪诊'}}</text>
+                <text class="grab__risk grab__risk--{{item.riskBadgeClass}}">{{item.riskLabel}}</text>
+                <text class="grab__time-ago">{{item.createdAtText}}</text>
+              </view>
+              <text class="grab__hospital">{{item.hospitalName}}</text>
+              <text class="grab__department">{{item.departmentName}}</text>
+            </view>
+            <view class="grab__card-right">
+              <text class="grab__income-label">收益</text>
+              <text class="grab__income-amount">¥{{item.attendantIncome || '--'}}</text>
+            </view>
+          </view>
+
+          <view class="grab__card-info">
+            <view class="grab__info-row">
+              <text class="material-symbols-outlined">schedule</text>
+              <view>
+                <text class="grab__info-primary">{{item.serviceTime}}</text>
+              </view>
+            </view>
+            <view class="grab__info-row">
+              <text class="material-symbols-outlined">person</text>
+              <view>
+                <text class="grab__info-primary">{{item.patientName}} {{item.patientGender}} {{item.patientAge}}</text>
+              </view>
+            </view>
+            <view class="grab__info-row" wx:if="{{item.doctorName}}">
+              <text class="material-symbols-outlined">medical_services</text>
+              <view>
+                <text class="grab__info-secondary">{{item.doctorName}} 医生</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="grab__actions">
+            <button class="grab__btn grab__btn--ghost" hover-class="btn-haptic" bind:tap="viewHealthProfile" data-id="{{item.id}}">查看档案</button>
+            <button class="grab__btn" hover-class="btn-haptic" bind:tap="handleGrab" data-id="{{item.id}}">立即抢单</button>
+          </view>
+        </view>
+      </block>
+
+      <view class="grab__empty" wx:if="{{!loading && orders.length === 0}}">
+        <text class="material-symbols-outlined grab__empty-icon">inbox</text>
+        <text class="grab__empty-title">暂无可抢订单</text>
+        <text class="grab__empty-text">新订单将实时推送到这里</text>
+        <text class="grab__empty-hint">下拉刷新试试</text>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </view>
+  </scroll-view>
+</view>

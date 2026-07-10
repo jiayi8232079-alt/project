@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "诊后管理",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ai-badge": "/components/ai-badge/ai-badge"
+  }
+}

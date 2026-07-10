@@ -1,0 +1,93 @@
+<view class="sign">
+
+  <!-- 顶部导航栏 -->
+  <view class="sign__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="sign__nav-back" bind:tap="handleBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="sign__nav-title">服务确认书</text>
+    <view style="width: 80rpx;"></view>
+  </view>
+
+  <!-- 订单信息卡片 -->
+  <view class="sign__info-card">
+    <view class="sign__info-header">
+      <view class="sign__info-icon">
+        <text class="material-symbols-outlined">description</text>
+      </view>
+      <view>
+        <text class="sign__info-title">请确认以下服务信息</text>
+        <text class="sign__info-sub">信息核实无误后在下方签名</text>
+      </view>
+    </view>
+    <view class="sign__info-rows">
+      <view class="sign__row" wx:if="{{order.patientName}}">
+        <text class="sign__label">服务对象</text>
+        <text class="sign__value">{{order.patientName}} {{order.patientGender}} {{order.patientAge}}</text>
+      </view>
+      <view class="sign__row">
+        <text class="sign__label">服务时间</text>
+        <text class="sign__value">{{order.serviceTime || '待定'}}</text>
+      </view>
+      <view class="sign__row" wx:if="{{order.hospitalName}}">
+        <text class="sign__label">就诊医院</text>
+        <text class="sign__value">{{order.hospitalName}}</text>
+      </view>
+      <view class="sign__row" wx:if="{{order.orderNo}}">
+        <text class="sign__label">订单编号</text>
+        <text class="sign__value sign__value--small">{{order.orderNo}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 签名区域 -->
+  <view class="sign__canvas-card">
+    <view class="sign__canvas-header">
+      <view>
+        <text class="sign__canvas-title">手写签名</text>
+        <text class="sign__canvas-sub">请用手指在下方区域签署您的姓名</text>
+      </view>
+      <view class="sign__clear-btn" bind:tap="clearSign" hover-class="btn-haptic">
+        <text class="material-symbols-outlined">refresh</text>
+        <text>清除重签</text>
+      </view>
+    </view>
+
+    <view class="sign__canvas-wrap">
+      <canvas
+        id="signCanvas"
+        type="2d"
+        class="sign__canvas"
+        disable-scroll
+        bind:touchstart="onTouchStart"
+        bind:touchmove="onTouchMove"
+        bind:touchend="onTouchEnd"
+        bind:touchcancel="onTouchEnd"
+      ></canvas>
+      <view class="sign__canvas-guide" wx:if="{{!hasSigned}}">
+        <text class="material-symbols-outlined sign__canvas-guide-icon">gesture</text>
+        <text class="sign__canvas-guide-text">请在此处签署您的姓名</text>
+      </view>
+    </view>
+
+    <!-- 提示 -->
+    <view class="sign__tip">
+      <text class="material-symbols-outlined sign__tip-icon">info</text>
+      <text class="sign__tip-text">签署后即视为确认服务开始，请仔细核对信息</text>
+    </view>
+  </view>
+
+  <!-- 底部操作区 -->
+  <view class="sign__footer">
+    <button
+      class="sign__submit-btn"
+      hover-class="btn-haptic"
+      bind:tap="submitSign"
+      disabled="{{submitting || !hasSigned}}"
+    >
+      <text class="material-symbols-outlined">draw</text>
+      <text>{{submitting ? '提交中...' : '确认签署'}}</text>
+    </button>
+  </view>
+
+</view>

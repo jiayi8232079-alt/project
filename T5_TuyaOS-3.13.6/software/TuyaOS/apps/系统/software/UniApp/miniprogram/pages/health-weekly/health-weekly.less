@@ -1,0 +1,113 @@
+@brand-green: #4CAF50;
+@deep-gray: #333;
+.wr {
+  min-height: 100vh; background: #F8F9FA;
+  &__scroll { width: 100%; }
+  &__body { padding: 24rpx 32rpx; }
+
+  &__hero {
+    display: flex; flex-direction: column; align-items: center; padding: 32rpx 0 24rpx;
+  }
+  &__hero-icon {
+    width: 96rpx; height: 96rpx; border-radius: 50%;
+    background: linear-gradient(135deg, @brand-green, #66BB6A);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 16rpx;
+    box-shadow: 0 8rpx 24rpx rgba(76,175,80,0.2);
+    .material-symbols-outlined { font-size: 48rpx; color: #fff; }
+  }
+  &__hero-title { font-size: 36rpx; font-weight: 700; color: @deep-gray; }
+  &__hero-period { font-size: 24rpx; color: rgba(51,51,51,0.4); margin-top: 4rpx; }
+  &__hero-badge { margin-top: 10rpx; }
+
+  &__ai-notice { margin-bottom: 16rpx; }
+
+  &__greeting-card {
+    display: flex; align-items: center; gap: 12rpx;
+    padding: 24rpx 28rpx; margin-bottom: 20rpx;
+    background: linear-gradient(135deg, rgba(76,175,80,0.06), rgba(76,175,80,0.02));
+    border-radius: 24rpx; border: 0.5rpx solid rgba(76,175,80,0.12);
+  }
+  &__greeting-icon { font-size: 36rpx; color: @brand-green; flex-shrink: 0; }
+  &__greeting-text { font-size: 28rpx; color: @deep-gray; font-weight: 600; line-height: 1.5; }
+
+  &__card {
+    background: #fff; border-radius: 24rpx; padding: 24rpx 28rpx;
+    margin-bottom: 16rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
+    &--warn { border: 0.5rpx solid rgba(255,152,0,0.15); }
+  }
+  &__section-head {
+    display: flex; align-items: center; gap: 10rpx; margin-bottom: 16rpx;
+    padding-bottom: 12rpx; border-bottom: 0.5rpx solid rgba(0,0,0,0.04);
+  }
+  &__section-title { font-size: 28rpx; font-weight: 700; color: @deep-gray; }
+  &__text { font-size: 26rpx; color: rgba(51,51,51,0.7); line-height: 1.7; }
+
+  &__list-item {
+    display: flex; align-items: flex-start; gap: 10rpx; padding: 8rpx 0;
+    font-size: 26rpx; color: rgba(51,51,51,0.7); line-height: 1.6;
+  }
+  &__list-num {
+    width: 32rpx; height: 32rpx; border-radius: 50%;
+    background: rgba(33,150,243,0.1); color: #2196F3;
+    font-size: 20rpx; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 4rpx;
+  }
+
+  &__tips-row {
+    display: flex; gap: 16rpx; margin-bottom: 16rpx;
+  }
+  &__tip-card {
+    flex: 1; background: #fff; border-radius: 24rpx; padding: 24rpx;
+    display: flex; flex-direction: column; align-items: center; gap: 8rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
+  }
+  &__tip-label { font-size: 24rpx; font-weight: 600; color: @deep-gray; }
+  &__tip-text { font-size: 22rpx; color: rgba(51,51,51,0.5); text-align: center; line-height: 1.5; }
+
+  &__emotional {
+    display: flex; align-items: center; gap: 12rpx;
+    padding: 24rpx 28rpx; background: linear-gradient(135deg, #FFF3E0, #FFF8E1);
+    border-radius: 24rpx; margin-bottom: 16rpx;
+    .material-symbols-outlined { color: #FF9800; }
+  }
+  &__emotional-text { font-size: 26rpx; color: rgba(51,51,51,0.7); line-height: 1.6; }
+
+  &__list-section { margin-top: 16rpx; }
+  &__list-title-row {
+    display: flex; align-items: center; gap: 12rpx; margin-bottom: 16rpx;
+  }
+  &__list-title { font-size: 30rpx; font-weight: 700; color: @deep-gray; }
+
+  &__report-card {
+    display: flex; align-items: center; gap: 16rpx;
+    background: #fff; border-radius: 24rpx; padding: 24rpx;
+    margin-bottom: 12rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
+  }
+  &__report-icon {
+    width: 64rpx; height: 64rpx; border-radius: 50%;
+    background: rgba(76,175,80,0.08); display: flex;
+    align-items: center; justify-content: center;
+    .material-symbols-outlined { font-size: 32rpx; color: @brand-green; }
+  }
+  &__report-info { flex: 1; min-width: 0; }
+  &__report-period-row {
+    display: flex; align-items: center; gap: 10rpx; flex-wrap: wrap;
+  }
+  &__report-period { font-size: 28rpx; font-weight: 600; color: @deep-gray; }
+  &__report-badge { flex-shrink: 0; }
+  &__report-summary {
+    font-size: 22rpx; color: rgba(51,51,51,0.45); display: block; margin-top: 4rpx;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  &__gen-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10rpx;
+    height: 88rpx; margin-top: 24rpx;
+    background: @brand-green; color: #fff; border-radius: 44rpx;
+    font-size: 28rpx; font-weight: 600;
+    box-shadow: 0 4rpx 16rpx rgba(76,175,80,0.25);
+    &:active { transform: scale(0.97); }
+  }
+}
+.btn-haptic:active { transform: scale(0.97); }

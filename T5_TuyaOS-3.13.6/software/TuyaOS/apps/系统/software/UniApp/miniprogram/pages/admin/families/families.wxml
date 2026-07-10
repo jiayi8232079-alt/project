@@ -1,0 +1,124 @@
+<view class="fam-admin" style="padding-top: {{statusBarHeight}}px;">
+
+  <view class="fam-admin__nav">
+    <view class="fam-admin__back" bind:tap="handleBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="fam-admin__title">家庭关系管理</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <view class="fam-admin__search-wrap">
+    <view class="search-box">
+      <text class="material-symbols-outlined search-box__icon">search</text>
+      <input
+        class="search-box__input"
+        placeholder="搜索家庭名称"
+        confirm-type="search"
+        bind:confirm="onSearch"
+        value="{{searchKeyword}}"
+      />
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="fam-admin__list" refresher-enabled refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh" bindscrolltolower="onScrollToLower" lower-threshold="200">
+    <view class="fam-admin__count">共 {{total}} 个家庭组</view>
+
+    <view wx:if="{{loaded && families.length === 0}}" class="empty-tip">
+      <text class="material-symbols-outlined empty-tip__icon">family_restroom</text>
+      <text class="empty-tip__text">暂无家庭数据</text>
+    </view>
+
+    <view wx:for="{{families}}" wx:key="id" class="family-card">
+      <!-- 家庭头部 -->
+      <view class="family-card__header">
+        <view class="family-card__icon">
+          <text class="material-symbols-outlined">home</text>
+        </view>
+        <view class="family-card__info">
+          <text class="family-card__name">{{item.name}}</text>
+          <text class="family-card__meta">{{item.memberCount}}位成员 · 创建于 {{item.dateDisplay || '—'}}</text>
+        </view>
+      </view>
+
+      <!-- 健康概况 -->
+      <view class="family-card__stats">
+        <view class="family-card__stat">
+          <text class="family-card__stat-num">{{item.memberCount}}</text>
+          <text class="family-card__stat-label">成员</text>
+        </view>
+        <view class="family-card__stat-divider"></view>
+        <view class="family-card__stat">
+          <text class="family-card__stat-num {{item.activeServiceCount > 0 ? 'family-card__stat-num--green' : ''}}">{{item.activeServiceCount}}</text>
+          <text class="family-card__stat-label">进行中</text>
+        </view>
+        <view class="family-card__stat-divider"></view>
+        <view class="family-card__stat">
+          <text class="family-card__stat-num {{item.totalActiveMeds > 0 ? 'family-card__stat-num--orange' : ''}}">{{item.totalActiveMeds}}</text>
+          <text class="family-card__stat-label">用药提醒</text>
+        </view>
+        <view class="family-card__stat-divider"></view>
+        <view class="family-card__stat">
+          <text class="family-card__stat-num {{item.totalFollowUps > 0 ? 'family-card__stat-num--red' : ''}}">{{item.totalFollowUps}}</text>
+          <text class="family-card__stat-label">待复诊</text>
+        </view>
+      </view>
+
+      <!-- 成员列表 -->
+      <view wx:if="{{item.members.length > 0}}" class="family-card__members">
+        <view wx:for="{{item.members}}" wx:for-item="m" wx:key="memberId" class="family-card__member">
+          <view class="family-card__member-head">
+            <view class="family-card__member-avatar">
+              <text>{{m.initial}}</text>
+            </view>
+            <view class="family-card__member-info">
+              <text class="family-card__member-name">{{m.nickname}}</text>
+              <text class="family-card__member-role">{{m.roleLabel}}</text>
+            </view>
+          </view>
+          <view class="family-card__member-actions">
+            <view
+              class="member-act member-act--profile {{m.linkedServiceTargetId ? '' : 'member-act--disabled'}} btn-haptic"
+              catch:tap="goHealthProfile"
+              data-stid="{{m.linkedServiceTargetId}}"
+            >
+              <text class="material-symbols-outlined member-act__ico">assignment_ind</text>
+              <text>健康档案</text>
+            </view>
+            <view
+              class="member-act member-act--edit btn-haptic"
+              catch:tap="editMember"
+              data-fid="{{item.id}}"
+              data-mid="{{m.memberId}}"
+            >
+              <text class="material-symbols-outlined member-act__ico">edit</text>
+              <text>编辑成员</text>
+            </view>
+            <view
+              wx:if="{{!m.linkedServiceTargetId}}"
+              class="member-act member-act--bind btn-haptic"
+              catch:tap="createAndBindTarget"
+              data-fid="{{item.id}}"
+              data-mid="{{m.memberId}}"
+            >
+              <text class="material-symbols-outlined member-act__ico">add_circle</text>
+              <text>新建档案并绑定</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 查看健康看板按钮 -->
+      <view class="family-card__dashboard-btn" bind:tap="goDashboard" data-id="{{item.id}}" hover-class="btn-haptic">
+        <text class="material-symbols-outlined family-card__dashboard-icon">monitoring</text>
+        <text class="family-card__dashboard-text">查看家庭健康看板</text>
+        <text class="material-symbols-outlined family-card__dashboard-arrow">chevron_right</text>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-tip"><text>加载中...</text></view>
+    <view wx:if="{{!hasMore && families.length > 0}}" class="end-tip"><text>— 已加载全部 —</text></view>
+    <view style="height: calc(env(safe-area-inset-bottom) + 24rpx);"></view>
+  </scroll-view>
+
+</view>

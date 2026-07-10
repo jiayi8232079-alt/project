@@ -9,6 +9,8 @@ from pydantic import Field
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse
 
+from health_recipe_recommender import recommend_health_meals
+
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
@@ -36,25 +38,48 @@ def health_meal_recommend(
         str,
         Field(description="Dietary restrictions, such as low salt, low sugar, no seafood."),
     ] = "",
+    ingredients: Annotated[
+        str,
+        Field(description="Available or preferred ingredients, such as chicken and broccoli."),
+    ] = "",
+    health_goal: Annotated[
+        str,
+        Field(description="Health goal, such as low salt, glucose control, high protein."),
+    ] = "",
+    taste: Annotated[
+        str,
+        Field(description="Taste preference, such as light, fresh, sour-sweet, or mildly spicy."),
+    ] = "",
+    max_cooking_minutes: Annotated[
+        int,
+        Field(description="Maximum cooking time in minutes. Use 0 when there is no limit.", ge=0),
+    ] = 0,
 ) -> str:
     """
     Recommend a practical healthy meal plan for the user.
     """
-    # TODO: Replace this mock block with a real Shanmao MCP/API call when
-    # Shanmao provides the machine-to-machine endpoint and auth method.
     logger.info(
-        "health_meal_recommend called: need=%s people=%s restrictions=%s",
+        (
+            "health_meal_recommend called: need=%s people=%s restrictions=%s "
+            "ingredients=%s health_goal=%s taste=%s max_cooking_minutes=%s"
+        ),
         need,
         people,
         restrictions,
+        ingredients,
+        health_goal,
+        taste,
+        max_cooking_minutes,
     )
 
-    return (
-        f"已为{people}生成健康餐建议。"
-        f"需求：{need}。"
-        f"限制：{restrictions or '无特殊限制'}。"
-        "推荐：清蒸鱼或鸡胸肉补充优质蛋白，搭配西兰花、番茄鸡蛋汤和少量杂粮饭；"
-        "调味少盐少油，避免重辣、油炸和高糖饮料。"
+    return recommend_health_meals(
+        need=need,
+        people=people,
+        restrictions=restrictions,
+        ingredients=ingredients,
+        health_goal=health_goal,
+        taste=taste,
+        max_cooking_minutes=max_cooking_minutes,
     )
 
 
@@ -67,4 +92,3 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
-

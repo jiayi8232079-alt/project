@@ -1,0 +1,300 @@
+<view class="page">
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="scroll-content">
+
+      <!-- ===== 顶部渐变区（包含导航 + profile） ===== -->
+      <view class="header-block {{isLoggedIn && isAnnualMember ? 'header-block--annual' : 'header-block--regular'}}" style="padding-top: {{statusBarHeight + 4}}px;">
+
+        <!-- 顶部占位 -->
+        <view class="top-nav"></view>
+
+        <!-- ── 孝心年卡会员 ── -->
+        <block wx:if="{{isLoggedIn && isAnnualMember}}">
+          <!-- 头像 + 姓名（横排） -->
+          <view class="profile-row">
+            <view class="avatar-gold">
+              <view class="avatar-gold__inner">
+                <image
+                  wx:if="{{userInfo && userInfo.avatarUrl}}"
+                  class="avatar-img"
+                  src="{{userInfo.avatarUrl}}"
+                  mode="aspectFill"
+                />
+                <text wx:else class="avatar-gold__char">{{avatarChar}}</text>
+              </view>
+            </view>
+            <view class="profile-info-col">
+              <text class="profile-name--annual">{{userInfo.name || userInfo.nickname || '用户'}}</text>
+              <text wx:if="{{userInfo.id}}" class="profile-id">ID: {{userInfo.id}}</text>
+              <view class="annual-badge">
+                <text class="material-symbols-outlined annual-badge__star">workspace_premium</text>
+                <text class="annual-badge__label">孝心卡主</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 年卡卡片 -->
+          <view class="vip-card" bind:tap="goMembership" hover-class="btn-haptic">
+            <view class="vip-card__deco-1"></view>
+            <view class="vip-card__deco-2"></view>
+            <view class="vip-card__header">
+              <view class="vip-card__brand">
+                <text class="material-symbols-outlined vip-card__spa">spa</text>
+                <text class="vip-card__brand-text">Qiao Guo Health</text>
+              </view>
+              <view class="vip-card__verified">
+                <text class="material-symbols-outlined">verified</text>
+              </view>
+            </view>
+            <view class="vip-card__footer">
+              <view>
+                <text class="vip-card__title">孝心年卡</text>
+                <text wx:if="{{membershipNo}}" class="vip-card__no">{{membershipNo}}</text>
+              </view>
+              <view class="vip-card__view-btn">
+                <text wx:if="{{expireDateText}}" class="vip-card__expire">{{expireDateText}} 到期</text>
+                <view class="vip-card__action">
+                  <text>查看权益</text>
+                  <text class="material-symbols-outlined">arrow_forward</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+
+        <!-- ── 普通会员（已登录） ── -->
+        <block wx:elif="{{isLoggedIn && !isAnnualMember}}">
+          <!-- 头像居中 -->
+          <view class="profile-center">
+            <view class="avatar-regular">
+              <view class="avatar-regular__inner">
+                <image
+                  wx:if="{{userInfo && userInfo.avatarUrl}}"
+                  class="avatar-img"
+                  src="{{userInfo.avatarUrl}}"
+                  mode="aspectFill"
+                />
+                <text wx:else class="avatar-regular__char">{{avatarChar}}</text>
+              </view>
+            </view>
+            <text class="profile-name--regular">{{userInfo.name || userInfo.nickname || '用户'}}</text>
+            <text wx:if="{{userInfo.id}}" class="profile-id">ID: {{userInfo.id}}</text>
+            <view class="regular-badge">
+              <text class="material-symbols-outlined regular-badge__icon">{{isAdmin ? 'admin_panel_settings' : 'person'}}</text>
+              <text class="regular-badge__label">{{isAdmin ? '管理员' : (isAttendant ? '陪诊员' : '普通会员')}}</text>
+            </view>
+          </view>
+
+          <!-- 升级孝心年卡横幅 -->
+          <view class="promo-banner" bind:tap="goMembership" hover-class="btn-haptic">
+            <view class="promo-banner__deco"></view>
+            <view class="promo-banner__left">
+              <view class="promo-banner__row">
+                <text class="material-symbols-outlined promo-banner__icon">workspace_premium</text>
+                <text class="promo-banner__title">开启孝心年卡</text>
+              </view>
+              <text class="promo-banner__sub">给父母更专业的守护</text>
+            </view>
+            <view class="promo-banner__right">
+              <text class="promo-banner__cta">了解权益</text>
+              <text class="material-symbols-outlined promo-banner__arrow">arrow_forward</text>
+            </view>
+          </view>
+        </block>
+
+        <!-- ── 未登录 ── -->
+        <block wx:else>
+          <view class="profile-center" bind:tap="goLogin" hover-class="btn-haptic">
+            <view class="avatar-guest">
+              <text class="material-symbols-outlined avatar-guest__icon">person</text>
+            </view>
+            <text class="profile-name--regular">点击登录</text>
+            <text class="profile-sub">登录享受更多服务</text>
+          </view>
+        </block>
+
+      </view>
+      <!-- / header-block -->
+
+      <!-- ===== 内容区 ===== -->
+      <view class="content-area">
+
+        <!-- 统计面板 -->
+        <view class="stats-panel">
+          <view class="stats-item" bind:tap="goOrders" hover-class="btn-haptic">
+            <text class="stats-item__num">{{orderCount || 0}}</text>
+            <text class="stats-item__label">服务记录</text>
+          </view>
+          <view class="stats-divider"></view>
+          <view class="stats-item" bind:tap="goHealth" hover-class="btn-haptic">
+            <text class="stats-item__num">{{healthCount || 0}}</text>
+            <text class="stats-item__label">健康档案</text>
+          </view>
+          <view class="stats-divider"></view>
+          <view class="stats-item" bind:tap="goMembership" hover-class="btn-haptic">
+            <text class="stats-item__num">{{benefitCount || 0}}</text>
+            <text class="stats-item__label">{{isAnnualMember ? '专属权益' : '我的权益'}}</text>
+          </view>
+        </view>
+
+        <!-- 菜单组1 -->
+        <view class="menu-group">
+          <view class="menu-item" bind:tap="goOrders" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">assignment</text>
+            </view>
+            <text class="menu-item__label">我的服务</text>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view class="menu-item" bind:tap="goHealth" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">folder_shared</text>
+            </view>
+            <text class="menu-item__label">全家健康档案</text>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view class="menu-item" bind:tap="goFamily" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">family_restroom</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">我的家庭</text>
+              <text class="menu-item__sub {{isAnnualMember ? 'menu-item__sub--gold' : ''}}">关联家人，远程守护健康</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view class="menu-item" bind:tap="goDevices" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">smart_toy</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">我家的机器人</text>
+              <text class="menu-item__sub {{isAnnualMember ? 'menu-item__sub--gold' : ''}}">设备状态 · 电量 · 绑定管理</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view class="menu-item" bind:tap="goWithKin" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">hub</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">家庭协同</text>
+              <text class="menu-item__sub {{isAnnualMember ? 'menu-item__sub--gold' : ''}}">社区消息 · 家庭提醒 · 机器人设置</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view class="menu-item" bind:tap="goAiDialog" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">forum</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">AI 对话摘要</text>
+              <text class="menu-item__sub {{isAnnualMember ? 'menu-item__sub--gold' : ''}}">查看老人与机器人的对话</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+        </view>
+
+        <!-- 菜单组2 -->
+        <view class="menu-group">
+          <view class="menu-item" bind:tap="goMedicationReminder" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">medication</text>
+            </view>
+            <text class="menu-item__label">用药提醒管理</text>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view class="menu-item" bind:tap="goWeeklyReport" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">monitoring</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">健康周报</text>
+              <text class="menu-item__sub {{isAnnualMember ? 'menu-item__sub--gold' : ''}}">每周 AI 健康总结</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view wx:if="{{showAiTriage}}" class="menu-item" bind:tap="goTriage" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}}">
+              <text class="material-symbols-outlined">stethoscope</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">AI 智能导诊</text>
+              <text class="menu-item__sub {{isAnnualMember ? 'menu-item__sub--gold' : ''}}">风险分层 · 科室建议 · 服务分流</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view wx:if="{{showAiAdvisor}}" class="menu-item" bind:tap="goAiConsult" hover-class="btn-haptic">
+            <view class="menu-item__icon menu-item__icon--ai">
+              <text class="material-symbols-outlined">psychology</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">AI 健康顾问</text>
+              <text class="menu-item__sub {{isAnnualMember ? 'menu-item__sub--gold' : ''}}">症状分析 · 科室推荐 · 智能问诊</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view class="menu-item" bind:tap="goCustomerService" hover-class="btn-haptic">
+            <view class="menu-item__icon {{isAnnualMember ? 'menu-item__icon--gold' : ''}} menu-item__icon--rel">
+              <text class="material-symbols-outlined">support_agent</text>
+              <view wx:if="{{isAnnualMember}}" class="menu-item__dot"></view>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">24h 专属管家</text>
+              <text class="menu-item__sub {{isAnnualMember ? 'menu-item__sub--gold' : ''}}">{{isAnnualMember ? '全天候极速响应' : '会员专属服务'}}</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+          <view class="menu-item" bind:tap="goComplaintList" hover-class="btn-haptic">
+            <view class="menu-item__icon">
+              <text class="material-symbols-outlined">feedback</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">我的投诉/建议</text>
+              <text class="menu-item__sub">服务反馈 · 问题跟进</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+        </view>
+
+        <!-- 管理台（仅管理员角色可见） -->
+        <view wx:if="{{isAdmin}}" class="menu-group">
+          <view class="menu-item" bind:tap="goAdminDashboard" hover-class="btn-haptic">
+            <view class="menu-item__icon menu-item__icon--admin">
+              <text class="material-symbols-outlined">admin_panel_settings</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">管理台</text>
+              <text class="menu-item__sub">订单 · 客户 · 陪诊员 · 数据</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+        </view>
+
+        <!-- 陪诊员工作台（仅陪诊员角色可见；总管理员通过「管理台」统一入口操作所有订单） -->
+        <view wx:if="{{isAttendant && !isAdmin}}" class="menu-group">
+          <view class="menu-item" bind:tap="goWorkbench" hover-class="btn-haptic">
+            <view class="menu-item__icon menu-item__icon--accent">
+              <text class="material-symbols-outlined">medical_services</text>
+            </view>
+            <view class="menu-item__label-col">
+              <text class="menu-item__label">陪诊员工作台</text>
+              <text class="menu-item__sub">接单、排班、收入管理</text>
+            </view>
+            <text class="material-symbols-outlined menu-item__arrow">chevron_right</text>
+          </view>
+        </view>
+
+        <!-- 退出登录 -->
+        <view wx:if="{{isLoggedIn}}" class="logout-area">
+          <view class="logout-btn" bind:tap="handleLogout" hover-class="btn-haptic">
+            <text>退出登录</text>
+          </view>
+        </view>
+
+        <view style="height: 160rpx;"></view>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,1795 @@
+@brand-green: #4CAF50;
+@brand-green-dark: #2f9b42;
+@royal-obsidian: #1A1A1A;
+@warm-champagne: #D4AF37;
+@emergency-red: #FF3B30;
+@deep-gray: #333333;
+@soft-gray: #94A3B8;
+@alabaster: #F8F9FA;
+@medical-gray: #F5F7FA;
+@border-light: rgba(51, 51, 51, 0.06);
+@shadow-premium: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+@radius-squircle: 48rpx;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseHeight {
+  0%, 100% { height: 8rpx; }
+  50% { height: 20rpx; }
+}
+
+.btn-haptic {
+  transition: all 0.2s @ease-organic;
+  &:active { transform: scale(0.97); opacity: 0.9; }
+}
+
+.stl {
+  background: @alabaster;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.stl__nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(248, 249, 250, 0.8);
+  backdrop-filter: blur(40rpx);
+  padding: 16rpx 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.stl__nav-back {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+
+  .material-symbols-outlined { font-size: 36rpx; color: @deep-gray; }
+}
+
+.stl__nav-center {
+  text-align: center;
+}
+
+.stl__nav-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  display: block;
+}
+
+.stl__nav-live {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+  margin-top: 4rpx;
+}
+
+.stl__nav-live-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: @brand-green;
+}
+
+.stl__nav-live-text {
+  font-size: 20rpx;
+  font-weight: 600;
+  color: @soft-gray;
+  letter-spacing: 2rpx;
+  text-transform: uppercase;
+}
+
+/* 服务进行中：悬浮呼叫，位于底部快捷栏之上 */
+.stl__fab-emergency {
+  position: fixed;
+  right: 28rpx;
+  z-index: 60;
+  width: 96rpx;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: @emergency-red;
+  color: #fff;
+  box-shadow: 0 12rpx 32rpx -6rpx rgba(255, 59, 48, 0.45);
+  bottom: calc(264rpx + env(safe-area-inset-bottom));
+
+  .material-symbols-outlined { font-size: 40rpx; }
+}
+.stl__fab-emergency--hover {
+  opacity: 0.92;
+  transform: scale(0.96);
+}
+
+.stl__nav-spacer {
+  width: 72rpx;
+}
+
+.stl__scroll {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.stl__patient {
+  margin: 20rpx 24rpx 0;
+  background: #fff;
+  border-radius: @radius-squircle;
+  padding: 28rpx;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+  animation: fadeSlideUp 0.48s @ease-organic;
+}
+
+.stl__patient-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+}
+
+.stl__patient-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.stl__avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 32rpx;
+  color: @royal-obsidian;
+  border: 3rpx solid #fff;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.stl__patient-name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8rpx 12rpx;
+}
+
+.stl__patient-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  line-height: 1.35;
+  max-width: 100%;
+}
+
+.stl__health-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 2rpx 10rpx 2rpx 14rpx;
+  border-radius: 100rpx;
+  background: rgba(76, 175, 80, 0.12);
+  border: 1rpx solid rgba(76, 175, 80, 0.28);
+}
+.stl__health-chip-text {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #2e7d32;
+}
+.stl__health-chip-ico {
+  font-size: 28rpx;
+  color: @brand-green;
+  line-height: 1;
+}
+.stl__health-chip--warn {
+  background: rgba(255, 152, 0, 0.12);
+  border-color: rgba(255, 152, 0, 0.35);
+  padding-left: 14rpx;
+  padding-right: 14rpx;
+
+  .stl__health-chip-text {
+    color: #e65100;
+  }
+}
+.stl__health-hint {
+  font-size: 22rpx;
+  color: @soft-gray;
+  font-weight: 500;
+}
+
+.stl__patient-meta {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: 4rpx;
+  font-size: 24rpx;
+  color: @warm-champagne;
+  font-weight: 500;
+}
+
+.stl__risk-tag {
+  margin-top: 12rpx;
+  align-self: flex-start;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+.stl__risk-tag--low {
+  background: rgba(76, 175, 80, 0.12);
+  color: #2e7d32;
+}
+.stl__risk-tag--mid {
+  background: rgba(255, 152, 0, 0.15);
+  color: #e65100;
+}
+.stl__risk-tag--high {
+  background: rgba(255, 59, 48, 0.12);
+  color: #c62828;
+}
+
+.stl__status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 100rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.stl__status-pill--emergency {
+  background: linear-gradient(135deg, rgba(255, 107, 87, 0.15) 0%, rgba(255, 152, 0, 0.12) 100%);
+  border: 1rpx solid rgba(255, 107, 87, 0.35);
+}
+
+.stl__status-pill--in_progress {
+  background: rgba(76, 175, 80, 0.1);
+  color: @brand-green;
+}
+
+.stl__status-pill--pending_sign,
+.stl__status-pill--pending_service {
+  background: rgba(255, 152, 0, 0.1);
+  color: #FF9800;
+}
+
+.stl__status-pill--completed {
+  background: rgba(148, 163, 184, 0.1);
+  color: @soft-gray;
+}
+
+.stl__pulse {
+  display: inline-flex;
+  align-items: center;
+  gap: 3rpx;
+  height: 20rpx;
+}
+
+.stl__pulse-bar {
+  width: 4rpx;
+  background: @brand-green;
+  border-radius: 2rpx;
+  animation: pulseHeight 1s ease-in-out infinite;
+}
+
+.stl__patient-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx dashed @border-light;
+}
+
+.stl__detail-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.stl__detail-label {
+  font-size: 20rpx;
+  color: @soft-gray;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1rpx;
+}
+
+.stl__detail-value {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: @royal-obsidian;
+}
+
+// ── 服务完成横幅
+.stl__done-banner {
+  margin: 20rpx 24rpx 0;
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f1 100%);
+  border: 1rpx solid rgba(76, 175, 80, 0.25);
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+
+  &-icon-wrap {
+    width: 80rpx;
+    height: 80rpx;
+    background: #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &-icon {
+    font-size: 44rpx;
+    color: #fff;
+  }
+
+  &-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6rpx;
+  }
+
+  &-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: #2e7d32;
+  }
+
+  &-sub {
+    font-size: 24rpx;
+    color: #66bb6a;
+  }
+}
+
+// ── 待服务详情 (stitch _6 style)
+.stl__pending {
+  padding: 20rpx 24rpx 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  animation: fadeSlideUp 0.48s @ease-organic;
+}
+
+.stl__pending-time-card {
+  background: #fff;
+  border-radius: @radius-squircle;
+  padding: 48rpx;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+}
+
+.stl__pending-time-header {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  color: @brand-green;
+  margin-bottom: 20rpx;
+}
+
+.stl__pending-time-icon {
+  font-size: 36rpx;
+}
+
+.stl__pending-time-label {
+  font-size: 26rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+}
+
+.stl__pending-time-value {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  line-height: 1.35;
+  display: block;
+}
+
+.stl__pending-divider {
+  height: 1rpx;
+  background: rgba(26, 26, 26, 0.06);
+  margin: 36rpx 0;
+}
+
+.stl__pending-loc-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  color: @soft-gray;
+  margin-bottom: 12rpx;
+}
+
+.stl__pending-loc-icon { font-size: 36rpx; }
+
+.stl__pending-loc-label {
+  font-size: 26rpx;
+}
+
+.stl__pending-loc-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.stl__pending-address {
+  font-size: 24rpx;
+  color: @soft-gray;
+  display: block;
+}
+
+.stl__pending-patient-card {
+  background: #fff;
+  border-radius: @radius-squircle;
+  padding: 32rpx;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stl__pending-patient-left {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.stl__pending-patient-avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: @medical-gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4rpx solid rgba(76, 175, 80, 0.15);
+  overflow: hidden;
+
+  .material-symbols-outlined { font-size: 52rpx; color: @soft-gray; }
+}
+
+.stl__pending-patient-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  display: block;
+}
+
+.stl__pending-patient-sub {
+  font-size: 24rpx;
+  color: @soft-gray;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.stl__pending-call {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: @brand-green;
+  color: #fff;
+  padding: 18rpx 32rpx;
+  border-radius: 100rpx;
+  box-shadow: 0 8rpx 24rpx rgba(76, 175, 80, 0.3);
+
+  .material-symbols-outlined { font-size: 32rpx; }
+}
+
+.stl__pending-call-label {
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.stl__pending-checklist {
+  background: #fff;
+  border-radius: @radius-squircle;
+  padding: 36rpx;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+}
+
+.stl__pending-checklist-header {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 24rpx;
+}
+
+.stl__pending-check-icon {
+  font-size: 40rpx;
+  color: @warm-champagne;
+}
+
+.stl__pending-check-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.stl__pending-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid @border-light;
+
+  &:last-child { border-bottom: none; padding-bottom: 0; }
+}
+
+.stl__pending-check-dot {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 2rpx solid rgba(76, 175, 80, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .material-symbols-outlined { font-size: 24rpx; color: @brand-green; font-weight: 700; }
+}
+
+.stl__pending-check-text {
+  font-size: 26rpx;
+  color: rgba(26, 26, 26, 0.75);
+  line-height: 1.5;
+  padding-top: 4rpx;
+}
+
+.stl__pending-meta {
+  padding: 0 8rpx 40rpx;
+}
+
+.stl__pending-meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  border-bottom: 0.5rpx solid @border-light;
+
+  &:last-child { border-bottom: none; }
+}
+
+.stl__pending-meta-key {
+  font-size: 26rpx;
+  color: @soft-gray;
+}
+
+.stl__pending-meta-val {
+  font-size: 26rpx;
+  color: @royal-obsidian;
+  font-weight: 500;
+}
+
+// ── 大开始服务按钮
+.stl__bottom--simple {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.stl__start-big-btn {
+  flex-direction: column;
+  height: 120rpx !important;
+  border-radius: @radius-squircle !important;
+}
+
+.stl__start-big-text {
+  font-size: 32rpx;
+  font-weight: 700;
+  display: block;
+}
+
+.stl__start-sub {
+  font-size: 22rpx;
+  opacity: 0.75;
+  display: block;
+}
+
+.stl__action-wrap {
+  padding: 20rpx 24rpx;
+}
+
+.stl__start-btn {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  background: @brand-green;
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: 700;
+  border-radius: 24rpx;
+  border: none;
+  box-shadow: 0 8rpx 24rpx -4rpx rgba(76, 175, 80, 0.35);
+
+  .material-symbols-outlined { font-size: 32rpx; }
+  &::after { display: none; }
+}
+
+.stl__publish {
+  padding: 16rpx 24rpx 0;
+}
+
+.stl__publish-card {
+  background: #fff;
+  border-radius: @radius-squircle;
+  padding: 24rpx;
+  box-shadow: @shadow-premium;
+  border: 0.5rpx solid @border-light;
+}
+
+.stl__publish-input {
+  width: 100%;
+  min-height: 120rpx;
+  font-size: 26rpx;
+  color: @deep-gray;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.stl__quick-phrases {
+  margin-top: 12rpx;
+}
+
+.stl__quick-phrases-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.stl__quick-phrases-row {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12rpx;
+  padding: 4rpx 2rpx 2rpx;
+}
+
+.stl__quick-phrase {
+  flex-shrink: 0;
+  padding: 12rpx 20rpx;
+  border-radius: 999rpx;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1rpx solid rgba(76, 175, 80, 0.22);
+  font-size: 24rpx;
+  font-weight: 600;
+  color: darken(@brand-green, 8%);
+
+  text {
+    white-space: nowrap;
+  }
+}
+
+.stl__publish-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 0.5rpx solid @border-light;
+}
+
+.stl__pub-img {
+  position: relative;
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.stl__pub-img-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.stl__pub-img-remove {
+  position: absolute;
+  top: 4rpx;
+  right: 4rpx;
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .material-symbols-outlined { font-size: 22rpx; color: #fff; }
+}
+
+.stl__pub-img-add {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 16rpx;
+  border: 2rpx dashed rgba(76, 175, 80, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+  background: @medical-gray;
+
+  .material-symbols-outlined { font-size: 40rpx; color: rgba(76, 175, 80, 0.3); }
+}
+
+.stl__pub-img-count {
+  font-size: 20rpx;
+  color: @soft-gray;
+}
+
+.stl__publish-files {
+  margin-top: 12rpx;
+}
+
+.stl__file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 16rpx;
+  background: @medical-gray;
+  border-radius: 14rpx;
+  margin-top: 8rpx;
+}
+
+.stl__file-name {
+  font-size: 22rpx;
+  color: @deep-gray;
+  max-width: 470rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stl__file-remove {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+
+  .material-symbols-outlined { font-size: 24rpx; color: @soft-gray; }
+}
+
+.stl__publish-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 0.5rpx solid @border-light;
+}
+
+.stl__type-tag {
+  padding: 10rpx 24rpx;
+  border-radius: 100rpx;
+  font-size: 24rpx;
+  color: @soft-gray;
+  background: @medical-gray;
+  border: 0.5rpx solid transparent;
+}
+
+.stl__type-tag--active {
+  background: rgba(76, 175, 80, 0.1);
+  color: @brand-green;
+  border-color: rgba(76, 175, 80, 0.2);
+  font-weight: 600;
+}
+
+.stl__publish-btn {
+  width: 100%;
+  height: 76rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  background: @brand-green;
+  color: #fff;
+  font-size: 26rpx;
+  font-weight: 600;
+  border-radius: 20rpx;
+  border: none;
+  margin-top: 16rpx;
+  box-shadow: 0 8rpx 24rpx -4rpx rgba(76, 175, 80, 0.3);
+
+  .material-symbols-outlined { font-size: 28rpx; }
+  &::after { display: none; }
+}
+
+.stl__completion-card {
+  margin: 12rpx 24rpx 0;
+  padding: 22rpx 20rpx 20rpx;
+  border-radius: @radius-squircle;
+  background: linear-gradient(135deg, rgba(255, 248, 235, 0.98), rgba(255, 255, 255, 0.98));
+  border: 1rpx solid rgba(212, 175, 55, 0.2);
+  box-shadow: @shadow-premium;
+
+  &.stl__completion-card--compact {
+    .stl__completion-sub {
+      margin-top: 6rpx;
+      line-height: 1.35;
+    }
+  }
+}
+
+.stl__completion-head {
+  display: flex;
+  gap: 16rpx;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.stl__completion-copy {
+  flex: 1;
+}
+
+.stl__completion-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.stl__completion-sub {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  line-height: 1.6;
+  color: rgba(26, 26, 26, 0.55);
+}
+
+.stl__completion-badge {
+  flex-shrink: 0;
+  min-width: 88rpx;
+  height: 44rpx;
+  padding: 0 14rpx;
+  border-radius: 999rpx;
+  background: rgba(76, 175, 80, 0.12);
+  color: @brand-green;
+  font-size: 20rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stl__completion-chips {
+  margin-top: 14rpx;
+  display: flex;
+  flex-direction: row;
+  gap: 10rpx;
+}
+
+.stl__completion-chip {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  padding: 12rpx 8rpx 10rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1rpx solid rgba(26, 26, 26, 0.06);
+
+  .stl__completion-chip-ic {
+    font-size: 26rpx;
+    color: rgba(212, 175, 55, 0.95);
+  }
+
+  &.stl__completion-chip--done {
+    border-color: rgba(76, 175, 80, 0.2);
+    background: rgba(76, 175, 80, 0.06);
+
+    .stl__completion-chip-ic {
+      color: @brand-green;
+    }
+
+    .stl__completion-chip-flag {
+      color: @brand-green;
+      background: rgba(76, 175, 80, 0.12);
+    }
+  }
+}
+
+.stl__completion-chip-name {
+  font-size: 22rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.stl__completion-chip-flag {
+  font-size: 18rpx;
+  font-weight: 600;
+  color: rgba(180, 83, 9, 0.95);
+  padding: 2rpx 10rpx;
+  border-radius: 999rpx;
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.stl__completion-btn {
+  width: 100%;
+  height: 76rpx;
+  margin-top: 14rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid rgba(212, 175, 55, 0.24);
+  background: #fff;
+  color: #a16207;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 10rpx;
+  padding: 0 20rpx;
+  font-size: 25rpx;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 8rpx 22rpx rgba(212, 175, 55, 0.12);
+
+  .material-symbols-outlined {
+    font-size: 28rpx;
+    flex-shrink: 0;
+  }
+
+  &::after { display: none; }
+}
+
+.stl__timeline-section {
+  padding: 24rpx 24rpx 0;
+}
+
+.stl__section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.stl__timeline-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48rpx 0;
+  gap: 12rpx;
+}
+
+.stl__timeline-empty-icon {
+  font-size: 64rpx;
+  color: rgba(76, 175, 80, 0.15);
+}
+
+.stl__timeline-empty-text {
+  font-size: 26rpx;
+  color: @soft-gray;
+}
+
+.stl__timeline {
+  position: relative;
+}
+
+.stl__tl-item {
+  display: flex;
+  gap: 16rpx;
+  padding-bottom: 32rpx;
+
+  &:last-child { padding-bottom: 0; }
+}
+
+.stl__tl-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 28rpx;
+  padding-top: 6rpx;
+}
+
+.stl__tl-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  z-index: 2;
+  background: @border-light;
+}
+
+.stl__tl-dot--check_in {
+  background: @royal-obsidian;
+  border: 4rpx solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 0 3rpx rgba(26, 26, 26, 0.1);
+}
+
+.stl__tl-dot--text,
+.stl__tl-dot--update {
+  background: @warm-champagne;
+  box-shadow: 0 0 0 4rpx rgba(212, 175, 55, 0.15);
+}
+
+.stl__tl-dot--image {
+  background: #3B82F6;
+  box-shadow: 0 0 0 4rpx rgba(59, 130, 246, 0.12);
+}
+
+.stl__tl-dot--emergency {
+  background: @emergency-red;
+  box-shadow: 0 0 0 4rpx rgba(255, 59, 48, 0.15);
+}
+
+.stl__tl-dot--node {
+  background: @brand-green;
+  box-shadow: 0 0 0 4rpx rgba(76, 175, 80, 0.15);
+}
+
+.stl__tl-dot--audio_question,
+.stl__tl-dot--audio_advice {
+  background: #8b5cf6;
+  box-shadow: 0 0 0 4rpx rgba(139, 92, 246, 0.15);
+}
+
+.stl__tl-dot--file {
+  background: #0ea5e9;
+  box-shadow: 0 0 0 4rpx rgba(14, 165, 233, 0.15);
+}
+
+.stl__tl-dot--check_out {
+  background: #166534;
+  box-shadow: 0 0 0 4rpx rgba(22, 101, 52, 0.12);
+}
+
+.stl__tl-dot--internal_note {
+  background: @soft-gray;
+  box-shadow: 0 0 0 4rpx rgba(148, 163, 184, 0.15);
+}
+
+.stl__tl-line {
+  width: 2rpx;
+  flex: 1;
+  background: rgba(148, 163, 184, 0.2);
+  margin-top: 8rpx;
+}
+
+.stl__tl-body {
+  flex: 1;
+}
+
+.stl__tl-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.stl__tl-type {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.stl__tl-time {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: @soft-gray;
+}
+
+.stl__tl-content-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  border: 0.5rpx solid @border-light;
+}
+
+.stl__tl-text {
+  font-size: 26rpx;
+  color: rgba(26, 26, 26, 0.7);
+  line-height: 1.6;
+}
+
+.stl__tl-images {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+
+.stl__tl-files {
+  margin-top: 12rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.stl__tl-file {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: #fff;
+  border: 0.5rpx solid @border-light;
+  border-radius: 14rpx;
+  padding: 12rpx;
+
+  .material-symbols-outlined {
+    font-size: 28rpx;
+    color: #0ea5e9;
+  }
+}
+
+.stl__tl-file-name {
+  font-size: 22rpx;
+  color: @deep-gray;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 500rpx;
+}
+
+.stl__tl-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 20rpx;
+  border: 0.5rpx solid @border-light;
+}
+
+.stl__spacer {
+  height: 260rpx;
+}
+
+.stl__bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(40rpx);
+  border-top: 0.5rpx solid rgba(0, 0, 0, 0.05);
+  padding-bottom: env(safe-area-inset-bottom);
+  border-radius: 48rpx 48rpx 0 0;
+  box-shadow: 0 -10rpx 40rpx rgba(0, 0, 0, 0.04);
+  z-index: 50;
+}
+
+.stl__bottom-inner {
+  padding: 24rpx 28rpx 16rpx;
+}
+
+.stl__bottom-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  margin-bottom: 16rpx;
+}
+
+.stl__bottom-title {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.stl__bottom-desc {
+  font-size: 21rpx;
+  color: @soft-gray;
+}
+
+.stl__bottom-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8rpx;
+}
+
+.stl__bottom-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.stl__bottom-btn--active .stl__bottom-btn-icon {
+  background: rgba(76, 175, 80, 0.12);
+  box-shadow: 0 10rpx 22rpx rgba(76, 175, 80, 0.12);
+
+  .material-symbols-outlined {
+    color: @brand-green;
+  }
+}
+
+.stl__bottom-btn--active .stl__bottom-btn-label {
+  color: @brand-green;
+}
+
+.stl__bottom-btn-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 24rpx;
+  background: @medical-gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .material-symbols-outlined { font-size: 40rpx; color: @royal-obsidian; }
+}
+
+.stl__bottom-btn-label {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: @soft-gray;
+}
+
+.stl__finish-btn {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  background: @brand-green;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 700;
+  border-radius: 28rpx;
+  border: none;
+  box-shadow: 0 8rpx 24rpx -4rpx rgba(76, 175, 80, 0.35);
+
+  .material-symbols-outlined { font-size: 32rpx; }
+  &::after { display: none; }
+}
+
+.safe-bottom {
+  height: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+// ── 录音区域 ─────────────────────────────────────────────
+@keyframes audioBarAnim {
+  0%, 100% { transform: scaleY(0.4); }
+  50%      { transform: scaleY(1); }
+}
+
+@keyframes recordPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.15); opacity: 0.7; }
+}
+
+.stl__audio-area {
+  margin: 16rpx 0;
+  border-radius: 24rpx;
+  background: @medical-gray;
+  overflow: hidden;
+}
+
+.stl__audio-select-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+// 选择方式区（录音 / 选文件）
+.stl__audio-actions {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  gap: 0;
+}
+.stl__audio-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+  padding: 20rpx 0;
+}
+.stl__audio-btn-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .material-symbols-outlined { font-size: 40rpx; color: #fff; }
+  &--red  { background: linear-gradient(135deg, #FF3B30, #FF6B6B); }
+  &--blue { background: linear-gradient(135deg, #007AFF, #5AC8FA); }
+}
+.stl__audio-btn-label {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: @deep-gray;
+}
+.stl__audio-divider-line {
+  width: 1rpx;
+  height: 80rpx;
+  background: @border-light;
+}
+
+.stl__import-tip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding: 0 24rpx 22rpx;
+}
+
+.stl__import-tip-text {
+  flex: 1;
+  font-size: 22rpx;
+  line-height: 1.5;
+  color: @soft-gray;
+}
+
+.stl__import-tip-link {
+  flex-shrink: 0;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: @brand-green;
+}
+
+.stl__file-picker-area {
+  margin: 16rpx 0;
+  border-radius: 24rpx;
+  background: @medical-gray;
+  overflow: hidden;
+}
+
+.stl__file-picker-btn {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 28rpx 24rpx 20rpx;
+}
+
+.stl__file-picker-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(135deg, #007AFF, #5AC8FA);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .material-symbols-outlined {
+    font-size: 40rpx;
+    color: #fff;
+  }
+}
+
+.stl__file-picker-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  min-width: 0;
+}
+
+.stl__file-picker-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.stl__file-picker-desc {
+  font-size: 22rpx;
+  line-height: 1.5;
+  color: @soft-gray;
+}
+
+// 录音中状态
+.stl__recording-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 24rpx 32rpx;
+  gap: 16rpx;
+}
+.stl__recording-ring {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: rgba(255, 59, 48, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: recordPulse 1.2s ease-in-out infinite;
+}
+.stl__recording-dot {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: #FF3B30;
+}
+.stl__recording-time {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FF3B30;
+  font-variant-numeric: tabular-nums;
+}
+.stl__recording-hint {
+  font-size: 24rpx;
+  color: @soft-gray;
+}
+.stl__recording-stop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 32rpx;
+  border-radius: 40rpx;
+  background: rgba(255, 59, 48, 0.1);
+}
+.stl__recording-stop-icon {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 6rpx;
+  background: #FF3B30;
+}
+.stl__recording-stop-label {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #FF3B30;
+}
+
+// 已选录音预览
+.stl__audio-preview {
+  padding: 20rpx 24rpx;
+}
+.stl__audio-player-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 20rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: @shadow-premium;
+}
+.stl__audio-play-btn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: @brand-green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  .material-symbols-outlined { font-size: 32rpx; color: #fff; }
+}
+.stl__audio-wave {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  height: 40rpx;
+  overflow: hidden;
+}
+.stl__audio-bar {
+  flex: 1;
+  border-radius: 4rpx;
+  background: rgba(76, 175, 80, 0.3);
+  transform-origin: center bottom;
+  transition: height 0.2s;
+  &--playing {
+    background: @brand-green;
+    animation: audioBarAnim 0.8s ease-in-out infinite;
+  }
+}
+.stl__audio-dur {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: @soft-gray;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.stl__audio-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12rpx;
+  padding: 0 4rpx;
+}
+.stl__audio-name {
+  font-size: 22rpx;
+  color: @soft-gray;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stl__audio-remove {
+  padding: 4rpx 8rpx;
+  .material-symbols-outlined { font-size: 28rpx; color: @soft-gray; }
+}
+
+// ── 时间线音频播放卡 ──────────────────────────────────────
+.stl__tl-audio-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+.stl__tl-audio-card {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 20rpx;
+  background: rgba(76, 175, 80, 0.06);
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(76, 175, 80, 0.2);
+}
+.stl__tl-audio-play-btn {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: @brand-green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  .material-symbols-outlined { font-size: 28rpx; color: #fff; }
+}
+.stl__tl-audio-wave {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 3rpx;
+  height: 32rpx;
+  overflow: hidden;
+}
+.stl__tl-audio-label {
+  font-size: 22rpx;
+  color: @brand-green;
+  flex-shrink: 0;
+}
+
+/* ── 时间线录音转写 ── */
+.stl__tl-transcription {
+  margin-top: 16rpx;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  background: rgba(248, 250, 252, 0.96);
+  border: 1rpx solid rgba(148, 163, 184, 0.22);
+}
+
+.stl__tl-transcription-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.stl__tl-transcription-title {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+
+.stl__tl-transcription-tag {
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  flex-shrink: 0;
+}
+
+.stl__tl-transcription-tag--primary {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+}
+
+.stl__tl-transcription-tag--danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+.stl__tl-transcription-tag--warning {
+  background: rgba(245, 158, 11, 0.14);
+  color: #d97706;
+}
+
+.stl__tl-transcription-tag--success {
+  background: rgba(76, 175, 80, 0.14);
+  color: @brand-green-dark;
+}
+
+.stl__tl-transcription-tag--info {
+  background: rgba(148, 163, 184, 0.16);
+  color: #475569;
+}
+
+.stl__tl-transcription-body {
+  display: block;
+  font-size: 26rpx;
+  line-height: 1.65;
+  color: @deep-gray;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.stl__tl-transcription-error {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: #dc2626;
+}
+
+.stl__tl-transcription-foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14rpx;
+}
+
+.stl__tl-transcription-link {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.stl__tl-transcription-input {
+  width: 100%;
+  min-height: 160rpx;
+  padding: 16rpx;
+  font-size: 26rpx;
+  line-height: 1.55;
+  border-radius: 16rpx;
+  background: #fff;
+  border: 1rpx solid rgba(148, 163, 184, 0.35);
+  box-sizing: border-box;
+}
+
+.stl__tl-transcription-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16rpx;
+  margin-top: 14rpx;
+}
+
+.stl__tl-transcription-btn {
+  padding: 14rpx 28rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.stl__tl-transcription-btn--ghost {
+  background: rgba(148, 163, 184, 0.12);
+  color: #475569;
+}
+
+.stl__tl-transcription-btn--primary {
+  background: @brand-green;
+  color: #fff;
+}
+
+/* ─── 通知家属 ─── */
+.stl__notify-row {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0 8rpx;
+}
+.stl__notify-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 32rpx;
+  background: rgba(0,0,0,0.04);
+}
+.stl__notify-icon {
+  font-size: 32rpx;
+  color: rgba(26,26,26,0.35);
+  &--on { color: #f59e0b; }
+}
+.stl__notify-text {
+  font-size: 24rpx;
+  color: rgba(26,26,26,0.6);
+}
+
+/* ═══ 专业服务 SOP 任务清单 ═══ */
+.stl__sop {
+  margin: 16rpx 24rpx;
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  box-shadow: 0 1rpx 4rpx rgba(0,0,0,0.04);
+}
+.stl__sop-head {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+.stl__sop-head-icon {
+  width: 72rpx; height: 72rpx; border-radius: 20rpx;
+  background: linear-gradient(135deg, #66BB6A, #43A047);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  .material-symbols-outlined { font-size: 40rpx; }
+}
+.stl__sop-head-info {
+  flex: 1;
+  display: flex; flex-direction: column; gap: 4rpx;
+}
+.stl__sop-title {
+  font-size: 28rpx; font-weight: 700; color: #1A1A1A;
+}
+.stl__sop-subtitle {
+  font-size: 22rpx; color: #909399;
+}
+.stl__sop-progress {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 4rpx;
+  min-width: 120rpx;
+}
+.stl__sop-progress-bar {
+  width: 120rpx; height: 8rpx;
+  background: #F0F1F3;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+.stl__sop-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #66BB6A, #43A047);
+  transition: width 0.3s ease;
+}
+.stl__sop-progress-text {
+  font-size: 22rpx; color: #4CAF50; font-weight: 600;
+}
+
+.stl__sop-list {
+  display: flex; flex-direction: column; gap: 12rpx;
+}
+.stl__sop-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  padding: 16rpx;
+  background: #F8FAFC;
+  border-radius: 16rpx;
+  border: 2rpx solid transparent;
+  transition: background 0.2s ease;
+
+  &--done {
+    background: rgba(76,175,80,0.08);
+    border-color: rgba(76,175,80,0.2);
+    .stl__sop-step-title { color: #4CAF50; text-decoration: line-through; }
+    .stl__sop-check .material-symbols-outlined { color: #4CAF50; }
+  }
+}
+.stl__sop-check {
+  flex-shrink: 0;
+  .material-symbols-outlined {
+    font-size: 40rpx; color: #CBD5E1;
+  }
+}
+.stl__sop-body {
+  flex: 1;
+  display: flex; flex-direction: column; gap: 4rpx;
+}
+.stl__sop-step-title {
+  font-size: 26rpx; color: #1A1A1A; font-weight: 600;
+}
+.stl__sop-step-desc {
+  font-size: 22rpx; color: #606266;
+  line-height: 1.4;
+}
+.stl__sop-step-meta {
+  display: flex; align-items: center; gap: 4rpx;
+  margin-top: 4rpx;
+  font-size: 20rpx; color: #909399;
+  .material-symbols-outlined { font-size: 20rpx; }
+}

@@ -17,8 +17,24 @@
  * SPI LCD 产品板：机器人表情 UI
  * --------------------------------------------------------------------------- */
 #if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+#include "base_event.h"
+#include "tuya_app_gui_gw_core0.h"
+
 extern void robot_face_ui_init(void);
 extern void robot_face_ui_msg_handler(TY_DISPLAY_MSG_T *msg);
+
+static BOOL_T s_robot_face_ready = FALSE;
+
+static OPERATE_RET __robot_face_on_gui_ready(VOID_T *data)
+{
+    (VOID_T)data;
+
+    if (!s_robot_face_ready) {
+        robot_face_ui_init();
+        s_robot_face_ready = TRUE;
+    }
+    return OPRT_OK;
+}
 #endif
 
 /* ---------------------------------------------------------------------------
@@ -39,8 +55,15 @@ extern void desktop_ui_msg_handler(TY_DISPLAY_MSG_T *msg);
 void app_ui_init(void)
 {
 #if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
-    /* SPI LCD 产品板：使用机器人表情动画 UI */
-    robot_face_ui_init();
+    /*
+     * LVGL 主屏会在 tuya_gui_init() 后由框架创建；过早在默认 screen 上画脸，
+     * 后续启动页切换可能把对象删掉，最终看不到表情变化。
+     */
+    if (tuya_gui_screen_is_loaded()) {
+        __robot_face_on_gui_ready(NULL);
+    } else {
+        ty_subscribe_event(EVENT_GUI_READY_NOTIFY, "robot_face_ui", __robot_face_on_gui_ready, SUBSCRIBE_TYPE_NORMAL);
+    }
 #elif defined(ENABLE_T5AI_BOARD_UI_WECHAT) && (ENABLE_T5AI_BOARD_UI_WECHAT == 1)
     wechat_ui_init();
 #elif defined(ENABLE_T5AI_BOARD_UI_DESKTOP) && (ENABLE_T5AI_BOARD_UI_DESKTOP == 1)
@@ -59,6 +82,12 @@ void app_ui_msg_handler(TY_DISPLAY_MSG_T *msg)
     }
 
 #if defined(PRODUCT_BOARD_SPI_LCD) && (PRODUCT_BOARD_SPI_LCD == 1)
+    if (!s_robot_face_ready) {
+        if (!tuya_gui_screen_is_loaded()) {
+            return;
+        }
+        __robot_face_on_gui_ready(NULL);
+    }
     robot_face_ui_msg_handler(msg);
 #elif defined(ENABLE_T5AI_BOARD_UI_WECHAT) && (ENABLE_T5AI_BOARD_UI_WECHAT == 1)
     wechat_ui_msg_handler(msg);

@@ -1,0 +1,109 @@
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  src: url('https://fonts.gstatic.com/s/materialsymbolsoutlined/v241/kJEhBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oFsI.woff2') format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.custom-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.04);
+}
+
+.custom-tabbar__inner {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 110rpx;
+  padding: 0 16rpx;
+}
+
+.custom-tabbar__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+  padding: 8rpx 0;
+}
+
+.custom-tabbar__icon {
+  font-size: 52rpx;
+  color: #B0B8C1;
+  transition: color 0.2s ease;
+}
+
+.custom-tabbar__label {
+  font-size: 20rpx;
+  color: #B0B8C1;
+  font-weight: 500;
+  line-height: 1.2;
+  transition: color 0.2s ease;
+}
+
+.custom-tabbar__item--active .custom-tabbar__icon {
+  color: #4CAF50;
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.custom-tabbar__item--active .custom-tabbar__label {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.custom-tabbar__safe {
+  height: env(safe-area-inset-bottom);
+  background: inherit;
+}
+
+.custom-tabbar__icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-tabbar__badge {
+  position: absolute;
+  top: -6rpx;
+  right: -14rpx;
+  min-width: 30rpx;
+  height: 30rpx;
+  padding: 0 8rpx;
+  border-radius: 30rpx;
+  background: #FF9800;
+  color: #fff;
+  font-size: 20rpx;
+  font-weight: 700;
+  line-height: 30rpx;
+  text-align: center;
+  box-shadow: 0 0 0 2rpx rgba(255,255,255,0.9);
+
+  &--danger {
+    background: #F44336;
+  }
+}

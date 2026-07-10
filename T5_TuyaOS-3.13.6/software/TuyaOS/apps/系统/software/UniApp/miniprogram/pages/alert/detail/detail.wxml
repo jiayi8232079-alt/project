@@ -1,0 +1,112 @@
+<view class="alert-detail">
+  <view class="alert-detail__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="alert-detail__nav-back" bind:tap="goBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="alert-detail__nav-title">预警详情</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <view wx:if="{{loading}}" class="alert-detail__loading">加载中…</view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="alert-detail__scroll"
+  >
+    <view wx:if="{{alert}}" class="alert-detail__body">
+      <view class="alert-detail__hero alert-detail__hero--{{alert.severity}}">
+        <view class="alert-detail__hero-top">
+          <text class="alert-detail__hero-severity">{{alert.severityLabel}}</text>
+          <text class="alert-detail__hero-category">{{alert.categoryLabel}}</text>
+          <text class="alert-detail__hero-status alert-detail__hero-status--{{alert.status}}">{{alert.statusLabel}}</text>
+        </view>
+        <text class="alert-detail__hero-title">{{alert.title}}</text>
+        <text class="alert-detail__hero-summary">{{alert.summary}}</text>
+        <view class="alert-detail__hero-meta">
+          <view class="alert-detail__hero-meta-item">
+            <text class="material-symbols-outlined">person</text>
+            <text>{{alert.targetName}}</text>
+          </view>
+          <view class="alert-detail__hero-meta-item">
+            <text class="material-symbols-outlined">schedule</text>
+            <text>{{alert.triggeredAtText}}</text>
+          </view>
+        </view>
+      </view>
+
+      <block wx:if="{{alert.suggestedActions && alert.suggestedActions.length > 0}}">
+        <view class="alert-detail__section">
+          <text class="alert-detail__section-title">建议处置</text>
+          <view class="alert-detail__actions">
+            <view
+              wx:for="{{alert.suggestedActions}}"
+              wx:key="action"
+              class="alert-detail__action-btn"
+              data-action="{{item.action}}"
+              bind:tap="onActionTap"
+              hover-class="btn-haptic"
+            >
+              <text>{{item.label}}</text>
+              <text class="material-symbols-outlined">chevron_right</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <block wx:if="{{alert.payloadEntries.length > 0}}">
+        <view class="alert-detail__section">
+          <text class="alert-detail__section-title">关键数据</text>
+          <view class="alert-detail__payload">
+            <view
+              wx:for="{{alert.payloadEntries}}"
+              wx:key="key"
+              class="alert-detail__payload-row"
+            >
+              <text class="alert-detail__payload-label">{{item.label}}</text>
+              <text class="alert-detail__payload-value">{{item.value}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <view class="alert-detail__section" wx:if="{{alert.status === 'new'}}">
+        <text class="alert-detail__section-title">处置备注（可选）</text>
+        <textarea
+          class="alert-detail__note"
+          placeholder="记录您了解到的情况，如：已电话确认、已陪同就医"
+          value="{{noteDraft}}"
+          bindinput="onNoteInput"
+          maxlength="200"
+        />
+      </view>
+
+      <view class="alert-detail__section" wx:if="{{alert.acknowledgedAt}}">
+        <text class="alert-detail__section-title">处置记录</text>
+        <view class="alert-detail__log">
+          <text>{{alert.acknowledgedAtText}} 已确认知悉</text>
+          <text wx:if="{{alert.closedAtText}}">{{alert.closedAtText}} 已关闭</text>
+          <text wx:if="{{alert.acknowledgedNote}}">备注：{{alert.acknowledgedNote}}</text>
+        </view>
+      </view>
+
+      <view class="alert-detail__bottom" wx:if="{{alert.status !== 'closed'}}">
+        <view
+          wx:if="{{alert.status === 'new'}}"
+          class="alert-detail__btn alert-detail__btn--ghost"
+          bind:tap="acknowledge"
+          hover-class="btn-haptic"
+        >{{submitting ? '处理中…' : '标记已知悉'}}</view>
+        <view
+          class="alert-detail__btn alert-detail__btn--primary"
+          bind:tap="close"
+          hover-class="btn-haptic"
+        >{{submitting ? '处理中…' : '处置完成，关闭预警'}}</view>
+      </view>
+
+      <view style="height:80rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

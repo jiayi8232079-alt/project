@@ -175,7 +175,7 @@ OPERATE_RET wukong_ai_agent_send_audio(UINT8_T *data, UINT_T len);
  *
  * Maps alert types to simple text commands (cmd:0~5) and sends via send_text().
  * Supported types: AT_NETWORK_CONNECTED, AT_WAKEUP, AT_LONG_KEY_TALK, AT_KEY_TALK,
- * AT_WAKEUP_TALK, AT_RANDOM_TALK. AT_PLEASE_AGAIN is ignored in alert callback.
+ * AT_WAKEUP_TALK, AT_RANDOM_TALK.
  *
  * @param[in] type Alert type (AI_ALERT_TYPE_E).
  * @return OPRT_OK on success; OPRT_NOT_SUPPORTED for unsupported type.

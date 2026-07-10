@@ -1,0 +1,259 @@
+<view class="ticket-detail ticket-detail--{{complaint.status || 'pending'}} {{loaded ? 'ticket-detail--loaded' : ''}}">
+
+  <view class="ticket-detail__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ticket-detail__nav-back" bind:tap="goBack" hover-class="ticket-detail__nav-back--hover">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="ticket-detail__nav-title">工单详情</text>
+    <view class="ticket-detail__nav-placeholder"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看工单</text>
+      <text class="page-login-gate__desc">工单详情仅对提交人本人可见。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="ticket-detail__scroll"
+    refresher-enabled
+    refresher-triggered="{{refreshing}}"
+    bindrefresherrefresh="onRefresh"
+  >
+    <view class="ticket-detail__body" wx:if="{{complaint}}">
+
+      <!-- Hero 状态卡 -->
+      <view class="ticket-hero ticket-hero--{{complaint.status}}">
+        <view class="ticket-hero__row">
+          <view class="ticket-hero__status ticket-hero__status--{{complaint.status}}">
+            <text class="ticket-hero__status-dot"></text>
+            {{complaint.statusLabel}}
+          </view>
+          <view class="ticket-hero__priority" wx:if="{{complaint.priorityLabel}}">
+            <text class="material-symbols-outlined">flag</text>
+            {{complaint.priorityLabel}}
+          </view>
+        </view>
+        <text class="ticket-hero__title">{{complaint.subject}}</text>
+        <view class="ticket-hero__meta">
+          <view class="ticket-hero__meta-item">
+            <text class="material-symbols-outlined">confirmation_number</text>
+            工单 #{{complaint.id}}
+          </view>
+          <view class="ticket-hero__meta-item">
+            <text class="material-symbols-outlined">category</text>
+            {{complaint.categoryLabel}}
+          </view>
+          <view class="ticket-hero__meta-item">
+            <text class="material-symbols-outlined">schedule</text>
+            {{complaint.createdAtText}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 问题描述 -->
+      <view class="ticket-section">
+        <view class="ticket-section__head">
+          <text class="material-symbols-outlined ticket-section__icon">description</text>
+          <text class="ticket-section__title">问题描述</text>
+        </view>
+        <view class="ticket-section__body">
+          <text class="ticket-section__text">{{complaint.description}}</text>
+          <view class="ticket-section__images" wx:if="{{complaint.images && complaint.images.length > 0}}">
+            <image
+              wx:for="{{complaint.images}}"
+              wx:key="index"
+              src="{{item}}"
+              mode="aspectFill"
+              class="ticket-section__image"
+              data-index="{{index}}"
+              bindtap="previewImage"
+            />
+          </view>
+        </view>
+      </view>
+
+      <!-- 关联订单 -->
+      <view class="ticket-section" wx:if="{{complaint.orderId}}">
+        <view class="ticket-section__head">
+          <text class="material-symbols-outlined ticket-section__icon">receipt_long</text>
+          <text class="ticket-section__title">关联订单</text>
+        </view>
+        <view class="ticket-section__body">
+          <view class="ticket-link">
+            <text>订单 #{{complaint.orderId}}</text>
+            <text class="material-symbols-outlined">chevron_right</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 处理进度 -->
+      <view class="ticket-section">
+        <view class="ticket-section__head">
+          <text class="material-symbols-outlined ticket-section__icon">timeline</text>
+          <text class="ticket-section__title">处理进度</text>
+        </view>
+        <view class="ticket-section__body">
+          <view wx:if="{{timeline.length === 0}}" class="ticket-timeline-empty">
+            <text class="material-symbols-outlined">hourglass_empty</text>
+            客服正在接收，暂无进展记录
+          </view>
+
+          <view class="ticket-timeline" wx:else>
+            <view
+              class="ticket-timeline__item"
+              wx:for="{{timeline}}"
+              wx:key="index"
+            >
+              <view class="ticket-timeline__rail">
+                <view class="ticket-timeline__dot ticket-timeline__dot--{{item.from}}">
+                  <text class="material-symbols-outlined" wx:if="{{item.from === 'admin'}}">support_agent</text>
+                  <text class="material-symbols-outlined" wx:elif="{{item.from === 'user'}}">person</text>
+                  <text class="material-symbols-outlined" wx:elif="{{item.from === 'system'}}">auto_awesome</text>
+                  <text class="material-symbols-outlined" wx:else>chat_bubble</text>
+                </view>
+                <view wx:if="{{index < timeline.length - 1}}" class="ticket-timeline__line"></view>
+              </view>
+              <view class="ticket-timeline__card">
+                <view class="ticket-timeline__head">
+                  <text class="ticket-timeline__from">{{item.fromLabel}}</text>
+                  <text class="ticket-timeline__time">{{item.timeText}}</text>
+                </view>
+                <view class="ticket-timeline__type" wx:if="{{item.type && item.type !== 'comment'}}">
+                  {{item.type === 'status' ? '状态更新' : item.type === 'resolution' ? '解决方案' : item.type === 'reply' ? '客服回复' : item.type}}
+                </view>
+                <text class="ticket-timeline__content">{{item.content}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 客服处理结果 -->
+      <view class="ticket-section ticket-section--resolution" wx:if="{{complaint.resolution}}">
+        <view class="ticket-section__head">
+          <text class="material-symbols-outlined ticket-section__icon">verified</text>
+          <text class="ticket-section__title">客服处理结果</text>
+        </view>
+        <view class="ticket-section__body">
+          <text class="ticket-section__text">{{complaint.resolution}}</text>
+          <view class="ticket-section__meta" wx:if="{{complaint.resolvedAtText}}">
+            <text class="material-symbols-outlined">done_all</text>
+            处理时间：{{complaint.resolvedAtText}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 评分（已解决未评价） -->
+      <view class="ticket-section ticket-section--rating" wx:if="{{canRate}}">
+        <view class="ticket-section__head">
+          <text class="material-symbols-outlined ticket-section__icon">sentiment_satisfied</text>
+          <text class="ticket-section__title">对客服处理是否满意？</text>
+        </view>
+        <view class="ticket-section__body">
+          <view class="ticket-stars">
+            <text
+              wx:for="{{stars}}"
+              wx:key="*this"
+              class="ticket-stars__item {{rating >= item ? 'ticket-stars__item--on' : ''}}"
+              data-v="{{item}}"
+              bindtap="onStarTap"
+            >★</text>
+          </view>
+          <button
+            class="ticket-btn ticket-btn--primary"
+            bindtap="submitRating"
+            disabled="{{submitting || !rating}}"
+            hover-class="ticket-btn--primary-hover"
+          >
+            <text class="material-symbols-outlined">check_circle</text>
+            提交评分
+          </button>
+        </view>
+      </view>
+
+      <!-- 已打分展示 -->
+      <view class="ticket-section" wx:elif="{{complaint.userRating}}">
+        <view class="ticket-section__head">
+          <text class="material-symbols-outlined ticket-section__icon">grade</text>
+          <text class="ticket-section__title">您的评分</text>
+        </view>
+        <view class="ticket-section__body">
+          <view class="ticket-stars ticket-stars--done">
+            <text
+              wx:for="{{stars}}"
+              wx:key="*this"
+              class="ticket-stars__item {{complaint.userRating >= item ? 'ticket-stars__item--on' : ''}}"
+            >★</text>
+            <text class="ticket-stars__text">{{complaint.userRating}} / 5</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 补充说明 -->
+      <view class="ticket-section" wx:if="{{canReply}}">
+        <view class="ticket-section__head">
+          <text class="material-symbols-outlined ticket-section__icon">forum</text>
+          <text class="ticket-section__title">补充说明</text>
+        </view>
+        <view class="ticket-section__body">
+          <textarea
+            class="ticket-textarea"
+            value="{{newMessage}}"
+            placeholder="补充材料或继续沟通…"
+            placeholder-class="ticket-textarea__ph"
+            maxlength="500"
+            auto-height
+            bindinput="onMessageInput"
+          />
+          <button
+            class="ticket-btn ticket-btn--primary"
+            bindtap="sendMessage"
+            disabled="{{submitting || !newMessage}}"
+            hover-class="ticket-btn--primary-hover"
+          >
+            <text class="material-symbols-outlined">send</text>
+            发送
+          </button>
+        </view>
+      </view>
+
+      <view style="height: 200rpx;"></view>
+    </view>
+
+    <view wx:elif="{{!loading}}" class="ticket-detail__empty">
+      <view class="ticket-detail__empty-icon">
+        <text class="material-symbols-outlined">inbox</text>
+      </view>
+      <text class="ticket-detail__empty-title">未找到工单</text>
+      <text class="ticket-detail__empty-sub">该工单可能已被删除或您无权查看</text>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{!pageNeedsLogin && complaint}}" class="ticket-detail__footer">
+    <button
+      class="ticket-btn ticket-btn--outline"
+      bindtap="callCustomerService"
+      hover-class="ticket-btn--outline-hover"
+    >
+      <text class="material-symbols-outlined">call</text>
+      联系客服
+    </button>
+    <button
+      wx:if="{{canClose}}"
+      class="ticket-btn ticket-btn--danger"
+      bindtap="closeTicket"
+      hover-class="ticket-btn--danger-hover"
+    >
+      <text class="material-symbols-outlined">close</text>
+      关闭工单
+    </button>
+  </view>
+</view>

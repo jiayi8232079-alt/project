@@ -1,0 +1,266 @@
+<view class="rpt">
+  <view class="rpt__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="rpt__nav-back btn-haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="rpt__nav-title">陪诊服务报告</text>
+    <view style="width: 72rpx;"></view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="rpt__scroll" wx:if="{{!loading}}">
+
+    <!-- 报告头部 -->
+    <view class="rpt__hero">
+      <view class="rpt__hero-icon-wrap">
+        <text class="material-symbols-outlined rpt__hero-icon">assignment_turned_in</text>
+      </view>
+      <text class="rpt__hero-title">陪诊服务报告</text>
+      <text class="rpt__hero-sub">订单 {{orderNumber}}</text>
+    </view>
+
+    <!-- 服务概况 -->
+    <view class="rpt__card">
+      <view class="rpt__section-head">
+        <view class="rpt__section-bar"></view>
+        <text class="rpt__section-title">服务概况</text>
+      </view>
+      <view class="rpt__info-grid">
+        <view class="rpt__info-item">
+          <text class="rpt__info-label">服务类型</text>
+          <text class="rpt__info-value">{{serviceType || '--'}}</text>
+        </view>
+        <view class="rpt__info-item">
+          <text class="rpt__info-label">服务时间</text>
+          <text class="rpt__info-value">{{serviceTime || '--'}}</text>
+        </view>
+        <view class="rpt__info-item">
+          <text class="rpt__info-label">就诊医院</text>
+          <text class="rpt__info-value">{{hospital || '--'}}</text>
+        </view>
+        <view class="rpt__info-item">
+          <text class="rpt__info-label">就诊科室</text>
+          <text class="rpt__info-value">{{department || '--'}}</text>
+        </view>
+        <view class="rpt__info-item">
+          <text class="rpt__info-label">就诊人</text>
+          <text class="rpt__info-value">{{patientName}} {{patientGender}} {{patientAge}}</text>
+        </view>
+        <view class="rpt__info-item">
+          <text class="rpt__info-label">陪诊员</text>
+          <text class="rpt__info-value">{{attendantName || '--'}}</text>
+        </view>
+        <view wx:if="{{duration}}" class="rpt__info-item">
+          <text class="rpt__info-label">服务时长</text>
+          <text class="rpt__info-value">{{duration}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 就诊结果与医嘱 -->
+    <view class="rpt__card rpt__card--highlight">
+      <view class="rpt__section-head">
+        <view class="rpt__section-bar rpt__section-bar--green"></view>
+        <text class="rpt__section-title">就诊结果与医嘱</text>
+      </view>
+      <view class="rpt__result-grid">
+        <view class="rpt__result-cell">
+          <view class="rpt__result-label">
+            <text class="material-symbols-outlined rpt__result-icon">medical_information</text>
+            <text>就诊结果</text>
+          </view>
+          <text class="rpt__result-value">{{diagnosisResult || '陪诊员暂未填写'}}</text>
+        </view>
+        <view class="rpt__result-cell">
+          <view class="rpt__result-label">
+            <text class="material-symbols-outlined rpt__result-icon">prescriptions</text>
+            <text>医嘱重点</text>
+          </view>
+          <text class="rpt__result-value">{{keyAdvice || '陪诊员暂未填写'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- AI 智能解读：通俗图文卡片 -->
+    <view wx:if="{{hasAiReport}}" class="rpt__card rpt__card--ai">
+      <view class="rpt__section-head">
+        <view class="rpt__section-bar rpt__section-bar--ai"></view>
+        <text class="rpt__section-title">AI 智能解读</text>
+        <view class="rpt__ai-badge">
+          <text class="material-symbols-outlined" style="font-size: 24rpx;">psychology</text>
+          <text>AI</text>
+        </view>
+      </view>
+
+      <!-- 结构化图文卡片（后端下发 aiReportSections 优先，老订单前端降级合成） -->
+      <view wx:if="{{aiReportSections.length > 0}}" class="rpt__ai-cards">
+        <view
+          wx:for="{{aiReportSections}}"
+          wx:key="title"
+          class="rpt__ai-card rpt__ai-card--{{item.tone}}"
+        >
+          <view class="rpt__ai-card-icon">
+            <text class="material-symbols-outlined">{{item.iconKey}}</text>
+          </view>
+          <view class="rpt__ai-card-body">
+            <text class="rpt__ai-card-title">{{item.title}}</text>
+            <text wx:if="{{item.content}}" class="rpt__ai-card-text">{{item.content}}</text>
+            <view wx:if="{{item.bullets && item.bullets.length}}" class="rpt__ai-card-bullets">
+              <view wx:for="{{item.bullets}}" wx:for-item="b" wx:key="*this" class="rpt__ai-card-bullet">
+                <view class="rpt__ai-card-dot"></view>
+                <text>{{b}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 兜底：若 sections 为空但老字段存在，仍显示原纯文本块 -->
+      <block wx:if="{{aiReportSections.length === 0}}">
+        <view wx:if="{{aiDiagnosis}}" class="rpt__ai-block">
+          <text class="rpt__ai-label">就诊结果解读</text>
+          <text class="rpt__ai-text">{{aiDiagnosis}}</text>
+        </view>
+        <view wx:if="{{aiKeyAdvice}}" class="rpt__ai-block">
+          <text class="rpt__ai-label">医嘱通俗解读</text>
+          <text class="rpt__ai-text">{{aiKeyAdvice}}</text>
+        </view>
+        <view wx:if="{{aiSummary}}" class="rpt__ai-block">
+          <text class="rpt__ai-label">服务总结</text>
+          <text class="rpt__ai-text">{{aiSummary}}</text>
+        </view>
+        <view wx:if="{{aiHealthTips.length > 0}}" class="rpt__ai-block">
+          <text class="rpt__ai-label">日常注意事项</text>
+          <view wx:for="{{aiHealthTips}}" wx:key="*this" class="rpt__ai-tip">
+            <text class="material-symbols-outlined" style="font-size: 24rpx; color: #4CAF50;">check_circle</text>
+            <text class="rpt__ai-tip-text">{{item}}</text>
+          </view>
+        </view>
+        <view wx:if="{{aiDietaryAdvice}}" class="rpt__ai-block">
+          <text class="rpt__ai-label">饮食建议</text>
+          <text class="rpt__ai-text">{{aiDietaryAdvice}}</text>
+        </view>
+        <view wx:if="{{aiFollowUpReminder}}" class="rpt__ai-block">
+          <text class="rpt__ai-label">复诊提醒</text>
+          <text class="rpt__ai-text">{{aiFollowUpReminder}}</text>
+        </view>
+      </block>
+
+      <view class="rpt__ai-disclaimer">
+        <text class="material-symbols-outlined" style="font-size: 22rpx;">info</text>
+        <text>以上为 AI 辅助解读，仅供参考，具体请遵医嘱</text>
+      </view>
+
+      <!-- 分享给家属按钮（open-type="share" 走系统分享面板，触发 onShareAppMessage） -->
+      <button class="rpt__share-btn btn-haptic" open-type="share">
+        <text class="material-symbols-outlined">ios_share</text>
+        <text>一键分享给家属</text>
+      </button>
+    </view>
+
+    <!-- 服务总结 -->
+    <view wx:if="{{summary}}" class="rpt__card">
+      <view class="rpt__section-head">
+        <view class="rpt__section-bar"></view>
+        <text class="rpt__section-title">服务总结</text>
+      </view>
+      <text class="rpt__summary-text">{{summary}}</text>
+    </view>
+
+    <!-- 用药提醒 -->
+    <view wx:if="{{medications.length > 0}}" class="rpt__card">
+      <view class="rpt__section-head">
+        <view class="rpt__section-bar rpt__section-bar--orange"></view>
+        <text class="rpt__section-title">用药提醒</text>
+      </view>
+      <view wx:for="{{medications}}" wx:key="name" class="rpt__med-item">
+        <view class="rpt__med-head">
+          <text class="material-symbols-outlined rpt__med-icon">medication</text>
+          <text class="rpt__med-name">{{item.name}}</text>
+        </view>
+        <view class="rpt__med-detail">
+          <text wx:if="{{item.usage}}" class="rpt__med-tag">{{item.usage}}</text>
+          <text wx:if="{{item.reminderTime}}" class="rpt__med-tag">每日 {{item.reminderTime}}</text>
+          <text wx:if="{{item.startDate}}" class="rpt__med-tag">{{item.startDate}} ~ {{item.endDate || ''}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 复诊安排 -->
+    <view wx:if="{{followUpDate}}" class="rpt__card">
+      <view class="rpt__section-head">
+        <view class="rpt__section-bar rpt__section-bar--blue"></view>
+        <text class="rpt__section-title">复诊安排</text>
+      </view>
+      <view class="rpt__info-grid">
+        <view class="rpt__info-item">
+          <text class="rpt__info-label">复诊日期</text>
+          <text class="rpt__info-value">{{followUpDate}}</text>
+        </view>
+        <view wx:if="{{followUpHospital}}" class="rpt__info-item">
+          <text class="rpt__info-label">复诊医院</text>
+          <text class="rpt__info-value">{{followUpHospital}}</text>
+        </view>
+        <view wx:if="{{followUpDepartment}}" class="rpt__info-item">
+          <text class="rpt__info-label">复诊科室</text>
+          <text class="rpt__info-value">{{followUpDepartment}}</text>
+        </view>
+        <view wx:if="{{followUpNote}}" class="rpt__info-item rpt__info-item--full">
+          <text class="rpt__info-label">备注</text>
+          <text class="rpt__info-value">{{followUpNote}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 附件与凭证 -->
+    <view wx:if="{{images.length > 0 || files.length > 0}}" class="rpt__card">
+      <view class="rpt__section-head">
+        <view class="rpt__section-bar"></view>
+        <text class="rpt__section-title">附件与凭证</text>
+      </view>
+      <view wx:if="{{images.length > 0}}" class="rpt__photo-grid">
+        <image wx:for="{{images}}" wx:key="*this"
+          src="{{item}}" mode="aspectFill" class="rpt__photo"
+          bind:tap="previewImage" data-src="{{item}}" data-urls="{{images}}" />
+      </view>
+      <view wx:if="{{files.length > 0}}" class="rpt__file-list">
+        <view wx:for="{{files}}" wx:key="url" class="rpt__file-row btn-haptic" bind:tap="openFile" data-url="{{item.url}}">
+          <text class="material-symbols-outlined rpt__file-icon">description</text>
+          <text class="rpt__file-name">{{item.name}}</text>
+          <text class="material-symbols-outlined rpt__file-arrow">open_in_new</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 服务时间线摘要 -->
+    <view wx:if="{{timelineItems.length > 0}}" class="rpt__card">
+      <view class="rpt__section-head">
+        <view class="rpt__section-bar"></view>
+        <text class="rpt__section-title">服务过程摘要</text>
+      </view>
+      <view class="rpt__timeline">
+        <view wx:for="{{timelineItems}}" wx:key="time" class="rpt__tl-item">
+          <view class="rpt__tl-dot"></view>
+          <view class="rpt__tl-body">
+            <text class="rpt__tl-time">{{item.time}}</text>
+            <text class="rpt__tl-label">{{item.label}}</text>
+            <text wx:if="{{item.content}}" class="rpt__tl-content">{{item.content}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部品牌 -->
+    <view class="rpt__footer">
+      <text class="rpt__footer-text">陪了个伴 · 陪诊服务报告</text>
+    </view>
+
+    <view style="height: calc(40rpx + env(safe-area-inset-bottom));"></view>
+  </scroll-view>
+
+  <view wx:if="{{loading}}" class="rpt__loading">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 用于生成微信分享封面的隐藏 Canvas，切勿删除 -->
+  <canvas type="2d" id="share-cover-canvas" class="rpt__share-canvas"></canvas>
+</view>

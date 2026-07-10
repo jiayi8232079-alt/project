@@ -48,6 +48,7 @@
  OPERATE_RET tuya_device_camera_get_jpeg_frame(BYTE_T **data, UINT_T *len, VOID *user_data);
 
  void tuya_device_camera_set_yuv_frame_cb(tuya_device_camera_yuv_frame_t callback);
+ void tuya_device_camera_set_tracking_yuv_frame_cb(tuya_device_camera_yuv_frame_t callback);
 
 
 

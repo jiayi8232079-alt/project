@@ -1,0 +1,147 @@
+<view class="adm {{loaded ? 'adm--loaded' : ''}}" style="padding-top: {{statusBarHeight}}px;">
+
+  <!-- 顶部导航 -->
+  <view class="adm__nav anim-item anim-0">
+    <view class="adm__back" bind:tap="handleBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <view class="adm__nav-center">
+      <text class="adm__nav-title">管理台</text>
+      <text class="adm__nav-sub">{{roleLabel}}</text>
+    </view>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="adm__scroll">
+
+    <!-- 统计卡片区（仅对有相应权限的角色展示） -->
+    <view wx:if="{{permissions.statOrders || permissions.statCustomers || permissions.statAttendants || permissions.statFinance}}" class="adm__section anim-item anim-1">
+      <view class="stat-grid">
+        <view wx:if="{{permissions.statOrders}}" class="stat-card stat-card--blue" bind:tap="goOrders" hover-class="btn-haptic">
+          <text class="stat-card__icon material-symbols-outlined">receipt_long</text>
+          <text class="stat-card__num">{{stats.totalOrders || 0}}</text>
+          <text class="stat-card__label">总订单</text>
+        </view>
+        <view wx:if="{{permissions.statOrders}}" class="stat-card stat-card--orange" bind:tap="goOrdersWithFilter" data-status="pending_dispatch" hover-class="btn-haptic">
+          <text class="stat-card__icon material-symbols-outlined">pending_actions</text>
+          <text class="stat-card__num">{{stats.pendingOrders || 0}}</text>
+          <text class="stat-card__label">待处理</text>
+        </view>
+        <view wx:if="{{permissions.statOrders}}" class="stat-card stat-card--green" bind:tap="goOrdersWithFilter" data-status="in_progress" hover-class="btn-haptic">
+          <text class="stat-card__icon material-symbols-outlined">directions_run</text>
+          <text class="stat-card__num">{{stats.inProgressOrders || 0}}</text>
+          <text class="stat-card__label">进行中</text>
+        </view>
+        <view wx:if="{{permissions.statCustomers}}" class="stat-card stat-card--purple" bind:tap="goCustomers" hover-class="btn-haptic">
+          <text class="stat-card__icon material-symbols-outlined">group</text>
+          <text class="stat-card__num">{{stats.totalCustomers || 0}}</text>
+          <text class="stat-card__label">客户总数</text>
+        </view>
+        <view wx:if="{{permissions.statAttendants}}" class="stat-card stat-card--teal" bind:tap="goAttendants" hover-class="btn-haptic">
+          <text class="stat-card__icon material-symbols-outlined">medical_services</text>
+          <text class="stat-card__num">{{stats.totalAttendants || 0}}</text>
+          <text class="stat-card__label">陪诊员</text>
+        </view>
+        <view wx:if="{{permissions.statFinance}}" class="stat-card stat-card--rose" bind:tap="goOrdersWithPaymentFilter" data-payment="unpaid" hover-class="btn-haptic">
+          <text class="stat-card__icon material-symbols-outlined">payments</text>
+          <text class="stat-card__num">{{stats.unpaidOrders || 0}}</text>
+          <text class="stat-card__label">待回款</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 快捷入口（按角色只显示有权限访问的） -->
+    <view wx:if="{{hasAnyEntry}}" class="adm__section anim-item anim-2">
+      <text class="adm__section-title">快捷入口</text>
+      <view class="quick-grid">
+        <view wx:if="{{permissions.orders}}" class="quick-item" bind:tap="goOrders" hover-class="btn-haptic">
+          <view class="quick-item__icon quick-item__icon--blue">
+            <text class="material-symbols-outlined">list_alt</text>
+          </view>
+          <text class="quick-item__label">订单管理</text>
+        </view>
+        <view wx:if="{{permissions.customers}}" class="quick-item" bind:tap="goCustomers" hover-class="btn-haptic">
+          <view class="quick-item__icon quick-item__icon--green">
+            <text class="material-symbols-outlined">person_search</text>
+          </view>
+          <text class="quick-item__label">客户列表</text>
+        </view>
+        <view wx:if="{{permissions.attendants}}" class="quick-item" bind:tap="goAttendants" hover-class="btn-haptic">
+          <view class="quick-item__icon quick-item__icon--orange">
+            <text class="material-symbols-outlined">badge</text>
+          </view>
+          <text class="quick-item__label">陪诊员</text>
+        </view>
+        <view wx:if="{{permissions.finance}}" class="quick-item" bind:tap="goFinance" hover-class="btn-haptic">
+          <view class="quick-item__icon quick-item__icon--purple">
+            <text class="material-symbols-outlined">account_balance_wallet</text>
+          </view>
+          <text class="quick-item__label">财务管理</text>
+        </view>
+        <view wx:if="{{permissions.healthManage}}" class="quick-item" bind:tap="goHealthManage" hover-class="btn-haptic">
+          <view class="quick-item__icon quick-item__icon--teal">
+            <text class="material-symbols-outlined">folder_shared</text>
+          </view>
+          <text class="quick-item__label">健康档案</text>
+        </view>
+        <view wx:if="{{permissions.families}}" class="quick-item" bind:tap="goFamilies" hover-class="btn-haptic">
+          <view class="quick-item__icon quick-item__icon--green">
+            <text class="material-symbols-outlined">family_restroom</text>
+          </view>
+          <text class="quick-item__label">家庭管理</text>
+        </view>
+        <view wx:if="{{permissions.systemConfig}}" class="quick-item" bind:tap="goSystemConfig" hover-class="btn-haptic">
+          <view class="quick-item__icon quick-item__icon--rose">
+            <text class="material-symbols-outlined">settings</text>
+          </view>
+          <text class="quick-item__label">系统配置</text>
+        </view>
+        <view wx:if="{{permissions.statFinance}}" class="quick-item" bind:tap="goOrdersWithSettlementFilter" data-settlement="pending" hover-class="btn-haptic">
+          <view class="quick-item__icon quick-item__icon--amber">
+            <text class="material-symbols-outlined">price_check</text>
+          </view>
+          <text class="quick-item__label">待结算</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 当前角色无任何入口时的兜底提示 -->
+    <view wx:if="{{!hasAnyEntry && loaded}}" class="adm__section anim-item anim-2">
+      <view class="empty-tip">
+        <text class="material-symbols-outlined empty-tip__icon">lock_person</text>
+        <text class="empty-tip__text">当前角色暂无可访问的管理模块，请联系超级管理员。</text>
+      </view>
+    </view>
+
+    <!-- 最近订单（仅订单权限者可见） -->
+    <view wx:if="{{permissions.orders}}" class="adm__section anim-item anim-3">
+      <view class="adm__section-header">
+        <text class="adm__section-title">最新订单</text>
+        <view class="adm__section-more" bind:tap="goOrders">
+          <text>查看全部</text>
+          <text class="material-symbols-outlined">chevron_right</text>
+        </view>
+      </view>
+      <view wx:if="{{recentOrders.length === 0}}" class="empty-tip">
+        <text class="material-symbols-outlined empty-tip__icon">inbox</text>
+        <text class="empty-tip__text">暂无订单</text>
+      </view>
+      <view wx:for="{{recentOrders}}" wx:key="id" class="order-row" bind:tap="goOrderDetail" data-id="{{item.id}}" hover-class="btn-haptic">
+        <view class="order-row__left">
+          <text class="order-row__no">{{item.orderNumber || ('#' + item.id)}}</text>
+          <text class="order-row__name">{{item.serviceType || '陪诊服务'}}</text>
+          <text class="order-row__date">{{item.dateDisplay || ''}}</text>
+        </view>
+        <view class="order-row__right">
+          <view class="status-tag status-tag--{{item.status}}">
+            <text>{{item.statusLabel || item.status}}</text>
+          </view>
+          <text class="order-row__amount">¥{{item.totalFee || item.amount || 0}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view style="height: calc(env(safe-area-inset-bottom) + 24rpx);"></view>
+  </scroll-view>
+
+</view>

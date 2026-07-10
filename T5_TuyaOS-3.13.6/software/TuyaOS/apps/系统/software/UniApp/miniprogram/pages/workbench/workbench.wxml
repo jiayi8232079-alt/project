@@ -1,0 +1,326 @@
+<view class="wb {{loaded ? 'wb--loaded' : ''}}">
+
+  <!-- 管理员查看模式提示条 -->
+  <view wx:if="{{isAdminView}}" class="wb__admin-banner" style="padding-top: {{statusBarHeight}}px;">
+    <view class="wb__admin-banner-inner">
+      <view class="wb__admin-banner-left" bind:tap="goBack">
+        <text class="material-symbols-outlined">arrow_back_ios</text>
+      </view>
+      <view class="wb__admin-banner-body">
+        <text class="material-symbols-outlined">visibility</text>
+        <text class="wb__admin-banner-text">管理员视角：{{attendantName}}</text>
+      </view>
+      <view style="width:72rpx;"></view>
+    </view>
+  </view>
+
+  <!-- ════════════════════════════════════
+       TAB 0: 工作台
+  ════════════════════════════════════ -->
+  <block wx:if="{{currentTab === 0}}">
+    <view
+      class="wb__header"
+      style="padding-top: {{isAdminView ? 0 : statusBarHeight}}px; background: linear-gradient(135deg, {{roleThemeColorDark}}, {{roleThemeColor}});"
+    >
+      <view class="wb__header-row">
+        <view style="flex: 1;">
+          <view class="wb__role-badge">
+            <text class="material-symbols-outlined wb__role-icon">{{displayConfig.icon}}</text>
+            <text class="wb__role-label">{{roleLabel}} · {{attendantInfo.title}}</text>
+          </view>
+          <text class="wb__title">工作台</text>
+          <text class="wb__greeting">{{greeting}}，{{attendantName}} · {{roleTagline}}</text>
+          <view wx:if="{{specialties.length > 0}}" class="wb__role-specialties">
+            <text wx:for="{{specialties}}" wx:key="*this" class="wb__role-specialty">{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <scroll-view scroll-y class="wb__scroll" enhanced show-scrollbar="{{false}}">
+      <!-- 收入卡 -->
+      <view class="wb__income anim-item anim-0">
+        <view class="wb__income-bg">
+          <text class="material-symbols-outlined">payments</text>
+        </view>
+        <view class="wb__income-body">
+          <text class="wb__income-label">本月预计收入 (元)</text>
+          <text class="wb__income-amount">¥{{stats.monthIncome}}</text>
+          <view class="wb__income-stats">
+            <view class="wb__income-col">
+              <text class="wb__income-num">{{stats.weekCompleted}} <text class="wb__income-unit-inline">单</text></text>
+              <text class="wb__income-unit">完单数量</text>
+            </view>
+            <view class="wb__income-divider"></view>
+            <view class="wb__income-col">
+              <text class="wb__income-num">{{stats.totalHours}} <text class="wb__income-unit-inline">小时</text></text>
+              <text class="wb__income-unit">服务时长</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 订单状态统计（按角色变装标签） -->
+      <view class="wb__stats anim-item anim-1">
+        <view class="wb__stats-item">
+          <text class="wb__stats-num">{{stats.pendingCount}}</text>
+          <text class="wb__stats-label">待服务</text>
+        </view>
+        <view class="wb__stats-divider"></view>
+        <view class="wb__stats-item">
+          <text class="wb__stats-num wb__stats-num--green">{{stats.inProgressCount}}</text>
+          <text class="wb__stats-label">进行中</text>
+        </view>
+        <view class="wb__stats-divider"></view>
+        <view class="wb__stats-item">
+          <text class="wb__stats-num">{{stats.weekCompleted}}</text>
+          <text class="wb__stats-label">{{roleStatsLabels.weekCompleted}}</text>
+        </view>
+      </view>
+
+      <!-- 功能入口（按角色返回的 quickLinks 动态渲染） -->
+      <view wx:if="{{!isAdminView}}" class="wb__actions anim-item anim-2">
+        <view
+          wx:for="{{roleQuickLinks}}" wx:key="key"
+          class="wb__action btn-haptic"
+          data-key="{{item.key}}"
+          bind:tap="onQuickLinkTap"
+        >
+          <view class="wb__action-icon-slot">
+            <view
+              wx:if="{{(item.key === 'grab' && grabPoolCount > 0) || (item.key === 'assigned' && assignedPendingCount > 0)}}"
+              class="wb__icon-badge"
+            >{{item.key === 'grab' ? (grabPoolCount > 99 ? '99+' : grabPoolCount) : (assignedPendingCount > 99 ? '99+' : assignedPendingCount)}}</view>
+            <view class="wb__action-icon wb__action-icon--tone-{{item.tone}}">
+              <text class="material-symbols-outlined">{{item.icon}}</text>
+            </view>
+          </view>
+          <text class="wb__action-name">{{item.label}}</text>
+        </view>
+      </view>
+
+      <!-- 今日日程 -->
+      <view class="wb__schedule anim-item anim-3">
+        <view class="wb__schedule-header">
+          <text class="wb__schedule-title">今日日程</text>
+          <view class="wb__schedule-more btn-haptic" bind:tap="switchToAllSchedules">
+            <text>全部日程</text>
+            <text class="material-symbols-outlined">chevron_right</text>
+          </view>
+        </view>
+
+        <view wx:if="{{todaySchedule.length === 0}}" class="wb__schedule-empty">
+          <text class="material-symbols-outlined wb__schedule-empty-icon">event_available</text>
+          <text class="wb__schedule-empty-text">今日暂无安排</text>
+        </view>
+
+        <view wx:else class="wb__timeline">
+          <view wx:for="{{todaySchedule}}" wx:key="id" class="wb__tl-item btn-haptic" bind:tap="goOrderDetail" data-id="{{item.id}}">
+            <view class="wb__tl-rail">
+              <view class="wb__tl-dot {{index === 0 ? 'wb__tl-dot--active' : ''}}"></view>
+              <view wx:if="{{index < todaySchedule.length - 1}}" class="wb__tl-line"></view>
+            </view>
+            <view class="wb__tl-card">
+              <view class="wb__tl-card-top">
+                <text class="wb__tl-time">{{item.time}}</text>
+                <text class="wb__tl-badge wb__tl-badge--{{item.status}}">{{item.statusText}}</text>
+              </view>
+              <text class="wb__tl-title">{{item.hospital || '待定医院'}} · {{item.serviceType || '陪诊服务'}}</text>
+              <view class="wb__tl-meta">
+                <text class="material-symbols-outlined">person</text>
+                <text>{{item.patientName}}</text>
+                <view wx:if="{{item.department}}" class="wb__tl-sep"></view>
+                <text wx:if="{{item.department}}">{{item.department}}</text>
+              </view>
+              <view wx:if="{{item.status === 'in_progress' || item.status === 'emergency'}}" class="wb__tl-completion {{item.completionReady ? 'wb__tl-completion--done' : ''}}">
+                <text class="wb__tl-completion-text">{{item.completionStatusText}}</text>
+                <text class="wb__tl-completion-desc">{{item.completionReady ? '可提交结束' : '需先补资料'}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </scroll-view>
+  </block>
+
+
+  <!-- ════════════════════════════════════
+       TAB 1: 全部日程
+  ════════════════════════════════════ -->
+  <block wx:elif="{{currentTab === 1}}">
+    <view class="wb__header wb__header--all" style="padding-top: {{isAdminView ? 0 : statusBarHeight}}px;">
+      <view class="wb__header-row wb__header-row--spread">
+        <view class="wb__header-title-wrap">
+          <text class="wb__title">全部日程</text>
+        </view>
+        <view class="wb__filter-btn btn-haptic">
+          <text class="material-symbols-outlined">filter_list</text>
+        </view>
+      </view>
+      <!-- 分段选择 -->
+      <view class="wb__seg">
+        <view class="wb__seg-item {{allScheduleView === 'all' ? 'wb__seg-item--active' : ''}} btn-haptic" bind:tap="setScheduleView" data-view="all">全部</view>
+        <view class="wb__seg-item {{allScheduleView === 'pending' ? 'wb__seg-item--active' : ''}} btn-haptic" bind:tap="setScheduleView" data-view="pending">待服务</view>
+        <view class="wb__seg-item {{allScheduleView === 'in_progress' ? 'wb__seg-item--active' : ''}} btn-haptic" bind:tap="setScheduleView" data-view="in_progress">进行中</view>
+        <view class="wb__seg-item {{allScheduleView === 'completed' ? 'wb__seg-item--active' : ''}} btn-haptic" bind:tap="setScheduleView" data-view="completed">已完成</view>
+        <view class="wb__seg-item {{allScheduleView === 'canceled' ? 'wb__seg-item--active' : ''}} btn-haptic" bind:tap="setScheduleView" data-view="canceled">已取消</view>
+      </view>
+    </view>
+
+    <scroll-view scroll-y class="wb__scroll" enhanced show-scrollbar="{{false}}"
+      refresher-enabled bind:refresherrefresh="onAllScheduleRefresh" refresher-triggered="{{allScheduleRefreshing}}">
+
+      <view wx:if="{{allScheduleGroups.length === 0}}" class="wb__schedule-empty" style="margin-top: 100rpx;">
+        <text class="material-symbols-outlined wb__schedule-empty-icon">calendar_month</text>
+        <text class="wb__schedule-empty-text">暂无日程记录</text>
+      </view>
+
+      <view wx:for="{{allScheduleGroups}}" wx:key="dateLabel" class="wb__grp">
+        <view class="wb__grp-header">
+          <text class="wb__grp-date">{{item.dateLabel}}</text>
+          <text class="wb__grp-count">{{item.count}}个行程</text>
+        </view>
+        <view class="wb__grp-cards">
+          <view wx:for="{{item.orders}}" wx:for-item="order" wx:key="id"
+            class="wb__grp-card btn-haptic" bind:tap="goOrderDetail" data-id="{{order.id}}">
+            <view class="wb__grp-card-top">
+              <text class="wb__grp-time">{{order.time}}</text>
+              <text class="wb__grp-badge wb__grp-badge--{{order.status}}">{{order.statusText}}</text>
+            </view>
+            <text class="wb__grp-title">{{order.hospital || '待定医院'}} · {{order.serviceType || '陪诊服务'}}</text>
+            <view class="wb__grp-meta">
+              <text class="wb__grp-patient">患者：{{order.patientName}}</text>
+              <view wx:if="{{order.department}}" class="wb__grp-sep"></view>
+              <text wx:if="{{order.department}}" class="wb__grp-dept">{{order.department}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </scroll-view>
+  </block>
+
+
+  <!-- ════════════════════════════════════
+       TAB 2: 我的
+  ════════════════════════════════════ -->
+  <block wx:elif="{{currentTab === 2}}">
+    <scroll-view scroll-y class="wb__scroll" enhanced show-scrollbar="{{false}}">
+
+      <!-- 顶部个人信息 -->
+      <view class="wb__mine-header" style="padding-top: {{isAdminView ? 24 : statusBarHeight + 24}}px;">
+        <view class="wb__mine-avatar-wrap">
+          <view class="wb__mine-avatar">
+            <image wx:if="{{attendantInfo.avatarUrl}}" src="{{attendantInfo.avatarUrl}}" mode="aspectFill" class="wb__mine-avatar-img" />
+            <text wx:else class="wb__mine-avatar-char">{{attendantName[0] || '诊'}}</text>
+          </view>
+          <view class="wb__mine-badge">
+            <text class="material-symbols-outlined">verified</text>
+            <text class="wb__mine-badge-text">已认证 · {{attendantInfo.experienceYears || 1}}年经验</text>
+          </view>
+        </view>
+        <text class="wb__mine-name">{{attendantName}}</text>
+        <text class="wb__mine-role">{{attendantInfo.title || displayConfig.defaultTitle || '专业服务人员'}}</text>
+      </view>
+
+      <!-- 统计卡 -->
+      <view class="wb__mine-stats">
+        <view class="wb__mine-stat">
+          <text class="wb__mine-stat-num">{{attendantInfo.totalOrders || 0}}</text>
+          <text class="wb__mine-stat-label">累计服务次数</text>
+        </view>
+        <view class="wb__mine-stat-div"></view>
+        <view class="wb__mine-stat">
+          <text class="wb__mine-stat-num">{{attendantInfo.rating || '5.0'}}</text>
+          <text class="wb__mine-stat-label">平均评分</text>
+        </view>
+        <view class="wb__mine-stat-div"></view>
+        <view class="wb__mine-stat">
+          <text class="wb__mine-stat-num">{{attendantInfo.satisfactionRate || '99%'}}</text>
+          <text class="wb__mine-stat-label">好评率</text>
+        </view>
+      </view>
+
+      <!-- 菜单列表 -->
+      <view class="wb__mine-menu">
+        <view wx:if="{{!isAdminView}}" class="wb__mine-menu-item btn-haptic" bind:tap="goSchedule">
+          <text class="material-symbols-outlined wb__mine-icon wb__mine-icon--gold">calendar_month</text>
+          <text class="wb__mine-menu-label">排班管理</text>
+          <text class="material-symbols-outlined wb__mine-arrow">chevron_right</text>
+        </view>
+        <view wx:if="{{!isAdminView}}" class="wb__mine-menu-item btn-haptic" bind:tap="goAssigned">
+          <text class="material-symbols-outlined wb__mine-icon wb__mine-icon--gold">assignment_ind</text>
+          <view class="wb__mine-menu-label-wrap">
+            <text class="wb__mine-menu-label">指派任务</text>
+            <view wx:if="{{assignedPendingCount > 0}}" class="wb__mine-count-badge">{{assignedPendingCount > 99 ? '99+' : assignedPendingCount}}</view>
+          </view>
+          <text class="material-symbols-outlined wb__mine-arrow">chevron_right</text>
+        </view>
+        <view wx:if="{{!isAdminView}}" class="wb__mine-menu-item btn-haptic" bind:tap="goWallet">
+          <text class="material-symbols-outlined wb__mine-icon wb__mine-icon--gold">account_balance_wallet</text>
+          <text class="wb__mine-menu-label">我的收入</text>
+          <text class="material-symbols-outlined wb__mine-arrow">chevron_right</text>
+        </view>
+        <view wx:if="{{!isAdminView}}" class="wb__mine-menu-item btn-haptic" bind:tap="goGrab">
+          <text class="material-symbols-outlined wb__mine-icon wb__mine-icon--gold">ads_click</text>
+          <view class="wb__mine-menu-label-wrap">
+            <text class="wb__mine-menu-label">抢单大厅</text>
+            <view wx:if="{{grabPoolCount > 0}}" class="wb__mine-count-badge">{{grabPoolCount > 99 ? '99+' : grabPoolCount}}</view>
+          </view>
+          <text class="material-symbols-outlined wb__mine-arrow">chevron_right</text>
+        </view>
+        <view wx:if="{{isAdminView}}" class="wb__mine-menu-item btn-haptic" bind:tap="switchToAllSchedules">
+          <text class="material-symbols-outlined wb__mine-icon wb__mine-icon--gold">list_alt</text>
+          <text class="wb__mine-menu-label">全部订单</text>
+          <text class="material-symbols-outlined wb__mine-arrow">chevron_right</text>
+        </view>
+      </view>
+
+      <view wx:if="{{!isAdminView}}" class="wb__mine-menu" style="margin-top: 20rpx;">
+        <view class="wb__mine-menu-item btn-haptic" bind:tap="goExpense">
+          <text class="material-symbols-outlined wb__mine-icon">receipt_long</text>
+          <text class="wb__mine-menu-label">费用报销</text>
+          <text class="material-symbols-outlined wb__mine-arrow">chevron_right</text>
+        </view>
+        <view class="wb__mine-menu-item btn-haptic">
+          <text class="material-symbols-outlined wb__mine-icon">help_outline</text>
+          <text class="wb__mine-menu-label">常见问题</text>
+          <text class="material-symbols-outlined wb__mine-arrow">chevron_right</text>
+        </view>
+      </view>
+
+      <view class="wb__mine-logout-wrap">
+        <view class="wb__mine-logout btn-haptic" bind:tap="goBack">
+          <text class="material-symbols-outlined">{{isAdminView ? 'arrow_back' : 'logout'}}</text>
+          <text class="wb__mine-logout-label">{{isAdminView ? '返回管理后台' : '退出工作台'}}</text>
+        </view>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </scroll-view>
+  </block>
+
+
+  <!-- ════════════════════════════════════
+       底部 Tab 栏（三个标签）
+  ════════════════════════════════════ -->
+  <view class="wb__tabbar">
+    <view class="wb__tab {{currentTab === 0 ? 'wb__tab--active' : ''}} btn-haptic" bind:tap="switchTab" data-tab="0">
+      <view wx:if="{{workbenchTodoCount > 0}}" class="wb__tab-dot"></view>
+      <text class="material-symbols-outlined">dashboard</text>
+      <text class="wb__tab-label">工作台</text>
+    </view>
+    <view class="wb__tab {{currentTab === 1 ? 'wb__tab--active' : ''}} btn-haptic" bind:tap="switchTab" data-tab="1">
+      <text class="material-symbols-outlined">calendar_month</text>
+      <text class="wb__tab-label">全部日程</text>
+    </view>
+    <view class="wb__tab {{currentTab === 2 ? 'wb__tab--active' : ''}} btn-haptic" bind:tap="switchTab" data-tab="2">
+      <text class="material-symbols-outlined">account_circle</text>
+      <text class="wb__tab-label">我的</text>
+    </view>
+  </view>
+
+</view>

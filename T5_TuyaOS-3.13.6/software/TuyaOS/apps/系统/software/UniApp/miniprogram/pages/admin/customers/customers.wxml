@@ -1,0 +1,62 @@
+<view class="customers" style="padding-top: {{statusBarHeight}}px;">
+
+  <view class="customers__nav">
+    <view class="customers__back" bind:tap="handleBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="customers__title">客户列表</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <view class="customers__search-wrap">
+    <view class="search-box">
+      <text class="material-symbols-outlined search-box__icon">search</text>
+      <input
+        class="search-box__input"
+        placeholder="搜索姓名/手机号"
+        confirm-type="search"
+        bind:confirm="onSearch"
+        value="{{searchKeyword}}"
+      />
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="customers__list">
+    <view class="customers__count">共 {{total}} 位客户</view>
+
+    <view wx:if="{{loaded && customers.length === 0}}" class="empty-tip">
+      <text class="material-symbols-outlined empty-tip__icon">group_off</text>
+      <text class="empty-tip__text">暂无客户</text>
+    </view>
+
+    <view wx:for="{{customers}}" wx:key="id" class="customer-card">
+      <view class="customer-card__left">
+        <view class="customer-card__avatar">
+          <image wx:if="{{item.avatarUrl}}" src="{{item.avatarUrl}}" class="customer-card__avatar-img" mode="aspectFill"/>
+          <text wx:else class="material-symbols-outlined customer-card__avatar-icon">person</text>
+        </view>
+        <view class="customer-card__info">
+          <text class="customer-card__name">{{item.name || item.nickname || item.phone || '未知'}}</text>
+          <text wx:if="{{item.phone}}" class="customer-card__phone">{{item.phone}}</text>
+          <view wx:if="{{item.isAnnualMember}}" class="member-badge">
+            <text class="material-symbols-outlined">workspace_premium</text>
+            <text>年卡会员</text>
+          </view>
+        </view>
+      </view>
+      <view class="customer-card__actions">
+        <view wx:if="{{item.phone}}" class="icon-btn icon-btn--green" bind:tap="callCustomer" data-phone="{{item.phone}}" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">call</text>
+        </view>
+        <view class="icon-btn icon-btn--blue" bind:tap="goOrders" data-userid="{{item.id}}" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">receipt_long</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-tip"><text>加载中...</text></view>
+    <view wx:if="{{!hasMore && customers.length > 0}}" class="end-tip"><text>— 已加载全部 —</text></view>
+    <view style="height: calc(env(safe-area-inset-bottom) + 24rpx);"></view>
+  </scroll-view>
+
+</view>

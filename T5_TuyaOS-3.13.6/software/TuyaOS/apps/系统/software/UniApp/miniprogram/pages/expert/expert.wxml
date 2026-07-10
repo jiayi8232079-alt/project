@@ -1,0 +1,81 @@
+<view class="page {{loaded ? 'page--loaded' : ''}}">
+  <view class="nav anim-item anim-0">
+    <view class="nav__inner" style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav__back" bind:tap="goBack" hover-class="btn-haptic">
+        <text class="material-symbols-outlined">arrow_back</text>
+      </view>
+      <text class="nav__title">医疗资源协调</text>
+      <view class="nav__placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="content">
+
+      <view class="hero-card anim-item anim-1">
+        <view class="hero-card__icon-wrap">
+          <text class="material-symbols-outlined">hub</text>
+        </view>
+        <text class="hero-card__desc">汇聚全国优质医疗资源，为您解决挂号难、入院难、专家难约等痛点</text>
+      </view>
+
+      <view class="service-list anim-item anim-2">
+        <view class="service-card" hover-class="btn-haptic" bind:tap="goExpertMatch">
+          <view class="service-card__left">
+            <view class="service-card__icon-box">
+              <text class="material-symbols-outlined">medical_information</text>
+            </view>
+          </view>
+          <view class="service-card__body">
+            <text class="service-card__title">专家匹配</text>
+            <text class="service-card__desc">针对疑难病症，为您精准对接国内顶尖三甲医院主任级专家，提供深度咨询及诊疗建议</text>
+            <view class="service-card__action">
+              <text>了解服务</text>
+              <text class="material-symbols-outlined">arrow_forward</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="service-card" hover-class="btn-haptic" bind:tap="goConsult">
+          <view class="service-card__left">
+            <view class="service-card__icon-box">
+              <text class="material-symbols-outlined">calendar_add_on</text>
+            </view>
+          </view>
+          <view class="service-card__body">
+            <text class="service-card__title">门诊协调</text>
+            <text class="service-card__desc">协助预约全国热门科室专家号源，协调优先就诊时段，让您的就医过程高效顺畅</text>
+            <view class="service-card__action">
+              <text>了解服务</text>
+              <text class="material-symbols-outlined">arrow_forward</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="service-card" hover-class="btn-haptic" bind:tap="goInpatient">
+          <view class="service-card__left">
+            <view class="service-card__icon-box">
+              <text class="material-symbols-outlined">domain</text>
+            </view>
+          </view>
+          <view class="service-card__body">
+            <text class="service-card__title">住院协调</text>
+            <text class="service-card__desc">在床位紧张时，协助申请住院及手术名额，全程跟进入院手续及术后关怀安排</text>
+            <view class="service-card__action">
+              <text>了解服务</text>
+              <text class="material-symbols-outlined">arrow_forward</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="safe-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-bar anim-item anim-3">
+    <button class="cta-btn" hover-class="btn-haptic" bind:tap="onBook">
+      <text>预约专属顾问咨询</text>
+    </button>
+  </view>
+</view>

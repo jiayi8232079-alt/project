@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "ai-badge": "/components/ai-badge/ai-badge"
+  },
+  "navigationBarTitleText": "AI 健康顾问",
+  "navigationStyle": "custom"
+}

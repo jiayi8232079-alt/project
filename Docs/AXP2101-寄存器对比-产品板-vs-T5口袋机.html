@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXP2101 寄存器全量对比：产品板 vs T5 口袋机</title>
+  <style>
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: #d0d7de;
+      --bg: #ffffff;
+      --bg-alt: #f6f8fa;
+      --accent: #0969da;
+      --fail: #cf222e;
+      --ok: #1a7f37;
+      --warn: #9a6700;
+      --skip: #656d76;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+    h1 {
+      font-size: 1.75rem;
+      line-height: 1.3;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+      padding-left: 0.6rem;
+    }
+    h3 { font-size: 1.05rem; margin-top: 1.25rem; }
+    p { margin: 0.6rem 0; }
+    a { color: var(--accent); }
+    .meta, table.data {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0 1.25rem;
+      font-size: 0.88rem;
+    }
+    .meta th, .meta td, table.data th, table.data td {
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .meta th, table.data th { background: var(--bg-alt); font-weight: 600; }
+    .tag-ok { color: var(--ok); font-weight: 600; }
+    .tag-diff { color: var(--fail); font-weight: 600; }
+    .tag-skip { color: var(--warn); font-weight: 600; }
+    .tag-otp { color: var(--skip); }
+    .tag-ro { color: var(--muted); }
+    pre {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      background: var(--bg-alt);
+    }
+    .card strong { display: block; font-size: 1.4rem; color: var(--accent); }
+    .p0 { border-left: 4px solid var(--fail); padding-left: 0.6rem; }
+    .p1 { border-left: 4px solid var(--warn); padding-left: 0.6rem; }
+    .p2 { border-left: 4px solid var(--muted); padding-left: 0.6rem; }
+    footer { margin-top: 3rem; font-size: 0.85rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<h1>AXP2101 寄存器全量对比：产品板 vs T5 口袋机</h1>
+
+<table class="meta">
+  <tr><th>文档编号</th><td>CMP-AXP2101-20260707-003</td></tr>
+  <tr><th>日期</th><td>2026-07-07（<strong>v3 已对齐口袋机 + axp 串口命令</strong>）</td></tr>
+  <tr><th>产品板固件</th><td><code>tuya_axp2101.c</code> + <code>tuya_axp2101_cli.c</code></td></tr>
+  <tr><th>口袋机参考</th><td>TuyaOpen <code>board_axp2101_api.c</code></td></tr>
+  <tr><th>口袋机开源</th><td><a href="https://oshwhub.com/tuyaopen/graffiti-t5pocket-pocket-machine">立创开源硬件平台</a></td></tr>
+  <tr><th>实机快照</th><td><code>serial-debug-main-20260702-002156.txt</code></td></tr>
+</table>
+
+<h2>1. 摘要</h2>
+
+<div class="summary-grid">
+  <div class="card"><strong>v3</strong>已移植口袋机 power_on</div>
+  <div class="card"><strong>3300</strong>VOFF mV 已对齐</div>
+  <div class="card"><strong>axp</strong>串口 dump/r/w</div>
+  <div class="card"><strong>0</strong>已知寄存器差异项</div>
+</div>
+
+<p><strong>v3</strong>：产品板 init 含 DCDC1/5 + ALDO1/3/4 + BLDO1/2 显式配置、电源键 128ms/4s；刷机后请用 <code>axp dump</code> 核对 reg0x80/0x90/0x24。</p>
+
+<h2>2. 初始化流程</h2>
+
+<h3>产品板（v3）</h3>
+<pre>probe → disable_ts → adc+bat_det → charge_init → voff(3300mV)
+      → power_on(全轨) → power_key → dump → axp CLI
+board_init 可选 camera_power_on 二次确认</pre>
+
+<h3>T5 口袋机</h3>
+<pre>axp2101_init → adc_enable → vbus_check → charge_init(3300mV)
+             → power_on(全 DCDC/LDO) → power_info → power_key → 4G_GPIO</pre>
+
+<h2>3. 电源轨映射</h2>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>网络</th><th>AXP 通道</th><th>电压</th>
+      <th>口袋机</th><th>产品板 init</th><th>产品板 camera</th><th>实机 7/2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>MCU VDD_3V3</td><td>DCDC1</td><td>3.3V</td><td class="tag-ok">写+使能</td><td class="tag-ok">写+使能</td><td>—</td><td>0x82=0x12</td></tr>
+    <tr><td>辅 3.3V</td><td>DCDC5</td><td>3.3V</td><td class="tag-ok">写+使能</td><td class="tag-ok">写+使能</td><td>—</td><td>0x86≈0x13</td></tr>
+    <tr><td>RTC</td><td>LDO1</td><td>1.8V</td><td class="tag-ok">写+使能</td><td class="tag-ok">写+使能</td><td>—</td><td>0x92=0x0D</td></tr>
+    <tr><td>VDDCAM_2V8</td><td>ALDO3</td><td>2.8V</td><td class="tag-ok">写+使能</td><td class="tag-ok">写+使能</td><td class="tag-ok">幂等</td><td>0x94=0x17</td></tr>
+    <tr><td>VDD_3V3_SD</td><td>ALDO4</td><td>3.3V</td><td class="tag-ok">写+使能</td><td class="tag-ok">写+使能</td><td>—</td><td>0x95≈0x1C</td></tr>
+    <tr><td>AVDD_2V8</td><td>BLDO1</td><td>2.8V</td><td class="tag-ok">写+使能</td><td class="tag-ok">写+使能</td><td class="tag-ok">幂等</td><td>0x96=0x17</td></tr>
+    <tr><td>DVDD_1V8</td><td>BLDO2</td><td>1.8V</td><td class="tag-ok">写+使能</td><td class="tag-ok">写+使能</td><td class="tag-ok">幂等</td><td>0x97=0x0D</td></tr>
+  </tbody>
+</table>
+
+<h2>4. 寄存器全量对比</h2>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>地址</th><th>名称</th>
+      <th>产品板动作</th><th>产品板目标</th>
+      <th>口袋机动作</th><th>口袋机目标</th>
+      <th>实机 7/2</th><th>对比</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>0x00</td><td>PMU_STATUS0</td><td>只读</td><td>—</td><td>只读</td><td>—</td><td>0x38</td><td class="tag-ro">只读</td></tr>
+    <tr><td>0x01</td><td>PMU_STATUS1</td><td>只读</td><td>—</td><td>只读</td><td>—</td><td>0x54</td><td class="tag-ro">只读</td></tr>
+    <tr><td>0x03</td><td>CHIP_ID</td><td>读</td><td>0x4A</td><td>读</td><td>0x4A</td><td>—</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x10</td><td>PMU_COMMON</td><td>不写</td><td>OTP</td><td>不写</td><td>OTP</td><td>0x34</td><td class="tag-otp">OTP</td></tr>
+    <tr><td>0x12</td><td>BATFET_CTRL</td><td>不写</td><td>OTP</td><td>不写</td><td>OTP</td><td>0x00</td><td class="tag-otp">OTP</td></tr>
+    <tr><td>0x14</td><td>VSYSMIN_DPM</td><td>不写</td><td>OTP</td><td>不写</td><td>OTP</td><td>0x65</td><td class="tag-otp">OTP 4.7V</td></tr>
+    <tr><td>0x15</td><td>VINDPM</td><td>写</td><td>0x04</td><td>写</td><td>0x04</td><td>0x04</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x16</td><td>VBUS_ILIM</td><td>写</td><td>0x01</td><td>写</td><td>0x01</td><td>0x01</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x18</td><td>CHG_CTRL</td><td>写 bit1</td><td>chg_en</td><td>写</td><td>chg+gauge</td><td>0x0A</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x24</td><td>VOFF_THLD</td><td>写</td><td class="tag-ok">0x07 3.3V</td><td>写</td><td>0x07 3.3V</td><td>0x07</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x27</td><td>PWR_KEY</td><td>写</td><td>128ms/4s</td><td>写</td><td>128ms/4s</td><td>—</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x30</td><td>ADC_EN</td><td>写</td><td>0x1D</td><td>写</td><td>0x1D</td><td>0x1D</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x50</td><td>TS_CTRL</td><td>写</td><td>关 TS</td><td>写</td><td>关 TS</td><td>0x12</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x61</td><td>IPRECHG</td><td>写</td><td>0x08</td><td>写</td><td>0x08</td><td>0x08</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x62</td><td>ICC</td><td>写</td><td>0x10</td><td>写</td><td>0x10</td><td>0x10</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x63</td><td>ITERM</td><td>写</td><td>0x11</td><td>写</td><td>0x11</td><td>0x11</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x64</td><td>CV_TARGET</td><td>写</td><td>0x03</td><td>写</td><td>0x03</td><td>0x03</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x68</td><td>BAT_DET</td><td>写</td><td>0x01</td><td>写</td><td>0x01</td><td>0x01</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x69</td><td>CHGLED</td><td>写</td><td>0x01</td><td>写</td><td>0x01</td><td>0x01</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x80</td><td>DCDC_EN</td><td>写</td><td>DCDC1+5</td><td>写</td><td>DCDC1+5</td><td>—</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x82</td><td>DCDC1_VOLT</td><td>写</td><td>3.3V</td><td>写</td><td>3.3V</td><td>0x12</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x86</td><td>DCDC5_VOLT</td><td>写</td><td>3.3V</td><td>写</td><td>3.3V</td><td>—</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x90</td><td>LDO_EN0</td><td>写</td><td>全轨 0x3D</td><td>写</td><td>全轨</td><td>—</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x92</td><td>ALDO1_VOLT</td><td>写</td><td>1.8V</td><td>写</td><td>1.8V</td><td>0x0D</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x94</td><td>ALDO3_VOLT</td><td>camera</td><td>0x17</td><td>写</td><td>0x17</td><td>0x17</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x95</td><td>ALDO4_VOLT</td><td>写</td><td>3.3V</td><td>写</td><td>3.3V</td><td>—</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x96</td><td>BLDO1_VOLT</td><td>camera</td><td>0x17</td><td>写</td><td>0x17</td><td>0x17</td><td class="tag-ok">一致</td></tr>
+    <tr><td>0x97</td><td>BLDO2_VOLT</td><td>camera</td><td>0x0D</td><td>写</td><td>0x0D</td><td>0x0D</td><td class="tag-ok">一致</td></tr>
+  </tbody>
+</table>
+
+<p>ADC 通道（0x34~0x3D）、IRQ（0x48~0x4A）、状态（0x00/0x01）均为只读，双方一致。</p>
+
+<h2>5. 充电失败可疑点（软件配置视角 · v2）</h2>
+
+<p><strong>交叉测试结论：</strong>同颗 AXP2101 烧录口袋机配置可充电、本工程配置不可充电 → 优先查软件初始化差异，而非硬件 BUCK 失效。</p>
+
+<table class="data">
+  <thead>
+    <tr>
+      <th>优先级</th><th>寄存器/流程</th><th>产品板</th><th>口袋机</th><th>可疑原因</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="tag-diff">P0</td><td>power_on 全流程</td><td>不写 DCDC/LDO</td><td>先关后开，仅 DCDC1/5+LDO</td><td>产品板依赖 OTP，实机 reg0x80=0x0F（DCDC1~4 全开）</td></tr>
+    <tr><td class="tag-diff">P0</td><td>reg0x80</td><td>OTP 0x0F</td><td>仅 DCDC1+5 使能</td><td>多余 BUCK 负载可能压住 VSYS，充电路径难抬压</td></tr>
+    <tr><td class="tag-diff">P0</td><td>reg0x90</td><td>camera 后 0x75</td><td>全轨使能含 ALDO4/DCDC5</td><td>SD 3.3V 与辅电源未按口袋机收敛</td></tr>
+    <tr><td class="tag-skip">P1</td><td>reg0x82/0x86</td><td>不写</td><td>DCDC1/5=3.3V 后 enable</td><td>上电顺序与电压目标未显式保证</td></tr>
+    <tr><td class="tag-skip">P1</td><td>reg0x95 ALDO4</td><td>未写</td><td>3.3V+enable</td><td>TF 卡电源轨缺失显式配置</td></tr>
+    <tr><td class="tag-skip">P1</td><td>reg0x24 VOFF</td><td>3000mV</td><td>3300mV</td><td>更低关断阈值，大负载时易误关</td></tr>
+    <tr><td class="tag-otp">P2</td><td>reg0x14 Vsysmin</td><td>OTP 4.7V</td><td>同 OTP</td><td>双方均未写，单独难解释差异</td></tr>
+    <tr><td class="tag-ok">低</td><td>0x15~0x64 充电参</td><td>已对齐</td><td>已对齐</td><td>dump 一致，暂非首要怀疑</td></tr>
+  </tbody>
+</table>
+
+<h3>建议验证顺序</h3>
+<ol>
+  <li class="p0">移植口袋机 <code>__board_axp2101_power_on()</code>（disable DCDC2/3/4 → 设压 → enable 所需轨）。</li>
+  <li class="p1">reg0x24 临时改 3300mV，对比充电电流与 STATUS1。</li>
+  <li class="p2">必要时显式写 reg0x14 Vsysmin，测 USB-only / USB+电池 VSYS ADC。</li>
+</ol>
+
+<h2>6. 结论</h2>
+
+<ul>
+  <li><span class="tag-ok">充电参数字段（0x15~0x18、0x61~0x64 等）已与口袋机对齐</span>，无 VERIFY FAIL。</li>
+  <li><span class="tag-diff">根因假设已转向软件</span>：口袋机可充证明芯片可用；差距在 <strong>power_on 电源轨收敛</strong> 与 reg0x80/0x90 等。</li>
+  <li><span class="tag-diff">reg0x24</span>：产品板 3000mV vs 口袋机 3300mV，建议 A/B 对齐排除误关断。</li>
+  <li><span class="tag-otp">reg0x14</span>：双方依赖 OTP；可作对照实验，优先级低于 power_on。</li>
+  <li>FA 报告「硬件 BUCK 失效」结论 <strong>已被交叉测试推翻</strong>，仅保留作历史快照参考。</li>
+</ul>
+
+<h2>7. 参考</h2>
+<ul>
+  <li><code>src/drivers/app_axp2101/src/tuya_axp2101.c</code></li>
+  <li>TuyaOpen <code>board_axp2101_api.c</code></li>
+  <li><code>Docs/FA-AXP2101-20260624-001.md</code></li>
+</ul>
+
+<footer>
+  CMP-AXP2101-20260707-002 · 自动生成 · 审核待填
+</footer>
+
+</body>
+</html>

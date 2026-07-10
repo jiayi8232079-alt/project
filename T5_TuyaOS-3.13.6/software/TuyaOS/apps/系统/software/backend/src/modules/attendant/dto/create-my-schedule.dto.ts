@@ -1,0 +1,17 @@
+import { IsNotEmpty, IsDateString, IsEnum } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
+export class CreateMyScheduleDto {
+  @ApiProperty({ description: '日期' })
+  @IsNotEmpty()
+  @IsDateString()
+  date: string;
+
+  @ApiProperty({
+    description: '时段',
+    enum: ['morning', 'afternoon', 'full_day'],
+  })
+  @IsNotEmpty()
+  @IsEnum(['morning', 'afternoon', 'full_day'])
+  period: string;
+}

@@ -1,0 +1,163 @@
+<!-- 陪了个伴 首页 - Stitch还原版 -->
+<view class="page {{pageLoaded ? 'page--loaded' : ''}}">
+
+  <!-- 顶部导航 -->
+  <view class="glass-nav anim-item anim-0" style="padding-top: {{statusBarHeight}}px;">
+    <view class="glass-nav__inner">
+      <text class="glass-nav__title">陪了个伴</text>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="scroll-content">
+
+      <!-- Hero 横幅区 -->
+      <view class="hero-section anim-item anim-1">
+        <image
+          class="hero-bg"
+          src="https://images.pexels.com/photos/8312027/pexels-photo-8312027.jpeg?auto=compress&cs=tinysrgb&w=1200"
+          mode="aspectFill"
+        />
+        <view class="hero-overlay"></view>
+        <view class="hero-float-card" bind:tap="onHeroBtnTap" hover-class="btn-haptic">
+          <view class="hero-float-card__info">
+            <text class="hero-float-card__title">预约门店咨询</text>
+            <text class="hero-float-card__sub">尊享线下 1对1 咨询服务</text>
+          </view>
+          <view class="hero-float-card__btn">
+            <text class="hero-float-card__btn-text">立即预约</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 待确认提示 -->
+      <view class="notice-pill anim-item anim-2" wx:if="{{pendingCount > 0}}" bind:tap="goServicePage" hover-class="btn-haptic">
+        <view class="pulse-dot"></view>
+        <text class="notice-pill__text">您当前有 <text class="notice-pill__num">{{pendingCount}}</text> 项待确认的服务</text>
+        <text class="material-symbols-outlined notice-pill__arrow">chevron_right</text>
+      </view>
+
+      <!-- 医疗资源协调入口 -->
+      <view class="resource-card anim-item anim-3" bind:tap="goService" data-type="expert" hover-class="btn-haptic">
+        <view class="resource-card__icon-wrap">
+          <text class="material-symbols-outlined">hub</text>
+        </view>
+        <view class="resource-card__info">
+          <text class="resource-card__title">医疗资源协调</text>
+          <text class="resource-card__sub">全球医疗资源精准对接与调配</text>
+        </view>
+        <text class="material-symbols-outlined resource-card__arrow">chevron_right</text>
+      </view>
+
+      <!-- 2格服务入口 -->
+      <view class="service-grid anim-item anim-4">
+        <view class="service-tile" bind:tap="goService" data-type="checkup" hover-class="btn-haptic">
+          <text class="material-symbols-outlined service-tile__icon">health_metrics</text>
+          <view class="service-tile__info">
+            <text class="service-tile__title">体检规划</text>
+            <text class="service-tile__sub">个性化深度定制</text>
+          </view>
+        </view>
+        <view class="service-tile" bind:tap="goService" data-type="escort" hover-class="btn-haptic">
+          <text class="material-symbols-outlined service-tile__icon">medical_services</text>
+          <view class="service-tile__info">
+            <text class="service-tile__title">陪诊服务</text>
+            <text class="service-tile__sub">全程温情陪伴</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 找医院 -->
+      <view class="resource-card anim-item anim-4h" bind:tap="goHospitals" hover-class="btn-haptic">
+        <view class="resource-card__icon-wrap">
+          <text class="material-symbols-outlined">local_hospital</text>
+        </view>
+        <view class="resource-card__info">
+          <text class="resource-card__title">找医院</text>
+          <text class="resource-card__sub">合作医疗机构名录 · 导航与电话咨询</text>
+        </view>
+        <text class="material-symbols-outlined resource-card__arrow">chevron_right</text>
+      </view>
+
+      <view class="resource-card anim-item anim-4h" bind:tap="goDoctors" hover-class="btn-haptic">
+        <view class="resource-card__icon-wrap">
+          <text class="material-symbols-outlined">groups</text>
+        </view>
+        <view class="resource-card__info">
+          <text class="resource-card__title">找医生</text>
+          <text class="resource-card__sub">姓名 · 科室 · 职称 · 擅长 · 所属医院</text>
+        </view>
+        <text class="material-symbols-outlined resource-card__arrow">chevron_right</text>
+      </view>
+
+      <!-- 专业服务入口 -->
+      <view class="resource-card anim-item anim-4h" bind:tap="goProServices" hover-class="btn-haptic">
+        <view class="resource-card__icon-wrap resource-card__icon-wrap--accent">
+          <text class="material-symbols-outlined">medical_information</text>
+        </view>
+        <view class="resource-card__info">
+          <text class="resource-card__title">专业家庭服务</text>
+          <text class="resource-card__sub">营养 · 康复 · 护理 · 心理支持</text>
+        </view>
+        <text class="material-symbols-outlined resource-card__arrow">chevron_right</text>
+      </view>
+
+      <!-- 进行中的服务 -->
+      <view class="section anim-item anim-5" wx:if="{{activeOrder}}">
+        <view class="section__header">
+          <text class="section__title">进行中的服务</text>
+        </view>
+        <view class="order-card" bind:tap="goOrderDetail" data-id="{{activeOrder.id}}" hover-class="btn-haptic">
+          <view class="order-card__badge">{{activeOrder.statusText}}</view>
+          <view class="order-card__info">
+            <text class="order-card__type">{{activeOrder.serviceType}}</text>
+            <text class="order-card__hospital">{{activeOrder.hospital}} {{activeOrder.department}}</text>
+            <text class="order-card__time">{{activeOrder.serviceTime}}</text>
+          </view>
+          <text class="material-symbols-outlined order-card__arrow">chevron_right</text>
+        </view>
+      </view>
+
+      <!-- 健康提醒 -->
+      <view class="section anim-item anim-6" wx:if="{{medicationReminders.length > 0}}">
+        <view class="section__header">
+          <text class="section__title">健康提醒</text>
+          <view class="section__more" bind:tap="goReminders" hover-class="btn-haptic">
+            <text class="section__more-text">查看全部</text>
+            <text class="material-symbols-outlined">arrow_forward_ios</text>
+          </view>
+        </view>
+        <view class="reminder-list">
+          <view class="reminder-card" wx:for="{{medicationReminders}}" wx:key="id" bind:tap="goReminderDetail" data-id="{{item.id}}">
+            <view class="reminder-card__icon">
+              <text class="material-symbols-outlined">{{item.reminderType === 'follow_up' ? 'event_upcoming' : 'medication'}}</text>
+            </view>
+            <view class="reminder-card__content">
+              <text class="reminder-card__name">{{item.medicineName}}</text>
+              <text class="reminder-card__dosage">{{item.reminderType === 'follow_up' ? '复诊安排提醒' : (item.dosage || '按医嘱服用')}}</text>
+              <view class="reminder-card__times">
+                <text wx:for="{{item.reminderTimes}}" wx:for-item="t" wx:key="*this" class="reminder-card__time-tag">{{t}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 孝心卡权益 -->
+      <view class="filial-card anim-item anim-7" bind:tap="goMembership" hover-class="btn-haptic">
+        <view class="filial-card__info">
+          <text class="filial-card__title">孝心卡专享权益</text>
+          <text class="filial-card__sub">专为海外子女打造，给父母一份跨越距离的守护</text>
+        </view>
+        <text class="material-symbols-outlined filial-card__icon">workspace_premium</text>
+      </view>
+
+      <!-- 页脚 -->
+      <view class="brand-footer anim-item anim-8">
+        <text class="brand-footer__text">Qiao Guo Health · Premium Service</text>
+      </view>
+
+      <view style="height: 120rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

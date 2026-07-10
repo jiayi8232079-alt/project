@@ -1,0 +1,434 @@
+@brand: #2d8a55;
+@brand-dark: #1d6b3f;
+@brand-soft: #edf7f0;
+@brand-bg: #f0faf4;
+@obsidian: #111;
+@gray-1: #222;
+@gray-2: #555;
+@gray-3: #999;
+@gray-4: #ccc;
+@gray-5: #eee;
+@bg: #f4f5f7;
+@card: #ffffff;
+@ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes docFadeUp {
+  from { opacity: 0; transform: translateY(8rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes docShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.doc-page {
+  min-height: 100vh;
+  background: @bg;
+  &--loaded .anim-fade { animation: docFadeUp 0.36s @ease both; }
+  &__press { opacity: 0.82; transform: scale(0.997); }
+}
+
+// ── 导航栏 ──
+.doc-page__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14rpx 28rpx;
+  background: @card;
+  border-bottom: 1rpx solid rgba(0,0,0,0.04);
+}
+.doc-page__nav-back {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.03);
+}
+.doc-page__nav-back-icon { font-size: 38rpx; color: @obsidian; }
+.doc-page__nav-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: @obsidian;
+  letter-spacing: 1rpx;
+}
+.doc-page__nav-side { width: 64rpx; }
+
+// ── 搜索 ──
+.doc-search {
+  padding: 20rpx 28rpx 0;
+}
+.doc-search__bar {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  height: 84rpx;
+  padding: 0 24rpx;
+  background: @card;
+  border-radius: 42rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0,0,0,0.05);
+}
+.doc-search__icon { font-size: 36rpx; color: @gray-3; }
+.doc-search__input { flex: 1; font-size: 28rpx; color: @gray-1; }
+.doc-search__ph { color: @gray-4; }
+
+// ── 筛选 ──
+.doc-filter {
+  margin: 16rpx 28rpx 0;
+  padding: 20rpx 24rpx 14rpx;
+  background: @card;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.doc-filter__row {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  & + & { margin-top: 10rpx; padding-top: 10rpx; border-top: 1rpx solid rgba(0,0,0,0.04); }
+}
+.doc-filter__label {
+  flex-shrink: 0;
+  width: 64rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: @gray-2;
+}
+.doc-filter__scroll { flex: 1; min-width: 0; white-space: nowrap; }
+.doc-filter__chips { display: inline-flex; gap: 14rpx; padding: 4rpx 0 6rpx; }
+.doc-filter__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 10rpx 26rpx;
+  border-radius: 999rpx;
+  font-size: 25rpx;
+  font-weight: 500;
+  color: @gray-2;
+  background: @bg;
+  transition: all 0.2s @ease;
+}
+.doc-filter__chip--sm { padding: 8rpx 22rpx; font-size: 23rpx; }
+.doc-filter__chip--on {
+  color: @card;
+  background: @brand;
+  font-weight: 600;
+  box-shadow: 0 4rpx 16rpx rgba(45,138,85,0.22);
+}
+
+// ── 列表区 ──
+.doc-list { padding: 16rpx 28rpx 32rpx; }
+
+// ── 医生卡片 ──
+.doc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  background: @card;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.doc-card__top {
+  display: flex;
+  align-items: flex-start;
+  gap: 22rpx;
+}
+.doc-card__avatar {
+  flex-shrink: 0;
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.08);
+}
+.doc-card__avatar-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.doc-card__avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #e8f5ee, #d1ecd8);
+}
+.doc-card__avatar-letter {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: @brand;
+}
+
+.doc-card__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  padding-top: 4rpx;
+}
+.doc-card__name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+.doc-card__name {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: @obsidian;
+  line-height: 1.25;
+}
+.doc-card__title-level {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: @gray-3;
+}
+.doc-card__tags {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  flex-wrap: wrap;
+}
+.doc-card__dept-tag {
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  background: @brand-soft;
+  color: @brand-dark;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+.doc-card__region-tag {
+  display: inline-block;
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  background: #f0f0f0;
+  color: @gray-3;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.doc-card__expertise {
+  font-size: 25rpx;
+  color: @gray-2;
+  line-height: 1.65;
+  margin-top: 16rpx;
+  padding-top: 14rpx;
+  border-top: 1rpx solid rgba(0,0,0,0.04);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.doc-card__intro {
+  font-size: 23rpx;
+  color: @gray-3;
+  line-height: 1.7;
+  margin-top: 10rpx;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.doc-card__hospital {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  padding: 16rpx 18rpx;
+  margin-top: 16rpx;
+  border-radius: 14rpx;
+  background: @bg;
+}
+.doc-card__hospital-icon {
+  font-size: 30rpx;
+  color: @brand;
+  flex-shrink: 0;
+}
+.doc-card__hospital-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 25rpx;
+  font-weight: 600;
+  color: @gray-1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.doc-card__hospital-arrow { font-size: 28rpx; color: @gray-4; flex-shrink: 0; }
+
+// ── 空态 / 加载 ──
+.doc-page__state {
+  padding: 120rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+.doc-page__skeleton {
+  width: 60%;
+  height: 10rpx;
+  border-radius: 6rpx;
+  background: linear-gradient(90deg, #e8e8e8 0%, #f5f5f5 50%, #e8e8e8 100%);
+  background-size: 200% 100%;
+  animation: docShimmer 1.2s @ease infinite;
+}
+.doc-page__skeleton--short { width: 38%; }
+.doc-page__state-text { font-size: 24rpx; color: @gray-3; margin-top: 10rpx; }
+
+.doc-page__empty {
+  padding: 140rpx 48rpx 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14rpx;
+}
+.doc-page__empty-circle {
+  width: 108rpx;
+  height: 108rpx;
+  border-radius: 50%;
+  background: linear-gradient(145deg, @brand-soft, #dceee3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+.doc-page__empty-icon { font-size: 52rpx; color: @brand; }
+.doc-page__empty-title { font-size: 30rpx; font-weight: 700; color: @gray-1; }
+.doc-page__empty-sub { font-size: 24rpx; color: @gray-3; text-align: center; line-height: 1.5; }
+
+.doc-page__foot { text-align: center; padding: 28rpx; font-size: 24rpx; color: @gray-3; }
+.doc-page__foot--done { color: @brand; font-weight: 500; }
+.doc-page__safe-bottom { height: calc(48rpx + env(safe-area-inset-bottom)); }
+
+// ── 医生详情弹层 ──
+.doc-detail-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  animation: docFadeIn 0.2s ease;
+}
+@keyframes docFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.doc-detail {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  max-height: 85vh;
+  background: @card;
+  border-radius: 28rpx 28rpx 0 0;
+  z-index: 1001;
+  transform: translateY(100%);
+  transition: transform 0.32s @ease;
+  display: flex;
+  flex-direction: column;
+  &--show { transform: translateY(0); }
+}
+.doc-detail__header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20rpx 28rpx 0;
+}
+.doc-detail__close {
+  width: 60rpx; height: 60rpx;
+  border-radius: 50%;
+  background: @bg;
+  display: flex; align-items: center; justify-content: center;
+  .material-symbols-outlined { font-size: 36rpx; color: @gray-2; }
+}
+.doc-detail__body {
+  flex: 1; min-height: 0;
+  padding: 0 36rpx;
+  box-sizing: border-box;
+  width: 100%;
+}
+.doc-detail__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20rpx;
+}
+.doc-detail__photo-wrap {
+  width: 200rpx; height: 200rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.1);
+  margin-bottom: 24rpx;
+}
+.doc-detail__photo { width: 100%; height: 100%; display: block; }
+.doc-detail__photo-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(145deg, #e8f5ee, #d1ecd8);
+}
+.doc-detail__photo-letter { font-size: 72rpx; font-weight: 700; color: @brand; }
+.doc-detail__name {
+  font-size: 40rpx; font-weight: 700; color: @obsidian; margin-bottom: 12rpx;
+}
+.doc-detail__meta {
+  display: flex; align-items: center; gap: 12rpx; flex-wrap: wrap;
+  justify-content: center; margin-bottom: 28rpx;
+}
+.doc-detail__meta-tag {
+  display: inline-block;
+  padding: 6rpx 18rpx;
+  border-radius: 8rpx;
+  background: @brand-soft;
+  color: @brand-dark;
+  font-size: 24rpx; font-weight: 600;
+}
+.doc-detail__meta-tag--title { background: #fff8e6; color: #b88a00; }
+
+.doc-detail__section {
+  width: 100%;
+  margin-bottom: 24rpx;
+  text-align: left;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.doc-detail__section-label {
+  display: block;
+  font-size: 26rpx; font-weight: 700; color: @obsidian;
+  margin-bottom: 10rpx;
+  padding-left: 4rpx;
+}
+.doc-detail__section-text {
+  display: block;
+  font-size: 26rpx; color: @gray-2;
+  line-height: 1.75;
+  padding: 16rpx 20rpx;
+  background: @bg;
+  border-radius: 14rpx;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.doc-detail__hospital-card {
+  width: 100%;
+  display: flex; align-items: center; gap: 16rpx;
+  padding: 22rpx 24rpx;
+  background: @brand-bg;
+  border-radius: 16rpx;
+  margin-top: 4rpx;
+}
+.doc-detail__hospital-icon { font-size: 40rpx; color: @brand; flex-shrink: 0; }
+.doc-detail__hospital-info { flex: 1; min-width: 0; }
+.doc-detail__hospital-name {
+  display: block;
+  font-size: 28rpx; font-weight: 700; color: @obsidian;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.doc-detail__hospital-region {
+  display: block;
+  font-size: 22rpx; color: @gray-3; margin-top: 4rpx;
+}
+.doc-detail__hospital-arrow { font-size: 32rpx; color: @gray-4; flex-shrink: 0; }

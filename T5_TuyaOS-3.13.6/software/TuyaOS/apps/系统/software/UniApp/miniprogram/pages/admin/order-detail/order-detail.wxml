@@ -1,0 +1,833 @@
+<view class="od" style="padding-top: {{statusBarHeight}}px;">
+
+  <!-- 导航 -->
+  <view class="od__nav">
+    <view class="od__back" bind:tap="handleBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <view class="od__nav-center">
+      <text class="od__nav-title">订单详情</text>
+      <view wx:if="{{order}}" class="status-tag status-tag--{{order.status}}">
+        <text>{{order.statusLabel}}</text>
+      </view>
+    </view>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <view wx:if="{{!loaded}}" class="od__loading">
+    <text>加载中...</text>
+  </view>
+
+  <block wx:elif="{{order}}">
+
+    <!-- 订单号条 -->
+    <view class="od__no-bar">
+      <text class="od__no-label">订单号</text>
+      <text class="od__no-val">{{order.orderNumber || ('#' + order.id)}}</text>
+      <view class="od__copy" bind:tap="copyOrderNo">
+        <text class="material-symbols-outlined">content_copy</text>
+      </view>
+    </view>
+
+    <!-- 未签署陪诊确认单的醒目提醒 -->
+    <view wx:if="{{confirmNeedsSign && confirmSceneCode}}" class="od__sign-alert">
+      <view class="od__sign-alert-body">
+        <text class="material-symbols-outlined od__sign-alert-icon">warning</text>
+        <view class="od__sign-alert-text">
+          <text class="od__sign-alert-title">客户未签署陪诊确认单</text>
+          <text class="od__sign-alert-desc">请尽快转发客户签署</text>
+        </view>
+      </view>
+      <view class="od__sign-alert-btn-wrap">
+        <button class="od__sign-alert-btn btn-reset" open-type="share" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">forward_to_inbox</text>
+          <text>转发签署</text>
+        </button>
+      </view>
+    </view>
+    <!-- 已签署小徽标（仅陪诊订单） -->
+    <view wx:elif="{{confirmSigned && isEscortOrder}}" class="od__sign-done">
+      <text class="material-symbols-outlined od__sign-done-icon">verified</text>
+      <text class="od__sign-done-text">客户已签署陪诊确认单</text>
+    </view>
+
+    <!-- Tab 切换 -->
+    <view class="od__tabs">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="key"
+        class="od__tab {{activeTab === item.key ? 'od__tab--active' : ''}}"
+        bind:tap="switchTab"
+        data-tab="{{item.key}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+
+    <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="od__scroll">
+
+      <!-- ======= 基本信息 Tab ======= -->
+      <block wx:if="{{activeTab === 'info'}}">
+
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">person</text>
+            <text>客户信息</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">姓名</text>
+            <text class="info-row__val">{{order.user ? (order.user.name || order.user.nickname || '-') : '-'}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">手机</text>
+            <view class="info-row__val-action">
+              <text class="info-row__val">{{order.user ? (order.user.phone || '-') : '-'}}</text>
+              <view wx:if="{{order.user && order.user.phone}}" class="call-btn" bind:tap="callUser">
+                <text class="material-symbols-outlined">call</text>
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{order.serviceTarget}}" class="info-row">
+            <text class="info-row__label">就诊人</text>
+            <text class="info-row__val">{{order.serviceTarget.name || '-'}} ({{order.serviceTarget.relationship || '-'}})</text>
+          </view>
+          <view wx:if="{{order.callbackContactPhone}}" class="info-row">
+            <text class="info-row__label">回电号码</text>
+            <text class="info-row__val">{{order.callbackContactPhone}}</text>
+          </view>
+        </view>
+
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">medical_services</text>
+            <text>服务信息</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">服务类型</text>
+            <text class="info-row__val">{{order.serviceName || order.serviceType || '-'}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">医院</text>
+            <text class="info-row__val">{{order.hospital || '-'}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">科室</text>
+            <text class="info-row__val">{{order.department || '-'}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">服务时间</text>
+            <text class="info-row__val">{{order.serviceTimeDisplay || '-'}}</text>
+          </view>
+          <view wx:if="{{order.serviceEndTime}}" class="info-row">
+            <text class="info-row__label">结束时间</text>
+            <text class="info-row__val">{{order.serviceEndTimeDisplay}}</text>
+          </view>
+          <view wx:if="{{order.serviceAddress}}" class="info-row">
+            <text class="info-row__label">服务地址</text>
+            <text class="info-row__val">{{order.serviceAddress}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">备注</text>
+            <view class="info-row__val-action">
+              <text class="info-row__val">{{order.notes || '无'}}</text>
+              <view wx:if="{{canEdit}}" class="action-btn" bind:tap="editNotes" hover-class="btn-haptic">
+                <text class="material-symbols-outlined" style="font-size:28rpx;">edit</text>
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{order.riskLevel}}" class="info-row">
+            <text class="info-row__label">风险等级</text>
+            <text class="info-row__val">{{order.riskLevel}}</text>
+          </view>
+        </view>
+
+        <!-- 服务人员信息 -->
+        <view wx:if="{{order.needAttendant !== false}}" class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">badge</text>
+            <text>{{order.staffRoleLabel || '服务人员'}}</text>
+            <view wx:if="{{order.showStaffRoleTag}}" class="info-card__role-tag">
+              <text>{{order.staffRoleLabel}}</text>
+            </view>
+          </view>
+          <block wx:if="{{order.attendant}}">
+            <view class="info-row">
+              <text class="info-row__label">姓名</text>
+              <text class="info-row__val">{{order.attendant.realName || (order.attendant.user ? (order.attendant.user.name || order.attendant.user.nickname || '-') : '-')}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-row__label">手机</text>
+              <view class="info-row__val-action">
+                <text class="info-row__val">{{order.attendant.user ? (order.attendant.user.phone || '-') : '-'}}</text>
+                <view wx:if="{{order.attendant.user && order.attendant.user.phone}}" class="call-btn" bind:tap="callAttendant">
+                  <text class="material-symbols-outlined">call</text>
+                </view>
+              </view>
+            </view>
+          </block>
+          <view wx:else class="no-attendant">
+            <text class="no-attendant__text">尚未派单</text>
+            <view wx:if="{{canDispatch}}" class="dispatch-btn" bind:tap="openDispatchDialog" hover-class="btn-haptic">
+              <text class="material-symbols-outlined">person_add</text>
+              <text>立即派单</text>
+            </view>
+          </view>
+          <view wx:if="{{order.attendant && canDispatch && order.status === 'pending_accept'}}" class="admin-confirm-accept-btn" bind:tap="handleAdminConfirmAccept" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">verified</text>
+            <text>代{{order.staffRoleLabel || '服务人员'}}确认接单</text>
+          </view>
+          <view wx:if="{{order.attendant && canDispatch}}" class="redispatch-btn" bind:tap="openDispatchDialog" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">swap_horiz</text>
+            <text>重新派单</text>
+          </view>
+        </view>
+        <view wx:else class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">badge</text>
+            <text>服务人员</text>
+          </view>
+          <view class="no-attendant">
+            <text class="no-attendant__text">该订单无需服务人员（自助/体检类）</text>
+          </view>
+        </view>
+
+      </block>
+
+      <!-- ======= 费用回款 Tab ======= -->
+      <block wx:if="{{activeTab === 'payment'}}">
+
+        <!-- 一站式费用与结算入口 -->
+        <view wx:if="{{canEdit}}" class="fee-edit-entry btn-haptic" bind:tap="openFeeEdit">
+          <view class="fee-edit-entry__icon">
+            <text class="material-symbols-outlined">payments</text>
+          </view>
+          <view class="fee-edit-entry__meta">
+            <text class="fee-edit-entry__title">费用与结算</text>
+            <text class="fee-edit-entry__desc">一次性维护费用明细、{{order.staffRoleLabel || '服务人员'}}收入、结算与付款状态</text>
+          </view>
+          <text class="material-symbols-outlined fee-edit-entry__arrow">chevron_right</text>
+        </view>
+
+        <!-- 费用明细 -->
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">payments</text>
+            <text>费用明细</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">基础服务费</text>
+            <view class="info-row__val-action">
+              <text class="info-row__val">¥{{order.baseFee || 0}}</text>
+            </view>
+          </view>
+
+          <!-- 附加服务列表 -->
+          <view wx:if="{{order.additionalServiceItems.length > 0}}" class="sub-section">
+            <view class="sub-section__title">
+              <text>附加服务</text>
+              <text class="sub-section__badge">{{order.additionalServiceItems.length}}项</text>
+            </view>
+            <view wx:for="{{order.additionalServiceItems}}" wx:key="id" class="sub-item">
+              <view class="sub-item__info">
+                <text class="sub-item__name">{{item.name}}</text>
+                <text wx:if="{{item.note}}" class="sub-item__note">{{item.note}}</text>
+              </view>
+              <text class="sub-item__amount">¥{{item.amount}}</text>
+            </view>
+            <view class="sub-item sub-item--total">
+              <text class="sub-item__name">附加小计</text>
+              <text class="sub-item__amount">¥{{order.additionalTotal}}</text>
+            </view>
+          </view>
+
+          <view class="info-row info-row--total">
+            <text class="info-row__label">实收金额</text>
+            <view class="info-row__val-action">
+              <text class="info-row__val info-row__val--big">¥{{order.totalFee || order.amount || 0}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 服务人员收入 -->
+        <view wx:if="{{order.needAttendant !== false}}" class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">account_balance</text>
+            <text>{{order.staffRoleLabel || '服务人员'}}收入</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">基本收入</text>
+            <view class="info-row__val-action">
+              <text class="info-row__val">¥{{order.attendantFee || 0}}</text>
+            </view>
+          </view>
+          <view wx:if="{{order.attendantFeeType}}" class="info-row">
+            <text class="info-row__label">费用类型</text>
+            <view class="info-row__val-action">
+              <text class="info-row__val">{{order.attendantFeeType}}</text>
+            </view>
+          </view>
+
+          <!-- 额外收入列表 -->
+          <view wx:if="{{order.attendantExtraIncomeItems.length > 0}}" class="sub-section">
+            <view class="sub-section__title">
+              <text>额外收入</text>
+              <text class="sub-section__badge">{{order.attendantExtraIncomeItems.length}}项</text>
+            </view>
+            <view wx:for="{{order.attendantExtraIncomeItems}}" wx:key="id" class="sub-item">
+              <view class="sub-item__info">
+                <text class="sub-item__name">{{item.name}}</text>
+                <text wx:if="{{item.note}}" class="sub-item__note">{{item.note}}</text>
+              </view>
+              <text class="sub-item__amount">¥{{item.amount}}</text>
+            </view>
+            <view class="sub-item sub-item--total">
+              <text class="sub-item__name">额外小计</text>
+              <text class="sub-item__amount">¥{{order.extraIncomeTotal}}</text>
+            </view>
+          </view>
+
+        </view>
+
+        <!-- 回款状态 -->
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">receipt</text>
+            <text>回款状态</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">付款状态</text>
+            <view class="info-row__val-tag">
+              <view class="payment-tag payment-tag--{{order.paymentStatus}}">
+                <text>{{order.paymentLabel || '未知'}}</text>
+              </view>
+              <view wx:if="{{canEdit && order.paymentStatus === 'unpaid'}}" class="action-btn" bind:tap="markPaid" hover-class="btn-haptic">
+                <text>标记已付</text>
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{order.paymentMethod}}" class="info-row">
+            <text class="info-row__label">付款方式</text>
+            <text class="info-row__val">{{order.paymentMethod}}</text>
+          </view>
+          <view wx:if="{{order.paymentPaidAt}}" class="info-row">
+            <text class="info-row__label">付款时间</text>
+            <text class="info-row__val">{{order.paymentPaidAtDisplay}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">结算状态</text>
+            <view class="info-row__val-tag">
+              <view class="settle-tag settle-tag--{{order.settlementStatus}}">
+                <text>{{order.settlementLabel || '未结算'}}</text>
+              </view>
+              <view wx:if="{{canEdit && order.settlementStatus !== 'settled'}}" class="action-btn" bind:tap="markSettled" hover-class="btn-haptic">
+                <text>标记结算</text>
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{order.settledAt}}" class="info-row">
+            <text class="info-row__label">结算时间</text>
+            <text class="info-row__val">{{order.settledAtDisplay}}</text>
+          </view>
+        </view>
+      </block>
+
+      <!-- ======= 服务记录 Tab ======= -->
+      <block wx:if="{{activeTab === 'timeline'}}">
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">history</text>
+            <text>订单节点</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">创建时间</text>
+            <text class="info-row__val">{{order.createdAtDisplay}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">当前状态</text>
+            <text class="info-row__val">{{order.statusLabel}}</text>
+          </view>
+        </view>
+
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">timeline</text>
+            <text>服务时间轴</text>
+            <text wx:if="{{timelineLoading}}" style="font-size:24rpx;color:#94A3B8;margin-left:auto;">加载中…</text>
+            <view wx:if="{{canEdit && !timelineLoading}}" class="action-btn" style="margin-left:auto;" bind:tap="showAddTimelineDialog" hover-class="btn-haptic">
+              <text class="material-symbols-outlined" style="font-size:26rpx;">add</text>
+              <text>添加</text>
+            </view>
+          </view>
+
+          <view wx:if="{{!timelineLoading && timelineItems.length === 0}}" style="text-align:center;padding:40rpx;color:#94A3B8;font-size:26rpx;">
+            暂无服务记录
+          </view>
+
+          <view wx:for="{{timelineItems}}" wx:key="id" class="tl-item">
+            <view class="tl-item__dot tl-item__dot--{{item.type || 'text'}}"></view>
+            <view class="tl-item__body">
+              <view class="tl-item__head">
+                <text class="tl-item__type">{{item.typeLabel}}</text>
+                <view class="tl-item__actions">
+                  <view wx:if="{{!item.isVisible}}" class="tl-vis-badge tl-vis-badge--hidden">
+                    <text class="material-symbols-outlined" style="font-size:22rpx;">visibility_off</text>
+                  </view>
+                  <text class="tl-item__time">{{item.timeDisplay}}</text>
+                </view>
+              </view>
+              <text wx:if="{{item.content}}" class="tl-item__content">{{item.content}}</text>
+              <view wx:if="{{item.images && item.images.length}}" class="tl-item__images">
+                <image wx:for="{{item.images}}" wx:for-item="img" wx:key="*this" class="tl-item__img" src="{{img}}" mode="aspectFill" bind:tap="previewImage" data-url="{{img}}"/>
+              </view>
+              <view wx:if="{{item.operatorName}}" class="tl-item__operator">
+                <text class="material-symbols-outlined" style="font-size:24rpx;">person</text>
+                <text>{{item.operatorName}}</text>
+              </view>
+              <!-- 管理操作 -->
+              <view wx:if="{{canEdit}}" class="tl-item__mgmt">
+                <view class="tl-mgmt-btn" bind:tap="toggleTimelineVisibility" data-id="{{item.id}}" data-visible="{{item.isVisible}}" hover-class="btn-haptic">
+                  <text class="material-symbols-outlined">{{item.isVisible ? 'visibility_off' : 'visibility'}}</text>
+                  <text>{{item.isVisible ? '隐藏' : '显示'}}</text>
+                </view>
+                <view class="tl-mgmt-btn tl-mgmt-btn--danger" bind:tap="deleteTimelineItem" data-id="{{item.id}}" hover-class="btn-haptic">
+                  <text class="material-symbols-outlined">delete_outline</text>
+                  <text>删除</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- ======= 操作 Tab ======= -->
+      <block wx:if="{{activeTab === 'actions'}}">
+        <!-- 状态变更 -->
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">swap_vert</text>
+            <text>状态变更</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">当前状态</text>
+            <view class="status-tag status-tag--{{order.status}}">
+              <text>{{order.statusLabel}}</text>
+            </view>
+          </view>
+          <view wx:if="{{statusTransitions.length > 0}}" class="status-actions">
+            <view
+              wx:for="{{statusTransitions}}"
+              wx:key="value"
+              class="status-action-btn status-action-btn--{{item.value}}"
+              bind:tap="changeStatus"
+              data-status="{{item.value}}"
+              hover-class="btn-haptic"
+            >
+              <text>{{item.label}}</text>
+            </view>
+          </view>
+          <view wx:else class="empty-actions">
+            <text>当前状态无可用变更操作</text>
+          </view>
+        </view>
+
+        <!-- 快捷操作 -->
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">bolt</text>
+            <text>快捷操作</text>
+          </view>
+          <view class="quick-actions">
+            <view wx:if="{{canDispatch}}" class="quick-action-btn" bind:tap="openDispatchDialog" hover-class="btn-haptic">
+              <text class="material-symbols-outlined">person_add</text>
+              <text>{{order.attendant ? '重新派单' : '派单'}}</text>
+            </view>
+            <view class="quick-action-btn" bind:tap="goServiceTimeline" hover-class="btn-haptic">
+              <text class="material-symbols-outlined">timeline</text>
+              <text>{{order.staffRoleLabel || '服务人员'}}视角</text>
+            </view>
+            <button
+              wx:if="{{confirmNeedsSign && confirmSceneCode}}"
+              class="quick-action-btn quick-action-btn--share btn-reset"
+              open-type="share"
+            >
+              <text class="material-symbols-outlined">forward_to_inbox</text>
+              <text>转发确认单</text>
+            </button>
+            <view wx:if="{{confirmSigned && isEscortOrder}}" class="quick-action-btn quick-action-btn--signed">
+              <text class="material-symbols-outlined">verified</text>
+              <text>确认单已签</text>
+            </view>
+            <view wx:if="{{order.user && order.user.phone}}" class="quick-action-btn" bind:tap="callUser" hover-class="btn-haptic">
+              <text class="material-symbols-outlined">call</text>
+              <text>联系客户</text>
+            </view>
+            <view wx:if="{{order.attendant && order.attendant.user && order.attendant.user.phone}}" class="quick-action-btn" bind:tap="callAttendant" hover-class="btn-haptic">
+              <text class="material-symbols-outlined">call</text>
+              <text>联系{{order.staffRoleLabel || '服务人员'}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 订单创建信息 -->
+        <view class="info-card">
+          <view class="info-card__title">
+            <text class="material-symbols-outlined">info</text>
+            <text>订单信息</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">创建时间</text>
+            <text class="info-row__val">{{order.createdAtDisplay}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-row__label">订单号</text>
+            <text class="info-row__val">{{order.orderNumber}}</text>
+          </view>
+          <view wx:if="{{order.cancelReason}}" class="info-row">
+            <text class="info-row__label">取消原因</text>
+            <text class="info-row__val">{{order.cancelReason}}</text>
+          </view>
+          <view wx:if="{{order.canceledBy}}" class="info-row">
+            <text class="info-row__label">取消人</text>
+            <text class="info-row__val">{{order.canceledBy}}</text>
+          </view>
+        </view>
+      </block>
+
+      <view style="height: 100rpx;"></view>
+    </scroll-view>
+
+  </block>
+
+  <!-- 派单弹窗 -->
+  <view wx:if="{{dispatchDialogVisible}}" class="dialog-mask" bind:tap="closeDispatchDialog">
+    <view class="dialog" catchtap>
+      <view class="dialog__header">
+        <text class="dialog__title">选择{{order.staffRoleLabel || '服务人员'}}</text>
+        <view class="dialog__close" bind:tap="closeDispatchDialog">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+      <scroll-view scroll-y class="dialog__list">
+        <view
+          wx:for="{{attendantList}}"
+          wx:key="id"
+          class="attendant-item {{selectedAttendantId === item.id ? 'attendant-item--selected' : ''}}"
+          bind:tap="selectAttendant"
+          data-id="{{item.id}}"
+        >
+          <view class="attendant-item__avatar">
+            <image wx:if="{{item.user && item.user.avatarUrl}}" src="{{item.user.avatarUrl}}" class="attendant-item__img" mode="aspectFill"/>
+            <text wx:else class="material-symbols-outlined">person</text>
+          </view>
+          <view class="attendant-item__info">
+            <view class="attendant-item__name-row">
+              <text class="attendant-item__name">{{item.displayName}}</text>
+              <view wx:if="{{item.showRoleTag}}" class="attendant-item__role-tag">
+                <text>{{item.displayRoleLabel}}</text>
+              </view>
+            </view>
+            <text wx:if="{{item.specialties}}" class="attendant-item__specialty">{{item.specialties}}</text>
+          </view>
+          <view wx:if="{{selectedAttendantId === item.id}}" class="attendant-item__check">
+            <text class="material-symbols-outlined">check_circle</text>
+          </view>
+        </view>
+        <view wx:if="{{attendantList.length === 0}}" class="dialog__empty">
+          <text>暂无可用{{order.staffRoleLabel || '服务人员'}}</text>
+        </view>
+      </scroll-view>
+      <view class="dialog__foot">
+        <view class="dialog__cancel" bind:tap="closeDispatchDialog">取消</view>
+        <view class="dialog__confirm {{dispatchLoading ? 'dialog__confirm--loading' : ''}}" bind:tap="confirmDispatch">
+          <text>{{dispatchLoading ? '派单中...' : '确认派单'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <canvas type="2d" id="share-cover-canvas" style="position:fixed;left:-9999px;top:-9999px;width:500px;height:400px;"></canvas>
+
+  <!-- ═══ 一站式费用与结算弹窗 ═══ -->
+  <view wx:if="{{feeEditVisible}}" class="fee-modal" bind:tap="closeFeeEdit">
+    <view class="fee-modal__sheet" catchtap="">
+      <view class="fee-modal__handle"></view>
+      <view class="fee-modal__header">
+        <text class="fee-modal__title">费用与结算</text>
+        <view class="fee-modal__close btn-haptic" bind:tap="closeFeeEdit">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+      <view class="fee-modal__tip">维护费用明细、{{order.staffRoleLabel || '服务人员'}}收入，以及订单的结算和付款状态。</view>
+
+      <scroll-view scroll-y class="fee-modal__scroll">
+        <!-- 基础服务费 -->
+        <view class="fee-sec">
+          <view class="fee-sec__label">基础服务费</view>
+          <view class="fee-field">
+            <text class="fee-field__prefix">¥</text>
+            <input
+              class="fee-field__input"
+              type="digit"
+              value="{{feeEditForm.baseFee}}"
+              placeholder="0.00"
+              bindinput="onFeeBaseFeeInput"
+            />
+          </view>
+        </view>
+
+        <!-- 附加服务项 -->
+        <view class="fee-sec">
+          <view class="fee-sec__label">附加服务项</view>
+          <view wx:for="{{feeEditForm.additionalServiceItems}}" wx:key="id" class="fee-item-card">
+            <view class="fee-item-card__head">
+              <text class="fee-item-card__tag">附加项 {{index + 1}}</text>
+              <view class="fee-item-card__del btn-haptic" bind:tap="removeAdditionalServiceItem" data-index="{{index}}">
+                <text class="material-symbols-outlined fee-item-card__del-ico">delete</text>
+              </view>
+            </view>
+            <view class="fee-item-card__row">
+              <text class="fee-item-card__sub-label">费用名称</text>
+              <input
+                class="fee-item-card__input"
+                value="{{item.name}}"
+                placeholder="填写费用名称"
+                bindinput="onAdditionalItemNameInput"
+                data-index="{{index}}"
+              />
+            </view>
+            <view class="fee-item-card__row">
+              <text class="fee-item-card__sub-label">金额</text>
+              <view class="fee-field fee-field--inline">
+                <text class="fee-field__prefix">¥</text>
+                <input
+                  class="fee-field__input"
+                  type="digit"
+                  value="{{item.amount}}"
+                  placeholder="0.00"
+                  bindinput="onAdditionalItemAmountInput"
+                  data-index="{{index}}"
+                />
+              </view>
+            </view>
+            <view class="fee-item-card__row">
+              <text class="fee-item-card__sub-label">备注</text>
+              <input
+                class="fee-item-card__input"
+                value="{{item.note}}"
+                placeholder="备注（选填）"
+                bindinput="onAdditionalItemNoteInput"
+                data-index="{{index}}"
+              />
+            </view>
+          </view>
+          <view class="fee-add-btn btn-haptic" bind:tap="addAdditionalServiceItem">
+            <text class="material-symbols-outlined fee-add-btn__ico">add_circle</text>
+            <text>添加附加服务项</text>
+          </view>
+          <view wx:if="{{feeEditForm.additionalServiceItems.length > 0}}" class="fee-subtotal">
+            附加服务合计：<text class="fee-subtotal__val">{{feeEditAddonTotalText}}</text>
+          </view>
+        </view>
+
+        <!-- 总费用 -->
+        <view class="fee-total-box">
+          <text class="fee-total-box__label">总费用自动累计</text>
+          <text class="fee-total-box__val">{{feeEditComputedTotalText}}</text>
+        </view>
+
+        <!-- 服务人员收入 -->
+        <view class="fee-sec">
+          <view class="fee-sec__label">{{order.staffRoleLabel || '服务人员'}}此单收入</view>
+          <view class="fee-picker-row btn-haptic" bind:tap="pickAttendantFeeType">
+            <text class="fee-picker-row__val {{feeEditForm.attendantFeeType ? '' : 'fee-picker-row__val--empty'}}">
+              {{feeEditForm.attendantFeeType || '选择费用类型'}}
+            </text>
+            <text class="material-symbols-outlined fee-picker-row__arrow">chevron_right</text>
+          </view>
+          <view wx:if="{{feeEditForm.attendantFeeType === '自定义金额'}}" class="fee-field" style="margin-top:16rpx;">
+            <text class="fee-field__prefix">¥</text>
+            <input
+              class="fee-field__input"
+              type="digit"
+              value="{{feeEditForm.attendantFee}}"
+              placeholder="0.00"
+              bindinput="onFeeAttendantFeeInput"
+            />
+          </view>
+          <view class="fee-hint">基础收入：<text class="fee-hint__green">{{feeEditAttendantFeeText}}</text></view>
+        </view>
+
+        <!-- 附加收入项 -->
+        <view class="fee-sec">
+          <view class="fee-sec__label">附加收入项</view>
+          <view wx:for="{{feeEditForm.attendantExtraIncomeItems}}" wx:key="id" class="fee-item-card fee-item-card--income">
+            <view class="fee-item-card__head">
+              <text class="fee-item-card__tag fee-item-card__tag--income">收入项 {{index + 1}}</text>
+              <view class="fee-item-card__del btn-haptic" bind:tap="removeAttendantExtraIncomeItem" data-index="{{index}}">
+                <text class="material-symbols-outlined fee-item-card__del-ico">delete</text>
+              </view>
+            </view>
+            <view class="fee-item-card__row">
+              <text class="fee-item-card__sub-label">收入名称</text>
+              <input
+                class="fee-item-card__input"
+                value="{{item.name}}"
+                placeholder="填写收入名称"
+                bindinput="onIncomeItemNameInput"
+                data-index="{{index}}"
+              />
+            </view>
+            <view class="fee-item-card__row">
+              <text class="fee-item-card__sub-label">金额</text>
+              <view class="fee-field fee-field--inline">
+                <text class="fee-field__prefix">¥</text>
+                <input
+                  class="fee-field__input"
+                  type="digit"
+                  value="{{item.amount}}"
+                  placeholder="0.00"
+                  bindinput="onIncomeItemAmountInput"
+                  data-index="{{index}}"
+                />
+              </view>
+            </view>
+            <view class="fee-item-card__row">
+              <text class="fee-item-card__sub-label">备注</text>
+              <input
+                class="fee-item-card__input"
+                value="{{item.note}}"
+                placeholder="备注（选填）"
+                bindinput="onIncomeItemNoteInput"
+                data-index="{{index}}"
+              />
+            </view>
+          </view>
+          <view class="fee-add-btn fee-add-btn--income btn-haptic" bind:tap="addAttendantExtraIncomeItem">
+            <text class="material-symbols-outlined fee-add-btn__ico">add_circle</text>
+            <text>添加附加收入项</text>
+          </view>
+        </view>
+
+        <!-- 服务人员总收入 -->
+        <view class="fee-total-box fee-total-box--green">
+          <text class="fee-total-box__label">{{order.staffRoleLabel || '服务人员'}}总收入自动累计</text>
+          <text class="fee-total-box__val">{{feeEditComputedAttendantFeeText}}</text>
+        </view>
+
+        <!-- 结算与付款 -->
+        <view class="fee-divider">
+          <view class="fee-divider__line"></view>
+          <text class="fee-divider__text">结算与付款</text>
+          <view class="fee-divider__line"></view>
+        </view>
+
+        <view class="fee-sec">
+          <view class="fee-sec__label">结算状态</view>
+          <view class="fee-radio-group">
+            <view
+              class="fee-radio-btn {{feeEditForm.settlementStatus === 'pending' ? 'fee-radio-btn--active' : ''}} btn-haptic"
+              bind:tap="setSettlementStatus"
+              data-value="pending"
+            >待结算</view>
+            <view
+              class="fee-radio-btn {{feeEditForm.settlementStatus === 'settled' ? 'fee-radio-btn--active fee-radio-btn--active-green' : ''}} btn-haptic"
+              bind:tap="setSettlementStatus"
+              data-value="settled"
+            >已结算</view>
+          </view>
+        </view>
+
+        <view class="fee-sec">
+          <view class="fee-sec__label">付款状态</view>
+          <view class="fee-radio-group">
+            <view
+              class="fee-radio-btn {{feeEditForm.paymentStatus === 'unpaid' ? 'fee-radio-btn--active' : ''}} btn-haptic"
+              bind:tap="setPaymentStatus"
+              data-value="unpaid"
+            >未付款</view>
+            <view
+              class="fee-radio-btn {{feeEditForm.paymentStatus === 'paid' ? 'fee-radio-btn--active fee-radio-btn--active-green' : ''}} btn-haptic"
+              bind:tap="setPaymentStatus"
+              data-value="paid"
+            >已付款</view>
+            <view
+              class="fee-radio-btn {{feeEditForm.paymentStatus === 'refunded' ? 'fee-radio-btn--active fee-radio-btn--active-orange' : ''}} btn-haptic"
+              bind:tap="setPaymentStatus"
+              data-value="refunded"
+            >已退款</view>
+          </view>
+        </view>
+
+        <view wx:if="{{feeEditForm.paymentStatus === 'paid'}}" class="fee-sec">
+          <view class="fee-sec__label">付款方式</view>
+          <view class="fee-picker-row btn-haptic" bind:tap="pickPaymentMethod">
+            <text class="fee-picker-row__val {{feeEditForm.paymentMethod ? '' : 'fee-picker-row__val--empty'}}">
+              {{feeEditPaymentMethodText}}
+            </text>
+            <text class="material-symbols-outlined fee-picker-row__arrow">chevron_right</text>
+          </view>
+        </view>
+
+        <view class="fee-sec">
+          <view class="fee-sec__label">财务备注</view>
+          <textarea
+            class="fee-textarea"
+            value="{{feeEditForm.settlementRemark}}"
+            placeholder="财务备注（选填）"
+            maxlength="200"
+            bindinput="onFeeRemarkInput"
+          />
+        </view>
+
+        <view class="fee-modal__actions">
+          <button class="fee-modal__btn fee-modal__btn--cancel btn-haptic" bind:tap="closeFeeEdit">取消</button>
+          <button
+            class="fee-modal__btn fee-modal__btn--save btn-haptic"
+            bind:tap="handleFeeSave"
+            disabled="{{feeEditSaving}}"
+            loading="{{feeEditSaving}}"
+          >保存费用与结算</button>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 添加时间线弹窗 -->
+  <view wx:if="{{addTimelineDialogVisible}}" class="dialog-mask" bind:tap="closeAddTimelineDialog">
+    <view class="dialog dialog--form" catchtap>
+      <view class="dialog__header">
+        <text class="dialog__title">添加时间线记录</text>
+        <view class="dialog__close" bind:tap="closeAddTimelineDialog">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+      <view class="dialog__form">
+        <view class="form-field">
+          <text class="form-field__label">类型</text>
+          <view class="form-type-row">
+            <view class="form-type-chip {{addTimelineType === 'text' ? 'form-type-chip--active' : ''}}" bind:tap="onAddTimelineTypeChange" data-type="text">文字</view>
+            <view class="form-type-chip {{addTimelineType === 'node' ? 'form-type-chip--active' : ''}}" bind:tap="onAddTimelineTypeChange" data-type="node">节点</view>
+            <view class="form-type-chip {{addTimelineType === 'internal_note' ? 'form-type-chip--active' : ''}}" bind:tap="onAddTimelineTypeChange" data-type="internal_note">内部备注</view>
+          </view>
+        </view>
+        <view class="form-field">
+          <text class="form-field__label">内容</text>
+          <textarea class="form-field__textarea" placeholder="输入记录内容" value="{{addTimelineContent}}" bindinput="onAddTimelineContentInput" auto-height maxlength="500"/>
+        </view>
+        <view class="form-field form-field--row">
+          <text class="form-field__label">客户可见</text>
+          <view class="form-switch {{addTimelineVisibleToUser ? 'form-switch--on' : ''}}" bind:tap="toggleTimelineVisibleToUser">
+            <view class="form-switch__thumb"></view>
+          </view>
+        </view>
+      </view>
+      <view class="dialog__foot">
+        <view class="dialog__cancel" bind:tap="closeAddTimelineDialog">取消</view>
+        <view class="dialog__confirm" bind:tap="confirmAddTimeline">
+          <text>确认添加</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

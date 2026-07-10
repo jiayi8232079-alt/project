@@ -1,0 +1,85 @@
+<view class="dev-list">
+  <view class="dev-list__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="dev-list__nav-back" bind:tap="goBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="dev-list__nav-title">我家的机器人</text>
+    <view class="dev-list__nav-add" bind:tap="goBind" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">add</text>
+    </view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看设备</text>
+      <text class="page-login-gate__desc">设备状态仅对绑定的家人展示，请先登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="dev-list__scroll"
+    refresher-enabled
+    refresher-triggered="{{refreshing}}"
+    bindrefresherrefresh="onRefresh"
+  >
+    <view class="dev-list__body">
+
+      <view wx:if="{{loaded && devices.length === 0}}" class="dev-list__empty">
+        <text class="material-symbols-outlined dev-list__empty-icon">smart_toy</text>
+        <text class="dev-list__empty-title">还没有添加设备</text>
+        <text class="dev-list__empty-sub">绑定陪伴机器人后，可远程查看在线状态、电量与 AI 对话</text>
+        <button class="dev-list__empty-btn" bind:tap="goBind">添加设备</button>
+      </view>
+
+      <view wx:else class="dev-list__items">
+        <view
+          wx:for="{{devices}}"
+          wx:key="id"
+          class="dev-card"
+          data-id="{{item.id}}"
+          bind:tap="onDeviceTap"
+          hover-class="btn-haptic"
+        >
+          <view class="dev-card__icon dev-card__icon--{{item.type}}">
+            <text class="material-symbols-outlined">{{item.type === 'radar' ? 'sensors' : 'smart_toy'}}</text>
+          </view>
+          <view class="dev-card__main">
+            <view class="dev-card__title-row">
+              <text class="dev-card__name">{{item.name}}</text>
+              <view class="dev-card__online {{item.online ? 'dev-card__online--on' : ''}}">
+                <view class="dev-card__dot"></view>
+                <text>{{item.online ? '在线' : '离线'}}</text>
+              </view>
+            </view>
+            <view class="dev-card__meta">
+              <text class="dev-card__type">{{item.typeLabel}}</text>
+              <text wx:if="{{item.statusLabel}}" class="dev-card__sep">·</text>
+              <text wx:if="{{item.statusLabel}}">{{item.statusLabel}}</text>
+            </view>
+            <view class="dev-card__footer">
+              <text wx:if="{{item.batteryPercent !== null}}" class="dev-card__battery {{item.batteryLow ? 'dev-card__battery--low' : ''}}">
+                <text class="material-symbols-outlined">battery_full</text>
+                {{item.batteryPercent}}%
+              </text>
+              <text class="dev-card__lastonline">{{item.onlineText}}</text>
+            </view>
+          </view>
+          <text class="material-symbols-outlined dev-card__arrow">chevron_right</text>
+        </view>
+
+        <view class="dev-list__add-more" bind:tap="goBind" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">add_circle</text>
+          <text>添加新设备</text>
+        </view>
+      </view>
+
+      <view style="height:60rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

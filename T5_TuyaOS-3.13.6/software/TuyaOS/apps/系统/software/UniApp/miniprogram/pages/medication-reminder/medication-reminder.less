@@ -1,0 +1,725 @@
+@brand-green: #4CAF50;
+@warm-orange: #FF9800;
+@deep-gray: #333333;
+@royal-obsidian: #1A1A1A;
+@alabaster: #F8F9FA;
+@medical-gray: #F5F7FA;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.med-page {
+  background: @alabaster;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  // ─── Glass Nav ───
+  &__nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(40rpx);
+    -webkit-backdrop-filter: blur(40rpx);
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 0.5rpx solid rgba(51, 51, 51, 0.04);
+    padding: 20rpx 32rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__nav-back {
+    width: 56rpx;
+    height: 56rpx;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: transform 0.2s @ease-organic;
+
+    &:active { transform: scale(0.9); }
+  }
+
+  &__nav-back-icon {
+    font-size: 40rpx;
+    color: @deep-gray;
+  }
+
+  &__nav-title {
+    font-size: 34rpx;
+    font-weight: 600;
+    color: @deep-gray;
+  }
+
+  &__nav-side {
+    width: 56rpx;
+    height: 56rpx;
+  }
+
+  // ─── Scroll ───
+  &__scroll {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+  }
+
+  &__body {
+    padding: 24rpx 32rpx 180rpx;
+  }
+
+  &__fab {
+    position: fixed;
+    right: 32rpx;
+    bottom: calc(40rpx + env(safe-area-inset-bottom));
+    width: 112rpx;
+    height: 112rpx;
+    border-radius: 50%;
+    background: linear-gradient(135deg, @brand-green, #66BB6A);
+    box-shadow: 0 16rpx 40rpx rgba(76, 175, 80, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 80;
+    transition: transform 0.2s @ease-organic, box-shadow 0.2s @ease-organic;
+
+    &:active {
+      transform: scale(0.94);
+      box-shadow: 0 10rpx 24rpx rgba(76, 175, 80, 0.22);
+    }
+  }
+
+  &__fab-icon {
+    font-size: 52rpx;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  // ─── Tabs ───
+  &__tabs {
+    display: flex;
+    gap: 8rpx;
+    background: @medical-gray;
+    border-radius: 24rpx;
+    padding: 6rpx;
+    margin-bottom: 28rpx;
+  }
+
+  &__tab {
+    flex: 1;
+    text-align: center;
+    padding: 14rpx 0;
+    border-radius: 20rpx;
+    font-size: 26rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 0.4);
+    transition: all 0.25s @ease-organic;
+
+    &:active { transform: scale(0.97); }
+
+    &--active {
+      background: #fff;
+      color: @royal-obsidian;
+      font-weight: 600;
+      box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  // ─── Create Editor ───
+  &__editor {
+    background: #fff;
+    border-radius: 48rpx;
+    padding: 28rpx;
+    margin-bottom: 28rpx;
+    box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+    border: 1rpx solid rgba(0, 0, 0, 0.03);
+  }
+
+  &__editor-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10rpx;
+    margin-bottom: 20rpx;
+
+    &--2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16rpx;
+    }
+  }
+
+  &__editor-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10rpx;
+  }
+
+  &__editor-label {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.55);
+    font-weight: 600;
+  }
+
+  &__editor-input,
+  &__editor-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: @medical-gray;
+    border: 1rpx solid rgba(0, 0, 0, 0.06);
+    border-radius: 20rpx;
+    font-size: 28rpx;
+    color: @deep-gray;
+    font-weight: 500;
+  }
+
+  &__editor-input {
+    height: 84rpx;
+    padding: 0 20rpx;
+    line-height: 84rpx;
+  }
+
+  &__editor-textarea {
+    padding: 18rpx 20rpx;
+    min-height: 140rpx;
+    line-height: 1.6;
+  }
+
+  &__editor-input-placeholder,
+  &__editor-textarea-placeholder {
+    color: rgba(51, 51, 51, 0.36);
+    font-size: 26rpx;
+  }
+
+  &__editor-input-placeholder {
+    line-height: 84rpx;
+  }
+
+  &__editor-textarea-placeholder {
+    line-height: 1.6;
+  }
+
+  &__editor-picker {
+    height: 84rpx;
+    background: @medical-gray;
+    border: 1rpx solid rgba(0, 0, 0, 0.06);
+    border-radius: 20rpx;
+    padding: 0 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__editor-picker-val {
+    font-size: 26rpx;
+    color: @deep-gray;
+
+    &--empty {
+      color: rgba(51, 51, 51, 0.3);
+    }
+  }
+
+  &__editor-picker-icon {
+    font-size: 30rpx;
+    color: rgba(51, 51, 51, 0.35);
+  }
+
+  &__editor-time-row {
+    display: flex;
+    gap: 12rpx;
+  }
+
+  &__editor-time-picker {
+    flex: 1;
+    height: 84rpx;
+    background: @medical-gray;
+    border-radius: 20rpx;
+    border: 1rpx solid rgba(0, 0, 0, 0.06);
+    padding: 0 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: @deep-gray;
+    font-size: 26rpx;
+    font-weight: 600;
+  }
+
+  &__editor-time-add {
+    width: 140rpx;
+    height: 84rpx;
+    border-radius: 20rpx;
+    background: rgba(76, 175, 80, 0.12);
+    color: @brand-green;
+    font-size: 26rpx;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__editor-time-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10rpx;
+    margin-top: 12rpx;
+  }
+
+  &__editor-time-tag {
+    background: rgba(76, 175, 80, 0.1);
+    color: @brand-green;
+    border-radius: 12rpx;
+    padding: 8rpx 10rpx 8rpx 14rpx;
+    font-size: 24rpx;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4rpx;
+  }
+
+  &__editor-time-remove {
+    font-size: 24rpx;
+    padding: 2rpx;
+  }
+
+  &__editor-actions {
+    margin-top: 8rpx;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12rpx;
+  }
+
+  &__editor-btn {
+    min-width: 170rpx;
+    height: 78rpx;
+    border-radius: 20rpx;
+    font-size: 26rpx;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--ghost {
+      border: 1rpx solid rgba(0, 0, 0, 0.1);
+      color: rgba(51, 51, 51, 0.5);
+      background: #fff;
+    }
+
+    &--primary {
+      background: @brand-green;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.25);
+    }
+
+    &--disabled {
+      opacity: 0.6;
+    }
+  }
+
+  // ─── Drug Risk Entry ───
+  &__drug-risk {
+    display: flex;
+    align-items: center;
+    gap: 20rpx;
+    padding: 24rpx 28rpx;
+    margin-bottom: 20rpx;
+    background: linear-gradient(135deg, #E8F5E9 0%, #E0F2F1 100%);
+    border-radius: 24rpx;
+    border: 2rpx solid rgba(76, 175, 80, 0.25);
+  }
+
+  &__drug-risk-icon {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 20rpx;
+    background: linear-gradient(135deg, #66BB6A, #43A047);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    .material-symbols-outlined {
+      font-size: 40rpx;
+      color: #fff;
+    }
+  }
+
+  &__drug-risk-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4rpx;
+    min-width: 0;
+  }
+
+  &__drug-risk-title {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: @royal-obsidian;
+  }
+
+  &__drug-risk-desc {
+    font-size: 22rpx;
+    color: rgba(26, 26, 26, 0.55);
+  }
+
+  &__drug-risk-arrow {
+    font-size: 32rpx;
+    color: @brand-green;
+    flex-shrink: 0;
+  }
+
+  // ─── Insight Card ───
+  &__insight {
+    background: linear-gradient(120deg, #F0F9F0 0%, #FFFFFF 100%);
+    border-radius: 48rpx;
+    padding: 36rpx;
+    margin-bottom: 28rpx;
+    box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+    position: relative;
+    overflow: hidden;
+    animation: fadeSlideUp 0.48s @ease-organic;
+  }
+
+  &__insight-orb {
+    position: absolute;
+    right: -60rpx;
+    top: -60rpx;
+    width: 240rpx;
+    height: 240rpx;
+    background: rgba(76, 175, 80, 0.05);
+    border-radius: 50%;
+    filter: blur(30px);
+    pointer-events: none;
+  }
+
+  &__insight-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__insight-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6rpx;
+  }
+
+  &__insight-title {
+    font-size: 34rpx;
+    font-weight: 700;
+    color: @deep-gray;
+  }
+
+  &__insight-desc {
+    font-size: 22rpx;
+    color: rgba(51, 51, 51, 0.45);
+  }
+
+  &__insight-heart {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+    flex-shrink: 0;
+  }
+
+  &__insight-heart-icon {
+    font-size: 36rpx;
+    color: @brand-green;
+  }
+
+  &__insight-progress {
+    margin-top: 24rpx;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__insight-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 12rpx;
+  }
+
+  &__insight-progress-label {
+    font-size: 24rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 0.5);
+  }
+
+  &__insight-progress-value {
+    font-size: 44rpx;
+    font-weight: 700;
+    color: @brand-green;
+  }
+
+  &__insight-progress-unit {
+    font-size: 26rpx;
+    margin-left: 2rpx;
+  }
+
+  &__insight-bar {
+    width: 100%;
+    height: 12rpx;
+    background: rgba(51, 51, 51, 0.06);
+    border-radius: 100rpx;
+    overflow: hidden;
+  }
+
+  &__insight-bar-fill {
+    height: 100%;
+    background: @brand-green;
+    border-radius: 100rpx;
+    box-shadow: 0 0 12rpx rgba(76, 175, 80, 0.3);
+    transition: width 0.6s @ease-organic;
+  }
+
+  // ─── Medication List ───
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx;
+  }
+
+  &__med-card {
+    background: #fff;
+    border-radius: 48rpx;
+    padding: 28rpx;
+    box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+    transition: transform 0.2s @ease-organic;
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  &__med-header {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    margin-bottom: 20rpx;
+    padding-bottom: 20rpx;
+    border-bottom: 0.5rpx solid rgba(51, 51, 51, 0.04);
+  }
+
+  &__med-icon-wrap {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 24rpx;
+    background: rgba(255, 152, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__med-icon {
+    font-size: 36rpx;
+    color: @warm-orange;
+  }
+
+  &__med-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4rpx;
+  }
+
+  &__med-name {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: @deep-gray;
+  }
+
+  &__med-dosage {
+    font-size: 22rpx;
+    color: rgba(51, 51, 51, 0.45);
+  }
+
+  &__med-status {
+    font-size: 22rpx;
+    padding: 6rpx 16rpx;
+    border-radius: 100rpx;
+    font-weight: 600;
+    flex-shrink: 0;
+
+    &--active {
+      background: rgba(76, 175, 80, 0.08);
+      color: @brand-green;
+    }
+
+    &--paused {
+      background: rgba(255, 152, 0, 0.08);
+      color: @warm-orange;
+    }
+
+    &--completed {
+      background: @medical-gray;
+      color: rgba(51, 51, 51, 0.35);
+    }
+
+    &--canceled {
+      background: rgba(229, 57, 53, 0.08);
+      color: #e53935;
+    }
+  }
+
+  // ─── Med Body ───
+  &__med-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16rpx;
+  }
+
+  &__med-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12rpx;
+  }
+
+  &__med-row-icon {
+    font-size: 28rpx;
+    color: rgba(51, 51, 51, 0.3);
+    margin-top: 2rpx;
+    flex-shrink: 0;
+  }
+
+  &__med-times {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10rpx;
+  }
+
+  &__time-tag {
+    font-size: 24rpx;
+    color: @deep-gray;
+    background: @medical-gray;
+    padding: 6rpx 16rpx;
+    border-radius: 12rpx;
+    font-weight: 600;
+  }
+
+  &__dose-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12rpx;
+  }
+
+  &__dose-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rpx;
+    padding: 10rpx 18rpx;
+    border-radius: 16rpx;
+    background: @medical-gray;
+    border: 2rpx solid transparent;
+    transition: transform 0.15s @ease-organic;
+    min-width: 132rpx;
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    &--taken {
+      background: rgba(76, 175, 80, 0.08);
+      border-color: rgba(76, 175, 80, 0.25);
+    }
+
+    &--missed {
+      background: rgba(229, 57, 53, 0.08);
+      border-color: rgba(229, 57, 53, 0.25);
+    }
+
+    &--skipped {
+      background: rgba(100, 116, 139, 0.08);
+      border-color: rgba(100, 116, 139, 0.2);
+    }
+
+    &--pending {
+      background: rgba(255, 152, 0, 0.06);
+      border-color: rgba(255, 152, 0, 0.18);
+    }
+  }
+
+  &__dose-chip-time {
+    font-size: 26rpx;
+    font-weight: 700;
+    color: @deep-gray;
+  }
+
+  &__dose-chip-status {
+    font-size: 20rpx;
+    font-weight: 500;
+    color: @warm-orange;
+  }
+
+  &__dose-chip--taken &__dose-chip-status { color: @brand-green; }
+  &__dose-chip--missed &__dose-chip-status { color: #e53935; }
+  &__dose-chip--skipped &__dose-chip-status { color: rgba(100, 116, 139, 0.9); }
+
+  &__med-row-text {
+    font-size: 26rpx;
+    color: @deep-gray;
+    font-weight: 500;
+    flex: 1;
+
+    &--wrap {
+      line-height: 1.6;
+    }
+  }
+
+  // ─── Empty State ───
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120rpx 0;
+    animation: fadeSlideUp 0.48s @ease-organic;
+  }
+
+  &__empty-icon-wrap {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    background: @medical-gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24rpx;
+  }
+
+  &__empty-icon {
+    font-size: 56rpx;
+    color: rgba(51, 51, 51, 0.15);
+  }
+
+  &__empty-title {
+    font-size: 30rpx;
+    color: @deep-gray;
+    font-weight: 600;
+  }
+
+  &__empty-sub {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.3);
+    margin-top: 8rpx;
+  }
+}
+
+// ─── Animation ───
+.anim-item { opacity: 0; }
+.anim-item {
+  animation: fadeSlideUp 0.48s @ease-organic forwards;
+}
+.anim-0 { animation-delay: 0.06s; }
+.anim-1 { animation-delay: 0.12s; }
+.anim-2 { animation-delay: 0.18s; }
+.anim-3 { animation-delay: 0.24s; }
+.anim-4 { animation-delay: 0.30s; }

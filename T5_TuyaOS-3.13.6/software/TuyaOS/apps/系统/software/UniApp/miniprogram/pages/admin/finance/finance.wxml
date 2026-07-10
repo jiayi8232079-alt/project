@@ -1,0 +1,135 @@
+<view class="fin" style="padding-top: {{statusBarHeight}}px;">
+
+  <view class="fin__nav">
+    <view class="fin__back" bind:tap="handleBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="fin__title">财务管理</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <!-- Tab -->
+  <view class="fin__tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="fin__tab {{activeTab === item.key ? 'fin__tab--active' : ''}}"
+      bind:tap="switchTab"
+      data-tab="{{item.key}}"
+    >
+      <text>{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 费用记录 -->
+  <block wx:if="{{activeTab === 'records'}}">
+    <scroll-view scroll-x class="fin__filter-scroll" show-scrollbar="{{false}}">
+      <view class="fin__filter-row">
+        <view
+          wx:for="{{statusOptions}}"
+          wx:key="value"
+          class="filter-chip {{filterStatus === item.value ? 'filter-chip--active' : ''}}"
+          bind:tap="onFilterStatus"
+          data-status="{{item.value}}"
+        >
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="fin__list">
+      <view class="fin__count">共 {{total}} 条</view>
+
+      <view wx:if="{{loaded && records.length === 0}}" class="empty-tip">
+        <text class="material-symbols-outlined empty-tip__icon">receipt_long</text>
+        <text class="empty-tip__text">暂无费用记录</text>
+      </view>
+
+      <view wx:for="{{records}}" wx:key="id" class="fin-card">
+        <view class="fin-card__head">
+          <view class="fin-card__left">
+            <text class="fin-card__type">{{item.typeLabel}}</text>
+            <view class="fin-status-tag fin-status-tag--{{item.status}}">
+              <text>{{item.statusLabel}}</text>
+            </view>
+          </view>
+          <text class="fin-card__amount">¥{{item.amount || 0}}</text>
+        </view>
+        <view class="fin-card__body">
+          <view class="fin-card__row">
+            <text class="material-symbols-outlined fin-card__ico">badge</text>
+            <text class="fin-card__val">{{item.attendantName}}</text>
+          </view>
+          <view wx:if="{{item.orderId}}" class="fin-card__row">
+            <text class="material-symbols-outlined fin-card__ico">receipt</text>
+            <text class="fin-card__val">订单 #{{item.orderId}}</text>
+          </view>
+          <view wx:if="{{item.description}}" class="fin-card__row">
+            <text class="material-symbols-outlined fin-card__ico">notes</text>
+            <text class="fin-card__val">{{item.description}}</text>
+          </view>
+          <view class="fin-card__row">
+            <text class="material-symbols-outlined fin-card__ico">schedule</text>
+            <text class="fin-card__val">{{item.dateDisplay}}</text>
+          </view>
+          <view wx:if="{{item.reviewNote}}" class="fin-card__row">
+            <text class="material-symbols-outlined fin-card__ico">comment</text>
+            <text class="fin-card__val">审核备注：{{item.reviewNote}}</text>
+          </view>
+        </view>
+        <view wx:if="{{canApprove && item.status === 'pending'}}" class="fin-card__actions">
+          <view class="fin-action-btn fin-action-btn--approve" bind:tap="approveRecord" data-id="{{item.id}}" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">check</text>
+            <text>通过</text>
+          </view>
+          <view class="fin-action-btn fin-action-btn--reject" bind:tap="rejectRecord" data-id="{{item.id}}" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">close</text>
+            <text>驳回</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{loading}}" class="loading-tip"><text>加载中...</text></view>
+      <view wx:if="{{!hasMore && records.length > 0}}" class="end-tip"><text>— 已加载全部 —</text></view>
+      <view style="height: calc(env(safe-area-inset-bottom) + 24rpx);"></view>
+    </scroll-view>
+  </block>
+
+  <!-- 统计报表 -->
+  <block wx:if="{{activeTab === 'stats'}}">
+    <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="fin__scroll">
+      <view wx:if="{{!statsLoaded}}" style="text-align:center;padding:64rpx;color:#94A3B8;font-size:26rpx;">加载中...</view>
+
+      <block wx:if="{{statsLoaded && stats}}">
+        <view class="stat-card-row">
+          <view class="stat-card stat-card--blue">
+            <text class="stat-card__num">¥{{stats.totalAmount || 0}}</text>
+            <text class="stat-card__label">总报销金额</text>
+          </view>
+          <view class="stat-card stat-card--green">
+            <text class="stat-card__num">¥{{stats.approvedAmount || 0}}</text>
+            <text class="stat-card__label">已通过</text>
+          </view>
+        </view>
+        <view class="stat-card-row">
+          <view class="stat-card stat-card--orange">
+            <text class="stat-card__num">{{stats.pendingCount || 0}}</text>
+            <text class="stat-card__label">待审核</text>
+          </view>
+          <view class="stat-card stat-card--purple">
+            <text class="stat-card__num">{{stats.totalCount || 0}}</text>
+            <text class="stat-card__label">总记录</text>
+          </view>
+        </view>
+      </block>
+
+      <view wx:if="{{statsLoaded && !stats}}" class="empty-tip">
+        <text class="material-symbols-outlined empty-tip__icon">analytics</text>
+        <text class="empty-tip__text">暂无统计数据</text>
+      </view>
+
+      <view style="height: calc(env(safe-area-inset-bottom) + 24rpx);"></view>
+    </scroll-view>
+  </block>
+
+</view>

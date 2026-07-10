@@ -1,0 +1,85 @@
+<view class="page page--loaded">
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看账单</text>
+      <text class="page-login-gate__desc">账单仅对本人开放，可随时返回或自愿登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view wx:else scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="main">
+
+      <!-- 订单信息 -->
+      <view class="meta anim-item anim-0">
+        <view class="meta__row">
+          <text class="meta__label">订单编号</text>
+          <text class="meta__value">{{order.orderNo || '--'}}</text>
+        </view>
+      <view class="meta__row">
+        <text class="meta__label">服务日期</text>
+        <text class="meta__value">{{order.serviceDate || '--'}}</text>
+      </view>
+      <view class="meta__row">
+        <text class="meta__label">结算状态</text>
+        <text class="meta__value">{{order.settlementStatusText || '--'}}</text>
+      </view>
+      <view class="meta__row">
+        <text class="meta__label">付款状态</text>
+        <text class="meta__value">{{order.paymentStatusText || '--'}}</text>
+      </view>
+      </view>
+
+      <!-- 费用明细 -->
+      <view class="bill anim-item anim-1">
+      <view class="bill__header">
+        <text class="material-symbols-outlined bill__header-icon">receipt_long</text>
+        <text class="bill__header-title">费用明细</text>
+      </view>
+      <view wx:if="{{loadError}}" class="note">
+        <text class="material-symbols-outlined note__icon">error</text>
+        <text class="note__text">{{loadError}}</text>
+      </view>
+      <view class="bill__items">
+        <view class="bill__item" wx:for="{{billItems}}" wx:key="label">
+          <text class="bill__item-label">{{item.label}}</text>
+          <text class="bill__item-amount">¥{{item.amount}}</text>
+        </view>
+        </view>
+        <view class="bill__divider"></view>
+        <view class="bill__total">
+          <text class="bill__total-label">合计</text>
+          <text class="bill__total-amount">¥{{totalAmount}}</text>
+        </view>
+      </view>
+
+      <!-- 收据凭证 -->
+      <view class="receipts anim-item anim-2" wx:if="{{receipts.length > 0}}">
+        <view class="receipts__header">
+          <text class="material-symbols-outlined receipts__header-icon">photo_library</text>
+          <text class="receipts__header-title">收据凭证</text>
+        </view>
+        <view class="receipts__grid">
+          <image
+            class="receipts__img"
+            wx:for="{{receipts}}" wx:key="*this"
+            src="{{item}}"
+            mode="aspectFill"
+            bind:tap="onPreviewReceipt" data-url="{{item}}"
+          />
+        </view>
+      </view>
+
+      <!-- 备注说明 -->
+      <view class="note anim-item anim-3">
+        <text class="material-symbols-outlined note__icon">info</text>
+        <text class="note__text">以上费用为本次服务实际产生的费用明细，如有疑问请联系客服</text>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </view>
+  </scroll-view>
+
+</view>

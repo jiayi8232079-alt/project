@@ -1,0 +1,147 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="state">
+    <text class="state__text">加载中…</text>
+  </view>
+
+  <view wx:elif="{{error}}" class="state state--error">
+    <text class="state__title">无法打开服务动态</text>
+    <text class="state__text">{{error}}</text>
+  </view>
+
+  <scroll-view wx:else scroll-y class="scroll" enhanced show-scrollbar="{{false}}">
+    <view class="main">
+      <view class="hint">由订单用户分享 · 请勿随意转发陌生人</view>
+
+      <view class="info-card">
+        <view class="info-card__header">
+          <view class="info-card__bar"></view>
+          <text class="info-card__title">服务信息</text>
+        </view>
+        <view class="info-card__rows">
+          <view class="info-card__row">
+            <text class="info-card__label">就诊人</text>
+            <text class="info-card__value">{{pack.subjectName || '—'}}</text>
+          </view>
+          <view wx:if="{{pack.serviceType}}" class="info-card__row">
+            <text class="info-card__label">服务类型</text>
+            <text class="info-card__value">{{pack.serviceType}}</text>
+          </view>
+          <view wx:if="{{pack.serviceTimeText}}" class="info-card__row">
+            <text class="info-card__label">预约时间</text>
+            <text class="info-card__value">{{pack.serviceTimeText}}</text>
+          </view>
+          <view wx:if="{{pack.hospital}}" class="info-card__row">
+            <text class="info-card__label">医院</text>
+            <text class="info-card__value">{{pack.hospital}}</text>
+          </view>
+          <view wx:if="{{pack.department}}" class="info-card__row">
+            <text class="info-card__label">科室</text>
+            <text class="info-card__value">{{pack.department}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 服务进行中：服务人员实时位置（与订单详情同源，token 包内下发） -->
+      <view wx:if="{{showShareLiveMap}}" class="loc-card">
+        <view class="loc-card__header">
+          <view class="loc-card__bar"></view>
+          <text class="loc-card__title">{{pack.staffRoleLabel || '服务人员'}}位置</text>
+        </view>
+        <map
+          class="loc-card__map"
+          latitude="{{shareMapLat}}"
+          longitude="{{shareMapLng}}"
+          scale="{{shareMapScale}}"
+          markers="{{shareMapMarkers}}"
+          polyline="{{mapPolyline}}"
+          circles="{{mapCircles}}"
+          show-location="{{false}}"
+          enable-scroll="{{false}}"
+        />
+        <text class="loc-card__hint">{{shareLocHint}}</text>
+      </view>
+      <view
+        wx:elif="{{pack.orderStatus === 'in_progress'}}"
+        class="loc-card loc-card--pending"
+      >
+        <text class="loc-card__pending-text">服务进行中。{{pack.staffRoleLabel || '服务人员'}}位置将在其上报后显示于此页（若暂未出现，可稍后下拉刷新）。</text>
+      </view>
+
+      <view wx:if="{{timeline.length > 0}}" class="tl-card">
+        <view class="tl-card__header">
+          <view class="tl-card__bar"></view>
+          <text class="tl-card__title">订单动态</text>
+        </view>
+        <view class="tl__list">
+          <view class="tl__rail"></view>
+          <view
+            wx:for="{{timeline}}"
+            wx:key="id"
+            class="tl__item {{index === 0 ? 'tl__item--active' : ''}} {{index > 1 ? 'tl__item--faded' : ''}}"
+          >
+            <view class="tl__dot {{index === 0 ? 'tl__dot--active' : 'tl__dot--inactive'}}"></view>
+            <view class="tl__body">
+              <view class="tl__head">
+                <text class="tl__name">{{item.title}}</text>
+                <text class="tl__time">{{item.time}}</text>
+              </view>
+              <text wx:if="{{item.description}}" class="tl__desc">{{item.description}}</text>
+              <view wx:if="{{item.images && item.images.length > 0}}" class="tl__imgs">
+                <image
+                  wx:for="{{item.images}}"
+                  wx:for-item="img"
+                  wx:key="*this"
+                  class="tl__img"
+                  src="{{img}}"
+                  mode="aspectFill"
+                  bind:tap="previewImage"
+                  data-src="{{img}}"
+                  data-urls="{{item.images}}"
+                />
+              </view>
+              <view wx:if="{{item.audioUrls && item.audioUrls.length > 0}}" class="tl__audios">
+                <audio
+                  wx:for="{{item.audioUrls}}"
+                  wx:for-item="audioUrl"
+                  wx:key="*this"
+                  class="tl__audio-player"
+                  src="{{audioUrl}}"
+                  controls
+                />
+              </view>
+              <view wx:if="{{item.transcriptionUser && (item.transcriptionUser.text || item.transcriptionUser.hint)}}" class="tl__tx">
+                <view class="tl__tx-head">
+                  <text class="tl__tx-title">录音转写</text>
+                </view>
+                <text wx:if="{{item.transcriptionUser.text}}" class="tl__tx-body">{{item.transcriptionUser.text}}</text>
+                <text wx:else class="tl__tx-hint">{{item.transcriptionUser.hint}}</text>
+              </view>
+              <view wx:if="{{item.files && item.files.length > 0}}" class="tl__files">
+                <view
+                  wx:for="{{item.files}}"
+                  wx:for-item="file"
+                  wx:key="url"
+                  class="tl__file btn-haptic"
+                  bind:tap="openTimelineFile"
+                  data-url="{{file.url}}"
+                >
+                  <text class="material-symbols-outlined tl__file-icon">attach_file</text>
+                  <text class="tl__file-name">{{file.name}}</text>
+                  <text class="tl__file-action">预览</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view wx:else class="empty">
+        <text class="empty__text">暂无可见动态</text>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </view>
+  </scroll-view>
+
+  <canvas type="2d" id="share-cover-canvas" class="share-cover-canvas"></canvas>
+</view>

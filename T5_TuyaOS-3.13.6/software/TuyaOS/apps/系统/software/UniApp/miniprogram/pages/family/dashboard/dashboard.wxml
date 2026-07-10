@@ -1,0 +1,215 @@
+<view class="dash">
+
+  <!-- 导航栏 -->
+  <view class="dash__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="dash__nav-back" bind:tap="goBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="dash__nav-title">家庭健康看板</text>
+    <view style="width: 72rpx;"></view>
+  </view>
+
+  <!-- Loading -->
+  <view wx:if="{{loading}}" class="dash__loading">
+    <text>加载中…</text>
+  </view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="dash__scroll"
+    refresher-enabled
+    refresher-triggered="{{refreshing}}"
+    bindrefresherrefresh="onRefresh"
+  >
+    <view class="dash__body">
+
+      <!-- ====== 健康预警横幅 ====== -->
+      <view
+        wx:if="{{alertSummary && alertSummary.total > 0}}"
+        class="dash__alert-banner dash__alert-banner--{{alertSummary.high > 0 ? 'high' : 'medium'}}"
+        bind:tap="goAlertList"
+        hover-class="btn-haptic"
+      >
+        <view class="dash__alert-banner-icon">
+          <text class="material-symbols-outlined">{{alertSummary.high > 0 ? 'warning' : 'notifications_active'}}</text>
+        </view>
+        <view class="dash__alert-banner-content">
+          <text class="dash__alert-banner-title">
+            {{alertSummary.high > 0 ? '有紧急预警需要处理' : '有新的健康预警'}}
+          </text>
+          <text class="dash__alert-banner-sub">
+            共 {{alertSummary.total}} 条未处理{{alertSummary.high > 0 ? '，其中 ' + alertSummary.high + ' 条紧急' : ''}}
+          </text>
+          <view wx:if="{{alertSummary.latest.length > 0}}" class="dash__alert-banner-latest">
+            <view
+              wx:for="{{alertSummary.latest}}"
+              wx:key="id"
+              class="dash__alert-banner-item"
+              data-id="{{item.id}}"
+              catch:tap="goAlertDetail"
+            >
+              <text class="dash__alert-banner-dot dash__alert-banner-dot--{{item.severity}}"></text>
+              <text class="dash__alert-banner-item-title">{{item.title}}</text>
+            </view>
+          </view>
+        </view>
+        <text class="material-symbols-outlined dash__alert-banner-arrow">chevron_right</text>
+      </view>
+
+      <!-- ====== 家庭健康总览 ====== -->
+      <view class="dash__overview">
+        <view class="dash__overview-top">
+          <view class="dash__overview-icon">
+            <text class="material-symbols-outlined">family_restroom</text>
+          </view>
+          <view class="dash__overview-text">
+            <text class="dash__overview-title">家庭健康总览</text>
+            <text class="dash__overview-sub">实时掌握全家健康动态</text>
+          </view>
+        </view>
+        <view class="dash__overview-stats">
+          <view class="dash__overview-stat">
+            <text class="dash__overview-num">{{members.length}}</text>
+            <text class="dash__overview-label">家庭成员</text>
+          </view>
+          <view class="dash__overview-stat-divider"></view>
+          <view class="dash__overview-stat">
+            <text class="dash__overview-num {{activeServiceCount > 0 ? 'dash__overview-num--green' : ''}}">{{activeServiceCount}}</text>
+            <text class="dash__overview-label">进行中服务</text>
+          </view>
+          <view class="dash__overview-stat-divider"></view>
+          <view class="dash__overview-stat">
+            <text class="dash__overview-num">{{totalMeds}}</text>
+            <text class="dash__overview-label">活跃提醒</text>
+          </view>
+          <view class="dash__overview-stat-divider"></view>
+          <view class="dash__overview-stat">
+            <text class="dash__overview-num {{totalFollowUps > 0 ? 'dash__overview-num--orange' : ''}}">{{totalFollowUps}}</text>
+            <text class="dash__overview-label">待复诊</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- ====== 进行中的服务提示 ====== -->
+      <view wx:for="{{members}}" wx:key="memberId" wx:if="{{item.activeOrder}}" class="dash__active-banner" bind:tap="goDetail" data-stid="{{item.serviceTargetId}}" data-role="{{item.role}}" hover-class="btn-haptic">
+        <view class="dash__active-dot"></view>
+        <view class="dash__active-content">
+          <text class="dash__active-who">{{item.nickname}}</text>
+          <text class="dash__active-text">
+            正在进行「{{item.activeOrder.serviceType || '陪诊服务'}}」- {{item.activeOrderStatusText}}
+          </text>
+        </view>
+        <text class="material-symbols-outlined" style="font-size: 28rpx; color: #4CAF50;">chevron_right</text>
+      </view>
+
+      <!-- ====== 今日用药卡片 ====== -->
+      <view
+        wx:if="{{todayTotal > 0}}"
+        class="dash__med-today dash__med-today--{{todayMissed > 0 ? 'alert' : 'ok'}}"
+        bind:tap="goMedicationReminder"
+        hover-class="btn-haptic"
+      >
+        <view class="dash__med-today-icon">
+          <text class="material-symbols-outlined">medication</text>
+        </view>
+        <view class="dash__med-today-info">
+          <text class="dash__med-today-title">
+            {{todayMissed > 0 ? '有漏服，请尽快处理' : todayPending > 0 ? '还有待打卡' : '今日用药已完成'}}
+          </text>
+          <text class="dash__med-today-sub">
+            全家今日：已服 {{todayTaken}}/{{todayTotal}}{{todayMissed > 0 ? '，漏服 ' + todayMissed : ''}}{{todayPending > 0 ? '，待打卡 ' + todayPending : ''}}
+          </text>
+        </view>
+        <text class="material-symbols-outlined" style="font-size: 28rpx; color: #CBD5E1;">chevron_right</text>
+      </view>
+
+      <!-- ====== 周报入口 ====== -->
+      <view class="dash__weekly-entry" bind:tap="goWeeklyReport" hover-class="btn-haptic">
+        <view class="dash__weekly-icon">
+          <text class="material-symbols-outlined">monitoring</text>
+        </view>
+        <view class="dash__weekly-info">
+          <text class="dash__weekly-title">AI 健康周报</text>
+          <text class="dash__weekly-sub">每周 AI 汇总全家健康状况</text>
+        </view>
+        <text class="material-symbols-outlined" style="font-size: 28rpx; color: #CBD5E1;">chevron_right</text>
+      </view>
+
+      <!-- ====== 成员卡片 ====== -->
+      <view class="dash__section-title">
+        <text class="material-symbols-outlined" style="font-size: 32rpx; color: #4CAF50;">group</text>
+        <text>家庭成员</text>
+      </view>
+
+      <view wx:for="{{members}}" wx:key="memberId" class="dash__member-card" bind:tap="goDetail" data-stid="{{item.serviceTargetId}}" data-role="{{item.role}}" hover-class="btn-haptic">
+        <view class="dash__member-top">
+          <view class="dash__member-avatar">
+            <text>{{item.initial}}</text>
+          </view>
+          <view class="dash__member-info">
+            <view class="dash__member-name-row">
+              <text class="dash__member-name">{{item.nickname}}</text>
+              <text class="dash__member-rel">{{item.relationLabel}}</text>
+              <text wx:if="{{item.isPlaceholder}}" class="dash__member-rel dash__member-rel--warn">待登录</text>
+            </view>
+            <!-- 迷你状态标签 -->
+            <view class="dash__member-badges">
+              <view wx:if="{{item.activeOrder}}" class="dash__badge dash__badge--green">
+                <view class="dash__badge-dot dash__badge-dot--pulse"></view>
+                <text>{{item.activeOrderStatusText}}</text>
+              </view>
+              <view wx:if="{{item.activeMedCount > 0}}" class="dash__badge dash__badge--orange">
+                <text class="material-symbols-outlined" style="font-size: 20rpx;">medication</text>
+                <text>{{item.activeMedCount}}项用药</text>
+              </view>
+              <view wx:if="{{item.followUpCount > 0}}" class="dash__badge dash__badge--red">
+                <text class="material-symbols-outlined" style="font-size: 20rpx;">event_upcoming</text>
+                <text>{{item.followUpCount}}项复诊</text>
+              </view>
+            </view>
+          </view>
+          <text class="material-symbols-outlined dash__member-arrow">chevron_right</text>
+        </view>
+
+        <!-- 占位老人：引导授权手机号或分享给老人 -->
+        <view wx:if="{{item.isPlaceholder}}" class="dash__member-empty">
+          <text class="material-symbols-outlined" style="font-size: 24rpx; color: #F59E0B;">info</text>
+          <text>档案已建立，等待老人授权手机号后自动关联</text>
+        </view>
+
+        <!-- 用药速览 -->
+        <view wx:elif="{{item.latestMedNames.length > 0}}" class="dash__member-meds">
+          <text class="dash__member-meds-label">当前用药：</text>
+          <text class="dash__member-meds-names">{{item.latestMedNames[0]}}{{item.latestMedNames[1] ? '、' + item.latestMedNames[1] : ''}}{{item.latestMedNames[2] ? '、' + item.latestMedNames[2] : ''}}{{item.activeMedCount > 3 ? ' 等' + item.activeMedCount + '项' : ''}}</text>
+        </view>
+
+        <!-- 今日打卡进度（仅在有今日计划时展示） -->
+        <view
+          wx:if="{{item.todayTotal > 0}}"
+          class="dash__member-today dash__member-today--{{item.todayHasMissed ? 'alert' : ''}}"
+          catch:tap="goMedicationReminder"
+        >
+          <text class="material-symbols-outlined" style="font-size: 24rpx;">{{item.todayHasMissed ? 'error' : 'task_alt'}}</text>
+          <text class="dash__member-today-text">{{item.todayHint}}</text>
+          <text class="dash__member-today-action">{{item.todayHasMissed || item.todayPending ? '去打卡 ›' : '查看 ›'}}</text>
+        </view>
+
+        <!-- 无数据提示 -->
+        <view wx:elif="{{!item.activeOrder && item.activeMedCount === 0 && item.followUpCount === 0}}" class="dash__member-empty">
+          <text class="material-symbols-outlined" style="font-size: 24rpx; color: #CBD5E1;">info</text>
+          <text>暂无活跃提醒，点击查看详情</text>
+        </view>
+      </view>
+
+      <view wx:if="{{members.length === 0 && !loading}}" class="dash__global-empty">
+        <text class="material-symbols-outlined" style="font-size: 64rpx; color: #CBD5E1;">family_restroom</text>
+        <text class="dash__global-empty-text">暂无家庭成员数据</text>
+      </view>
+
+      <view style="height: 80rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

@@ -1,5 +1,5 @@
 Memory region         Used Size  Region Size  %age Used
-           FLASH:      973548 B         1 MB     92.84%
+           FLASH:      973828 B         1 MB     92.87%
             IRAM:        4872 B     235264 B      2.07%
              RAM:      122940 B     235264 B     52.26%
             SWAP:          2 KB         2 KB    100.00%

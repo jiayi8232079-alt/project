@@ -1,0 +1,110 @@
+<view class="page {{loaded ? 'page--loaded' : ''}}">
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后评价</text>
+      <text class="page-login-gate__desc">评价需验证您的订单归属。可先返回，需要时再登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view wx:else scroll-y enhanced show-scrollbar="{{false}}" class="content">
+    <view class="main">
+
+      <!-- 服务人员卡片 -->
+      <view class="staff-card anim-item anim-0">
+        <view class="staff__avatar-wrap">
+          <image wx:if="{{staff.avatar}}" class="staff__avatar" src="{{staff.avatar}}" mode="aspectFill" />
+          <view wx:else class="staff__avatar staff__avatar--placeholder">{{staff.name[0] || '?'}}</view>
+          <text class="staff__badge">{{staff.badge}}</text>
+        </view>
+        <view class="staff__info">
+          <view class="staff__name-row">
+            <text class="staff__name">{{staff.name}}</text>
+            <text class="staff__sub">{{staff.title}}</text>
+          </view>
+          <view class="staff__tags">
+            <text class="staff__tag" wx:for="{{staff.tags}}" wx:key="*this">{{item}}</text>
+          </view>
+          <text class="staff__date" wx:if="{{staff.serviceDate}}">服务日期：{{staff.serviceDate}}</text>
+        </view>
+      </view>
+
+      <!-- 评分卡片 -->
+      <view class="rating-card anim-item anim-1 {{mode === 'view' ? 'rating-card--readonly' : ''}}">
+        <view wx:if="{{mode === 'view'}}" class="rating__view-banner">
+          <text class="material-symbols-outlined rating__view-banner-icon">verified</text>
+          <view class="rating__view-banner-body">
+            <text class="rating__view-banner-title">本次服务您已评价</text>
+            <text wx:if="{{reviewCreatedAtText}}" class="rating__view-banner-sub">评价时间：{{reviewCreatedAtText}}</text>
+          </view>
+        </view>
+        <!-- 星级评分 -->
+        <view class="rating__section">
+          <text class="rating__prompt">{{mode === 'view' ? '您给出的评分' : '您对本次服务满意吗？'}}</text>
+          <view class="rating__stars">
+            <view
+              class="rating__star"
+              wx:for="{{stars}}" wx:key="*this"
+              bind:tap="onStarTap" data-star="{{item}}"
+            >
+              <text class="material-symbols-outlined rating__star-icon {{rating >= item ? 'rating__star-icon--active' : ''}}">star</text>
+            </view>
+          </view>
+          <text class="rating__text" wx:if="{{ratingText}}">{{ratingText}}</text>
+        </view>
+
+        <!-- 快捷标签 -->
+        <view class="rating__tags">
+          <view
+            class="tag-pill {{item.active ? 'tag-pill--active' : ''}} {{mode === 'view' && !item.active ? 'tag-pill--hidden' : ''}}"
+            wx:for="{{quickTags}}" wx:key="text"
+            bind:tap="onTagTap" data-tag="{{item.text}}"
+            hover-class="{{mode === 'view' ? '' : 'btn-haptic'}}"
+          >{{item.text}}</view>
+        </view>
+
+        <!-- 评价内容 -->
+        <view class="rating__textarea-wrap">
+          <textarea
+            wx:if="{{mode !== 'view'}}"
+            class="rating__textarea"
+            placeholder="分享您的服务体验，帮助我们做得更好…"
+            value="{{comment}}"
+            bindinput="onCommentInput"
+            maxlength="500"
+          />
+          <view wx:else class="rating__readonly-text">
+            <text wx:if="{{comment}}">{{comment}}</text>
+            <text wx:else class="rating__readonly-empty">您未填写文字评价</text>
+          </view>
+          <text wx:if="{{mode !== 'view'}}" class="rating__counter">{{commentLength}}/500</text>
+        </view>
+
+        <!-- 匿名开关 -->
+        <view wx:if="{{mode !== 'view'}}" class="rating__anon">
+          <view class="rating__anon-text">
+            <text class="rating__anon-title">匿名评价</text>
+            <text class="rating__anon-desc">开启后服务人员不会看到您的信息</text>
+          </view>
+          <switch class="rating__switch" checked="{{anonymous}}" bindchange="onAnonChange" color="#4CAF50" />
+        </view>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部提交 -->
+  <view class="bottom">
+    <button
+      wx:if="{{mode !== 'view'}}"
+      class="bottom__btn btn-haptic {{!rating ? 'bottom__btn--disabled' : ''}}"
+      bind:tap="onSubmit"
+      disabled="{{!rating || submitting}}"
+    >{{submitting ? '提交中…' : '提交评价'}}</button>
+    <button wx:else class="bottom__btn bottom__btn--ghost btn-haptic" bind:tap="onBack">返回</button>
+  </view>
+
+</view>

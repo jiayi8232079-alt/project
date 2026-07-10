@@ -12,7 +12,7 @@
  *   and updates __s_audio_codec_type for TTS stream playback.
  * - Media data callback: feeds audio chunks to wukong audio player TTS stream.
  * - Text callback: forwards JSON text stream to wukong text processor.
- * - Alert callback: filters AT_PLEASE_AGAIN and forwards others as PLAY_ALERT events.
+ * - Alert callback: forwards cloud alert notifications as PLAY_ALERT events.
  *
  * Notes:
  * - TTS streaming events are mapped to wukong audio player stream APIs.
@@ -187,22 +187,17 @@ STATIC OPERATE_RET __wukong_ai_agent_text_cb(AI_TEXT_TYPE_E type, ty_cJSON *root
 }
 
 /**
- * @brief Tuya AI agent alert callback: forward as WUKONG_AI_EVENT_PLAY_ALERT except AT_PLEASE_AGAIN.
+ * @brief Tuya AI agent alert callback: forward as WUKONG_AI_EVENT_PLAY_ALERT.
  *
- * Cloud may send alert notifications; AT_PLEASE_AGAIN is ignored (handled elsewhere).
- * Other alerts are forwarded to application via wukong_ai_event_notify() with type
- * cast to VOID* as payload.
+ * Cloud may send alert notifications, including AT_PLEASE_AGAIN after empty ASR.
+ * Forward alerts to application via wukong_ai_event_notify() with type cast to
+ * VOID* as payload.
  *
  * @param[in] type Alert type (AI_ALERT_TYPE_E).
  * @return OPRT_OK.
  */
 STATIC OPERATE_RET __wukong_ai_agent_alert_cb(AI_ALERT_TYPE_E type)
 {
-    if (type == AT_PLEASE_AGAIN) {
-        PR_DEBUG("ignored alert: %d", type);
-        return OPRT_OK;
-    }
-
     wukong_ai_event_notify(WUKONG_AI_EVENT_PLAY_ALERT, (VOID *)(unsigned long)type);
     return OPRT_OK;
 }
@@ -440,7 +435,7 @@ OPERATE_RET wukong_ai_agent_send_video(UINT8_T *data, UINT_T len)
  *
  * Maps alert types to simple text commands (cmd:0~5) and sends via send_text().
  * Supported types: AT_NETWORK_CONNECTED, AT_WAKEUP, AT_LONG_KEY_TALK, AT_KEY_TALK,
- * AT_WAKEUP_TALK, AT_RANDOM_TALK. AT_PLEASE_AGAIN is ignored in alert callback.
+ * AT_WAKEUP_TALK, AT_RANDOM_TALK.
  *
  * Note: Alternative implementation (disabled by #if 0) uses tuya_ai_input_alert()
  * when AI_VERSION==2, but current code uses text command mapping for compatibility.

@@ -1,0 +1,9 @@
+{
+  "name": "qiaoguo-miniprogram",
+  "version": "1.0.0",
+  "description": "陪了个伴管理系统 - 微信小程序端",
+  "private": true,
+  "dependencies": {
+    "@babel/runtime": "^7.25.0"
+  }
+}

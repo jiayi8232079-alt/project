@@ -1,0 +1,54 @@
+{
+  "description": "miniprogram 工程配置（含 TypeScript/Less）",
+  "compileType": "miniprogram",
+  "setting": {
+    "useCompilerPlugins": ["typescript", "less"],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "coverView": false,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
+    "showShadowRootInWxmlPanel": false,
+    "packNpmRelationList": [],
+    "ignoreUploadUnusedFiles": true,
+    "compileHotReLoad": false,
+    "skylineRenderEnable": false,
+    "es6": false,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "disableUseStrict": false
+  },
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "libVersion": "2.32.3",
+  "packOptions": {
+    "ignore": [
+      { "type": "folder", "value": "assets/fonts" },
+      { "type": "folder", "value": "node_modules" },
+      { "type": "folder", "value": "miniprogram_npm/.cache" },
+      { "type": "suffix", "value": ".md" },
+      { "type": "suffix", "value": ".log" },
+      { "type": "suffix", "value": ".map" },
+      { "type": "file", "value": ".DS_Store" }
+    ],
+    "include": []
+  },
+  "appid": "wxea818abadf45e890"
+}

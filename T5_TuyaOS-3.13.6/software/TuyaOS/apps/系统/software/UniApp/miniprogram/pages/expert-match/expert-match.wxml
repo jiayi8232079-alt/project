@@ -1,0 +1,79 @@
+<view class="page {{loaded ? 'page--loaded' : ''}}">
+
+  <!-- 顶部导航 -->
+  <view class="nav anim-item anim-0">
+    <view class="nav__inner" style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav__back" bind:tap="goBack" hover-class="btn-haptic">
+        <text class="material-symbols-outlined">arrow_back</text>
+      </view>
+      <text class="nav__title">专家匹配</text>
+      <view class="nav__placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="content">
+
+      <view class="hero anim-item anim-1">
+        <view class="hero__banner">
+          <image class="hero__img" src="https://images.pexels.com/photos/2182972/pexels-photo-2182972.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+          <view class="hero__overlay"></view>
+          <view class="hero__body">
+            <view class="hero__badge">
+              <view class="hero__badge-dot"></view>
+              <text>QIAOGUO HEALTH PREMIUM</text>
+            </view>
+            <view class="hero__title-text">权威专家<text class="hero__gold">匹配</text></view>
+            <text class="hero__desc">链接国内顶尖医疗智慧，为您的健康保驾护航。</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="intro anim-item anim-2">
+        <view class="intro__col">
+          <text class="intro__heading">精准对接\n三甲主任</text>
+          <text class="intro__text">深度整合全国TOP100医院资源，针对疑难杂症，直接连线学科带头人。</text>
+        </view>
+        <view class="intro__divider"></view>
+        <view class="intro__col">
+          <text class="intro__heading">深度病历\n预研</text>
+          <text class="intro__text">专业医疗助理团队先行整理病史，确保专家问诊时间高效利用，直击关键。</text>
+        </view>
+      </view>
+
+      <view class="advantages anim-item anim-3">
+        <view class="advantages__header">
+          <text class="advantages__title">核心优势</text>
+          <text class="advantages__badge">Core Advantages</text>
+        </view>
+        <view class="advantages__list">
+          <view class="advantage-card" wx:for="{{advantages}}" wx:key="id" hover-class="btn-haptic">
+            <view class="advantage-card__img-wrap">
+              <image class="advantage-card__img" src="{{item.img}}" mode="aspectFill"></image>
+            </view>
+            <view class="advantage-card__body">
+              <view class="advantage-card__head">
+                <text class="material-symbols-outlined advantage-card__icon">{{item.icon}}</text>
+                <text class="advantage-card__title">{{item.title}}</text>
+              </view>
+              <text class="advantage-card__desc">{{item.desc}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="footer-text anim-item anim-4">
+        <text>Qiao Guo Health Service</text>
+      </view>
+
+      <view class="safe-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-bar anim-item anim-5">
+    <button class="cta-btn" hover-class="btn-haptic" bind:tap="onBook">
+      <text>预约专家匹配咨询</text>
+      <text class="material-symbols-outlined cta-btn__icon">arrow_forward</text>
+    </button>
+  </view>
+</view>

@@ -22,6 +22,7 @@
 
 #if defined(ENABLE_TUYA_CAMERA) && ENABLE_TUYA_CAMERA == 1
 #include "tal_camera.h"
+#include "person_tracker.h"
 #endif
 
 /***********************************************************
@@ -57,7 +58,8 @@ OPERATE_RET tuya_device_board_init(VOID_T)
      *   - AXP2101 给屏幕/摄像头/传感器供电，故必须【最早】上电并完成自身配置（此处在 board_init）。
      *   - 速率取 100K，与本工程摄像头(tal_dvp)/触摸(tal_tp)/IMU 在 I2C0 上的一致，避免共享总线速率冲突。
      *   - AXP 仅在本处一次性访问总线，后续不占用；其他外设上电后可各自 re-init/复用同一总线。
-     *   - 仅做 探测/关TS/充电使能/状态打印，不改任何 DCDC/LDO 输出轨，避免影响现有供电。 */
+     *   - v3 对齐口袋机：init 含 power_on 全轨 + VOFF 3.3V + 电源键；串口 `axp` 调试。
+     *   - 摄像头三路电源已在 power_on 中打开；下方 camera_power_on 为 tal_dvp 二次确认。 */
     tkl_io_pinmux_config(TUYA_IO_PIN_20, TUYA_IIC0_SCL);
     tkl_io_pinmux_config(TUYA_IO_PIN_21, TUYA_IIC0_SDA);
     TUYA_IIC_BASE_CFG_T axp_i2c_cfg = {
@@ -66,17 +68,20 @@ OPERATE_RET tuya_device_board_init(VOID_T)
         .addr_width = TUYA_IIC_ADDRESS_7BIT,
     };
     if (OPRT_OK == tkl_i2c_init(TUYA_I2C_NUM_0, &axp_i2c_cfg)) {
+        /* 先注册 axp 串口命令，避免 init 中途失败导致 CLI 不可用 */
+        tuya_axp2101_cli_init();
         tuya_axp2101_init(TUYA_I2C_NUM_0);
 #if defined(ENABLE_TUYA_CAMERA) && (ENABLE_TUYA_CAMERA == 1)
-        /* 摄像头三路电源轨由 AXP2101 BLDO1/BLDO2/ALDO3(U4.12/14/16) 提供；
-         * 出厂默认 BLDO2(DVDD_1V8) 关闭，必须显式打开，否则 GC2145 无法工作 */
+        /* init 已含摄像头轨；此处再调一次确保 tal_dvp 路径一致 */
         tuya_axp2101_camera_power_on(TUYA_I2C_NUM_0);
 #endif
     } else {
         TAL_PR_ERR("AXP2101: I2C0 init failed");
     }
 
-#if defined(PRODUCT_BOARD_MOTOR_DEBUG) && (PRODUCT_BOARD_MOTOR_DEBUG == 1)
+#if defined(ENABLE_TUYA_CAMERA) && (ENABLE_TUYA_CAMERA == 1)
+    person_tracker_start();
+#elif defined(PRODUCT_BOARD_MOTOR_DEBUG) && (PRODUCT_BOARD_MOTOR_DEBUG == 1)
     product_board_motor_debug_start();
 #endif
 

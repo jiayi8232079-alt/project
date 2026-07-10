@@ -1,0 +1,204 @@
+@brand-green: #4CAF50;
+@deep-gray: #333;
+
+.inv-page {
+  min-height: 100vh;
+  background: #F8F9FA;
+  padding: 40rpx 32rpx;
+
+  &__card {
+    background: #fff;
+    border-radius: 32rpx;
+    padding: 40rpx 32rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
+  }
+
+  &__icon-wrap {
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 50%;
+    background: rgba(76,175,80,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16rpx;
+
+    .material-symbols-outlined {
+      font-size: 48rpx;
+      color: @brand-green;
+    }
+  }
+
+  &__title {
+    font-size: 34rpx;
+    font-weight: 700;
+    color: @deep-gray;
+  }
+
+  &__hint {
+    font-size: 24rpx;
+    color: rgba(51,51,51,0.5);
+    margin-top: 6rpx;
+    text-align: center;
+  }
+
+  // ── 二维码 ──
+  &__qr-box {
+    margin-top: 32rpx;
+    width: 420rpx;
+    height: 420rpx;
+    border-radius: 28rpx;
+    background: #F8FAF9;
+    border: 2rpx solid rgba(76,175,80,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  &__qr-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__qr-img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__qr-name {
+    position: absolute;
+    bottom: 8rpx;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 22rpx;
+    color: @brand-green;
+    font-weight: 600;
+  }
+
+  &__qr-loading,
+  &__qr-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12rpx;
+    font-size: 24rpx;
+    color: rgba(51,51,51,0.45);
+  }
+
+  &__qr-error {
+    font-size: 22rpx;
+    color: #E57373;
+    margin-top: 4rpx;
+    padding: 0 32rpx;
+    text-align: center;
+  }
+
+  &__qr-actions {
+    margin-top: 16rpx;
+    display: flex;
+    gap: 16rpx;
+  }
+
+  &__small-btn {
+    display: flex;
+    align-items: center;
+    gap: 6rpx;
+    padding: 10rpx 20rpx;
+    font-size: 22rpx;
+    color: @brand-green;
+    background: rgba(76,175,80,0.08);
+    border-radius: 24rpx;
+  }
+
+  &__code-label {
+    margin-top: 28rpx;
+    font-size: 22rpx;
+    color: rgba(51,51,51,0.4);
+  }
+
+  &__code-box {
+    margin: 12rpx 0 24rpx;
+    padding: 20rpx 44rpx;
+    background: #F5F7FA;
+    border-radius: 20rpx;
+    border: 2rpx dashed rgba(76,175,80,0.3);
+  }
+
+  &__code {
+    font-size: 52rpx;
+    font-weight: 700;
+    color: @brand-green;
+    letter-spacing: 8rpx;
+    font-family: monospace;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 16rpx;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: 8rpx;
+    padding: 16rpx 24rpx;
+    border-radius: 32rpx;
+    background: @brand-green;
+    color: #fff;
+    font-size: 26rpx;
+    font-weight: 600;
+    border: none;
+    line-height: 1.4;
+
+    &::after {
+      border: none;
+    }
+
+    &--refresh {
+      background: #F5F7FA;
+      color: @deep-gray;
+    }
+
+    &--share {
+      background: #1aad19;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  &__tips {
+    margin-top: 32rpx;
+    padding: 24rpx 28rpx;
+    background: rgba(76,175,80,0.04);
+    border-radius: 20rpx;
+  }
+
+  &__tips-title {
+    font-size: 26rpx;
+    font-weight: 600;
+    color: @deep-gray;
+    display: block;
+    margin-bottom: 12rpx;
+  }
+
+  &__tips-item {
+    font-size: 24rpx;
+    color: rgba(51,51,51,0.55);
+    display: block;
+    line-height: 1.9;
+  }
+}

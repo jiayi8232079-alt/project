@@ -1,0 +1,259 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/service/service",
+    "pages/health/health",
+    "pages/mine/mine",
+    "pages/login/login",
+    "pages/elder/home/home",
+    "pages/webview/webview",
+    "pages/agreement/agreement",
+    "pages/aftercare/aftercare",
+    "pages/ai-consult/ai-consult",
+    "pages/health/add-member/add-member",
+    "pages/membership/membership",
+    "pages/checkup/checkup",
+    "pages/inpatient/inpatient",
+    "pages/escort/escort",
+    "pages/consult/consult",
+    "pages/expert/expert",
+    "pages/expert-match/expert-match",
+    "pages/hospital-map/hospital-map"
+  ],
+  "subPackages": [
+    {
+      "root": "pages/admin",
+      "name": "admin",
+      "pages": [
+        "dashboard/dashboard",
+        "orders/orders",
+        "order-detail/order-detail",
+        "customers/customers",
+        "attendants/attendants",
+        "families/families",
+        "health-manage/health-manage",
+        "finance/finance",
+        "system-config/system-config"
+      ]
+    },
+    {
+      "root": "pages/workbench",
+      "name": "workbench",
+      "pages": [
+        "workbench",
+        "grab/grab",
+        "assigned/assigned",
+        "schedule/schedule",
+        "service-timeline/service-timeline",
+        "sign/sign",
+        "completion-form/completion-form",
+        "expense/expense",
+        "wallet/wallet",
+        "prescription-upload/prescription-upload",
+        "service-plan/service-plan"
+      ]
+    },
+    {
+      "root": "pages/family",
+      "name": "family",
+      "pages": [
+        "family",
+        "edit/edit",
+        "invite/invite",
+        "join/join",
+        "dashboard/dashboard",
+        "add-elder/add-elder",
+        "elder-trust-sign/elder-trust-sign",
+        "withkin/withkin"
+      ]
+    },
+    {
+      "root": "pages/order",
+      "name": "order",
+      "pages": [
+        "create/create",
+        "detail/detail",
+        "service-confirm/service-confirm",
+        "service-confirm-summary/service-confirm-summary",
+        "review/review",
+        "success/success",
+        "bill/bill",
+        "service-report/service-report",
+        "scene-launch/scene-launch",
+        "share-timeline/share-timeline"
+      ]
+    },
+    {
+      "root": "pages/complaint",
+      "name": "complaint",
+      "pages": [
+        "create/create",
+        "list/list",
+        "detail/detail"
+      ]
+    },
+    {
+      "root": "pages/alert",
+      "name": "alert",
+      "pages": [
+        "list/list",
+        "detail/detail"
+      ]
+    },
+    {
+      "root": "pages/triage",
+      "name": "triage",
+      "pages": [
+        "triage"
+      ]
+    },
+    {
+      "root": "pages/hospitals",
+      "name": "hospitals",
+      "pages": [
+        "hospitals"
+      ]
+    },
+    {
+      "root": "pages/doctors",
+      "name": "doctors",
+      "pages": [
+        "doctors"
+      ]
+    },
+    {
+      "root": "pages/health-profile",
+      "name": "health-profile",
+      "pages": [
+        "health-profile"
+      ]
+    },
+    {
+      "root": "pages/health-profile-sign",
+      "name": "health-profile-sign",
+      "pages": [
+        "health-profile-sign"
+      ]
+    },
+    {
+      "root": "pages/health-card",
+      "name": "health-card",
+      "pages": [
+        "health-card",
+        "health-card-webview/health-card-webview"
+      ]
+    },
+    {
+      "root": "pages/health-history",
+      "name": "health-history",
+      "pages": [
+        "health-history"
+      ]
+    },
+    {
+      "root": "pages/health-weekly",
+      "name": "health-weekly",
+      "pages": [
+        "health-weekly"
+      ]
+    },
+    {
+      "root": "pages/medication-reminder",
+      "name": "medication-reminder",
+      "pages": [
+        "medication-reminder"
+      ]
+    },
+    {
+      "root": "pages/consult-booking",
+      "name": "consult-booking",
+      "pages": [
+        "consult-booking"
+      ]
+    },
+    {
+      "root": "pages/drug-risk",
+      "name": "drug-risk",
+      "pages": [
+        "drug-risk"
+      ]
+    },
+    {
+      "root": "pages/pro-services",
+      "name": "pro-services",
+      "pages": [
+        "pro-services",
+        "detail/detail"
+      ]
+    },
+    {
+      "root": "pages/device",
+      "name": "device",
+      "pages": [
+        "index/index",
+        "bind/bind"
+      ]
+    },
+    {
+      "root": "pages/ai",
+      "name": "ai",
+      "pages": [
+        "dialog-summary/dialog-summary",
+        "dialog-detail/dialog-detail"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": ["family", "order"]
+    },
+    "pages/mine/mine": {
+      "network": "wifi",
+      "packages": ["admin", "workbench"]
+    }
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#B0B8C1",
+    "selectedColor": "#4CAF50",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/service/service",
+        "text": "服务",
+        "iconPath": "images/tab-service.png",
+        "selectedIconPath": "images/tab-service-active.png"
+      },
+      {
+        "pagePath": "pages/health/health",
+        "text": "健康",
+        "iconPath": "images/tab-health.png",
+        "selectedIconPath": "images/tab-health-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab-mine.png",
+        "selectedIconPath": "images/tab-mine-active.png"
+      }
+    ]
+  },
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "陪了个伴",
+    "navigationBarBackgroundColor": "#F8F9FA",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

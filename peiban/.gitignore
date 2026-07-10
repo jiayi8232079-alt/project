@@ -1,0 +1,31 @@
+# ===== OS / 编辑器 =====
+.DS_Store
+__MACOSX/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.sw?
+
+# ===== Cursor / 本机调试（不入库）=====
+.cursor/
+cursor-chat-exports/
+cursor-chat-recovery.sh
+
+# ===== 通用机密（根级兜底；software/ 另有自带忽略规则）=====
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+
+# ===== 日志 / 打包产物 =====
+*.log
+logs/
+*.zip
+
+# ===== 机器人端常见构建产物（硬件同事可按需补充）=====
+robot/**/build/
+robot/**/dist/
+robot/**/*.o
+robot/**/*.elf.map

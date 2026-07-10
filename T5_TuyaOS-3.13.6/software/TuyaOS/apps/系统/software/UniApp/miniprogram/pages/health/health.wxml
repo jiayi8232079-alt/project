@@ -1,0 +1,181 @@
+<view class="health-page">
+  <!-- Glass Nav -->
+  <view class="health-page__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="health-page__nav-inner">
+      <text class="health-page__nav-title">家庭健康</text>
+      <text class="health-page__nav-subtitle">管理家人健康小档案</text>
+    </view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后管理健康档案</text>
+      <text class="page-login-gate__desc">家人健康小档案仅登录后可用。您可先去首页或服务页了解功能，需要时再自愿登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view wx:else scroll-y class="health-page__scroll" enhanced show-scrollbar="{{false}}">
+    <view class="health-page__body">
+
+      <!-- 诊后管理入口 -->
+      <view class="health-page__aftercare-entry" bind:tap="goAftercare">
+        <view class="health-page__aftercare-left">
+          <text class="material-symbols-outlined health-page__aftercare-icon">medical_information</text>
+          <view>
+            <text class="health-page__aftercare-title">诊后管理中心</text>
+            <text class="health-page__aftercare-desc">查看服务报告、用药提醒、复诊安排与健康周报</text>
+          </view>
+        </view>
+        <text class="material-symbols-outlined health-page__aftercare-arrow">chevron_right</text>
+      </view>
+
+      <!-- Load Error -->
+      <view wx:if="{{loadError && !loading}}" class="health-page__empty">
+        <view class="health-page__empty-icon-wrap">
+          <text class="material-symbols-outlined health-page__empty-icon">wifi_off</text>
+        </view>
+        <text class="health-page__empty-title">加载失败</text>
+        <text class="health-page__empty-hint">请检查网络后重试</text>
+        <view class="health-page__retry-btn" bind:tap="loadSubjects">点击重试</view>
+      </view>
+
+      <!-- Empty State -->
+      <view wx:elif="{{subjects.length === 0 && !loading}}" class="health-page__empty">
+        <view class="health-page__empty-icon-wrap">
+          <text class="material-symbols-outlined health-page__empty-icon">family_restroom</text>
+        </view>
+        <text class="health-page__empty-title">暂未添加服务对象</text>
+        <text class="health-page__empty-hint">添加家人信息，建立健康小档案</text>
+      </view>
+
+      <!-- Member Cards -->
+      <view
+        wx:for="{{subjects}}"
+        wx:key="id"
+        class="health-page__card anim-item anim-{{index < 5 ? index : 4}}"
+      >
+        <!-- 卡片顶部：头像 + 基础信息 + 签署状态 -->
+        <view class="health-page__card-top">
+          <view class="health-page__avatar">
+            <text class="health-page__avatar-text">{{item.name[0]}}</text>
+          </view>
+          <view class="health-page__info">
+            <view class="health-page__name-row">
+              <text class="health-page__name">{{item.name}}</text>
+              <text wx:if="{{item.relation}}" class="health-page__relation">{{item.relation}}</text>
+            </view>
+            <text class="health-page__meta">
+              {{item.gender || ''}}{{item.age != null ? ' · ' + item.age + '岁' : ''}}
+            </text>
+          </view>
+          <!-- 已签署：打勾标识；未签署：编辑入口 -->
+          <view
+            wx:if="{{item.hasSigned}}"
+            class="health-page__card-edit health-page__card-edit--signed"
+            bind:tap="goProfile"
+            data-id="{{item.id}}"
+            data-hasprofile="{{item.hasProfile}}"
+            hover-class="btn-haptic"
+          >
+            <text class="material-symbols-outlined health-page__card-edit-icon">check_circle</text>
+          </view>
+          <view
+            wx:else
+            class="health-page__card-edit"
+            bind:tap="goEditMember"
+            data-id="{{item.id}}"
+            hover-class="btn-haptic"
+          >
+            <text class="material-symbols-outlined health-page__card-edit-icon">edit</text>
+          </view>
+        </view>
+
+        <!-- 健康数据摘要（有档案时显示） -->
+        <view wx:if="{{item.hasProfile}}" class="health-page__summary">
+          <!-- 血型 -->
+          <view wx:if="{{item.bloodType}}" class="health-page__summary-tag health-page__summary-tag--red">
+            <text class="material-symbols-outlined health-page__summary-icon">water_drop</text>
+            <text>{{item.bloodType}}</text>
+          </view>
+          <!-- 视力 -->
+          <view wx:if="{{item.visionLabel}}" class="health-page__summary-tag health-page__summary-tag--blue">
+            <text class="material-symbols-outlined health-page__summary-icon">visibility</text>
+            <text>{{item.visionLabel}}</text>
+          </view>
+          <!-- 听力 -->
+          <view wx:if="{{item.hearingLabel}}" class="health-page__summary-tag health-page__summary-tag--blue">
+            <text class="material-symbols-outlined health-page__summary-icon">hearing</text>
+            <text>{{item.hearingLabel}}</text>
+          </view>
+          <!-- 过敏 -->
+          <view wx:if="{{item.allergyHas}}" class="health-page__summary-tag health-page__summary-tag--orange">
+            <text class="material-symbols-outlined health-page__summary-icon">warning</text>
+            <text>有过敏史</text>
+          </view>
+          <!-- 病史 -->
+          <view
+            wx:for="{{item.histTags}}"
+            wx:for-item="tag"
+            wx:key="*this"
+            class="health-page__summary-tag health-page__summary-tag--orange"
+          >{{tag}}</view>
+          <view wx:if="{{item.histMore}}" class="health-page__summary-tag health-page__summary-tag--gray">{{item.histMore}}</view>
+        </view>
+
+        <!-- 未建档提示 -->
+        <view wx:elif="{{!item.hasProfile}}" class="health-page__no-profile">
+          <text class="material-symbols-outlined health-page__no-profile-icon">info</text>
+          <text class="health-page__no-profile-text">尚未建立健康小档案，点击下方"建立档案"填写</text>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="health-page__card-actions">
+          <view
+            class="health-page__action-btn health-page__action-btn--primary"
+            bind:tap="goProfile"
+            data-id="{{item.id}}"
+            data-hasprofile="{{item.hasProfile}}"
+          >
+            <view class="health-page__action-icon-wrap">
+              <text class="material-symbols-outlined health-page__action-icon">{{item.hasProfile ? (item.hasSigned ? 'description' : 'draw') : 'note_add'}}</text>
+            </view>
+            <text class="health-page__action-label">{{item.hasProfile ? (item.hasSigned ? '查看档案' : '去签署') : '建立档案'}}</text>
+          </view>
+          <view
+            class="health-page__action-btn health-page__action-btn--outline"
+            bind:tap="goHistory"
+            data-id="{{item.id}}"
+          >
+            <view class="health-page__action-icon-wrap">
+              <text class="material-symbols-outlined health-page__action-icon">history</text>
+            </view>
+            <text class="health-page__action-label">就诊史</text>
+          </view>
+          <view
+            class="health-page__action-btn health-page__action-btn--danger"
+            bind:tap="onDelete"
+            data-id="{{item.id}}"
+            data-name="{{item.name}}"
+          >
+            <view class="health-page__action-icon-wrap">
+              <text class="material-symbols-outlined health-page__action-icon">delete</text>
+            </view>
+            <text class="health-page__action-label">删除</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- Add Member Button -->
+      <view class="health-page__add-card" bind:tap="goAddMember">
+        <view class="health-page__add-icon-wrap">
+          <text class="material-symbols-outlined health-page__add-icon">person_add</text>
+        </view>
+        <text class="health-page__add-text">添加新成员</text>
+      </view>
+
+      <view style="height: 160rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

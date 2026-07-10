@@ -1,0 +1,88 @@
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  border-radius: 24rpx;
+  line-height: 1;
+  box-sizing: border-box;
+  vertical-align: middle;
+
+  &--inline {
+    padding: 4rpx 14rpx;
+  }
+
+  &--block {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 14rpx 20rpx;
+    border-radius: 16rpx;
+    gap: 10rpx;
+  }
+
+  &--sm {
+    font-size: 20rpx;
+    .ai-badge__icon {
+      font-size: 22rpx;
+    }
+  }
+
+  &--md {
+    font-size: 22rpx;
+    .ai-badge__icon {
+      font-size: 26rpx;
+    }
+  }
+
+  &--lg {
+    font-size: 26rpx;
+    .ai-badge__icon {
+      font-size: 30rpx;
+    }
+  }
+
+  &--tone-default {
+    background: rgba(123, 31, 162, 0.08);
+    color: #7b1fa2;
+    border: 1rpx solid rgba(123, 31, 162, 0.18);
+    .ai-badge__icon {
+      color: #7b1fa2;
+    }
+  }
+
+  &--tone-light {
+    background: rgba(255, 255, 255, 0.7);
+    color: #7b1fa2;
+    border: 1rpx solid rgba(123, 31, 162, 0.22);
+    .ai-badge__icon {
+      color: #7b1fa2;
+    }
+  }
+
+  &--tone-notice {
+    background: linear-gradient(135deg, rgba(123, 31, 162, 0.08), rgba(33, 150, 243, 0.08));
+    color: #5e35b1;
+    border: 1rpx solid rgba(94, 53, 177, 0.22);
+    .ai-badge__icon {
+      color: #5e35b1;
+    }
+  }
+
+  &--tone-warning {
+    background: rgba(255, 152, 0, 0.08);
+    color: #ef6c00;
+    border: 1rpx solid rgba(239, 108, 0, 0.25);
+    .ai-badge__icon {
+      color: #ef6c00;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+  }
+
+  &__text {
+    font-weight: 500;
+    letter-spacing: 0.5rpx;
+  }
+}

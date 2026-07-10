@@ -1,0 +1,190 @@
+<view class="sign-page" style="padding-top: {{statusBarHeight}}px;">
+
+  <!-- ═══ 全屏签名画布 ═══ -->
+  <view class="sign-page__canvas-wrap">
+    <text class="sign-page__watermark">{{signName}}</text>
+    <text class="sign-page__placeholder" wx:if="{{!hasSigned}}">请在此处签名</text>
+    <canvas
+      id="signCanvas"
+      type="2d"
+      class="sign-page__canvas"
+      disable-scroll
+      bind:touchstart="onTouchStart"
+      bind:touchmove="onTouchMove"
+      bind:touchend="onTouchEnd"
+      bind:touchcancel="onTouchEnd"
+    ></canvas>
+  </view>
+
+  <!-- ═══ 顶部浮层：返回 + 标题副标题（避开胶囊） ═══ -->
+  <view class="sign-page__top" style="top: {{statusBarHeight}}px;">
+    <view class="sign-page__top-back btn-haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back</text>
+    </view>
+    <view class="sign-page__top-titles">
+      <text class="sign-page__top-title">签署确认</text>
+      <text wx:if="{{isProxy}}" class="sign-page__top-sub">由「{{signerName}}」代为签署</text>
+      <text wx:else class="sign-page__top-sub">请书写「{{signName}}」并确认签署</text>
+    </view>
+    <!-- 右侧不放任何按钮，避免被微信胶囊按钮遮挡 -->
+  </view>
+
+  <!-- ═══ 底部浮层：查看档案 · 清除 · 确认签署 ═══ -->
+  <view class="sign-page__bottom" style="padding-bottom: calc(env(safe-area-inset-bottom) + 16rpx);">
+    <view class="sign-page__bottom-btn sign-page__bottom-btn--plain btn-haptic" bind:tap="openInfo">
+      <text class="material-symbols-outlined">description</text>
+      <text>查看档案</text>
+    </view>
+    <view class="sign-page__bottom-btn sign-page__bottom-btn--plain btn-haptic" bind:tap="clearSign">
+      <text class="material-symbols-outlined">refresh</text>
+      <text>清除</text>
+    </view>
+    <button
+      class="sign-page__bottom-btn sign-page__bottom-btn--primary {{hasSigned && !submitting ? 'is-active' : 'is-disabled'}}"
+      hover-class="btn-haptic"
+      bind:tap="confirmSign"
+      disabled="{{submitting || !hasSigned}}"
+    >
+      <text class="material-symbols-outlined">check_circle</text>
+      <text>{{submitting ? '提交中...' : '确认签署'}}</text>
+    </button>
+  </view>
+
+  <!-- ═══ 档案信息弹出层 ═══ -->
+  <view wx:if="{{showInfo}}" class="sign-info-mask" bind:tap="closeInfo">
+    <view class="sign-info-sheet" catch:tap="">
+      <view class="sign-info-sheet__head">
+        <text class="sign-info-sheet__title">已填写的健康档案信息</text>
+        <view class="sign-info-sheet__close btn-haptic" bind:tap="closeInfo">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+
+      <scroll-view scroll-y class="sign-info-sheet__body" enhanced show-scrollbar="{{false}}" style="height:{{sheetBodyHeight}}px;">
+        <!-- 授权声明 -->
+        <view class="sign-info-sheet__consent">
+          <text class="material-symbols-outlined sign-info-sheet__consent-icon">verified_user</text>
+          <text wx:if="{{isProxy}}" class="sign-info-sheet__consent-text">我（{{signerName}}）确认以上信息真实准确，代为填写并签署，愿意授权陪了个伴用于陪诊服务。</text>
+          <text wx:else class="sign-info-sheet__consent-text">我确认以上健康信息真实准确，愿意授权陪了个伴用于陪诊服务。</text>
+        </view>
+
+        <block wx:if="{{profile}}">
+          <!-- 基本信息 -->
+          <view class="sign-info-sheet__section">
+            <text class="sign-info-sheet__section-title">基本信息</text>
+            <view class="sign-info-sheet__grid">
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">姓名</text>
+                <text class="sign-info-sheet__val">{{profile.name}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">性别</text>
+                <text class="sign-info-sheet__val">{{profile.gender}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">年龄</text>
+                <text class="sign-info-sheet__val">{{profile.age}}{{profile.age ? '岁' : ''}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">电话</text>
+                <text class="sign-info-sheet__val">{{profile.phone}}</text>
+              </view>
+              <view wx:if="{{profile.homeAddress}}" class="sign-info-sheet__cell sign-info-sheet__cell--full">
+                <text class="sign-info-sheet__label">家庭地址</text>
+                <text class="sign-info-sheet__val">{{profile.homeAddress}}</text>
+              </view>
+              <view class="sign-info-sheet__cell sign-info-sheet__cell--full">
+                <text class="sign-info-sheet__label">身份证</text>
+                <text class="sign-info-sheet__val">{{profile.idCard || '—'}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view wx:if="{{profile.emergencyContact}}" class="sign-info-sheet__section">
+            <text class="sign-info-sheet__section-title">紧急联系人</text>
+            <view class="sign-info-sheet__grid">
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">联系人</text>
+                <text class="sign-info-sheet__val">{{profile.emergencyContact}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">关系</text>
+                <text class="sign-info-sheet__val">{{profile.emergencyRelation || '—'}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">电话</text>
+                <text class="sign-info-sheet__val">{{profile.emergencyPhone}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view wx:if="{{isProxy && profile.signerName}}" class="sign-info-sheet__section">
+            <text class="sign-info-sheet__section-title">填写人信息</text>
+            <view class="sign-info-sheet__grid">
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">填写人</text>
+                <text class="sign-info-sheet__val">{{profile.signerName}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">与档案人关系</text>
+                <text class="sign-info-sheet__val">{{profile.signerRelation}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">记录方式</text>
+                <text class="sign-info-sheet__val">{{profile.fillMethod}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="sign-info-sheet__section">
+            <text class="sign-info-sheet__section-title">健康状况</text>
+            <view class="sign-info-sheet__grid">
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">行动能力</text>
+                <text class="sign-info-sheet__val">{{profile.mobilityStatus}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">血型</text>
+                <text class="sign-info-sheet__val">{{profile.bloodType || '—'}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">视力</text>
+                <text class="sign-info-sheet__val">{{profile.visionStatus || '—'}}</text>
+              </view>
+              <view class="sign-info-sheet__cell">
+                <text class="sign-info-sheet__label">听力</text>
+                <text class="sign-info-sheet__val">{{profile.hearingStatus || '—'}}</text>
+              </view>
+              <view class="sign-info-sheet__cell sign-info-sheet__cell--full">
+                <text class="sign-info-sheet__label">过敏史</text>
+                <text class="sign-info-sheet__val {{profile.allergyStatus === '有' ? 'sign-info-sheet__val--warn' : ''}}">{{profile.allergyStatus === '有' ? '有 — ' + profile.allergies : '无过敏'}}</text>
+              </view>
+              <view class="sign-info-sheet__cell sign-info-sheet__cell--full">
+                <text class="sign-info-sheet__label">既往病史</text>
+                <text class="sign-info-sheet__val">{{profile.medicalHistory}}</text>
+              </view>
+              <view class="sign-info-sheet__cell sign-info-sheet__cell--full">
+                <text class="sign-info-sheet__label">近期状况</text>
+                <text class="sign-info-sheet__val">{{profile.recentSymptoms}}</text>
+              </view>
+              <view class="sign-info-sheet__cell sign-info-sheet__cell--full">
+                <text class="sign-info-sheet__label">当前用药</text>
+                <text class="sign-info-sheet__val">{{profile.currentMedication}}</text>
+              </view>
+              <view class="sign-info-sheet__cell sign-info-sheet__cell--full">
+                <text class="sign-info-sheet__label">就医诉求</text>
+                <text class="sign-info-sheet__val">{{profile.chiefComplaint || '—'}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+
+        <view wx:else class="sign-info-sheet__empty">
+          <text>档案信息加载中…</text>
+        </view>
+
+        <view style="height: 20rpx;"></view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

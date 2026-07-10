@@ -11,6 +11,59 @@
 
 #include "wukong_kws.h"
 #include "tuya_app_config.h"
+#include "tal_log.h"
+
+#if defined(WUKONG_KWS_DISABLED) && (WUKONG_KWS_DISABLED == 1)
+
+INT_T wukong_kws_default_init(VOID)
+{
+    TAL_PR_NOTICE("wukong kws disabled by build config");
+    return OPRT_OK;
+}
+
+INT_T wukong_kws_init(WUKONG_KWS_CFG_T *cfg)
+{
+    (void)cfg;
+    TAL_PR_NOTICE("wukong kws init skipped");
+    return OPRT_OK;
+}
+
+INT_T wukong_kws_uninit(VOID)
+{
+    return OPRT_OK;
+}
+
+INT_T wukong_kws_feed_with_vad(UINT8_T *data, UINT16_T datalen, UINT8_T vadflag)
+{
+    (void)data;
+    (void)datalen;
+    (void)vadflag;
+    return OPRT_OK;
+}
+
+INT_T wukong_kws_enable(VOID)
+{
+    return OPRT_OK;
+}
+
+INT_T wukong_kws_disable(VOID)
+{
+    return OPRT_OK;
+}
+
+INT_T wukong_kws_set_vad_detect(UINT8_T is_detect_vad)
+{
+    (void)is_detect_vad;
+    return OPRT_OK;
+}
+
+VOID wukong_kws_event(WUKONG_KWS_INDEX_E wakeup_kws_index)
+{
+    (void)wakeup_kws_index;
+}
+
+#else
+
 #include "tuya_ringbuf.h"
 #include "base_event.h"
 #include "tal_thread.h"
@@ -18,7 +71,6 @@
 #include "tal_system.h"
 #include "tal_mutex.h"
 #include "tal_semaphore.h"
-#include "tal_log.h"
 #include "tal_workq_service.h"
 #include "tutuclear/tutuclear.h"
 #include "sndx/sndx.h"
@@ -69,6 +121,8 @@ typedef struct {
 } WUKONG_KWS_T;
 
 STATIC WUKONG_KWS_T s_wukong_kws_mgr = {0};
+
+STATIC INT_T wukong_kws_deinit(WUKONG_KWS_T *wwm);
 
 
 /**
@@ -181,7 +235,7 @@ __err_exit:
  * @param wwm Module manager pointer; must not be NULL
  * @return 0 or error code
  */
-INT_T wukong_kws_deinit(WUKONG_KWS_T *wwm)
+STATIC INT_T wukong_kws_deinit(WUKONG_KWS_T *wwm)
 {
     INT_T rt = 0;
 
@@ -504,3 +558,5 @@ INT_T wukong_kws_default_init(VOID)
     return wukong_kws_uart_init();
 #endif
 }
+
+#endif /* WUKONG_KWS_DISABLED */

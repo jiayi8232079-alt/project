@@ -89,3 +89,46 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# ===== Project structure cleanup guardrails =====
+# Node / backend generated files
+peiban/software/backend/node_modules/
+peiban/software/backend/dist/
+peiban/software/backend/coverage/
+peiban/software/backend/uploads/*
+!peiban/software/backend/uploads/.gitkeep
+
+# Secrets / local config
+peiban/software/backend/.env
+peiban/software/backend/.env.*
+!peiban/software/backend/.env.example
+!peiban/software/backend/.env.*.example
+T5_TuyaOS-3.13.6/software/TuyaOS/apps/*/scripts/.env
+T5_TuyaOS-3.13.6/software/TuyaOS/apps/*/scripts/.env.*
+!T5_TuyaOS-3.13.6/software/TuyaOS/apps/*/scripts/.env.example
+
+# Python local caches and virtual environments
+**/__pycache__/
+*.pyc
+**/.venv/
+.venv_excel/
+
+# TuyaOS / vendor generated build outputs
+T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/build/
+T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/**/.ninja_deps
+T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/**/.ninja_log
+T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/**/build.ninja
+T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/t5_os/**/CMakeFiles/
+T5_TuyaOS-3.13.6/software/packages/usedlog/
+
+# Local logs / temp / sensitive notes
+/log/
+/Temp/
+Docs/*.log
+Docs/uart_log.txt
+Docs/各种密码
+*.bak
+*.bak_*
+*.backup
+*.save
+*.save.*

@@ -1,0 +1,78 @@
+<view class="alert-list">
+  <view class="alert-list__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="alert-list__nav-back" bind:tap="goBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="alert-list__nav-title">健康预警</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看家庭预警</text>
+      <text class="page-login-gate__desc">预警仅对本账号及关联家人展示。您可先返回，需要时再登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="alert-list__scroll"
+    refresher-enabled
+    refresher-triggered="{{refreshing}}"
+    bindrefresherrefresh="onRefresh"
+  >
+    <view class="alert-list__body">
+      <view class="alert-list__tabs">
+        <view
+          class="alert-list__tab {{activeTab === 'new' ? 'alert-list__tab--active' : ''}}"
+          data-tab="new"
+          bind:tap="switchTab"
+        >未处理</view>
+        <view
+          class="alert-list__tab {{activeTab === 'all' ? 'alert-list__tab--active' : ''}}"
+          data-tab="all"
+          bind:tap="switchTab"
+        >全部</view>
+      </view>
+
+      <view wx:if="{{items.length === 0}}" class="alert-list__empty">
+        <text class="material-symbols-outlined alert-list__empty-icon">verified</text>
+        <text class="alert-list__empty-title">{{activeTab === 'new' ? '暂无待处理预警' : '暂无预警记录'}}</text>
+        <text class="alert-list__empty-sub">系统会在漏服、复诊逾期、服务异常时自动提醒您</text>
+      </view>
+
+      <view wx:else class="alert-list__items">
+        <view
+          wx:for="{{items}}"
+          wx:key="id"
+          class="alert-card alert-card--{{item.severity}}"
+          bind:tap="goDetail"
+          data-id="{{item.id}}"
+          hover-class="btn-haptic"
+        >
+          <view class="alert-card__header">
+            <view class="alert-card__severity alert-card__severity--{{item.severity}}">{{item.severityLabel}}</view>
+            <text class="alert-card__category">{{item.categoryLabel}}</text>
+            <text class="alert-card__time">{{item.triggeredAtText}}</text>
+          </view>
+          <text class="alert-card__title">{{item.title}}</text>
+          <text class="alert-card__summary">{{item.summary}}</text>
+          <view class="alert-card__footer">
+            <text class="alert-card__target">
+              <text class="material-symbols-outlined">person</text>
+              {{item.targetName}}
+            </text>
+            <text class="alert-card__status alert-card__status--{{item.status}}">{{item.statusLabel}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view style="height:80rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

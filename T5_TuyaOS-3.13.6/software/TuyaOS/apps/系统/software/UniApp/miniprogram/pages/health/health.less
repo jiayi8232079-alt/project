@@ -1,0 +1,417 @@
+@brand-green: #4CAF50;
+@warm-orange: #FF9800;
+@deep-gray: #333333;
+@royal-obsidian: #1A1A1A;
+@alabaster: #F8F9FA;
+@medical-gray: #F5F7FA;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.health-page {
+  background: @alabaster;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(40rpx);
+    -webkit-backdrop-filter: blur(40rpx);
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.05);
+    padding: 24rpx 40rpx 20rpx;
+  }
+
+  &__nav-title {
+    font-size: 44rpx;
+    font-weight: 700;
+    color: @royal-obsidian;
+    display: block;
+    letter-spacing: -1rpx;
+  }
+
+  &__nav-subtitle {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.4);
+    display: block;
+    margin-top: 4rpx;
+  }
+
+  &__scroll {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+  }
+
+  &__body {
+    padding: 24rpx 32rpx 40rpx;
+  }
+
+  // ─── Empty State ───
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120rpx 0;
+    animation: fadeSlideUp 0.48s @ease-organic;
+  }
+
+  &__empty-icon-wrap {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    background: rgba(76, 175, 80, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24rpx;
+  }
+
+  &__empty-icon {
+    font-size: 56rpx;
+    color: @brand-green;
+  }
+
+  &__empty-title {
+    font-size: 30rpx;
+    color: @deep-gray;
+    font-weight: 600;
+  }
+
+  &__empty-hint {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.35);
+    margin-top: 8rpx;
+  }
+
+  &__retry-btn {
+    margin-top: 32rpx;
+    padding: 16rpx 48rpx;
+    font-size: 28rpx;
+    color: #fff;
+    background: @brand-green;
+    border-radius: 40rpx;
+  }
+
+  // ─── Member Card ───
+  &__card {
+    background: #fff;
+    border-radius: 48rpx;
+    padding: 32rpx;
+    margin-bottom: 20rpx;
+    box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  }
+
+  &__card-top {
+    display: flex;
+    align-items: center;
+    gap: 20rpx;
+    margin-bottom: 24rpx;
+  }
+
+  &__avatar {
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 36rpx;
+    background: linear-gradient(135deg, @brand-green, #66BB6A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4rpx 12rpx rgba(76, 175, 80, 0.2);
+  }
+
+  &__avatar-text {
+    color: #fff;
+    font-size: 36rpx;
+    font-weight: 700;
+  }
+
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6rpx;
+  }
+
+  &__name-row {
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+  }
+
+  &__name {
+    font-size: 34rpx;
+    font-weight: 700;
+    color: @royal-obsidian;
+  }
+
+  &__relation {
+    font-size: 22rpx;
+    color: @deep-gray;
+    background: @medical-gray;
+    padding: 4rpx 14rpx;
+    border-radius: 16rpx;
+    font-weight: 500;
+    border: 0.5rpx solid rgba(51, 51, 51, 0.06);
+  }
+
+  &__meta {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.45);
+  }
+
+  &__card-badge {
+    width: 56rpx;
+    height: 56rpx;
+    background: rgba(76, 175, 80, 0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__card-badge-icon {
+    font-size: 28rpx;
+    color: @brand-green;
+  }
+
+  // ─── Action Buttons ───
+  &__card-actions {
+    display: flex;
+    gap: 16rpx;
+    padding-top: 20rpx;
+    border-top: 0.5rpx solid rgba(51, 51, 51, 0.06);
+  }
+
+  &__action-btn {
+    flex: 1;
+    height: 72rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rpx;
+    border-radius: 32rpx;
+    font-size: 26rpx;
+    font-weight: 600;
+    transition: transform 0.2s @ease-organic;
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &--primary {
+      background: @brand-green;
+      color: #fff;
+      box-shadow: 0 4rpx 16rpx rgba(76, 175, 80, 0.2);
+    }
+
+    &--outline {
+      background: @medical-gray;
+      color: @deep-gray;
+      border: 0.5rpx solid rgba(51, 51, 51, 0.08);
+    }
+
+    &--danger {
+      background: rgba(244, 67, 54, 0.08);
+      color: #F44336;
+      border: 0.5rpx solid rgba(244, 67, 54, 0.2);
+    }
+  }
+
+  &__action-icon-wrap {
+    width: 30rpx;
+    height: 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__action-icon {
+    font-size: 26rpx;
+    line-height: 1;
+    display: block;
+  }
+
+  &__action-label {
+    line-height: 1;
+    display: block;
+  }
+
+  // ─── 编辑成员 / 已签署标识 ───
+  &__card-edit {
+    width: 56rpx; height: 56rpx;
+    border-radius: 50%;
+    background: @medical-gray;
+    border: 0.5rpx solid rgba(51, 51, 51, 0.08);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s @ease-organic;
+
+    &:active {
+      background: rgba(76, 175, 80, 0.1);
+    }
+
+    &--signed {
+      background: rgba(76, 175, 80, 0.12);
+      border-color: rgba(76, 175, 80, 0.25);
+      &:active { background: rgba(76, 175, 80, 0.2); }
+    }
+  }
+
+  &__card-edit-icon {
+    font-size: 26rpx;
+    color: rgba(51, 51, 51, 0.4);
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    .health-page__card-edit--signed & {
+      color: #4CAF50;
+      font-size: 32rpx;
+    }
+  }
+
+  // ─── 健康摘要标签 ───
+  &__summary {
+    display: flex; flex-wrap: wrap; gap: 10rpx;
+    padding: 16rpx 0 20rpx;
+    border-top: 0.5rpx solid rgba(0,0,0,0.05);
+    border-bottom: 0.5rpx solid rgba(0,0,0,0.05);
+    margin-bottom: 16rpx;
+  }
+
+  &__summary-tag {
+    display: flex; align-items: center; gap: 6rpx;
+    padding: 8rpx 16rpx; border-radius: 20rpx;
+    font-size: 22rpx; font-weight: 600;
+
+    &--red    { background: rgba(239,83,80,0.08);  color: #EF5350; }
+    &--blue   { background: rgba(66,165,245,0.1);  color: #42A5F5; }
+    &--orange { background: rgba(255,152,0,0.1);   color: #FF9800; }
+    &--gray   { background: rgba(51,51,51,0.06);   color: rgba(51,51,51,0.4); }
+  }
+
+  &__summary-icon {
+    font-size: 22rpx;
+    line-height: 1;
+    display: block;
+    align-self: center;
+  }
+
+  // ─── 未建档提示 ───
+  &__no-profile {
+    display: flex; align-items: flex-start; gap: 10rpx;
+    padding: 16rpx 0 20rpx;
+    border-top: 0.5rpx solid rgba(0,0,0,0.05);
+    border-bottom: 0.5rpx solid rgba(0,0,0,0.05);
+    margin-bottom: 16rpx;
+  }
+
+  &__no-profile-icon {
+    font-size: 28rpx; color: rgba(51,51,51,0.3); flex-shrink: 0; margin-top: 2rpx;
+  }
+
+  &__no-profile-text {
+    font-size: 24rpx; color: rgba(51,51,51,0.4); line-height: 1.5;
+  }
+
+  // ─── Add Card ───
+  &__add-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12rpx;
+    padding: 36rpx;
+    background: #fff;
+    border-radius: 48rpx;
+    border: 2rpx dashed rgba(76, 175, 80, 0.25);
+    margin-top: 12rpx;
+    transition: all 0.2s @ease-organic;
+
+    &:active {
+      transform: scale(0.97);
+      background: rgba(76, 175, 80, 0.03);
+    }
+  }
+
+  &__add-icon-wrap {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 50%;
+    background: rgba(76, 175, 80, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__add-icon {
+    font-size: 28rpx;
+    color: @brand-green;
+  }
+
+  &__add-text {
+    font-size: 28rpx;
+    color: @brand-green;
+    font-weight: 600;
+  }
+}
+
+// ─── Animation ───
+.anim-item { opacity: 0; }
+.anim-item {
+  animation: fadeSlideUp 0.48s @ease-organic forwards;
+}
+.anim-0 { animation-delay: 0s; }
+.anim-1 { animation-delay: 0.06s; }
+.anim-2 { animation-delay: 0.12s; }
+.anim-3 { animation-delay: 0.18s; }
+.anim-4 { animation-delay: 0.24s; }
+
+/* ─── 诊后管理入口 ─── */
+.health-page__aftercare-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  border-radius: 20rpx;
+  padding: 28rpx 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(76, 175, 80, 0.08);
+}
+.health-page__aftercare-left {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex: 1;
+}
+.health-page__aftercare-icon {
+  font-size: 44rpx;
+  color: @brand-green;
+  flex-shrink: 0;
+}
+.health-page__aftercare-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @royal-obsidian;
+}
+.health-page__aftercare-desc {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(26,26,26,0.55);
+  margin-top: 4rpx;
+}
+.health-page__aftercare-arrow {
+  font-size: 34rpx;
+  color: rgba(26,26,26,0.25);
+}

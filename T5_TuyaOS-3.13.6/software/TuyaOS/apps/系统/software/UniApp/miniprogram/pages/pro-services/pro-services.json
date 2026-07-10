@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "ai-badge": "/components/ai-badge/ai-badge"
+  },
+  "navigationBarTitleText": "专业服务",
+  "navigationBarBackgroundColor": "#F4F7F6",
+  "navigationStyle": "custom"
+}

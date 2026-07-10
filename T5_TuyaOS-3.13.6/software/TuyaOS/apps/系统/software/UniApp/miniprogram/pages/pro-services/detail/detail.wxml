@@ -1,0 +1,152 @@
+<view class="psd">
+  <!-- 顶部导航 -->
+  <view class="psd__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="psd__nav-back btn-haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="psd__nav-title" wx:if="{{service}}">{{service.name}}</text>
+    <view class="psd__nav-placeholder"></view>
+  </view>
+
+  <view wx:if="{{loading}}" class="psd__state">
+    <text class="psd__state-text">加载中…</text>
+  </view>
+
+  <view wx:elif="{{loadError || !service}}" class="psd__state">
+    <text class="material-symbols-outlined psd__state-icon">error</text>
+    <text class="psd__state-text">服务信息加载失败</text>
+    <view class="psd__retry-btn btn-haptic" bind:tap="goBack">返回</view>
+  </view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="psd__scroll"
+    style="height: calc(100vh - 88rpx - {{statusBarHeight}}px);"
+  >
+    <view class="psd__content">
+
+      <!-- 头部卡 -->
+      <view class="psd__hero psd__hero--{{service.categoryColor}}">
+        <view class="psd__hero-deco"></view>
+        <view class="psd__hero-grid"></view>
+        <view class="psd__hero-cat">
+          <text class="psd__hero-cat-dot"></text>
+          <text>{{service.categoryLabel}}</text>
+        </view>
+        <view class="psd__hero-row">
+          <view class="psd__hero-icon">
+            <text class="material-symbols-outlined">{{service.icon}}</text>
+          </view>
+          <view class="psd__hero-body">
+            <text class="psd__hero-name">{{service.name}}</text>
+            <text class="psd__hero-desc">{{service.shortDesc}}</text>
+          </view>
+        </view>
+        <view class="psd__hero-meta">
+          <view class="psd__hero-meta-item" wx:if="{{service.durationHint}}">
+            <text class="material-symbols-outlined">schedule</text>
+            <text>{{service.durationHint}}</text>
+          </view>
+          <view class="psd__hero-meta-item psd__hero-meta-item--price" wx:if="{{service.priceDisplayText}}">
+            <text class="material-symbols-outlined">local_offer</text>
+            <text>{{service.priceDisplayText}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 适用人群 -->
+      <view class="psd__section" wx:if="{{service.targetGroups.length > 0}}">
+        <view class="psd__section-header">
+          <view class="psd__section-indicator"></view>
+          <text class="psd__section-title">适用人群</text>
+        </view>
+        <view class="psd__tags">
+          <text
+            wx:for="{{service.targetGroups}}" wx:for-item="tag" wx:key="*this"
+            class="psd__tag"
+          >{{tag}}</text>
+        </view>
+      </view>
+
+      <!-- 服务亮点 -->
+      <view class="psd__section" wx:if="{{service.highlights.length > 0}}">
+        <view class="psd__section-header">
+          <view class="psd__section-indicator"></view>
+          <text class="psd__section-title">服务亮点</text>
+        </view>
+        <view class="psd__highlights">
+          <view
+            wx:for="{{service.highlights}}" wx:for-item="h" wx:key="*this"
+            class="psd__highlight"
+          >
+            <text class="material-symbols-outlined psd__highlight-icon">check_circle</text>
+            <text class="psd__highlight-text">{{h}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 详细介绍 -->
+      <view class="psd__section" wx:if="{{service.detail}}">
+        <view class="psd__section-header">
+          <view class="psd__section-indicator"></view>
+          <text class="psd__section-title">服务介绍</text>
+        </view>
+        <text class="psd__detail">{{service.detail}}</text>
+      </view>
+
+      <!-- SOP 步骤（时间线） -->
+      <view class="psd__section" wx:if="{{service.sopSteps.length > 0}}">
+        <view class="psd__section-header">
+          <view class="psd__section-indicator"></view>
+          <text class="psd__section-title">服务流程</text>
+          <text class="psd__section-count">{{service.sopSteps.length}} 步</text>
+        </view>
+        <view class="psd__steps">
+          <view
+            wx:for="{{service.sopSteps}}" wx:for-item="step" wx:key="title"
+            class="psd__step"
+          >
+            <view class="psd__step-marker">
+              <view class="psd__step-dot">{{index + 1}}</view>
+              <view class="psd__step-line" wx:if="{{index < service.sopSteps.length - 1}}"></view>
+            </view>
+            <view class="psd__step-body">
+              <view class="psd__step-head">
+                <text class="psd__step-title">{{step.title}}</text>
+                <text class="psd__step-duration" wx:if="{{step.durationMin}}">约 {{step.durationMin}} 分钟</text>
+              </view>
+              <text class="psd__step-desc">{{step.description}}</text>
+              <view class="psd__checklist" wx:if="{{step.checklistItems.length > 0}}">
+                <view
+                  wx:for="{{step.checklistItems}}" wx:for-item="c" wx:key="*this"
+                  class="psd__checklist-item"
+                >
+                  <text class="material-symbols-outlined psd__checklist-icon">task_alt</text>
+                  <text class="psd__checklist-text">{{c}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 免责说明 -->
+      <view class="psd__notice">
+        <text class="material-symbols-outlined">info</text>
+        <text>以上服务由陪了个伴平台及合作机构/专业人员提供，平台协助评估、协同与记录，具体医疗决策需遵医嘱。</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部 CTA -->
+  <view class="psd__footer" wx:if="{{service}}">
+    <view class="psd__footer-btn btn-haptic" bind:tap="onContactService">
+      <text class="material-symbols-outlined psd__footer-btn-icon">support_agent</text>
+      <text class="psd__footer-btn-text">咨询客服预约</text>
+      <text class="material-symbols-outlined psd__footer-btn-arrow">arrow_forward</text>
+    </view>
+  </view>
+</view>

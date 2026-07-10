@@ -1,0 +1,158 @@
+// ═══════════════════════════════════════════════════════════════
+// 陪了个伴 管理后台 · 医疗可信「Apple Liquid Glass / 液态毛玻璃」
+// 浅蓝白渐变页底 + 半透明毛玻璃卡片 + 医疗蓝主色 + 柔和蓝调阴影
+// ═══════════════════════════════════════════════════════════════
+
+// ── 品牌主色：可信医疗蓝（整体偏淡） ──
+$primary: #2e86f0;       // 主色（与移动端 Liquid Glass 一致）
+$primary-light: #5aa0f5; // hover
+$primary-dark: #1f6fd6;  // active
+$primary-50: #eff6fe;
+$primary-100: #e0eefd;
+$primary-200: #bfd9fb;
+$primary-300: #93c0f8;
+$primary-400: #5aa0f5;
+$primary-500: #2e86f0;
+$primary-600: #1f6fd6;
+$primary-700: #195fc0;
+$primary-800: #154e9e;
+$primary-900: #103b79;
+
+// ── 强调色（薄荷青，用于健康 / 次要链接） ──
+$accent: #2bbfa6;
+$accent-light: #4ecfb8;
+
+// ── 状态语义色（克制） ──
+$success: #1fb89b;       // 薄荷绿
+$success-bg: #e3f6f2;
+$success-border: #c5ece4;
+
+$warning: #e6a23c;
+$warning-bg: #fff6e8;
+$warning-border: #ffe2b8;
+
+$danger: #e5484d;
+$danger-bg: #fdecec;
+$danger-border: #f8c9cb;
+
+$info: #2e86f0;
+$info-bg: #eff6fe;
+$info-border: #bfd9fb;
+
+// ── 中性（冷调 slate，呼应浅蓝白底） ──
+$slate-50: #f3f7fd;
+$slate-100: #eaf1f9;
+$slate-200: #dce6f2;
+$slate-300: #c6d4e6;
+$slate-400: #9fb1c8;
+$slate-500: #7388a3;
+$slate-600: #5c6e84;
+$slate-700: #44566b;
+$slate-800: #2a3b50;
+$slate-900: #12243b;  // = text-primary
+
+// ── 背景（浅蓝 → 淡薰衣草 → 白渐变） ──
+$page-bg: #eef4fb;
+$page-bg-gradient: linear-gradient(180deg, #e6f0ff 0%, #edebfd 46%, #fbfdff 100%);
+
+// ── 极光网格（液态玻璃折射用，冷调；克制但鲜活） ──
+$aurora-cyan: rgba(85, 219, 245, 0.5);
+$aurora-blue: rgba(107, 176, 255, 0.5);
+$aurora-violet: rgba(158, 140, 255, 0.46);
+$aurora-mint: rgba(95, 230, 198, 0.42);
+$aurora-blush: rgba(201, 166, 255, 0.4);
+
+// ── 毛玻璃表面（Apple Liquid Glass） ──
+$glass-bg: rgba(255, 255, 255, 0.6);         // 卡片（淡，透出极光）
+$glass-bg-strong: rgba(255, 255, 255, 0.72); // 侧栏 / 顶栏 / 浮层
+$glass-border: rgba(255, 255, 255, 0.7);
+$glass-blur: 22px;
+$glass-blur-strong: 32px;
+$glass-saturate: 180%;                         // 背景增艳（对标 liquid-glass ~140-180%）
+$glass-highlight: rgba(255, 255, 255, 0.65);   // 顶部受光高光
+
+// ── 玻璃专用阴影（柔和漂浮 + 顶部高光 + 玻璃内描边） ──
+$glass-shadow:
+  0 8px 26px rgba(30, 91, 158, 0.1),
+  0 2px 6px rgba(30, 91, 158, 0.05),
+  inset 0 1px 0 0 rgba(255, 255, 255, 0.65),
+  inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+$glass-shadow-hover:
+  0 12px 32px rgba(30, 91, 158, 0.14),
+  0 3px 8px rgba(30, 91, 158, 0.06),
+  inset 0 1px 0 0 rgba(255, 255, 255, 0.72),
+  inset 0 0 0 1px rgba(255, 255, 255, 0.36);
+
+$card-bg: $glass-bg;
+$card-bg-solid: #ffffff;
+$card-header-bg: transparent;
+$bg-alt: rgba(255, 255, 255, 0.45);
+$bg-subtle: $slate-100;
+
+// ── 侧栏（毛玻璃 + 淡蓝选中） ──
+$sidebar-bg: $glass-bg-strong;
+$sidebar-hover: $primary-50;
+$sidebar-active-bg: $primary-100;
+$sidebar-active-text: $primary-dark;
+$sidebar-group-title: $slate-500;
+
+// ── 边框（克制，几乎不可见） ──
+$card-border: $glass-border;
+$border-base: $slate-200;
+$border-light: $slate-100;
+$border-lighter: $slate-100;
+$border-strong: $slate-300;
+$divider: $slate-100;
+
+// ── 阴影（柔和蓝调漂浮感） ──
+$card-shadow: 0 6px 20px rgba(30, 91, 158, 0.08);
+$card-shadow-strong: 0 16px 40px rgba(30, 91, 158, 0.14);
+$card-shadow-hover: 0 10px 28px rgba(30, 91, 158, 0.12);
+$focus-ring: 0 0 0 3px rgba(46, 134, 240, 0.18);
+
+// ── 文字（小程序：深墨黑 + 半透明灰） ──
+$text-primary: $slate-900;
+$text-regular: $slate-800;
+$text-secondary: $slate-700;
+$text-tertiary: $slate-500;
+$text-disabled: $slate-400;
+$text-placeholder: $slate-500;
+$text-inverse: #ffffff;
+$text-link: $primary-dark;
+
+// ── 圆角（小程序风：大圆角） ──
+$radius-xs: 4px;
+$radius-sm: 8px;
+$radius-md: 10px;
+$radius-lg: 14px;
+$radius-xl: 18px;
+$radius-2xl: 22px;
+$radius-pill: 999px;
+
+// ── 间距（更宽松） ──
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-8: 32px;
+$space-10: 40px;
+
+// ── 字号 ──
+$font-xs: 11px;
+$font-sm: 12px;
+$font-base: 13px;
+$font-md: 14px;
+$font-lg: 16px;
+$font-xl: 19px;
+$font-2xl: 24px;
+
+// ── 高度基准 ──
+$header-height: 56px;
+$sidebar-width: 232px;
+
+// ── Element Plus 变量映射 ──
+$primary-color: $primary;
+$primary-light-color: $primary-light;
+$primary-dark-color: $primary-dark;

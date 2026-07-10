@@ -22,6 +22,12 @@ def require_env(name: str) -> str:
     return value
 
 
+def mask_value(value: str) -> str:
+    if len(value) <= 10:
+        return "***"
+    return f"{value[:6]}...{value[-4:]}"
+
+
 async def main() -> None:
     try:
         from mcp_sdk import create_mcpsdk
@@ -52,7 +58,7 @@ async def main() -> None:
 
     logger.info("Connecting Tuya MCP SDK")
     logger.info("Endpoint: %s", endpoint)
-    logger.info("Access ID: %s", access_id)
+    logger.info("Access ID: %s", mask_value(access_id))
     logger.info("Custom MCP Server: %s", custom_endpoint)
 
     async with create_mcpsdk(
@@ -81,4 +87,3 @@ if __name__ == "__main__":
             if callable(reconfigure):
                 reconfigure(encoding="utf-8")
     asyncio.run(main())
-

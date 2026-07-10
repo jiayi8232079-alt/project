@@ -1,0 +1,87 @@
+<view class="fam-page">
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后管理家庭</text>
+      <text class="page-login-gate__desc">家庭与成员信息仅登录后可见。您可先返回了解其他功能，需要时再自愿登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+  <scroll-view wx:else scroll-y enhanced show-scrollbar="{{false}}" class="fam-page__scroll">
+    <view class="fam-page__body">
+
+      <!-- 无家庭 -->
+      <view wx:if="{{families.length === 0 && !loading}}" class="fam-page__empty">
+        <view class="fam-page__empty-icon-wrap">
+          <text class="material-symbols-outlined">family_restroom</text>
+        </view>
+        <text class="fam-page__empty-title">还没有加入家庭</text>
+        <text class="fam-page__empty-hint">创建或加入一个家庭，关联家人健康</text>
+        <view class="fam-page__empty-actions">
+          <view class="fam-page__btn fam-page__btn--primary" bind:tap="createFamily" hover-class="btn-haptic">创建家庭</view>
+          <view class="fam-page__btn fam-page__btn--outline" bind:tap="joinFamily" hover-class="btn-haptic">加入家庭</view>
+        </view>
+      </view>
+
+      <!-- 家庭列表 -->
+      <view wx:for="{{families}}" wx:key="id" class="fam-page__group">
+        <view
+          class="fam-page__group-header"
+          bind:tap="goEditFamily"
+          data-id="{{item.familyGroupId}}"
+          data-role="{{item.role}}"
+          hover-class="{{item.role === 'guardian' ? 'btn-haptic' : ''}}"
+        >
+          <view class="fam-page__group-icon">
+            <image wx:if="{{item.avatarType === 'image' && item.avatarImage}}" src="{{item.avatarImage}}" mode="aspectFill" class="fam-page__group-icon-img" />
+            <text wx:elif="{{item.avatarType === 'preset' && item.avatarEmoji}}" class="fam-page__group-icon-emoji">{{item.avatarEmoji}}</text>
+            <text wx:else class="material-symbols-outlined">home</text>
+          </view>
+          <view class="fam-page__group-info">
+            <text class="fam-page__group-name">{{item.familyGroup.name}}</text>
+            <text class="fam-page__group-meta">{{item.memberCount}}位成员 · {{item.role === 'guardian' ? '管理者' : '成员'}}</text>
+          </view>
+          <view wx:if="{{item.role === 'guardian'}}" class="fam-page__group-action" catch:tap="goInvite" data-id="{{item.familyGroupId}}" hover-class="btn-haptic">
+            <text class="material-symbols-outlined" style="font-size: 36rpx;">person_add</text>
+          </view>
+        </view>
+
+        <!-- 成员列表 -->
+        <view wx:if="{{item.members}}" class="fam-page__members">
+          <view wx:for="{{item.members}}" wx:for-item="m" wx:key="id" class="fam-page__member" bind:tap="goMemberDetail" data-userid="{{m.userId}}" data-stid="{{m.linkedServiceTargetId}}" data-role="{{m.role}}" hover-class="btn-haptic">
+            <view class="fam-page__member-avatar">
+              <text>{{m.initial}}</text>
+            </view>
+            <view class="fam-page__member-info">
+              <text class="fam-page__member-name">{{m.nickname || m.user.nickname || '家人'}}</text>
+              <text class="fam-page__member-role">{{m.role === 'guardian' ? '管理者' : (m.relation === 'father' ? '父亲' : m.relation === 'mother' ? '母亲' : m.relation === 'parent' ? '父母' : m.relation === 'spouse' ? '配偶' : m.relation === 'child' ? '子女' : '成员')}}</text>
+            </view>
+            <text class="material-symbols-outlined fam-page__member-arrow">chevron_right</text>
+          </view>
+        </view>
+
+        <!-- 家庭看板入口 -->
+        <view class="fam-page__dashboard-btn" bind:tap="goDashboard" data-id="{{item.familyGroupId}}" hover-class="btn-haptic">
+          <text class="material-symbols-outlined" style="font-size: 36rpx; color: #4CAF50;">monitoring</text>
+          <text class="fam-page__dashboard-text">家庭健康看板</text>
+          <text class="material-symbols-outlined" style="font-size: 32rpx; color: #CBD5E1;">chevron_right</text>
+        </view>
+
+        <!-- 管理者专用：添加老人 -->
+        <view wx:if="{{item.role === 'guardian'}}" class="fam-page__dashboard-btn" bind:tap="goAddElder" data-id="{{item.familyGroupId}}" hover-class="btn-haptic">
+          <text class="material-symbols-outlined" style="font-size: 36rpx; color: #F59E0B;">elderly</text>
+          <text class="fam-page__dashboard-text">添加老人（代建档案）</text>
+          <text class="material-symbols-outlined" style="font-size: 32rpx; color: #CBD5E1;">chevron_right</text>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view wx:if="{{families.length > 0}}" class="fam-page__actions">
+        <view class="fam-page__btn fam-page__btn--outline" bind:tap="createFamily" hover-class="btn-haptic">创建新家庭</view>
+        <view class="fam-page__btn fam-page__btn--outline" bind:tap="joinFamily" hover-class="btn-haptic">加入其他家庭</view>
+      </view>
+
+      <view style="height: 80rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

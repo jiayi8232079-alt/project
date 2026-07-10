@@ -1,0 +1,98 @@
+<view class="history-page">
+
+  <!-- 导航栏 -->
+  <view class="history-page__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="history-page__nav-left">
+      <view class="history-page__nav-back" bind:tap="goBack" hover-class="btn-haptic">
+        <text class="material-symbols-outlined history-page__nav-back-icon">arrow_back</text>
+      </view>
+      <text class="history-page__nav-title">就诊记录</text>
+    </view>
+    <view class="history-page__nav-filter" hover-class="btn-haptic">
+      <text class="material-symbols-outlined history-page__nav-filter-icon">filter_list</text>
+    </view>
+  </view>
+
+  <!-- 滚动区域 -->
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="history-page__scroll">
+    <view class="history-page__body">
+
+      <!-- 用户信息 -->
+      <view class="history-page__member" wx:if="{{subject.name}}">
+        <view class="history-page__member-avatar">
+          <text class="material-symbols-outlined history-page__member-avatar-icon">person</text>
+        </view>
+        <view class="history-page__member-info">
+          <view class="history-page__member-name-row">
+            <text class="history-page__member-name">{{subject.name}}</text>
+            <text class="history-page__member-relation" wx:if="{{subject.relation}}">{{subject.relation}}</text>
+          </view>
+          <text class="history-page__member-id">共 {{totalRecords}} 条就诊记录</text>
+        </view>
+        <view class="history-page__member-calendar">
+          <text class="material-symbols-outlined history-page__member-calendar-icon">calendar_month</text>
+        </view>
+      </view>
+
+      <!-- 按年份分组的时间轴 -->
+      <view class="history-page__year-group" wx:for="{{yearGroups}}" wx:key="year">
+        <text class="history-page__year-label">{{item.year}}</text>
+        <view class="history-page__timeline">
+          <view class="history-page__timeline-line"></view>
+          <view
+            class="history-page__timeline-item"
+            wx:for="{{item.records}}"
+            wx:for-item="record"
+            wx:key="id"
+          >
+            <view class="history-page__dot-wrap">
+              <view class="history-page__dot {{record.isLatest ? 'history-page__dot--active' : ''}}"></view>
+            </view>
+            <view class="history-page__card" data-id="{{record.id}}" bind:tap="onRecordTap" hover-class="btn-haptic">
+              <view class="history-page__card-header">
+                <view class="history-page__card-date">
+                  <text class="history-page__card-date-main">{{record.date || record.dateStr}}</text>
+                  <text class="history-page__card-date-sub">{{record.type || '门诊'}}</text>
+                </view>
+                <text class="history-page__card-tag {{record.isLatest ? 'history-page__card-tag--info' : 'history-page__card-tag--archived'}}">{{record.isLatest ? '最近' : '已归档'}}</text>
+              </view>
+              <view class="history-page__card-body">
+                <view class="history-page__card-row" wx:if="{{record.hospital}}">
+                  <view class="history-page__card-icon-wrap">
+                    <text class="material-symbols-outlined history-page__card-row-icon">local_hospital</text>
+                  </view>
+                  <view class="history-page__card-row-text">
+                    <text class="history-page__card-row-main">{{record.hospital}}</text>
+                    <text class="history-page__card-row-sub" wx:if="{{record.department}}">{{record.department}}</text>
+                  </view>
+                </view>
+                <view class="history-page__card-row" wx:if="{{record.diagnosis}}">
+                  <view class="history-page__card-icon-wrap">
+                    <text class="material-symbols-outlined history-page__card-row-icon">description</text>
+                  </view>
+                  <view class="history-page__card-row-text">
+                    <text class="history-page__card-row-main">{{record.diagnosis}}</text>
+                    <text class="history-page__card-row-sub" wx:if="{{record.diagnosisSub}}">{{record.diagnosisSub}}</text>
+                  </view>
+                </view>
+              </view>
+              <view class="history-page__card-footer">
+                <text class="history-page__card-footer-doctor">{{record.doctor || ''}}</text>
+                <view class="history-page__card-footer-link">
+                  <text>查看详情</text>
+                  <text class="material-symbols-outlined history-page__card-footer-arrow">chevron_right</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部信息 -->
+      <view class="history-page__footer" wx:if="{{totalRecords > 0}}">
+        <text class="history-page__footer-text">共 {{totalRecords}} 条就诊记录</text>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

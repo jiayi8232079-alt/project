@@ -1,0 +1,97 @@
+@brand-green: #4CAF50;
+@deep-gray: #1A2B4C;
+@soft-gray: #94A3B8;
+
+.page {
+  min-height: 100vh;
+  background: #F8F9FA;
+}
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 24rpx;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.06);
+}
+
+.nav__back {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .material-symbols-outlined {
+    font-size: 36rpx;
+    color: #1A2B4C;
+  }
+}
+
+.nav__title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A2B4C;
+}
+
+.nav__placeholder {
+  width: 64rpx;
+}
+
+.content {
+  height: calc(100vh - 120rpx);
+}
+
+.body {
+  padding: 40rpx 36rpx;
+}
+
+.doc-title {
+  display: block;
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #1A2B4C;
+  margin-bottom: 12rpx;
+  line-height: 1.4;
+}
+
+.doc-date {
+  display: block;
+  font-size: 22rpx;
+  color: #94A3B8;
+  margin-bottom: 36rpx;
+  padding-bottom: 28rpx;
+  border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.06);
+}
+
+.doc-intro {
+  display: block;
+  font-size: 26rpx;
+  color: #475569;
+  line-height: 1.8;
+  margin-bottom: 36rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #1A2B4C;
+  margin-top: 36rpx;
+  margin-bottom: 16rpx;
+  padding-left: 16rpx;
+  border-left: 6rpx solid #4CAF50;
+}
+
+.section-body {
+  display: block;
+  font-size: 26rpx;
+  color: #475569;
+  line-height: 1.8;
+  margin-bottom: 8rpx;
+}

@@ -1,0 +1,207 @@
+<view class="ac">
+  <view class="ac__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ac__nav-row">
+      <view class="ac__back btn-haptic" bind:tap="goBack">
+        <text class="material-symbols-outlined">arrow_back_ios</text>
+      </view>
+      <text class="ac__nav-title">诊后管理</text>
+      <view style="width: 72rpx;"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="ac__scroll" style="height: calc(100vh - 88rpx - {{statusBarHeight}}px);">
+    <view class="ac__content">
+
+    <!-- 加载中 -->
+    <view wx:if="{{loading}}" class="ac__loading">
+      <view class="ac__loading-dot"></view>
+      <text class="ac__loading-text">加载诊后数据中…</text>
+    </view>
+
+    <!-- 概览卡片 -->
+    <view class="ac__overview" wx:if="{{!loading}}">
+      <view class="ac__overview-title">诊后管理中心</view>
+      <view class="ac__overview-desc">聚合您的诊后报告、用药提醒、复诊安排和健康周报</view>
+      <view class="ac__stats-row">
+        <view class="ac__stat" bind:tap="switchTab" data-idx="0">
+          <text class="ac__stat-num">{{stats.followUpCount}}</text>
+          <text class="ac__stat-label">待复诊</text>
+        </view>
+        <view class="ac__stat" bind:tap="switchTab" data-idx="1">
+          <text class="ac__stat-num">{{stats.activeMedCount}}</text>
+          <text class="ac__stat-label">在用药品</text>
+        </view>
+        <view class="ac__stat" bind:tap="switchTab" data-idx="2">
+          <text class="ac__stat-num">{{stats.reportCount}}</text>
+          <text class="ac__stat-label">服务报告</text>
+        </view>
+        <view class="ac__stat" bind:tap="switchTab" data-idx="3">
+          <text class="ac__stat-num">{{stats.weeklyCount}}</text>
+          <text class="ac__stat-label">健康周报</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 紧急复诊提醒横幅 -->
+    <view class="ac__urgent-banner" wx:if="{{!loading && nearFollowUp && nearFollowUp.daysLeft <= 3}}" bind:tap="goOrderDetail" data-id="{{nearFollowUp.orderId}}">
+      <text class="material-symbols-outlined ac__urgent-icon">notifications_active</text>
+      <view class="ac__urgent-body">
+        <text class="ac__urgent-title">{{nearFollowUp.patientName}} {{nearFollowUp.daysLeft === 0 ? '今天' : nearFollowUp.daysLeft + '天后'}}需要复诊</text>
+        <text class="ac__urgent-sub">{{nearFollowUp.hospital}} {{nearFollowUp.department}}</text>
+      </view>
+      <text class="material-symbols-outlined ac__urgent-arrow">chevron_right</text>
+    </view>
+
+    <!-- 订阅引导 -->
+    <view class="ac__subscribe-guide" wx:if="{{!loading && showSubscribeGuide}}">
+      <view class="ac__subscribe-guide-body">
+        <text class="material-symbols-outlined ac__subscribe-guide-icon">notifications_active</text>
+        <view class="ac__subscribe-guide-text">
+          <text class="ac__subscribe-guide-title">开启复诊/用药提醒</text>
+          <text class="ac__subscribe-guide-desc">订阅后，复诊前和用药时间将通过微信通知您</text>
+        </view>
+      </view>
+      <view class="ac__subscribe-guide-actions">
+        <view class="ac__subscribe-guide-dismiss" bind:tap="dismissSubscribeGuide">暂不需要</view>
+        <view class="ac__subscribe-guide-btn btn-haptic" bind:tap="onSubscribeGuide">开启提醒</view>
+      </view>
+    </view>
+
+    <!-- Tab栏 -->
+    <view class="ac__tabs">
+      <view class="ac__tab {{tabIndex === 0 ? 'ac__tab--active' : ''}}" bind:tap="switchTab" data-idx="0">
+        <text class="material-symbols-outlined ac__tab-icon">event</text>
+        <text>复诊</text>
+      </view>
+      <view class="ac__tab {{tabIndex === 1 ? 'ac__tab--active' : ''}}" bind:tap="switchTab" data-idx="1">
+        <text class="material-symbols-outlined ac__tab-icon">medication</text>
+        <text>用药</text>
+      </view>
+      <view class="ac__tab {{tabIndex === 2 ? 'ac__tab--active' : ''}}" bind:tap="switchTab" data-idx="2">
+        <text class="material-symbols-outlined ac__tab-icon">description</text>
+        <text>报告</text>
+      </view>
+      <view class="ac__tab {{tabIndex === 3 ? 'ac__tab--active' : ''}}" bind:tap="switchTab" data-idx="3">
+        <text class="material-symbols-outlined ac__tab-icon">monitor_heart</text>
+        <text>周报</text>
+      </view>
+    </view>
+
+    <!-- Tab 0: 复诊安排 -->
+    <view wx:if="{{tabIndex === 0}}" class="ac__panel">
+      <view class="ac__panel-head">
+        <text class="ac__panel-title">复诊安排</text>
+        <view class="ac__subscribe-btn btn-haptic" bind:tap="subscribeFollowUp">
+          <text class="material-symbols-outlined ac__subscribe-icon">notifications</text>
+          <text>订阅提醒</text>
+        </view>
+      </view>
+      <view wx:if="{{followUps.length === 0}}" class="ac__empty">
+        <text class="material-symbols-outlined ac__empty-icon">event_available</text>
+        <text class="ac__empty-text">暂无复诊安排</text>
+      </view>
+      <view wx:for="{{followUps}}" wx:key="orderId" class="ac__followup-card {{item.urgent ? 'ac__followup-card--urgent' : ''}} {{item.daysLeft < 0 ? 'ac__followup-card--past' : ''}}" bind:tap="goOrderDetail" data-id="{{item.orderId}}">
+        <view class="ac__followup-left">
+          <text class="ac__followup-date">{{item.date}}</text>
+          <text class="ac__followup-patient">{{item.patientName}}</text>
+        </view>
+        <view class="ac__followup-right">
+          <text class="ac__followup-hosp">{{item.hospital}} {{item.department}}</text>
+          <text class="ac__followup-days {{item.urgent ? 'urgent' : ''}} {{item.daysLeft < 0 ? 'past' : ''}}">
+            {{item.daysLeft === 0 ? '今天' : item.daysLeft > 0 ? item.daysLeft + '天后' : '已过期'}}
+          </text>
+        </view>
+        <text wx:if="{{item.note}}" class="ac__followup-note">备注：{{item.note}}</text>
+      </view>
+    </view>
+
+    <!-- Tab 1: 用药管理 -->
+    <view wx:if="{{tabIndex === 1}}" class="ac__panel">
+      <view class="ac__panel-head">
+        <text class="ac__panel-title">用药管理</text>
+        <view class="ac__subscribe-btn btn-haptic" bind:tap="goMedicationReminder">
+          <text class="material-symbols-outlined ac__subscribe-icon">alarm</text>
+          <text>提醒设置</text>
+        </view>
+      </view>
+
+      <!-- 药物相互作用入口 -->
+      <view class="ac__drug-risk-entry btn-haptic" bind:tap="goDrugRisk" wx:if="{{activeMedCount > 0}}">
+        <view class="ac__drug-risk-left">
+          <text class="material-symbols-outlined ac__drug-risk-icon">vaccines</text>
+          <view class="ac__drug-risk-body">
+            <text class="ac__drug-risk-title">AI 药师用药风险评估</text>
+            <text class="ac__drug-risk-desc">检测当前在服药物是否存在相互作用</text>
+          </view>
+        </view>
+        <ai-badge size="sm" tone="default" text="AI" />
+      </view>
+      <view wx:if="{{medications.length === 0}}" class="ac__empty">
+        <text class="material-symbols-outlined ac__empty-icon">medication</text>
+        <text class="ac__empty-text">暂无用药记录</text>
+      </view>
+      <view wx:for="{{medications}}" wx:key="id" class="ac__med-card {{!item.active ? 'ac__med-card--inactive' : ''}}">
+        <view class="ac__med-header">
+          <text class="ac__med-name">{{item.name}}</text>
+          <text class="ac__med-badge {{item.active ? '' : 'ended'}}">{{item.active ? '服用中' : '已结束'}}</text>
+        </view>
+        <text class="ac__med-usage">{{item.usage}}</text>
+        <view class="ac__med-meta">
+          <text class="ac__med-patient">{{item.patientName}}</text>
+          <text wx:if="{{item.reminderTime}}" class="ac__med-time">每日 {{item.reminderTime}}</text>
+          <text wx:if="{{item.endDate}}" class="ac__med-end">至 {{item.endDate}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Tab 2: 服务报告 -->
+    <view wx:if="{{tabIndex === 2}}" class="ac__panel">
+      <view class="ac__panel-head">
+        <text class="ac__panel-title">服务报告</text>
+      </view>
+      <view wx:if="{{reports.length === 0}}" class="ac__empty">
+        <text class="material-symbols-outlined ac__empty-icon">description</text>
+        <text class="ac__empty-text">暂无服务报告</text>
+      </view>
+      <view wx:for="{{reports}}" wx:key="orderId" class="ac__report-card" bind:tap="goServiceReport" data-id="{{item.orderId}}">
+        <view class="ac__report-head">
+          <text class="ac__report-patient">{{item.patientName}}</text>
+          <text class="ac__report-date">{{item.serviceDate}}</text>
+        </view>
+        <text class="ac__report-hosp">{{item.hospital}}</text>
+        <text class="ac__report-summary">{{item.summary}}</text>
+        <view class="ac__report-action">
+          <text>查看详情</text>
+          <text class="material-symbols-outlined">chevron_right</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Tab 3: 健康周报 -->
+    <view wx:if="{{tabIndex === 3}}" class="ac__panel">
+      <view class="ac__panel-head">
+        <text class="ac__panel-title">AI 健康周报</text>
+        <ai-badge size="sm" tone="default" text="AI 生成" />
+      </view>
+      <view wx:if="{{weeklyReports.length > 0}}" class="ac__weekly-notice">
+        <ai-badge size="md" tone="notice" block="{{true}}" icon="auto_awesome" text="以下周报均由人工智能生成，仅供健康管理参考" />
+      </view>
+      <view wx:if="{{weeklyReports.length === 0}}" class="ac__empty">
+        <text class="material-symbols-outlined ac__empty-icon">monitor_heart</text>
+        <text class="ac__empty-text">暂无健康周报</text>
+      </view>
+      <view wx:for="{{weeklyReports}}" wx:key="id" class="ac__weekly-card" bind:tap="goWeeklyReport" data-id="{{item.id}}">
+        <view class="ac__weekly-head">
+          <text class="material-symbols-outlined ac__weekly-icon">auto_awesome</text>
+          <text class="ac__weekly-title">{{item.title || 'AI 健康周报'}}</text>
+          <ai-badge size="sm" tone="default" text="AI 生成" ext-class="ac__weekly-badge" />
+          <text class="ac__weekly-date">{{item.periodStart}} ~ {{item.periodEnd}}</text>
+        </view>
+        <text class="ac__weekly-preview" wx:if="{{item.summary}}">{{item.summary}}</text>
+      </view>
+    </view>
+
+    <view class="ac__spacer"></view>
+    </view>
+  </scroll-view>
+</view>

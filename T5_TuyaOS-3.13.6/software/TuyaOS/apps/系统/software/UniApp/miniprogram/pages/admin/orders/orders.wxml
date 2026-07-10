@@ -1,0 +1,108 @@
+<view class="orders" style="padding-top: {{statusBarHeight}}px;">
+
+  <!-- 顶部导航 -->
+  <view class="orders__nav">
+    <view class="orders__back" bind:tap="handleBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="orders__title">{{filterTitle || '订单管理'}}</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <!-- 搜索框 -->
+  <view class="orders__search-wrap">
+    <view class="search-box">
+      <text class="material-symbols-outlined search-box__icon">search</text>
+      <input
+        class="search-box__input"
+        placeholder="搜索订单号/客户/服务人员"
+        confirm-type="search"
+        bind:confirm="onSearch"
+        value="{{searchKeyword}}"
+      />
+    </view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <scroll-view scroll-x class="orders__filter-scroll" show-scrollbar="{{false}}">
+    <view class="orders__filter-row">
+      <view
+        wx:for="{{statusOptions}}"
+        wx:key="value"
+        class="filter-chip {{filterStatus === item.value ? 'filter-chip--active' : ''}}"
+        bind:tap="onFilterStatus"
+        data-status="{{item.value}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 列表 -->
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="orders__list">
+    <view class="orders__count">共 {{total}} 条</view>
+
+    <view wx:if="{{loaded && orders.length === 0}}" class="empty-tip">
+      <text class="material-symbols-outlined empty-tip__icon">inbox</text>
+      <text class="empty-tip__text">暂无订单</text>
+    </view>
+
+    <view
+      wx:for="{{orders}}"
+      wx:key="id"
+      class="order-card"
+      bind:tap="goDetail"
+      data-id="{{item.id}}"
+      hover-class="btn-haptic"
+    >
+      <view class="order-card__head">
+        <text class="order-card__no">{{item.orderNumber || ('#' + item.id)}}</text>
+        <view class="status-tag status-tag--{{item.status}}">
+          <text>{{item.statusLabel}}</text>
+        </view>
+      </view>
+      <view class="order-card__body">
+        <view class="order-card__row">
+          <text class="material-symbols-outlined order-card__ico">person</text>
+          <text class="order-card__val">{{item.user ? (item.user.name || item.user.nickname || item.user.phone) : '未知客户'}}</text>
+        </view>
+        <view class="order-card__row">
+          <text class="material-symbols-outlined order-card__ico">medical_services</text>
+          <text class="order-card__val">{{item.serviceType || '陪诊服务'}}</text>
+        </view>
+        <view wx:if="{{item.attendant}}" class="order-card__row">
+          <text class="material-symbols-outlined order-card__ico">badge</text>
+          <text class="order-card__val">{{item.staffRoleLabel}}：{{item.attendant.realName || (item.attendant.user ? (item.attendant.user.name || item.attendant.user.nickname) : '已派单')}}</text>
+          <view wx:if="{{item.showStaffRoleTag}}" class="role-tag">
+            <text>{{item.staffRoleLabel}}</text>
+          </view>
+        </view>
+        <view wx:elif="{{item.needAttendant === false}}" class="order-card__row">
+          <text class="material-symbols-outlined order-card__ico">badge</text>
+          <text class="order-card__val order-card__val--muted">无需服务人员</text>
+        </view>
+        <view class="order-card__row">
+          <text class="material-symbols-outlined order-card__ico">schedule</text>
+          <text class="order-card__val">{{item.dateDisplay || ''}}</text>
+        </view>
+      </view>
+      <view class="order-card__foot">
+        <view wx:if="{{item.paymentLabel}}" class="payment-tag payment-tag--{{item.paymentStatus}}">
+          <text>{{item.paymentLabel}}</text>
+        </view>
+        <text class="order-card__amount">¥{{item.totalFee || item.amount || 0}}</text>
+        <text class="material-symbols-outlined order-card__arrow">chevron_right</text>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-tip">
+      <text>加载中...</text>
+    </view>
+    <view wx:if="{{!hasMore && orders.length > 0}}" class="end-tip">
+      <text>— 已加载全部 —</text>
+    </view>
+
+    <view style="height: calc(env(safe-area-inset-bottom) + 24rpx);"></view>
+  </scroll-view>
+
+</view>

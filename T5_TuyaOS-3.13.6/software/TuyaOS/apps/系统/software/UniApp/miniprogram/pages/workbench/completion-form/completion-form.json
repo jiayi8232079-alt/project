@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "ai-badge": "/components/ai-badge/ai-badge"
+  },
+  "navigationStyle": "custom",
+  "navigationBarTitleText": ""
+}

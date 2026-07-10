@@ -1,0 +1,523 @@
+<view class="stl">
+  <!-- 导航栏 -->
+  <view class="stl__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="stl__nav-back btn-haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <view class="stl__nav-center">
+      <text class="stl__nav-title">{{order.navTitle || '服务详情'}}</text>
+      <view wx:if="{{order.isActiveService}}" class="stl__nav-live">
+        <view class="stl__nav-live-dot"></view>
+        <text class="stl__nav-live-text">位置同步中</text>
+      </view>
+    </view>
+    <view class="stl__nav-spacer"></view>
+  </view>
+
+  <scroll-view scroll-y class="stl__scroll">
+    <!-- 患者卡片 -->
+    <view class="stl__patient">
+      <view class="stl__patient-top">
+        <view class="stl__patient-row">
+          <view class="stl__avatar">
+            <text>{{order.patientName[0] || '?'}}</text>
+          </view>
+          <view class="stl__patient-info">
+            <view class="stl__patient-name-row">
+              <text class="stl__patient-name">{{order.patientName}}</text>
+              <block wx:if="{{order.showAttendantCareBlock}}">
+                <view
+                  wx:if="{{attendantHealthBundle.loaded && !attendantHealthBundle.error && !attendantHealthBundle.locked}}"
+                  class="stl__health-chip btn-haptic"
+                  catch:tap="openFullHealthCard"
+                >
+                  <text class="stl__health-chip-text">健康档案</text>
+                  <text class="material-symbols-outlined stl__health-chip-ico">chevron_right</text>
+                </view>
+                <text wx:elif="{{attendantHealthBundle.locked}}" class="stl__health-hint">档案接单后可见</text>
+                <text wx:elif="{{!attendantHealthBundle.loaded && !attendantHealthBundle.error}}" class="stl__health-hint">档案加载中</text>
+                <view wx:elif="{{attendantHealthBundle.error}}" class="stl__health-chip stl__health-chip--warn btn-haptic" catch:tap="onRetryHealthProfile">
+                  <text class="stl__health-chip-text">档案重试</text>
+                </view>
+              </block>
+            </view>
+            <view class="stl__patient-meta">
+              <text>{{order.serviceType}}</text>
+            </view>
+            <view wx:if="{{order.riskLabel}}" class="stl__risk-tag stl__risk-tag--{{order.riskBand}}">{{order.riskLabel}}</view>
+          </view>
+        </view>
+        <view class="stl__status-pill stl__status-pill--{{order.status}}">
+          <view wx:if="{{order.isActiveService}}" class="stl__pulse">
+            <view class="stl__pulse-bar" style="animation-delay: 0s"></view>
+            <view class="stl__pulse-bar" style="animation-delay: 0.2s"></view>
+            <view class="stl__pulse-bar" style="animation-delay: 0.4s"></view>
+          </view>
+          <text>{{order.statusText}}</text>
+        </view>
+      </view>
+      <view class="stl__patient-detail">
+        <view class="stl__detail-col">
+          <text class="stl__detail-label">医院位置</text>
+          <text class="stl__detail-value">{{order.hospital || '--'}}</text>
+        </view>
+        <view class="stl__detail-col">
+          <text class="stl__detail-label">科室</text>
+          <text class="stl__detail-value">{{order.department || '--'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 服务已完成横幅 -->
+    <view wx:if="{{order.isCompleted}}" class="stl__done-banner">
+      <view class="stl__done-banner-icon-wrap">
+        <text class="material-symbols-outlined stl__done-banner-icon">task_alt</text>
+      </view>
+      <view class="stl__done-banner-text">
+        <text class="stl__done-banner-title">服务已完成</text>
+        <text class="stl__done-banner-sub">{{order.serviceTime || ''}}</text>
+      </view>
+    </view>
+
+    <!-- 待服务详情卡片 (stitch _6 style) -->
+    <view wx:if="{{order.showPendingCard}}" class="stl__pending">
+
+      <!-- 日期/地点卡 -->
+      <view class="stl__pending-time-card">
+        <view class="stl__pending-time-header">
+          <text class="material-symbols-outlined stl__pending-time-icon">calendar_today</text>
+          <text class="stl__pending-time-label">服务时间</text>
+        </view>
+        <text class="stl__pending-time-value">{{order.serviceTimeFull || order.serviceTime || '--'}}</text>
+        <view class="stl__pending-divider"></view>
+        <view class="stl__pending-loc-row">
+          <text class="material-symbols-outlined stl__pending-loc-icon">location_on</text>
+          <text class="stl__pending-loc-label">服务地点</text>
+        </view>
+        <text class="stl__pending-loc-value">{{order.hospital || '待确认医院'}}</text>
+        <text wx:if="{{order.address}}" class="stl__pending-address">{{order.address}}</text>
+      </view>
+
+      <!-- 患者卡 + 拨打电话 -->
+      <view class="stl__pending-patient-card">
+        <view class="stl__pending-patient-left">
+          <view class="stl__pending-patient-avatar">
+            <text class="material-symbols-outlined">person</text>
+          </view>
+          <view>
+            <text class="stl__pending-patient-name">{{order.patientName}}</text>
+            <text class="stl__pending-patient-sub">就诊人 · {{order.serviceTarget.age ? order.serviceTarget.age + '岁' : ''}}</text>
+          </view>
+        </view>
+        <view class="stl__pending-call btn-haptic" bind:tap="callPatient">
+          <text class="material-symbols-outlined">call</text>
+          <text class="stl__pending-call-label">拨打电话</text>
+        </view>
+      </view>
+
+      <!-- 注意事项 -->
+      <view class="stl__pending-checklist">
+        <view class="stl__pending-checklist-header">
+          <text class="material-symbols-outlined stl__pending-check-icon">assignment_turned_in</text>
+          <text class="stl__pending-check-title">注意事项</text>
+        </view>
+        <view class="stl__pending-check-item">
+          <view class="stl__pending-check-dot">
+            <text class="material-symbols-outlined">check</text>
+          </view>
+          <text class="stl__pending-check-text">带好患者社保卡及过往检查报告</text>
+        </view>
+        <view class="stl__pending-check-item">
+          <view class="stl__pending-check-dot">
+            <text class="material-symbols-outlined">check</text>
+          </view>
+          <text class="stl__pending-check-text">需提前15分钟到达医院门诊大厅</text>
+        </view>
+        <view class="stl__pending-check-item">
+          <view class="stl__pending-check-dot">
+            <text class="material-symbols-outlined">check</text>
+          </view>
+          <text class="stl__pending-check-text">着工装并佩戴工作证件</text>
+        </view>
+      </view>
+
+      <!-- 订单信息 -->
+      <view class="stl__pending-meta">
+        <view class="stl__pending-meta-row">
+          <text class="stl__pending-meta-key">订单编号</text>
+          <text class="stl__pending-meta-val">{{order.orderNumber}}</text>
+        </view>
+        <view class="stl__pending-meta-row">
+          <text class="stl__pending-meta-key">服务类型</text>
+          <text class="stl__pending-meta-val">{{order.serviceType || '--'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- SOP 任务清单（按角色的专业服务目录动态渲染） -->
+    <view wx:if="{{order.sopStepsTotal > 0}}" class="stl__sop">
+      <view class="stl__sop-head">
+        <view class="stl__sop-head-icon">
+          <text class="material-symbols-outlined">{{order.sopServiceIcon || 'task_alt'}}</text>
+        </view>
+        <view class="stl__sop-head-info">
+          <text class="stl__sop-title">{{order.sopServiceName || '服务任务清单'}}</text>
+          <text class="stl__sop-subtitle">{{order.sopStepsDone}}/{{order.sopStepsTotal}} 已完成</text>
+        </view>
+        <view class="stl__sop-progress">
+          <view class="stl__sop-progress-bar">
+            <view class="stl__sop-progress-fill" style="width: {{order.sopProgressPercent}}%;"></view>
+          </view>
+          <text class="stl__sop-progress-text">{{order.sopProgressPercent}}%</text>
+        </view>
+      </view>
+      <view class="stl__sop-list">
+        <view
+          wx:for="{{order.sopSteps}}"
+          wx:key="index"
+          class="stl__sop-item {{item.checked ? 'stl__sop-item--done' : ''}}"
+          bind:tap="toggleSopStep"
+          data-index="{{item.index}}"
+          hover-class="btn-haptic"
+        >
+          <view class="stl__sop-check">
+            <text wx:if="{{item.checked}}" class="material-symbols-outlined">task_alt</text>
+            <text wx:else class="material-symbols-outlined">radio_button_unchecked</text>
+          </view>
+          <view class="stl__sop-body">
+            <text class="stl__sop-step-title">{{item.title}}</text>
+            <text wx:if="{{item.description}}" class="stl__sop-step-desc">{{item.description}}</text>
+            <view wx:if="{{item.durationMin}}" class="stl__sop-step-meta">
+              <text class="material-symbols-outlined">schedule</text>
+              <text>约 {{item.durationMin}} 分钟</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 发布动态区 -->
+    <view wx:if="{{order.isActiveService}}" class="stl__publish">
+      <view id="stl-composer" class="stl__publish-card">
+        <textarea class="stl__publish-input" placeholder="记录服务过程..." value="{{publishContent}}" bindinput="onPublishInput" maxlength="500" />
+
+        <view wx:if="{{publishType === 'text'}}" class="stl__quick-phrases">
+          <scroll-view scroll-x class="stl__quick-phrases-scroll" enhanced show-scrollbar="{{false}}">
+            <view class="stl__quick-phrases-row">
+              <view
+                wx:for="{{textQuickPhrases}}"
+                wx:key="*this"
+                class="stl__quick-phrase btn-haptic"
+                catch:tap="insertQuickPhrase"
+                data-phrase="{{item}}"
+              >
+                <text>{{item}}</text>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+
+        <view class="stl__publish-images" wx:if="{{publishImages.length > 0 || true}}">
+          <view wx:for="{{publishImages}}" wx:key="index" class="stl__pub-img">
+            <image src="{{item}}" mode="aspectFill" class="stl__pub-img-preview" />
+            <view class="stl__pub-img-remove" catchtap="removeImage" data-index="{{index}}">
+              <text class="material-symbols-outlined">close</text>
+            </view>
+          </view>
+          <view wx:if="{{publishImages.length < 9}}" class="stl__pub-img-add btn-haptic" bind:tap="chooseImage">
+            <text class="material-symbols-outlined">add_a_photo</text>
+            <text class="stl__pub-img-count">{{publishImages.length}}/9</text>
+          </view>
+        </view>
+
+        <view wx:if="{{publishFiles.length > 0}}" class="stl__publish-files">
+          <view wx:for="{{publishFiles}}" wx:key="index" class="stl__file-item">
+            <text class="stl__file-name">{{item.split('/').pop()}}</text>
+            <view class="stl__file-remove" catchtap="removeFile" data-index="{{index}}">
+              <text class="material-symbols-outlined">close</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- ── 录音区域（仅问诊录音 / 医嘱录音时显示） -->
+        <view wx:if="{{publishType === 'audio_question' || publishType === 'audio_advice'}}" class="stl__audio-area">
+          <!-- 已有录音预览 -->
+          <view wx:if="{{publishAudio}}" class="stl__audio-preview">
+            <view class="stl__audio-player-row">
+              <view class="stl__audio-play-btn btn-haptic" bind:tap="toggleAudioPreview">
+                <text class="material-symbols-outlined">{{audioPreviewPlaying ? 'pause' : 'play_arrow'}}</text>
+              </view>
+              <view class="stl__audio-wave">
+                <view wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]}}" wx:key="*this"
+                  class="stl__audio-bar {{audioPreviewPlaying ? 'stl__audio-bar--playing' : ''}}"
+                  style="animation-delay: {{index * 0.07}}s; height: {{20 + (index % 5) * 8}}rpx"></view>
+              </view>
+              <text class="stl__audio-dur">{{publishAudio.durationText}}</text>
+            </view>
+            <view class="stl__audio-info-row">
+              <text class="stl__audio-name">{{publishAudio.name}}</text>
+              <view class="stl__audio-remove btn-haptic" catchtap="removeAudio">
+                <text class="material-symbols-outlined">close</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 录音中 -->
+          <view wx:elif="{{isRecording}}" class="stl__recording-area">
+            <view class="stl__recording-ring">
+              <view class="stl__recording-dot"></view>
+            </view>
+            <text class="stl__recording-time">{{recordingTimeText}}</text>
+            <text class="stl__recording-hint">正在录音中...</text>
+            <view class="stl__recording-stop btn-haptic" bind:tap="stopRecording">
+              <view class="stl__recording-stop-icon"></view>
+              <text class="stl__recording-stop-label">停止</text>
+            </view>
+          </view>
+
+          <!-- 等待选择 -->
+          <view wx:else class="stl__audio-select-wrap">
+            <view class="stl__audio-actions">
+              <view class="stl__audio-btn btn-haptic" bind:tap="startRecording">
+                <view class="stl__audio-btn-icon stl__audio-btn-icon--red">
+                  <text class="material-symbols-outlined">mic</text>
+                </view>
+                <text class="stl__audio-btn-label">开始录音</text>
+              </view>
+              <view class="stl__audio-divider-line"></view>
+              <view class="stl__audio-btn btn-haptic" bind:tap="chooseAudioFile">
+                <view class="stl__audio-btn-icon stl__audio-btn-icon--blue">
+                  <text class="material-symbols-outlined">upload_file</text>
+                </view>
+                <text class="stl__audio-btn-label">导入音频</text>
+              </view>
+            </view>
+            <view class="stl__import-tip">
+              <text class="stl__import-tip-text">支持从微信会话导入 mp3/m4a/wav/aac/amr 音频</text>
+              <text class="stl__import-tip-link" bind:tap="showLocalFileGuide" data-kind="audio">本地导入说明</text>
+            </view>
+          </view>
+        </view>
+
+        <view wx:if="{{publishType === 'file'}}" class="stl__file-picker-area">
+          <view class="stl__file-picker-btn btn-haptic" bind:tap="chooseFile">
+            <view class="stl__file-picker-icon">
+              <text class="material-symbols-outlined">upload_file</text>
+            </view>
+            <view class="stl__file-picker-copy">
+              <text class="stl__file-picker-title">导入附件</text>
+              <text class="stl__file-picker-desc">支持 PDF / Word / Excel，最多 5 个</text>
+            </view>
+          </view>
+          <view class="stl__import-tip">
+            <text class="stl__import-tip-text">如文件在手机本地，请先发送到微信聊天或文件传输助手后再导入</text>
+            <text class="stl__import-tip-link" bind:tap="showLocalFileGuide" data-kind="file">查看说明</text>
+          </view>
+        </view>
+
+        <view class="stl__publish-types">
+          <view wx:for="{{timelineTypes}}" wx:key="value"
+            class="stl__type-tag {{publishType === item.value ? 'stl__type-tag--active' : ''}} btn-haptic"
+            bind:tap="selectType" data-value="{{item.value}}">
+            {{item.label}}
+          </view>
+        </view>
+
+        <view class="stl__notify-row" wx:if="{{publishType !== 'internal_note'}}">
+          <view class="stl__notify-toggle btn-haptic" bind:tap="toggleNotifyFamily">
+            <text class="material-symbols-outlined stl__notify-icon {{notifyFamily ? 'stl__notify-icon--on' : ''}}">{{notifyFamily ? 'notifications_active' : 'notifications_off'}}</text>
+            <text class="stl__notify-text">{{notifyFamily ? '发布后通知家属' : '不通知家属'}}</text>
+          </view>
+        </view>
+
+        <button class="stl__publish-btn btn-haptic" bind:tap="submitTimeline" loading="{{publishing}}">
+          <text>发布</text>
+          <text class="material-symbols-outlined">send</text>
+        </button>
+      </view>
+    </view>
+
+    <view wx:if="{{order.showCompletionCard}}" class="stl__completion-card stl__completion-card--compact">
+      <view class="stl__completion-head">
+        <view class="stl__completion-copy">
+          <text class="stl__completion-title">{{order.completionCardTitle}}</text>
+          <text wx:if="{{order.completionCardSub}}" class="stl__completion-sub">{{order.completionCardSub}}</text>
+        </view>
+        <view class="stl__completion-badge">{{order.completionCardBadge}}</view>
+      </view>
+
+      <view class="stl__completion-chips">
+        <view class="stl__completion-chip {{order.completionChecklist.summaryReady ? 'stl__completion-chip--done' : ''}}">
+          <text class="material-symbols-outlined stl__completion-chip-ic">fact_check</text>
+          <text class="stl__completion-chip-name">总结</text>
+          <text class="stl__completion-chip-flag">{{order.completionChecklist.summaryReady ? '已填' : '待填'}}</text>
+        </view>
+        <view class="stl__completion-chip {{order.completionChecklist.proofReady ? 'stl__completion-chip--done' : ''}}">
+          <text class="material-symbols-outlined stl__completion-chip-ic">description</text>
+          <text class="stl__completion-chip-name">凭证</text>
+          <text class="stl__completion-chip-flag">{{order.completionChecklist.proofReady ? '已传' : '待传'}}</text>
+        </view>
+        <view class="stl__completion-chip {{order.completionChecklist.medicationReady ? 'stl__completion-chip--done' : ''}}">
+          <text class="material-symbols-outlined stl__completion-chip-ic">medication</text>
+          <text class="stl__completion-chip-name">用药</text>
+          <text class="stl__completion-chip-flag">{{order.completionChecklist.medicationReady ? '已确' : '待定'}}</text>
+        </view>
+      </view>
+
+      <button class="stl__completion-btn btn-haptic" bind:tap="handleFinishService">
+        <text>{{order.completionButtonText}}</text>
+        <text class="material-symbols-outlined">task_alt</text>
+      </button>
+    </view>
+
+    <!-- 时间线 -->
+    <view class="stl__timeline-section">
+      <text class="stl__section-title">服务时间线</text>
+
+      <view wx:if="{{timelines.length === 0}}" class="stl__timeline-empty">
+        <text class="material-symbols-outlined stl__timeline-empty-icon">timeline</text>
+        <text class="stl__timeline-empty-text">暂无服务记录</text>
+      </view>
+
+      <view wx:else class="stl__timeline">
+        <view wx:for="{{timelines}}" wx:key="id" class="stl__tl-item">
+          <view class="stl__tl-rail">
+            <view class="stl__tl-dot stl__tl-dot--{{item.type}}"></view>
+            <view wx:if="{{index < timelines.length - 1}}" class="stl__tl-line"></view>
+          </view>
+          <view class="stl__tl-body">
+            <view class="stl__tl-header">
+              <text class="stl__tl-type">{{item.typeLabel}}</text>
+              <text class="stl__tl-time">{{item.createdAtText}}</text>
+            </view>
+            <view wx:if="{{item.content}}" class="stl__tl-content-card">
+              <text class="stl__tl-text">{{item.content}}</text>
+            </view>
+            <view wx:if="{{item.images && item.images.length > 0}}" class="stl__tl-images">
+              <image wx:for="{{item.images}}" wx:for-item="img" wx:key="*this"
+                src="{{img}}" mode="aspectFill" class="stl__tl-image"
+                bind:tap="previewImage" data-url="{{img}}" data-urls="{{item.images}}" />
+            </view>
+            <!-- 音频文件（问诊录音/医嘱录音） -->
+            <view wx:if="{{item.audioUrls && item.audioUrls.length > 0}}" class="stl__tl-audio-list">
+              <view wx:for="{{item.audioUrls}}" wx:for-item="audioUrl" wx:key="*this"
+                class="stl__tl-audio-card"
+                bind:tap="playTimelineAudio"
+                data-url="{{audioUrl}}"
+                data-item-id="{{item.id}}"
+                data-idx="{{index}}">
+                <view class="stl__tl-audio-play-btn">
+                  <text class="material-symbols-outlined">{{playingAudioId === (item.id + '_' + index) ? 'pause' : 'play_arrow'}}</text>
+                </view>
+                <view class="stl__tl-audio-wave">
+                  <view wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12]}}" wx:key="*this"
+                    class="stl__audio-bar {{playingAudioId === (item.id + '_' + index) ? 'stl__audio-bar--playing' : ''}}"
+                    style="animation-delay: {{index * 0.08}}s; height: {{16 + (index % 4) * 6}}rpx"></view>
+                </view>
+                <text class="stl__tl-audio-label">点击播放</text>
+              </view>
+            </view>
+
+            <!-- 录音转写（与后台同源，可修改） -->
+            <view wx:if="{{item.transcription}}" class="stl__tl-transcription">
+              <view class="stl__tl-transcription-head">
+                <text class="stl__tl-transcription-title">录音转写</text>
+                <text class="stl__tl-transcription-tag stl__tl-transcription-tag--{{item.transcription.tagType}}">{{item.transcription.statusText}}</text>
+              </view>
+              <block wx:if="{{transcriptionEditingId == item.id}}">
+                <textarea
+                  class="stl__tl-transcription-input"
+                  value="{{transcriptionDraft}}"
+                  bindinput="onTranscriptionDraftInput"
+                  placeholder="请输入或修订识别文字"
+                  maxlength="8000"
+                  auto-height
+                />
+                <view class="stl__tl-transcription-actions">
+                  <view class="stl__tl-transcription-btn stl__tl-transcription-btn--ghost btn-haptic" bind:tap="cancelEditTranscription">取消</view>
+                  <view class="stl__tl-transcription-btn stl__tl-transcription-btn--primary btn-haptic" bind:tap="saveTranscription">保存</view>
+                </view>
+              </block>
+              <block wx:else>
+                <text class="stl__tl-transcription-body">{{item.transcription.text || item.transcription.placeholder}}</text>
+                <text wx:if="{{item.transcription.error}}" class="stl__tl-transcription-error">{{item.transcription.error}}</text>
+                <view class="stl__tl-transcription-foot">
+                  <text class="stl__tl-transcription-link btn-haptic" catchtap="startEditTranscription" data-id="{{item.id}}">修改文字</text>
+                </view>
+              </block>
+            </view>
+
+            <!-- 普通附件文件 -->
+            <view wx:if="{{item.files && item.files.length > 0}}" class="stl__tl-files">
+              <view wx:for="{{item.files}}" wx:for-item="file" wx:key="url" class="stl__tl-file" bind:tap="openAttachment" data-url="{{file.url}}">
+                <text class="material-symbols-outlined">attach_file</text>
+                <text class="stl__tl-file-name">{{file.name}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="stl__spacer"></view>
+  </scroll-view>
+
+  <!-- 服务进行中：呼叫（门店/家属）悬浮入口，避免占用导航栏 -->
+  <view wx:if="{{order.isActiveService}}" class="stl__fab-emergency btn-haptic" bind:tap="handleEmergency" hover-class="stl__fab-emergency--hover">
+    <text class="material-symbols-outlined">sos</text>
+  </view>
+
+  <!-- 底部操作栏 - 待服务状态 -->
+  <view wx:if="{{order.canStartService}}" class="stl__bottom stl__bottom--simple">
+    <view class="stl__bottom-inner">
+      <button class="stl__finish-btn stl__start-big-btn btn-haptic" bind:tap="handleStartService">
+        <view>
+          <text class="stl__start-big-text">开始服务</text>
+          <text class="stl__start-sub">(请在到达后点击)</text>
+        </view>
+      </button>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view wx:if="{{order.isActiveService}}" class="stl__bottom">
+    <view class="stl__bottom-inner">
+      <view class="stl__bottom-caption">
+        <text class="stl__bottom-title">快捷记录</text>
+        <text class="stl__bottom-desc">先补充过程材料，再在上方完成服务</text>
+      </view>
+      <view class="stl__bottom-actions">
+        <view class="stl__bottom-btn {{publishType === 'text' ? 'stl__bottom-btn--active' : ''}} btn-haptic" bind:tap="selectType" data-value="text">
+          <view class="stl__bottom-btn-icon">
+            <text class="material-symbols-outlined">edit_square</text>
+          </view>
+          <text class="stl__bottom-btn-label">文字</text>
+        </view>
+        <view class="stl__bottom-btn {{publishImages.length > 0 ? 'stl__bottom-btn--active' : ''}} btn-haptic" bind:tap="chooseImage">
+          <view class="stl__bottom-btn-icon">
+            <text class="material-symbols-outlined">photo_camera</text>
+          </view>
+          <text class="stl__bottom-btn-label">拍照</text>
+        </view>
+        <view class="stl__bottom-btn {{publishType === 'node' ? 'stl__bottom-btn--active' : ''}} btn-haptic" bind:tap="selectType" data-value="node">
+          <view class="stl__bottom-btn-icon">
+            <text class="material-symbols-outlined">motion_photos_on</text>
+          </view>
+          <text class="stl__bottom-btn-label">动态</text>
+        </view>
+        <view class="stl__bottom-btn {{publishType === 'audio_question' || publishType === 'audio_advice' ? 'stl__bottom-btn--active' : ''}} btn-haptic" bind:tap="selectAudioTypeFromBottomBar">
+          <view class="stl__bottom-btn-icon">
+            <text class="material-symbols-outlined">mic</text>
+          </view>
+          <text class="stl__bottom-btn-label">录音</text>
+        </view>
+        <view class="stl__bottom-btn btn-haptic" bind:tap="goPrescriptionUpload">
+          <view class="stl__bottom-btn-icon">
+            <text class="material-symbols-outlined">receipt_long</text>
+          </view>
+          <text class="stl__bottom-btn-label">处方</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

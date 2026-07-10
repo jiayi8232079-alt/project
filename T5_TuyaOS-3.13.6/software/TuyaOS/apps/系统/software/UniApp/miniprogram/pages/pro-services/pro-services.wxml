@@ -1,0 +1,119 @@
+<view class="ps">
+  <!-- 顶部导航 -->
+  <view class="ps__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ps__nav-back btn-haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="ps__nav-title">专业服务</text>
+    <view class="ps__nav-placeholder"></view>
+  </view>
+
+  <!-- Hero -->
+  <view class="ps__hero">
+    <view class="ps__hero-bg"></view>
+    <view class="ps__hero-grid"></view>
+    <view class="ps__hero-eyebrow">
+      <text class="ps__hero-dot"></text>
+      <text>Home Care · 专业陪护</text>
+    </view>
+    <text class="ps__hero-title">专业家庭照护服务</text>
+    <text class="ps__hero-desc">营养师 · 康复师 · 护理师 一站协同</text>
+    <view class="ps__hero-tags">
+      <view class="ps__hero-tag"><text class="material-symbols-outlined">verified</text><text>持证专业</text></view>
+      <view class="ps__hero-tag"><text class="material-symbols-outlined">support_agent</text><text>客服协同</text></view>
+      <view class="ps__hero-tag"><text class="material-symbols-outlined">description</text><text>标准 SOP</text></view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="ps__state">
+    <text class="ps__state-text">加载中…</text>
+  </view>
+
+  <view wx:elif="{{loadError}}" class="ps__state">
+    <text class="material-symbols-outlined ps__state-icon">wifi_off</text>
+    <text class="ps__state-text">加载失败，请下拉重试</text>
+    <view class="ps__retry-btn btn-haptic" bind:tap="loadServices">点击重试</view>
+  </view>
+
+  <view wx:elif="{{groups.length === 0}}" class="ps__state">
+    <text class="material-symbols-outlined ps__state-icon">inbox</text>
+    <text class="ps__state-text">暂无服务目录</text>
+  </view>
+
+  <block wx:else>
+    <!-- 分类 tab -->
+    <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="ps__tabs">
+      <view
+        wx:for="{{groups}}" wx:key="category"
+        class="ps__tab {{activeCategory === item.category ? 'ps__tab--active' : ''}} ps__tab--{{item.categoryColor}}"
+        data-category="{{item.category}}"
+        bind:tap="onCategoryTap"
+        hover-class="btn-haptic"
+      >
+        <text>{{item.categoryLabel}}</text>
+        <text class="ps__tab-count">{{item.items.length}}</text>
+      </view>
+    </scroll-view>
+
+    <!-- 按分类分组展示 -->
+    <view class="ps__content">
+      <view
+        wx:for="{{groups}}" wx:for-item="group" wx:key="category"
+        id="group-{{group.category}}"
+        class="ps__group"
+      >
+        <view class="ps__group-header">
+          <view class="ps__group-indicator ps__group-indicator--{{group.categoryColor}}"></view>
+          <text class="ps__group-title">{{group.categoryLabel}}</text>
+          <text class="ps__group-count">{{group.items.length}} 项</text>
+        </view>
+
+        <view
+          wx:for="{{group.items}}" wx:for-item="svc" wx:key="id"
+          class="ps__card btn-haptic"
+          data-code="{{svc.code}}"
+          bind:tap="onItemTap"
+        >
+          <view class="ps__card-head">
+            <view class="ps__card-icon ps__card-icon--{{group.categoryColor}}">
+              <text class="material-symbols-outlined">{{svc.icon || 'medical_services'}}</text>
+            </view>
+            <view class="ps__card-head-text">
+              <text class="ps__card-name">{{svc.name}}</text>
+              <text class="ps__card-desc">{{svc.shortDesc}}</text>
+            </view>
+            <text class="material-symbols-outlined ps__card-arrow">chevron_right</text>
+          </view>
+
+          <view class="ps__card-tags" wx:if="{{svc.targetGroups.length > 0}}">
+            <text
+              wx:for="{{svc.targetGroups}}" wx:for-item="tag" wx:key="*this"
+              class="ps__card-tag"
+            >{{tag}}</text>
+          </view>
+
+          <view class="ps__card-bottom">
+            <view class="ps__card-bottom-left">
+              <text class="material-symbols-outlined ps__card-duration-icon" wx:if="{{svc.durationHint}}">schedule</text>
+              <text class="ps__card-duration" wx:if="{{svc.durationHint}}">{{svc.durationHint}}</text>
+            </view>
+            <view class="ps__card-price" wx:if="{{svc.priceDisplayText}}">
+              <text class="ps__card-price-text">{{svc.priceDisplayText}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view style="height: 120rpx;"></view>
+    </view>
+  </block>
+
+  <!-- 底部 CTA -->
+  <view class="ps__footer" wx:if="{{!loading && !loadError && groups.length > 0}}">
+    <view class="ps__footer-btn btn-haptic" bind:tap="onContactService">
+      <text class="material-symbols-outlined ps__footer-btn-icon">support_agent</text>
+      <text class="ps__footer-btn-text">咨询客服 · 定制方案</text>
+      <text class="material-symbols-outlined ps__footer-btn-arrow">arrow_forward</text>
+    </view>
+  </view>
+</view>

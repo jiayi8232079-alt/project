@@ -57,6 +57,9 @@ LOCAL_SRC_FILES += $(LOCAL_PATH)/src/drivers/stepper/tuya_stepper_28byj48.c
 ifeq ($(CONFIG_PRODUCT_BOARD_MOTOR_DEBUG), y)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/product_board_motor_debug.c
 endif
+ifeq ($(CONFIG_ENABLE_TUYA_CAMERA), y)
+LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/person_tracker.c
+endif
 endif
 ifeq ($(CONFIG_ENABLE_TUYA_CAMERA), y)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/boards/T5AI_BOARD/tuya_device_camera.c
@@ -147,8 +150,18 @@ endif
 # 0.0.46：nearby searchType=2+city、Markdown 内嵌 JSON 解析、优惠券 ASR 路由
 # 0.0.47：MCP 点餐/查券结果摘要回灌 UI + 云端 TTS 朗读
 # 0.0.48：MCP Python bridge/server packaging update
-VER := 0.0.48
+# 0.0.49：GPIO26 高电平触发 wakeup 默认唤醒
+# 0.0.50：GPIO26-only wakeup, KWS voice wake disabled
+# 0.0.51：GPIO26 direct rising-edge IRQ wakeup for 5ms pulse
+# 0.0.52：robot face single-ring UI + camera skin-target person tracker
+# 0.0.53：eyelid blink + boot motor homing + faster pan tracking
+# 0.0.54：restore KWS voice wakeup and disable GPIO-only wakeup
+VER := 0.0.54
 LOCAL_TUYA_SDK_CFLAGS := -DUSER_SW_VER=\"$(VER)\" -DAPP_BIN_NAME=\"$(APP_NAME)\" -DAI_PLAYER_SUPPORT_DEFAULT_CONSUMER=0
+AI_TOY_GPIO_WAKEUP_ONLY := 0
+WUKONG_KWS_DISABLED := 0
+LOCAL_TUYA_SDK_CFLAGS += -DAI_TOY_GPIO_WAKEUP_ONLY=$(AI_TOY_GPIO_WAKEUP_ONLY)
+LOCAL_TUYA_SDK_CFLAGS += -DWUKONG_KWS_DISABLED=$(WUKONG_KWS_DISABLED)
 # wukong includes via CFLAGS (not SDK_INC) to prevent recursive find from
 # pulling in tm/tests/stubs/ which shadows real headers (ty_cJSON.h etc.)
 LOCAL_TUYA_SDK_CFLAGS += -I$(LOCAL_PATH)/src/wukong
@@ -181,7 +194,7 @@ LOCAL_SRC_FILES += $(LOCAL_PATH)/src/drivers/app_tuya_driver/src/os/tal_gpio.c
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/drivers/app_tuya_driver/src/os/tal_uart.c
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/drivers/app_tuya_key -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/drivers/app_tuya_led -name "*.c" -o -name "*.cpp" -o -name "*.cc")
-LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/drivers/app_axp2101 -name "*.c" -o -name "*.cpp" -o -name "*.cc")
+LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/drivers/app_axp2101 -name "*.c" ! -name "tuya_axp2101_cli_cp.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/mode -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong  -maxdepth 1 -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong/assets -name "*.c" -o -name "*.cpp" -o -name "*.cc")
@@ -246,7 +259,9 @@ endif
 ifeq ($(CONFIG_USING_UART_AUDIO_INPUT), y)
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/wukong/audio/input/wukong_audio_input_uart.c
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/miscs/uart_codec/src -name "*.c" -o -name "*.cpp" -o -name "*.cc")
+ifneq ($(WUKONG_KWS_DISABLED),1)
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong/audio/frontend/kws/uart -name "*.c" -o -name "*.cpp" -o -name "*.cc")
+endif
 ifeq ($(CONFIG_WUKONG_BOARD_UBUNTU), y)
 LOCAL_TUYA_SDK_CFLAGS += -DUART_CODEC_SPK_FLOWCTL_YIELD_MS=30
 endif
@@ -261,10 +276,12 @@ endif
 # bpard audio input
 ifeq ($(CONFIG_USING_BOARD_AUDIO_INPUT), y)
 ifeq ($(CONFIG_TUYA_MODULE_T5), y)
+ifneq ($(WUKONG_KWS_DISABLED),1)
 INSTALL_SNDXKWS := $(shell mkdir -p  $(LOCAL_PATH)/../../libs/app_libs && cp $(LOCAL_PATH)/src/wukong/audio/frontend/kws/sndx/libsndxasr.a $(LOCAL_PATH)/../../libs/app_libs/ && echo "libsndxasr.a copied" >&2)
 INSTALL_TUTUKWS := $(shell mkdir -p  $(LOCAL_PATH)/../../libs/app_libs && cp $(LOCAL_PATH)/src/wukong/audio/frontend/kws/tutuclear/libtutuClear.a $(LOCAL_PATH)/../../libs/app_libs/ && echo "libtutuClear.a copied" >&2)
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong/audio/frontend/kws/tutuclear -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/wukong/audio/frontend/kws/sndx -name "*.c" -o -name "*.cpp" -o -name "*.cc")
+endif
 LOCAL_SRC_FILES += $(shell find $(LOCAL_PATH)/src/miscs/audio_analysis  -name "*.c" -o -name "*.cpp" -o -name "*.cc")
 endif
 LOCAL_SRC_FILES += $(LOCAL_PATH)/src/wukong/audio/frontend/aec_vad/tuya/wukong_audio_aec_vad.c

@@ -35,21 +35,51 @@
 #define AXP_REG_CV          (0x64) /* [2:0]: 011=4.2V */
 #define AXP_REG_BAT_DET     (0x68) /* bit0: 电池检测使能 */
 #define AXP_REG_CHGLED      (0x69) /* bit0=使能, [2:1]=显示模式 */
+#define AXP_REG_PWR_KEY     (0x27) /* [1:0] 开机时长 [3:2] 关机时长 */
+#define AXP_REG_DCDC_EN     (0x80) /* bit0~4 = DCDC1~5 使能 */
+#define AXP_REG_DCDC1_CFG   (0x82) /* 1.5V + N*0.1V */
+#define AXP_REG_DCDC5_CFG   (0x86) /* 1.4V + N*0.1V（低 5 位） */
+#define AXP_REG_ALDO1_CFG   (0x92) /* RTC 1.8V */
+#define AXP_REG_ALDO4_CFG   (0x95) /* SD 3.3V */
+
 #define AXP_REG_LDO_EN0     (0x90) /* bit0~3=ALDO1~4 bit4=BLDO1 bit5=BLDO2 ... */
 #define AXP_REG_ALDO3_CFG   (0x94) /* [4:0]: 0.5V + N*0.1V */
 #define AXP_REG_BLDO1_CFG   (0x96) /* U4.12 -> AVDD_2V8  */
 #define AXP_REG_BLDO2_CFG   (0x97) /* U4.14 -> DVDD_1V8  */
 
-/* reg0x90 摄像头相关使能位（datasheet §6.13.2.75） */
+/* reg0x80 DCDC 使能位 */
+#define AXP_DCDC_EN_DCDC1   (1u << 0)
+#define AXP_DCDC_EN_DCDC2   (1u << 1)
+#define AXP_DCDC_EN_DCDC3   (1u << 2)
+#define AXP_DCDC_EN_DCDC4   (1u << 3)
+#define AXP_DCDC_EN_DCDC5   (1u << 4)
+#define AXP_DCDC_EN_POCKET  (AXP_DCDC_EN_DCDC1 | AXP_DCDC_EN_DCDC5)
+#define AXP_DCDC_DIS_EXTRA  (AXP_DCDC_EN_DCDC2 | AXP_DCDC_EN_DCDC3 | AXP_DCDC_EN_DCDC4 | AXP_DCDC_EN_DCDC5)
+
+/* reg0x90 LDO 使能位（口袋机 power_on 目标） */
+#define AXP_LDO_EN_ALDO1    (1u << 0) /* RTC 1.8V */
 #define AXP_LDO_EN_ALDO3    (1u << 2) /* U4.16 -> VDDCAM_2V8 */
+#define AXP_LDO_EN_ALDO4    (1u << 3) /* SD 3.3V */
 #define AXP_LDO_EN_BLDO1    (1u << 4) /* U4.12 -> AVDD_2V8  */
 #define AXP_LDO_EN_BLDO2    (1u << 5) /* U4.14 -> DVDD_1V8  */
+#define AXP_LDO_EN_ALL06    (0x3Fu)   /* ALDO1~4 + BLDO1/2 */
+#define AXP_LDO_EN_POCKET   (AXP_LDO_EN_ALDO1 | AXP_LDO_EN_ALDO3 | AXP_LDO_EN_ALDO4 | \
+                             AXP_LDO_EN_BLDO1 | AXP_LDO_EN_BLDO2)
 #define AXP_LDO_EN_CAM_MASK (AXP_LDO_EN_ALDO3 | AXP_LDO_EN_BLDO1 | AXP_LDO_EN_BLDO2)
 
 /* 摄像头电源轨目标电压（网表 + AXP2101 引脚：12=BLDO1 14=BLDO2 16=ALDO3） */
 #define AXP_CAM_AVDD_MV     (2800) /* BLDO1 -> AVDD_2V8  */
 #define AXP_CAM_DVDD_MV     (1800) /* BLDO2 -> DVDD_1V8  */
 #define AXP_CAM_VDDCAM_MV   (2800) /* ALDO3 -> VDDCAM_2V8 */
+
+/* 口袋机 setSysPowerDownVoltage(3300) */
+#define AXP_SYS_POWERDOWN_MV (3300)
+
+/* 口袋机 power_on 目标电压（mV） */
+#define AXP_POCKET_DCDC1_MV  (3300)
+#define AXP_POCKET_DCDC5_MV  (3300)
+#define AXP_POCKET_RTC_MV    (1800) /* ALDO1 */
+#define AXP_POCKET_ALDO4_MV  (3300) /* SD */
 
 /* 共享总线探测重试：GPIO20/21(I2C0) 与屏幕/摄像头/传感器共用，上电初期可能短暂忙 */
 #define AXP_PROBE_RETRY     (3)
@@ -177,6 +207,36 @@ static uint8_t __enc_voff(uint16_t mv)
     n = (uint16_t)((mv - 2600) / 100);
     if (n > 0x07) {
         n = 0x07;
+    }
+    return (uint8_t)n;
+}
+
+/* DCDC1: reg0x82[4:0] = (mV - 1500) / 100 */
+static uint8_t __enc_dcdc1_mv(uint16_t mv)
+{
+    uint16_t n;
+
+    if (mv < 1500) {
+        mv = 1500;
+    }
+    n = (uint16_t)((mv - 1500) / 100);
+    if (n > 0x1F) {
+        n = 0x1F;
+    }
+    return (uint8_t)n;
+}
+
+/* DCDC5: reg0x86[4:0] = (mV - 1400) / 100 */
+static uint8_t __enc_dcdc5_mv(uint16_t mv)
+{
+    uint16_t n;
+
+    if (mv < 1400) {
+        mv = 1400;
+    }
+    n = (uint16_t)((mv - 1400) / 100);
+    if (n > 0x1F) {
+        n = 0x1F;
     }
     return (uint8_t)n;
 }
@@ -330,7 +390,7 @@ OPERATE_RET tuya_axp2101_charge_init(uint8_t i2c_port, const tuya_axp2101_chg_cf
 static void __axp_dump_regs(uint8_t port)
 {
     static const uint8_t regs[] = {
-        0x00, 0x01, 0x10, 0x12, 0x14, 0x15, 0x16, 0x18, 0x24, 0x30,
+        0x00, 0x01, 0x10, 0x12, 0x14, 0x15, 0x16, 0x18, 0x24, 0x27, 0x30,
         0x34, 0x35, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x50, 0x61,
         0x62, 0x63, 0x64, 0x68, 0x69, 0x80, 0x81, 0x82, 0x83, 0x84,
         0x85, 0x86, 0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,
@@ -434,6 +494,70 @@ static void __axp_dump_camera_rails(uint8_t port)
                 (en >> 2) & 1, __dec_ldo_mv(a3));
 }
 
+OPERATE_RET tuya_axp2101_reg_read(uint8_t i2c_port, uint8_t reg, uint8_t *val)
+{
+    if (!val) {
+        return OPRT_INVALID_PARM;
+    }
+    return __axp_read(i2c_port, reg, val);
+}
+
+OPERATE_RET tuya_axp2101_reg_write(uint8_t i2c_port, uint8_t reg, uint8_t val)
+{
+    return __axp_write(i2c_port, reg, val);
+}
+
+OPERATE_RET tuya_axp2101_power_key_config(uint8_t i2c_port)
+{
+    /* 对齐 XPowers：128ms 开机(0) + 4s 关机(0) -> reg0x27[3:0]=0 */
+    OPERATE_RET rt = __axp_update(i2c_port, AXP_REG_PWR_KEY, 0x0F, 0x00);
+    if (rt == OPRT_OK) {
+        TAL_PR_INFO("[axp2101] power key: press-on 128ms, press-off 4s");
+    }
+    return rt;
+}
+
+OPERATE_RET tuya_axp2101_power_on(uint8_t i2c_port)
+{
+    OPERATE_RET rt;
+
+    /* 口袋机：先关 DCDC2/3/4/5（不动 DCDC1，避免 MCU 掉电） */
+    rt = __axp_update(i2c_port, AXP_REG_DCDC_EN, AXP_DCDC_DIS_EXTRA, 0x00);
+    if (rt != OPRT_OK) {
+        return rt;
+    }
+
+    /* 关全部 ALDO/BLDO，再统一设压使能 */
+    rt = __axp_update(i2c_port, AXP_REG_LDO_EN0, AXP_LDO_EN_ALL06, 0x00);
+    if (rt != OPRT_OK) {
+        return rt;
+    }
+
+    rt = __axp_update(i2c_port, AXP_REG_DCDC1_CFG, 0x1F, __enc_dcdc1_mv(AXP_POCKET_DCDC1_MV));
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_DCDC5_CFG, 0x1F, __enc_dcdc5_mv(AXP_POCKET_DCDC5_MV));
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_ALDO1_CFG, 0x1F, __enc_ldo_mv(AXP_POCKET_RTC_MV));
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_ALDO3_CFG, 0x1F, __enc_ldo_mv(AXP_CAM_VDDCAM_MV));
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_ALDO4_CFG, 0x1F, __enc_ldo_mv(AXP_POCKET_ALDO4_MV));
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_BLDO1_CFG, 0x1F, __enc_ldo_mv(AXP_CAM_AVDD_MV));
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_BLDO2_CFG, 0x1F, __enc_ldo_mv(AXP_CAM_DVDD_MV));
+    if (rt != OPRT_OK) return rt;
+
+    rt = __axp_update(i2c_port, AXP_REG_DCDC_EN, AXP_DCDC_EN_POCKET, AXP_DCDC_EN_POCKET);
+    if (rt != OPRT_OK) return rt;
+    rt = __axp_update(i2c_port, AXP_REG_LDO_EN0, AXP_LDO_EN_POCKET, AXP_LDO_EN_POCKET);
+    if (rt != OPRT_OK) return rt;
+
+    tal_system_sleep(20);
+    TAL_PR_INFO("[axp2101] pocket power_on: DCDC1/5=3.3V ALDO1=1.8V ALDO3/4 BLDO1/2 enabled");
+    return OPRT_OK;
+}
+
 OPERATE_RET tuya_axp2101_camera_power_on(uint8_t i2c_port)
 {
     OPERATE_RET rt;
@@ -473,14 +597,23 @@ OPERATE_RET tuya_axp2101_init(uint8_t i2c_port)
     if (rt != OPRT_OK) {
         return rt;
     }
-    rt = __axp_set_sys_powerdown_voltage(i2c_port, 3300);
-    if (rt != OPRT_OK) {
-        return rt;
-    }
     rt = tuya_axp2101_charge_init(i2c_port, NULL);
     if (rt != OPRT_OK) {
         return rt;
     }
+    rt = __axp_set_sys_powerdown_voltage(i2c_port, AXP_SYS_POWERDOWN_MV);
+    if (rt != OPRT_OK) {
+        return rt;
+    }
+    rt = tuya_axp2101_power_on(i2c_port);
+    if (rt != OPRT_OK) {
+        return rt;
+    }
+    rt = tuya_axp2101_power_key_config(i2c_port);
+    if (rt != OPRT_OK) {
+        return rt;
+    }
     tuya_axp2101_dump_status(i2c_port);
+    tuya_axp2101_cli_init();
     return OPRT_OK;
 }

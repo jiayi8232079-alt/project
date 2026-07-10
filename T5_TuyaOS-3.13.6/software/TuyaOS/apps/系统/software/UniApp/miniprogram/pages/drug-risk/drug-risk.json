@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "ai-badge": "/components/ai-badge/ai-badge"
+  },
+  "navigationBarTitleText": "用药风险评估",
+  "navigationBarBackgroundColor": "#F8F9FA"
+}

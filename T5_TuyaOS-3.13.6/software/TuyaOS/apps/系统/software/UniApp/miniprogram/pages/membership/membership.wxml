@@ -1,0 +1,140 @@
+<view class="page">
+  <!-- 导航（含状态栏高度） -->
+  <view class="glass-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="glass-nav__back" bind:tap="goBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="glass-nav__title">权益详情</text>
+    <view class="glass-nav__placeholder"></view>
+  </view>
+
+  <scroll-view scroll-y class="scroll-area">
+    <view class="scroll-content">
+
+      <!-- 孝心年卡 Hero 卡片 -->
+      <view class="card-hero">
+        <view class="card-hero__deco-1"></view>
+        <view class="card-hero__deco-2"></view>
+        <view class="card-hero__top">
+          <view class="card-hero__brand">
+            <text class="material-symbols-outlined card-hero__spa">spa</text>
+            <text class="card-hero__brand-text">Qiao Guo Health</text>
+          </view>
+          <view class="card-hero__verified">
+            <text class="material-symbols-outlined">verified</text>
+          </view>
+        </view>
+        <view class="card-hero__body">
+          <text class="card-hero__title">孝心年卡</text>
+          <text class="card-hero__slogan">孝心不因距离而缺席</text>
+          <text class="card-hero__sub">为海外及异地子女打造的父母健康管家方案</text>
+        </view>
+      </view>
+
+      <!-- 核心权益 -->
+      <view class="section">
+        <view class="section__header">
+          <text class="section__title">核心权益</text>
+          <text wx:if="{{!isAnnualMember}}" class="section__more" bind:tap="onContactService" hover-class="btn-haptic">查看全部 ›</text>
+          <view wx:else class="section__status">
+            <text class="material-symbols-outlined">workspace_premium</text>
+            <text>已开通</text>
+          </view>
+        </view>
+        <view class="benefit-grid">
+          <view class="benefit-card" hover-class="btn-haptic">
+            <view class="benefit-card__icon benefit-card__icon--gold">
+              <text class="material-symbols-outlined">medical_services</text>
+            </view>
+            <text class="benefit-card__name">金牌陪诊</text>
+            <text class="benefit-card__desc">三甲医院全程专业陪同就医</text>
+          </view>
+          <view class="benefit-card" hover-class="btn-haptic">
+            <view class="benefit-card__icon benefit-card__icon--green">
+              <text class="material-symbols-outlined">visibility</text>
+            </view>
+            <text class="benefit-card__name">可视化进度</text>
+            <text class="benefit-card__desc">海外子女实时查看图文直播</text>
+          </view>
+          <view class="benefit-card" hover-class="btn-haptic">
+            <view class="benefit-card__icon benefit-card__icon--green">
+              <text class="material-symbols-outlined">description</text>
+            </view>
+            <text class="benefit-card__name">报告详录</text>
+            <text class="benefit-card__desc">电子健康档案云端永久保存</text>
+          </view>
+          <view class="benefit-card" hover-class="btn-haptic">
+            <view class="benefit-card__icon benefit-card__icon--gold">
+              <text class="material-symbols-outlined">medication</text>
+            </view>
+            <text class="benefit-card__name">药品管理</text>
+            <text class="benefit-card__desc">用药提醒与库存智能监控</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 尊享服务 -->
+      <view class="section">
+        <text class="section__title">尊享服务</text>
+        <view class="exclusive-card">
+          <view class="exclusive-card__image">
+            <image
+              src="https://images.pexels.com/photos/4173249/pexels-photo-4173249.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              mode="aspectFill"
+              class="exclusive-card__img"
+            />
+            <view class="exclusive-card__overlay">
+              <view class="exclusive-card__badge-tag">24/7 响应</view>
+              <text class="exclusive-card__headline">专属健康管家</text>
+            </view>
+          </view>
+          <view class="exclusive-card__content">
+            <text class="exclusive-card__text">无论身在何处，您的专属管家全天候待命。从突发紧急状况的快速响应，到日常体检的细致规划，我们为父母提供如家人般的贴心守护。</text>
+            <view class="exclusive-card__tags">
+              <view class="exclusive-card__tag">
+                <text class="material-symbols-outlined">check_circle</text>
+                <text>双语沟通</text>
+              </view>
+              <view class="exclusive-card__tag">
+                <text class="material-symbols-outlined">check_circle</text>
+                <text>紧急呼叫</text>
+              </view>
+              <view class="exclusive-card__tag">
+                <text class="material-symbols-outlined">check_circle</text>
+                <text>季度汇报</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 社交证明 -->
+      <view wx:if="{{!isAnnualMember}}" class="social-proof">
+        <view class="social-proof__left">
+          <text class="social-proof__title">让爱跨越山海</text>
+          <text class="social-proof__sub">已有 3,240+ 个海外家庭选择信赖</text>
+        </view>
+        <view class="social-proof__avatars">
+          <image class="social-proof__avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&q=80&fit=crop&crop=face" mode="aspectFill" />
+          <image class="social-proof__avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&h=300&q=80&fit=crop&crop=face" mode="aspectFill" />
+          <image class="social-proof__avatar" src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=300&h=300&q=80&fit=crop&crop=face" mode="aspectFill" />
+          <view class="social-proof__more"><text>+99</text></view>
+        </view>
+      </view>
+
+      <view style="height: {{isAnnualMember ? 56 : 200}}rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部 CTA 栏 -->
+  <view wx:if="{{!isAnnualMember}}" class="bottom-bar">
+    <view class="bottom-bar__service" bind:tap="onContactService" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">headset_mic</text>
+      <text class="bottom-bar__service-text">客服</text>
+    </view>
+    <view class="bottom-bar__cta" bind:tap="onContactService" hover-class="btn-haptic">
+      <text class="bottom-bar__cta-text">立即预约办理咨询</text>
+      <text class="material-symbols-outlined">arrow_forward</text>
+    </view>
+  </view>
+</view>

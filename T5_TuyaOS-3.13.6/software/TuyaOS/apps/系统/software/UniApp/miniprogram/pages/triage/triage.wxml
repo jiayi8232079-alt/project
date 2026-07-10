@@ -1,0 +1,543 @@
+<wxs module="triageWx">
+var clip = function (s, n) {
+  s = s || '';
+  n = n || 36;
+  if (s.length <= n) return s;
+  return s.substring(0, n) + '…';
+};
+module.exports.clip = clip;
+</wxs>
+
+<view class="triage-page">
+  <!-- 导航栏 -->
+  <view class="triage-page__nav" style="padding-top: {{statusBarHeight}}px;">
+    <!-- 左右同宽，与胶囊区一致，标题才能在屏幕几何中心 -->
+    <view class="triage-page__nav-side triage-page__nav-side--start" style="width: {{navCapsuleInsetPx}}px;">
+      <view class="triage-page__nav-back btn-haptic" bind:tap="onNavBack">
+        <text class="material-symbols-outlined triage-page__nav-icon">arrow_back_ios_new</text>
+      </view>
+    </view>
+    <view class="triage-page__nav-titles-wrap">
+      <view class="triage-page__nav-titles">
+        <text class="triage-page__nav-title">{{step === 4 ? '导诊记录' : '智能导诊'}}</text>
+        <text class="triage-page__nav-sub">{{step === 4 ? '仅供本人回看 · 仍非诊断结论' : '分诊参考 · 非临床诊断'}}</text>
+      </view>
+    </view>
+    <view class="triage-page__nav-side triage-page__nav-spacer" style="width: {{navCapsuleInsetPx}}px;"></view>
+  </view>
+
+  <!-- ═══ Step 4: 历史记录 ═══ -->
+  <scroll-view scroll-y show-scrollbar="{{false}}" class="triage-page__body" wx:if="{{step === 4}}">
+    <view class="triage-page__history">
+      <view class="triage-page__disclaimer triage-page__disclaimer--compact">
+        <text class="material-symbols-outlined triage-page__disclaimer-icon">history</text>
+        <view class="triage-page__disclaimer-body">
+          <text class="triage-page__disclaimer-title">记录说明</text>
+          <text class="triage-page__disclaimer-text">以下为您的历史导诊记录，内容由人工智能生成（深度合成-AI问答），仅供就医参考；不能替代医生面诊。点击条目可回看，使用「重新导诊」可保留并修改信息后再次提交。</text>
+        </view>
+      </view>
+      <view wx:if="{{historyLoading}}" class="triage-page__history-loading">加载中…</view>
+      <view wx:elif="{{!historyItems.length}}" class="triage-page__history-empty">暂无导诊记录，完成一次智能导诊后将显示在这里。</view>
+      <view
+        wx:for="{{historyItems}}"
+        wx:key="id"
+        class="triage-history-card btn-haptic"
+        bind:tap="onHistoryItemTap"
+        data-id="{{item.id}}"
+      >
+        <view class="triage-history-card__top">
+          <text class="triage-history-card__risk triage-history-card__risk--{{item.riskLevel}}">{{item.riskLevel || '—'}}</text>
+          <text class="triage-history-card__time">{{item.createdAt}}</text>
+        </view>
+        <text class="triage-history-card__symptom">{{triageWx.clip(item.mainSymptom, 40)}}</text>
+        <text class="triage-history-card__dept" wx:if="{{item.departmentPrimary}}">推荐科室：{{item.departmentPrimary}}</text>
+      </view>
+      <view style="height: 48rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <!-- ═══ Step 1: 表单 ═══ -->
+  <scroll-view scroll-y show-scrollbar="{{false}}" class="triage-page__body" wx:if="{{step === 1}}">
+    <view class="triage-page__form">
+
+      <!-- 免责提示（含深度合成 / AI 问答合规显著标识） -->
+      <view class="triage-page__disclaimer">
+        <text class="material-symbols-outlined triage-page__disclaimer-icon">health_and_safety</text>
+        <view class="triage-page__disclaimer-body">
+          <view class="triage-page__disclaimer-ai-row">
+            <text class="triage-page__disclaimer-ai-pill">人工智能生成</text>
+            <text class="triage-page__disclaimer-ai-sep">·</text>
+            <text class="triage-page__disclaimer-ai-pill triage-page__disclaimer-ai-pill--outline">深度合成-AI问答</text>
+          </view>
+          <text class="triage-page__disclaimer-title">重要提示</text>
+          <text class="triage-page__disclaimer-text">本功能属于深度合成技术服务中的 AI 问答，后续导诊内容由人工智能生成，仅基于您提供的信息给出就医方向与资源建议，不构成临床诊断或处方意见，不能替代执业医师面诊。急危重症请立即拨打 120 或前往最近急诊。</text>
+        </view>
+      </view>
+
+      <!-- 区块：咨询对象与填写人 -->
+      <view class="form-card">
+        <view class="form-card__head">
+          <text class="form-card__step">1</text>
+          <view class="form-card__head-text">
+            <text class="form-card__title">咨询对象与填写人</text>
+            <text class="form-card__subtitle">填写人须为患者本人或其授权代办人</text>
+          </view>
+        </view>
+
+        <view class="triage-page__target-block">
+          <view class="triage-page__target-field-head">
+            <text class="triage-page__target-field-label">为谁咨询</text>
+            <text class="form-required">*</text>
+          </view>
+          <text class="triage-page__target-lead">选择健康档案中的就诊人；下方症状与年龄均指向此人。</text>
+
+          <block wx:if="{{subjects.length > 0}}">
+            <picker bindchange="onTargetChange" value="{{targetIndex}}" range="{{subjectNames}}">
+              <view class="triage-page__target-card btn-haptic">
+                <view class="triage-page__target-card-icon-wrap">
+                  <text class="material-symbols-outlined triage-page__target-card-icon">person</text>
+                </view>
+                <view class="triage-page__target-card-mid">
+                  <text class="triage-page__target-card-kicker">当前患者</text>
+                  <text class="triage-page__target-card-name">{{subjectNames[targetIndex] || '请选择'}}</text>
+                  <text class="triage-page__target-card-hint" wx:if="{{subjects.length > 1}}">轻触本行更换 · 档案共 {{subjects.length}} 人</text>
+                  <text class="triage-page__target-card-hint" wx:else>轻触查看；多人请至「健康档案」添加家人后再选</text>
+                </view>
+                <text class="material-symbols-outlined triage-page__target-card-chevron">expand_more</text>
+              </view>
+            </picker>
+          </block>
+          <view wx:else class="triage-page__target-empty">
+            <text class="triage-page__target-empty-text">还没有服务对象，请先在健康档案中添加本人或家人信息。</text>
+            <view class="triage-page__target-empty-btn" bind:tap="goHealthProfile">去健康档案添加</view>
+          </view>
+        </view>
+
+        <view class="form-card__divider"></view>
+
+        <view class="form-field-head">
+          <text class="form-field-label">填写人身份</text>
+          <text class="form-required">*</text>
+          <text class="form-field-hint">与陪了个伴家庭档案一致时将自动同步</text>
+        </view>
+
+        <view class="identity-banner identity-banner--sync" wx:if="{{identitySource === 'family'}}">
+          <text class="material-symbols-outlined identity-banner__icon">verified_user</text>
+          <view class="identity-banner__text-wrap">
+            <text class="identity-banner__title">已匹配家庭档案</text>
+            <text class="identity-banner__desc">{{identityHint}}</text>
+            <text class="identity-banner__override" wx:if="{{identityOverridden}}">您已手动调整身份，将以选项为准。</text>
+          </view>
+        </view>
+
+        <view class="identity-banner identity-banner--neutral" wx:if="{{identitySource === 'unlinked'}}">
+          <text class="material-symbols-outlined identity-banner__icon">person_search</text>
+          <view class="identity-banner__text-wrap">
+            <text class="identity-banner__title">未绑定家庭关系</text>
+            <text class="identity-banner__desc">{{identityHint}}</text>
+          </view>
+        </view>
+
+        <view class="form-chip-grid">
+          <view
+            wx:for="{{consultantRoles}}" wx:key="value"
+            class="form-chip form-chip--tile {{consultantRole === item.value ? 'form-chip--active' : ''}}"
+            data-value="{{item.value}}" bind:tap="onRoleChange"
+          >
+            <text class="form-chip__title">{{item.label}}</text>
+            <text class="form-chip__desc">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 患者性别 -->
+      <view class="form-card">
+        <view class="form-card__head">
+          <text class="form-card__step">2</text>
+          <view class="form-card__head-text">
+            <text class="form-card__title">患者基本情况</text>
+            <text class="form-card__subtitle">用于分诊规则与科室推荐</text>
+          </view>
+        </view>
+
+      <view class="form-section form-section--in-card">
+        <text class="form-label">患者性别 <text class="form-required">*</text></text>
+        <view class="form-chips">
+          <view class="form-chip {{patientGender === 'male' ? 'form-chip--active' : ''}}" data-value="male" bind:tap="onGenderChange">男</view>
+          <view class="form-chip {{patientGender === 'female' ? 'form-chip--active' : ''}}" data-value="female" bind:tap="onGenderChange">女</view>
+        </view>
+      </view>
+
+      <!-- 患者年龄 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">患者年龄 <text class="form-required">*</text></text>
+        <input class="form-input" type="number" placeholder="实足年龄" value="{{patientAge}}" bindinput="onAgeInput" />
+      </view>
+
+        <view class="form-card__divider"></view>
+
+      <!-- 主要症状 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">主要症状或问题 <text class="form-required">*</text></text>
+        <textarea
+          class="form-textarea"
+          placeholder="请详细描述症状，如：胸闷气短，持续3天，活动后加重"
+          value="{{mainSymptom}}"
+          bindinput="onSymptomInput"
+          maxlength="500"
+          auto-height
+        />
+      </view>
+
+      <!-- 持续时间 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">症状持续时间</text>
+        <input class="form-input" placeholder="如：3天、1周、半年" value="{{symptomDuration}}" bindinput="onDurationInput" />
+      </view>
+
+      <!-- 严重程度 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">当前严重程度（自评）</text>
+        <view class="form-chips">
+          <view
+            wx:for="{{severityOptions}}" wx:key="value"
+            class="form-chip {{severitySelf === item.value ? 'form-chip--active' : ''}}"
+            data-value="{{item.value}}" bind:tap="onSeverityChange"
+          >{{item.label}}</view>
+        </view>
+      </view>
+
+      <!-- 既往病史 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">慢性病史（可多选）</text>
+        <view class="form-chips form-chips--wrap">
+          <view
+            wx:for="{{historyTags}}" wx:key="name"
+            class="form-chip {{item.selected ? 'form-chip--active' : ''}}"
+            data-index="{{index}}" catchtap="onHistoryToggle"
+          >{{item.name}}</view>
+        </view>
+      </view>
+
+      <!-- 当前用药 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">当前用药</text>
+        <input class="form-input" placeholder="药名、剂量或「无」" value="{{currentMedication}}" bindinput="onMedicationInput" />
+      </view>
+
+        <view class="form-card__divider"></view>
+
+      <!-- 就医目标 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">就医目标</text>
+        <view class="form-chips form-chips--wrap">
+          <view
+            wx:for="{{visitGoals}}" wx:key="value"
+            class="form-chip {{visitGoal === item.value ? 'form-chip--active' : ''}}"
+            data-value="{{item.value}}" bind:tap="onVisitGoalChange"
+          >{{item.label}}</view>
+        </view>
+      </view>
+
+      <!-- 所在城市 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">患者所在城市</text>
+        <input class="form-input" placeholder="如：青田、温州、杭州" value="{{patientCity}}" bindinput="onCityInput" />
+      </view>
+
+      <!-- 行动能力 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">行动能力</text>
+        <view class="form-chips">
+          <view
+            wx:for="{{mobilityOptions}}" wx:key="value"
+            class="form-chip {{mobility === item.value ? 'form-chip--active' : ''}}"
+            data-value="{{item.value}}" bind:tap="onMobilityChange"
+          >{{item.label}}</view>
+        </view>
+      </view>
+
+      <!-- 过敏史 -->
+      <view class="form-section form-section--in-card">
+        <text class="form-label">过敏史</text>
+        <input class="form-input" placeholder="如：青霉素过敏" value="{{allergyInfo}}" bindinput="onAllergyInput" />
+      </view>
+
+      <!-- 开关项 -->
+      <view class="form-section form-section--in-card form-switches">
+        <view class="form-switch-row" bind:tap="onExamToggle">
+          <text class="form-switch-label">已有体检/检查结果</text>
+          <view class="form-toggle {{hasExamResult ? 'form-toggle--on' : ''}}">
+            <view class="form-toggle__dot"></view>
+          </view>
+        </view>
+        <view class="form-switch-row" bind:tap="onFamilyRemoteToggle">
+          <text class="form-switch-label">家属异地/海外</text>
+          <view class="form-toggle {{familyRemote ? 'form-toggle--on' : ''}}">
+            <view class="form-toggle__dot"></view>
+          </view>
+        </view>
+        <view class="form-switch-row" bind:tap="onLivesAloneToggle">
+          <text class="form-switch-label">患者独居</text>
+          <view class="form-toggle {{livesAlone ? 'form-toggle--on' : ''}}">
+            <view class="form-toggle__dot"></view>
+          </view>
+        </view>
+        <view class="form-switch-row" bind:tap="onDischargedToggle">
+          <text class="form-switch-label">近期出院</text>
+          <view class="form-toggle {{recentlyDischarged ? 'form-toggle--on' : ''}}">
+            <view class="form-toggle__dot"></view>
+          </view>
+        </view>
+      </view>
+
+      </view>
+
+      <!-- 提交按钮 -->
+      <view class="triage-page__submit" bind:tap="onSubmit">
+        <text class="material-symbols-outlined" style="margin-right: 8rpx;">clinical_notes</text>
+        开始智能导诊
+      </view>
+
+      <view style="height: 60rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <!-- ═══ Step 2: 加载中 ═══ -->
+  <view class="triage-page__loading" wx:if="{{step === 2}}">
+    <view class="triage-page__loading-anim">
+      <view class="triage-page__loading-dot"></view>
+      <view class="triage-page__loading-dot"></view>
+      <view class="triage-page__loading-dot"></view>
+    </view>
+    <text class="triage-page__loading-text">AI 正在分析您的健康信息…</text>
+    <text class="triage-page__loading-sub">综合评估症状、风险与服务路径</text>
+  </view>
+
+  <!-- ═══ Step 3: 结果 ═══ -->
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="triage-page__body" wx:if="{{step === 3 && result}}">
+    <view class="triage-page__result">
+
+      <!-- AI 生成结果提示 -->
+      <view class="result-ai-notice">
+        <ai-badge size="md" tone="notice" block="{{true}}" icon="auto_awesome" text="以下导诊结果由人工智能生成（深度合成-AI问答），仅供就医参考，不能代替医生诊断" />
+      </view>
+
+      <!-- R3 紧急横幅 -->
+      <view class="result-emergency" wx:if="{{result.riskLevel === 'R3'}}">
+        <text class="material-symbols-outlined result-emergency__icon">emergency</text>
+        <text class="result-emergency__text">检测到紧急健康风险，请尽快就医或拨打 120</text>
+      </view>
+
+      <!-- 风险等级卡片 -->
+      <view class="result-card result-risk {{riskColorClass}}">
+        <view class="result-risk__header">
+          <text class="result-risk__badge">{{result.riskLevel}}</text>
+          <text class="result-risk__urgency">{{result.urgencyLevel}}</text>
+        </view>
+        <text class="result-risk__scene">{{result.sceneType}}</text>
+      </view>
+
+      <!-- 推荐科室 -->
+      <view class="result-card" wx:if="{{result.departmentPrimary}}">
+        <view class="result-card__title">
+          <text class="material-symbols-outlined result-card__icon">local_hospital</text>
+          推荐科室
+        </view>
+        <view class="result-dept">
+          <view class="result-dept__primary">{{result.departmentPrimary}}</view>
+          <view class="result-dept__secondary" wx:if="{{result.departmentSecondary && result.departmentSecondary.length}}">
+            <text wx:for="{{result.departmentSecondary}}" wx:key="*this" class="result-dept__tag">{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- AI 建议 -->
+      <view class="result-card">
+        <view class="result-card__title">
+          <text class="material-symbols-outlined result-card__icon">psychology</text>
+          <text>AI 生成导诊建议</text>
+          <ai-badge size="sm" tone="default" text="人工智能生成" />
+        </view>
+        <text class="result-card__text">{{result.safeReplyText}}</text>
+      </view>
+
+      <!-- 就医准备清单 -->
+      <view class="result-card" wx:if="{{result.prepChecklist && result.prepChecklist.length}}">
+        <view class="result-card__title">
+          <text class="material-symbols-outlined result-card__icon">checklist</text>
+          就医准备清单
+        </view>
+        <view class="result-checklist">
+          <view wx:for="{{result.prepChecklist}}" wx:key="*this" class="result-checklist__item">
+            <text class="material-symbols-outlined result-checklist__check">check_circle</text>
+            <text>{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 推荐服务路径 -->
+      <view class="result-card" wx:if="{{result.serviceRoute && result.serviceRoute.length}}">
+        <view class="result-card__title">
+          <text class="material-symbols-outlined result-card__icon">route</text>
+          推荐服务
+        </view>
+        <view class="result-routes">
+          <view wx:for="{{result.serviceRoute}}" wx:key="*this" class="result-route__tag">{{item}}</view>
+        </view>
+        <view class="result-product" wx:if="{{result.recommendedProduct}}">
+          <text class="material-symbols-outlined" style="font-size: 28rpx; color: #4CAF50;">star</text>
+          <text style="margin-left: 8rpx;">推荐：{{result.recommendedProduct}}</text>
+        </view>
+      </view>
+
+      <!-- 转人工：与健康管家留言 -->
+      <view class="result-card triage-chat" wx:if="{{result.escalateToHuman}}">
+        <view class="result-card__title">
+          <text class="material-symbols-outlined result-card__icon">support_agent</text>
+          健康管家留言
+        </view>
+        <view class="triage-chat__hint">
+          管家会协助就医安排与信息说明（非在线诊断）。请保持本页停留一会以便收取回复；急症请先拨打 120。
+        </view>
+        <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="triage-chat__list">
+          <view wx:if="{{!chatMessages.length}}" class="triage-chat__empty">暂无留言，您可直接输入问题，或先使用下方电话联系管家。</view>
+          <view
+            wx:for="{{chatMessages}}"
+            wx:key="id"
+            class="triage-chat__row {{item.sender === 'staff' ? 'triage-chat__row--staff' : 'triage-chat__row--user'}}"
+          >
+            <view class="triage-chat__bubble">
+              <text class="triage-chat__bubble-text">{{item.content}}</text>
+            </view>
+            <text class="triage-chat__meta">{{item.sender === 'staff' ? '健康管家' : '我'}}</text>
+          </view>
+        </scroll-view>
+        <view class="triage-chat__composer">
+          <textarea
+            class="triage-chat__input"
+            value="{{chatInput}}"
+            placeholder="输入要向管家说明的情况…"
+            maxlength="2000"
+            bindinput="onChatInput"
+            disabled="{{chatSending}}"
+            auto-height
+          />
+          <view class="triage-chat__send {{chatSending ? 'triage-chat__send--disabled' : ''}}" bind:tap="onSendChat">
+            <text>{{chatSending ? '发送中' : '发送'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="result-actions">
+        <view class="result-action result-action--primary" bind:tap="onBookEscort">
+          <text class="material-symbols-outlined">calendar_month</text>
+          <text>预约陪诊</text>
+        </view>
+        <view class="result-action result-action--secondary" bind:tap="openConvertOrderSheet" wx:if="{{!result.escalateToHuman}}">
+          <text class="material-symbols-outlined">receipt_long</text>
+          <text>一键下单</text>
+        </view>
+        <view class="result-action result-action--warn" bind:tap="onCallService" wx:if="{{result.escalateToHuman}}">
+          <text class="material-symbols-outlined">call</text>
+          <text>联系健康管家</text>
+        </view>
+        <view class="result-action result-action--ghost" bind:tap="onRetry">
+          <text class="material-symbols-outlined">refresh</text>
+          <text>重新导诊</text>
+        </view>
+        <text class="result-actions__hint">「重新导诊」会回到填写页并保留当前信息，您可修改后再次提交生成新记录。</text>
+      </view>
+
+      <view style="height: 60rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 历史导诊：右下角悬浮入口（避免遮挡填报，略高于底栏安全区） -->
+  <view
+    wx:if="{{step === 1 || step === 3}}"
+    class="triage-page__fab btn-haptic"
+    bind:tap="openHistory"
+  >
+    <text class="material-symbols-outlined triage-page__fab-icon">history</text>
+    <text class="triage-page__fab-text">历史</text>
+  </view>
+
+  <!-- 一键下单：约号、名录医院、回电 -->
+  <view class="triage-convert-mask" wx:if="{{step === 3 && showConvertSheet}}" catchtouchmove="preventMove">
+    <view class="triage-convert-mask__backdrop" bindtap="closeConvertSheet"></view>
+    <view class="triage-convert-sheet" catchtap="">
+      <view class="triage-convert-sheet__title">确认一键下单</view>
+      <text class="triage-convert-sheet__intro">订单将进入订单中心，客服人员会致电与您确认就诊安排。</text>
+
+      <view class="triage-convert-sheet__section">
+        <text class="triage-convert-sheet__label">约号情况</text>
+        <radio-group class="triage-convert-sheet__radios" bindchange="onConvertBookingChange" value="{{convertBookingMode}}">
+          <label class="triage-convert-radio">
+            <radio value="booked" color="#4CAF50"/>已自行约号
+          </label>
+          <label class="triage-convert-radio">
+            <radio value="pending_cs" color="#4CAF50"/>尚未约号，需协助预约
+          </label>
+        </radio-group>
+      </view>
+
+      <view class="triage-convert-sheet__section" wx:if="{{convertBookingMode === 'booked'}}">
+        <text class="triage-convert-sheet__label">就诊医院（从名录选择）</text>
+        <input
+          class="triage-convert-sheet__input"
+          placeholder="输入医院名称搜索"
+          value="{{convertHospitalKeyword}}"
+          bindinput="onConvertHospitalKeywordInput"
+          confirm-type="search"
+        />
+        <view wx:if="{{convertSelectedHospital}}" class="triage-convert-sheet__picked">
+          已选：{{convertSelectedHospital.name}}（{{convertSelectedHospital.city}}）
+        </view>
+        <view wx:if="{{convertHospitalLoading}}" class="triage-convert-sheet__sub">搜索中…</view>
+        <scroll-view wx:elif="{{convertHospitalResults.length}}" scroll-y class="triage-convert-sheet__hosp-list" enhanced show-scrollbar="{{false}}">
+          <view
+            wx:for="{{convertHospitalResults}}"
+            wx:key="id"
+            class="triage-convert-sheet__hosp-item {{convertSelectedHospital && convertSelectedHospital.id === item.id ? 'triage-convert-sheet__hosp-item--active' : ''}}"
+            data-id="{{item.id}}"
+            data-name="{{item.name}}"
+            data-city="{{item.city}}"
+            data-district="{{item.district}}"
+            bindtap="onSelectConvertHospital"
+          >
+            <text class="triage-convert-sheet__hosp-name">{{item.name}}</text>
+            <text class="triage-convert-sheet__hosp-meta">{{item.city}}{{item.district ? item.district : ''}}</text>
+          </view>
+        </scroll-view>
+        <text wx:elif="{{convertHospitalKeyword}}" class="triage-convert-sheet__sub">未找到时可缩短关键词重试；名录与「找医院」一致。</text>
+      </view>
+
+      <view class="triage-convert-sheet__section" wx:if="{{convertBookingMode === 'pending_cs'}}">
+        <view class="triage-convert-sheet__warn">
+          您暂未指定医院时，将由我们协助预约衔接，客服稍后致电确认；请保持手机畅通。
+        </view>
+      </view>
+
+      <view class="triage-convert-sheet__section">
+        <text class="triage-convert-sheet__label">联系电话</text>
+        <input
+          class="triage-convert-sheet__input"
+          type="number"
+          maxlength="20"
+          placeholder="客服将拨打此号码确认"
+          value="{{convertCallbackPhone}}"
+          bindinput="onConvertCallbackPhoneInput"
+        />
+      </view>
+
+      <view class="triage-convert-sheet__actions">
+        <view class="triage-convert-sheet__btn triage-convert-sheet__btn--ghost" bindtap="closeConvertSheet">取消</view>
+        <view class="triage-convert-sheet__btn triage-convert-sheet__btn--primary {{convertSubmitting ? 'triage-convert-sheet__btn--disabled' : ''}}" bindtap="submitConvertOrder">
+          <text>{{convertSubmitting ? '提交中…' : '提交订单'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

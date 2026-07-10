@@ -4,6 +4,7 @@
  */
 
 #include "mcp_client_transport.h"
+#include "mcp_client_auth.h"
 #include "mcp_client_util.h"
 
 #include <stdio.h>
@@ -12,14 +13,7 @@
 #include "http_inf.h"
 #include "tal_log.h"
 #include "tal_memory.h"
-#include "tal_semaphore.h"
 #include "tal_system.h"
-
-typedef struct {
-    SEM_HANDLE sem;
-    MCP_CLIENT_HTTP_RESP_T resp;
-    OPERATE_RET transport_rt;
-} MCP_HTTP_SYNC_CTX_T;
 
 typedef struct {
     CONST ty_cJSON *headers;
@@ -45,64 +39,15 @@ STATIC VOID __http_add_headers(http_session_t session, VOID *data)
         http_add_header(session, hd->req, "Accept", "application/json, text/event-stream");
 }
 
-STATIC OPERATE_RET __http_sync_cb(HTTP_INF_H_S *hand)
+STATIC VOID __http_add_headers_for_req(http_session_t session, CONST ty_cJSON *headers,
+                                       CONST http_req_t *req)
 {
-    MCP_HTTP_SYNC_CTX_T *ctx;
-    BYTE_T chunk[1024];
-    INT_T read_len;
-    UINT_T total = 0;
-    CHAR_T *buf;
+    MCP_HTTP_HEAD_DATA_T hd;
 
-    if (!hand || !hand->pri_data || !*hand->pri_data)
-        return OPRT_INVALID_PARM;
-
-    ctx = (MCP_HTTP_SYNC_CTX_T *)*hand->pri_data;
-    ctx->resp.status_code = hand->status_code;
-    ctx->transport_rt = OPRT_OK;
-
-    if (hand->status_code == 429) {
-        ctx->transport_rt = OPRT_EXCEED_UPPER_LIMIT;
-        tal_semaphore_post(ctx->sem);
-        return OPRT_OK;
-    }
-
-    if (hand->status_code == 401 || hand->status_code == 403) {
-        ctx->transport_rt = OPRT_AUTHENTICATION_FAIL;
-        tal_semaphore_post(ctx->sem);
-        return OPRT_OK;
-    }
-
-    if (hand->status_code < 200 || hand->status_code >= 300) {
-        ctx->transport_rt = OPRT_COM_ERROR;
-        tal_semaphore_post(ctx->sem);
-        return OPRT_OK;
-    }
-
-    buf = (CHAR_T *)tal_malloc(MCP_CLIENT_HTTP_RESP_MAX);
-    if (!buf) {
-        ctx->transport_rt = OPRT_MALLOC_FAILED;
-        tal_semaphore_post(ctx->sem);
-        return OPRT_OK;
-    }
-
-    while (1) {
-        read_len = httpc_inf_read_content_raw(hand, chunk, sizeof(chunk));
-        if (read_len <= 0)
-            break;
-        if (total + (UINT_T)read_len >= MCP_CLIENT_HTTP_RESP_MAX - 1) {
-            ctx->transport_rt = OPRT_BUFFER_NOT_ENOUGH;
-            break;
-        }
-        memcpy(buf + total, chunk, (SIZE_T)read_len);
-        total += (UINT_T)read_len;
-    }
-
-    buf[total] = '\0';
-    ctx->resp.body = buf;
-    ctx->resp.body_len = total;
-    /* 缓冲区溢出时保留 OPRT_BUFFER_NOT_ENOUGH，勿覆盖为 OPRT_OK */
-    tal_semaphore_post(ctx->sem);
-    return OPRT_OK;
+    memset(&hd, 0, sizeof(hd));
+    hd.headers = headers;
+    hd.req = (http_req_t *)req;
+    __http_add_headers(session, &hd);
 }
 
 STATIC OPERATE_RET __http_post_json(CONST MCP_CLIENT_SERVER_CFG_T *server,
@@ -110,44 +55,116 @@ STATIC OPERATE_RET __http_post_json(CONST MCP_CLIENT_SERVER_CFG_T *server,
                                     MCP_CLIENT_HTTP_RESP_T *out_resp,
                                     INT_T *out_http_status)
 {
-    MCP_HTTP_SYNC_CTX_T ctx;
-    MCP_HTTP_HEAD_DATA_T head_data;
-    PVOID_T pri = &ctx;
+    ty_cJSON *headers = NULL;
+    http_session_t session = NULL;
+    http_req_t req;
+    http_resp_t *resp_hdr = NULL;
+    MCP_CLIENT_HTTP_RESP_T resp;
+    OPERATE_RET transport_rt = OPRT_OK;
     OPERATE_RET rt;
     http_hdr_field_sel_t flags;
+    INT_T http_rt = 0;
+    BYTE_T chunk[1024];
+    INT_T read_len = 0;
+    UINT_T total = 0;
+    CHAR_T *buf = NULL;
 
     if (!server || !json_body || !out_resp)
         return OPRT_INVALID_PARM;
 
-    memset(&ctx, 0, sizeof(ctx));
+    memset(&resp, 0, sizeof(resp));
     memset(out_resp, 0, sizeof(*out_resp));
 
-    rt = tal_semaphore_create_init(&ctx.sem, 0, 1);
-    if (rt != OPRT_OK)
-        return rt;
+    headers = server->headers ? ty_cJSON_Duplicate(server->headers, 1) : ty_cJSON_CreateObject();
+    if (!headers) {
+        return OPRT_MALLOC_FAILED;
+    }
 
-    head_data.headers = server->headers;
-    flags = STANDARD_HDR_FLAGS | HDR_ADD_CONN_KEEP_ALIVE | HDR_ADD_CONTENT_TYPE_JSON;
-
-    rt = http_inf_client_post_field_session(server->url, __http_sync_cb,
-                                            (CONST BYTE_T *)json_body, strlen(json_body),
-                                            __http_add_headers, &head_data,
-                                            NULL, &pri, flags, FALSE);
+    rt = mcp_client_auth_apply_headers(server, json_body, headers);
     if (rt != OPRT_OK) {
-        tal_semaphore_release(ctx.sem);
+        ty_cJSON_Delete(headers);
         return rt;
     }
 
-    rt = tal_semaphore_wait(ctx.sem, MCP_CLIENT_HTTP_TIMEOUT_MS);
-    tal_semaphore_release(ctx.sem);
-    if (rt != OPRT_OK)
-        return OPRT_TIMEOUT;
+    flags = STANDARD_HDR_FLAGS | HDR_ADD_CONN_KEEP_ALIVE | HDR_ADD_CONTENT_TYPE_JSON;
 
-    *out_resp = ctx.resp;
+    http_rt = http_open_session(&session, server->url, 0, 0);
+    if (http_rt != 0 || session == NULL) {
+        ty_cJSON_Delete(headers);
+        return OPRT_COM_ERROR;
+    }
+
+    http_set_timeout(session, MCP_CLIENT_HTTP_TIMEOUT_MS);
+
+    memset(&req, 0, sizeof(req));
+    req.type = HTTP_POST;
+    req.resource = server->url;
+    req.version = HTTP_VER_1_1;
+    req.content = json_body;
+    req.content_len = (INT_T)strlen(json_body);
+    req.redirect_cnt = REDIRECT_CNT_DEFAULT;
+
+    http_rt = http_prepare_req(session, &req, flags);
+    if (http_rt != 0) {
+        ty_cJSON_Delete(headers);
+        http_close_session(&session);
+        return OPRT_COM_ERROR;
+    }
+
+    __http_add_headers_for_req(session, headers, &req);
+    ty_cJSON_Delete(headers);
+
+    http_rt = http_send_request(session, &req, TRUE);
+    if (http_rt != 0) {
+        http_close_session(&session);
+        return OPRT_COM_ERROR;
+    }
+
+    http_rt = http_get_response_hdr(session, &resp_hdr);
+    if (http_rt != 0 || resp_hdr == NULL) {
+        http_close_session(&session);
+        return OPRT_COM_ERROR;
+    }
+
+    resp.status_code = resp_hdr->status_code;
+    buf = (CHAR_T *)tal_malloc(MCP_CLIENT_HTTP_RESP_MAX);
+    if (!buf) {
+        http_close_session(&session);
+        return OPRT_MALLOC_FAILED;
+    }
+
+    while (1) {
+        read_len = http_read_content(session, chunk, sizeof(chunk));
+        if (read_len <= 0)
+            break;
+        if (total + (UINT_T)read_len >= MCP_CLIENT_HTTP_RESP_MAX - 1) {
+            transport_rt = OPRT_BUFFER_NOT_ENOUGH;
+            break;
+        }
+        memcpy(buf + total, chunk, (SIZE_T)read_len);
+        total += (UINT_T)read_len;
+    }
+
+    buf[total] = '\0';
+    resp.body = buf;
+    resp.body_len = total;
+    http_close_session(&session);
+
+    if (resp.status_code == 429) {
+        transport_rt = OPRT_EXCEED_UPPER_LIMIT;
+    } else if (resp.status_code == 401 || resp.status_code == 403) {
+        transport_rt = OPRT_AUTHENTICATION_FAIL;
+    } else if (resp.status_code < 200 || resp.status_code >= 300) {
+        transport_rt = OPRT_COM_ERROR;
+    } else if (transport_rt != OPRT_BUFFER_NOT_ENOUGH) {
+        transport_rt = OPRT_OK;
+    }
+
+    *out_resp = resp;
     if (out_http_status)
-        *out_http_status = ctx.resp.status_code;
+        *out_http_status = resp.status_code;
 
-    return ctx.transport_rt;
+    return transport_rt;
 }
 
 VOID mcp_client_transport_free_resp(MCP_CLIENT_HTTP_RESP_T *resp)

@@ -4,7 +4,8 @@
 menu "Pin Configuration"
     config TUYA_AI_TOY_AUDIO_TRIGGER_PIN_NUM
         int "Audio trigger GPIO pin number (64=disabled)"
-        default 12 if T5AI_BOARD || T5AI_BOARD_EYES || T2AI_BOARD
+        default 26 if T5AI_BOARD
+        default 12 if T5AI_BOARD_EYES || T2AI_BOARD
         default 28 if T5AI_BOARD_DESKTOP
         default 4  if T5AI_BOARD_EVB
         default 6  if T5AI_BOARD_EVB_PRO

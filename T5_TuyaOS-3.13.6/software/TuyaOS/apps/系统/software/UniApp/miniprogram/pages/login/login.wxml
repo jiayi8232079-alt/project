@@ -1,0 +1,145 @@
+<view class="page">
+  <view class="login-topbar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="login-topbar__back btn-haptic" bind:tap="onBackFromLogin">
+      <text class="material-symbols-outlined login-topbar__back-icon">arrow_back_ios_new</text>
+      <text class="login-topbar__back-text">返回</text>
+    </view>
+  </view>
+
+  <view class="login-shell">
+    <view class="hero-card anim-item anim-0">
+      <view class="hero-card__glow hero-card__glow--left"></view>
+      <view class="hero-card__glow hero-card__glow--right"></view>
+      <view class="hero-card__brand">
+        <view class="hero-card__logo-box">
+          <text class="material-symbols-outlined hero-card__logo-icon">health_and_safety</text>
+        </view>
+        <view class="hero-card__brand-text">
+          <text class="hero-card__eyebrow">QIAO GUO HEALTH</text>
+          <text class="hero-card__title">欢迎使用{{storeName}}</text>
+          <text class="hero-card__sub">{{storeDescription}}</text>
+        </view>
+      </view>
+      <view class="hero-card__feature-row">
+        <view class="hero-card__feature">
+          <text class="material-symbols-outlined hero-card__feature-icon">shield_with_heart</text>
+          <text class="hero-card__feature-text">健康管理</text>
+        </view>
+        <view class="hero-card__feature">
+          <text class="material-symbols-outlined hero-card__feature-icon">schedule</text>
+          <text class="hero-card__feature-text">服务随行</text>
+        </view>
+        <view class="hero-card__feature">
+          <text class="material-symbols-outlined hero-card__feature-icon">support_agent</text>
+          <text class="hero-card__feature-text">专属管家</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="auth-card anim-item anim-1">
+      <view class="auth-card__header">
+        <text class="auth-card__title">完善登录资料</text>
+        <text class="auth-card__desc">您可随时点击左上角返回，不必登录即可浏览首页等服务介绍。若选择登录，请主动选择头像并填写昵称（平台合规要求），信息仅用于账号识别与展示，可在个人中心修改。</text>
+      </view>
+
+      <view class="profile-unified">
+        <view class="profile-unified__accent"></view>
+        <view class="profile-unified__inner">
+          <view class="profile-step">
+            <view class="profile-step__head">
+              <text class="profile-step__num">1</text>
+              <view class="profile-step__head-text">
+                <text class="profile-step__title">头像</text>
+                <text class="profile-step__required">必填</text>
+              </view>
+            </view>
+            <view class="profile-step__body profile-step__body--avatar-stack">
+              <view class="avatar-trigger">
+                <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+                  <image
+                    wx:if="{{avatarUrlTmp}}"
+                    class="avatar-img"
+                    src="{{avatarUrlTmp}}"
+                    mode="aspectFill"
+                  />
+                  <view wx:else class="avatar-placeholder">
+                    <text class="material-symbols-outlined avatar-icon">add_a_photo</text>
+                  </view>
+                </button>
+                <view class="avatar-badge" wx:if="{{!avatarUrlTmp}}">
+                  <text class="avatar-badge__text">+</text>
+                </view>
+              </view>
+              <text class="avatar-stack__cta">轻触圆形 · 选择头像</text>
+              <text class="avatar-stack__sub">用于账号与个人中心展示</text>
+            </view>
+          </view>
+
+          <view class="profile-unified__divider"></view>
+
+          <view class="profile-step">
+            <view class="profile-step__head">
+              <text class="profile-step__num">2</text>
+              <view class="profile-step__head-text">
+                <text class="profile-step__title">昵称</text>
+                <text class="profile-step__required">必填</text>
+              </view>
+            </view>
+            <view class="nickname-field">
+              <input
+                class="nickname-input"
+                type="nickname"
+                placeholder="输入昵称"
+                placeholder-class="nickname-placeholder"
+                bindinput="onNicknameInput"
+                bindblur="onNicknameBlur"
+                maxlength="20"
+                confirm-type="done"
+              />
+            </view>
+            <text class="profile-step__micro">最多 20 个字；首尾空格将在失焦时自动去掉</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="tips-row">
+        <view class="tips-pill">
+          <text class="material-symbols-outlined tips-pill__icon">lock</text>
+          <text class="tips-pill__text">仅用于账号识别与服务展示</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="login-bottom anim-item anim-2">
+    <view class="agreement-row agreement-row--above-btn">
+      <view class="agreement-check {{agreed ? 'agreed' : ''}}" bind:tap="toggleAgree">
+        <text class="material-symbols-outlined" wx:if="{{agreed}}">check_circle</text>
+        <view class="agreement-check__empty" wx:else></view>
+      </view>
+      <text class="agreement-text">已阅读并同意</text>
+      <text class="agreement-link" bind:tap="goAgreement">服务协议</text>
+      <text class="agreement-text">和</text>
+      <text class="agreement-link" bind:tap="goPrivacy">隐私政策</text>
+    </view>
+
+    <button
+      class="login-btn {{loading ? 'login-btn--loading' : ''}} {{!profileReady ? 'login-btn--need-profile' : ''}}"
+      open-type="getPhoneNumber"
+      bindgetphonenumber="onGetPhoneAndLogin"
+      bind:tap="onLoginBtnTap"
+      disabled="{{loading}}"
+    >
+      <text class="material-symbols-outlined login-btn__icon" wx:if="{{!loading}}">login</text>
+      <text class="login-btn__text">{{loading ? '登录中…' : '手机号快捷登录'}}</text>
+    </button>
+
+    <view class="login-hint" wx:if="{{!profileReady}}">
+      <text class="login-hint__text">请先完成头像与昵称，再点击登录</text>
+    </view>
+
+    <view class="login-skip-row btn-haptic" bind:tap="onSkipWithoutLogin">
+      <text class="login-skip-row__text">暂不登录，先逛逛</text>
+    </view>
+  </view>
+</view>

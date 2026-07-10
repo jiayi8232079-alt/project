@@ -1,0 +1,161 @@
+<view class="doc-page {{pageLoaded ? 'doc-page--loaded' : ''}}">
+  <view class="doc-page__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="doc-page__nav-back" bind:tap="goBack" hover-class="doc-page__press">
+      <text class="material-symbols-outlined doc-page__nav-back-icon">arrow_back</text>
+    </view>
+    <text class="doc-page__nav-title">专家名录</text>
+    <view class="doc-page__nav-side"></view>
+  </view>
+
+  <!-- 搜索 -->
+  <view class="doc-search anim-fade">
+    <view class="doc-search__bar">
+      <text class="material-symbols-outlined doc-search__icon">search</text>
+      <input
+        class="doc-search__input"
+        placeholder="搜索姓名、科室、职称或医院"
+        placeholder-class="doc-search__ph"
+        value="{{keyword}}"
+        confirm-type="search"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearchConfirm"
+      />
+    </view>
+  </view>
+
+  <!-- 筛选标签 -->
+  <view class="doc-filter anim-fade">
+    <view class="doc-filter__row">
+      <text class="doc-filter__label">省份</text>
+      <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="doc-filter__scroll" scroll-with-animation>
+        <view class="doc-filter__chips">
+          <view
+            wx:for="{{provinceOptions}}"
+            wx:key="label"
+            wx:for-index="pidx"
+            class="doc-filter__chip {{provinceIndex === pidx ? 'doc-filter__chip--on' : ''}}"
+            bind:tap="onProvinceChipTap"
+            data-index="{{pidx}}"
+            hover-class="doc-page__press"
+          >{{item.label}}</view>
+        </view>
+      </scroll-view>
+    </view>
+    <view wx:if="{{showCityRow}}" class="doc-filter__row">
+      <text class="doc-filter__label">城市</text>
+      <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="doc-filter__scroll" scroll-with-animation>
+        <view class="doc-filter__chips">
+          <view
+            wx:for="{{cityOptionsRow}}"
+            wx:key="label"
+            wx:for-index="cidx"
+            class="doc-filter__chip doc-filter__chip--sm {{cityIndex === cidx ? 'doc-filter__chip--on' : ''}}"
+            bind:tap="onCityChipTap"
+            data-index="{{cidx}}"
+            hover-class="doc-page__press"
+          >{{item.label}}</view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 医生列表 -->
+  <view class="doc-list">
+    <view wx:if="{{loading && items.length === 0}}" class="doc-page__state">
+      <view class="doc-page__skeleton"></view>
+      <view class="doc-page__skeleton doc-page__skeleton--short"></view>
+      <text class="doc-page__state-text">加载中…</text>
+    </view>
+
+    <view wx:for="{{items}}" wx:key="id" class="doc-card anim-fade" bind:tap="onDoctorTap" data-id="{{item.id}}" hover-class="doc-page__press">
+      <view class="doc-card__top">
+        <view class="doc-card__avatar">
+          <image wx:if="{{item.avatarUrl}}" class="doc-card__avatar-img" src="{{item.avatarUrl}}" mode="aspectFill" />
+          <view wx:else class="doc-card__avatar-fallback">
+            <text class="doc-card__avatar-letter">{{item.name[0] || '医'}}</text>
+          </view>
+        </view>
+        <view class="doc-card__info">
+          <view class="doc-card__name-row">
+            <text class="doc-card__name">{{item.name}}</text>
+            <text wx:if="{{item.titleLevel}}" class="doc-card__title-level">{{item.titleLevel}}</text>
+          </view>
+          <view class="doc-card__tags">
+            <text wx:if="{{item.department}}" class="doc-card__dept-tag">{{item.department}}</text>
+            <text wx:if="{{item.hospitalRegionText}}" class="doc-card__region-tag">{{item.hospitalRegionText}}</text>
+          </view>
+        </view>
+      </view>
+        <text wx:if="{{item.expertise}}" class="doc-card__expertise">擅长：{{item.expertise}}</text>
+      <view
+        wx:if="{{item.hospitalName}}"
+        class="doc-card__hospital"
+        catch:tap="goHospital"
+        data-hid="{{item.hospitalId}}"
+        hover-class="doc-page__press"
+      >
+        <text class="material-symbols-outlined doc-card__hospital-icon">local_hospital</text>
+        <text class="doc-card__hospital-name">{{item.hospitalName}}</text>
+        <text class="material-symbols-outlined doc-card__hospital-arrow">chevron_right</text>
+      </view>
+    </view>
+
+    <view wx:if="{{!loading && items.length === 0}}" class="doc-page__empty">
+      <view class="doc-page__empty-circle">
+        <text class="material-symbols-outlined doc-page__empty-icon">groups</text>
+      </view>
+      <text class="doc-page__empty-title">暂无匹配专家</text>
+      <text class="doc-page__empty-sub">换个地区或关键词试试</text>
+    </view>
+
+    <view wx:if="{{items.length > 0 && loadingMore}}" class="doc-page__foot">加载更多…</view>
+    <view wx:if="{{items.length > 0 && listFinished && total > 0}}" class="doc-page__foot doc-page__foot--done">已展示全部 {{total}} 位专家</view>
+    <view class="doc-page__safe-bottom"></view>
+  </view>
+
+  <!-- 医生详情弹层 -->
+  <view wx:if="{{showDetail}}" class="doc-detail-mask" catch:tap="closeDetail"></view>
+  <view class="doc-detail {{showDetail ? 'doc-detail--show' : ''}}">
+    <view class="doc-detail__header">
+      <text class="doc-detail__close" bind:tap="closeDetail">
+        <text class="material-symbols-outlined">close</text>
+      </text>
+    </view>
+    <scroll-view scroll-y class="doc-detail__body">
+      <view wx:if="{{detailDoctor}}" class="doc-detail__content">
+        <view class="doc-detail__photo-wrap">
+          <image wx:if="{{detailDoctor.avatarUrl}}" class="doc-detail__photo" src="{{detailDoctor.avatarUrl}}" mode="aspectFill" />
+          <view wx:else class="doc-detail__photo-fallback">
+            <text class="doc-detail__photo-letter">{{detailDoctor.name[0] || '医'}}</text>
+          </view>
+        </view>
+        <text class="doc-detail__name">{{detailDoctor.name}}</text>
+        <view class="doc-detail__meta">
+          <text wx:if="{{detailDoctor.titleLevel}}" class="doc-detail__meta-tag doc-detail__meta-tag--title">{{detailDoctor.titleLevel}}</text>
+          <text wx:if="{{detailDoctor.department}}" class="doc-detail__meta-tag">{{detailDoctor.department}}</text>
+        </view>
+
+        <view wx:if="{{detailDoctor.expertise}}" class="doc-detail__section">
+          <view class="doc-detail__section-label">擅长领域</view>
+          <view class="doc-detail__section-text">{{detailDoctor.expertise}}</view>
+        </view>
+
+        <view wx:if="{{detailDoctor.introduction}}" class="doc-detail__section">
+          <view class="doc-detail__section-label">医生简介</view>
+          <view class="doc-detail__section-text">{{detailDoctor.introduction}}</view>
+        </view>
+
+        <view wx:if="{{detailDoctor.hospitalName}}" class="doc-detail__hospital-card" bind:tap="goHospitalFromDetail" hover-class="doc-page__press">
+          <text class="material-symbols-outlined doc-detail__hospital-icon">local_hospital</text>
+          <view class="doc-detail__hospital-info">
+            <text class="doc-detail__hospital-name">{{detailDoctor.hospitalName}}</text>
+            <text wx:if="{{detailDoctor.hospitalRegionText}}" class="doc-detail__hospital-region">{{detailDoctor.hospitalRegionText}}</text>
+          </view>
+          <text class="material-symbols-outlined doc-detail__hospital-arrow">chevron_right</text>
+        </view>
+      </view>
+      <view class="doc-page__safe-bottom"></view>
+    </scroll-view>
+  </view>
+</view>
+

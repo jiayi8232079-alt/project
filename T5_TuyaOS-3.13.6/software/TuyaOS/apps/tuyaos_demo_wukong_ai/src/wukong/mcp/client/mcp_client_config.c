@@ -34,6 +34,10 @@ VOID mcp_client_config_free_list(MCP_CLIENT_SERVER_CFG_T *servers, UINT_T count)
             ty_cJSON_Delete(servers[i].headers);
             servers[i].headers = NULL;
         }
+        if (servers[i].auth) {
+            ty_cJSON_Delete(servers[i].auth);
+            servers[i].auth = NULL;
+        }
     }
 }
 
@@ -66,6 +70,10 @@ OPERATE_RET mcp_client_config_from_json_entry(ty_cJSON *obj, MCP_CLIENT_SERVER_C
     if (j && ty_cJSON_IsObject(j))
         out->headers = ty_cJSON_Duplicate(j, 1);
 
+    j = ty_cJSON_GetObjectItem(obj, "auth");
+    if (j && ty_cJSON_IsObject(j))
+        out->auth = ty_cJSON_Duplicate(j, 1);
+
     j = ty_cJSON_GetObjectItem(obj, "enabled");
     out->enabled = (j && ty_cJSON_IsBool(j)) ? ty_cJSON_IsTrue(j) : TRUE;
 
@@ -86,7 +94,7 @@ OPERATE_RET mcp_client_config_from_json_entry(ty_cJSON *obj, MCP_CLIENT_SERVER_C
 
 STATIC OPERATE_RET __entry_to_json(CONST MCP_CLIENT_SERVER_CFG_T *s, ty_cJSON *obj, BOOL_T redact)
 {
-    ty_cJSON *headers;
+    ty_cJSON *headers, *auth;
 
     if (!s || !obj)
         return OPRT_INVALID_PARM;
@@ -123,6 +131,17 @@ STATIC OPERATE_RET __entry_to_json(CONST MCP_CLIENT_SERVER_CFG_T *s, ty_cJSON *o
         }
         if (headers)
             ty_cJSON_AddItemToObject(obj, "headers", headers);
+    }
+
+    if (s->auth) {
+        auth = ty_cJSON_Duplicate(s->auth, 1);
+        if (auth && redact) {
+            ty_cJSON *secret = ty_cJSON_GetObjectItem(auth, "secret");
+            if (secret && ty_cJSON_IsString(secret))
+                ty_cJSON_SetValuestring(secret, "***");
+        }
+        if (auth)
+            ty_cJSON_AddItemToObject(obj, "auth", auth);
     }
 
     return OPRT_OK;
@@ -238,6 +257,8 @@ OPERATE_RET mcp_client_config_get(CONST CHAR_T *id, MCP_CLIENT_SERVER_CFG_T *out
             memcpy(out, &list[i], sizeof(*out));
             if (list[i].headers)
                 out->headers = ty_cJSON_Duplicate(list[i].headers, 1);
+            if (list[i].auth)
+                out->auth = ty_cJSON_Duplicate(list[i].auth, 1);
             mcp_client_config_free_list(list, count);
             return OPRT_OK;
         }
@@ -265,8 +286,11 @@ OPERATE_RET mcp_client_config_upsert(CONST MCP_CLIENT_SERVER_CFG_T *entry)
         if (strcmp(list[i].id, entry->id) == 0) {
             if (list[i].headers)
                 ty_cJSON_Delete(list[i].headers);
+            if (list[i].auth)
+                ty_cJSON_Delete(list[i].auth);
             memcpy(&list[i], entry, sizeof(*entry));
             list[i].headers = entry->headers ? ty_cJSON_Duplicate(entry->headers, 1) : NULL;
+            list[i].auth = entry->auth ? ty_cJSON_Duplicate(entry->auth, 1) : NULL;
             list[i].updated_at = mcp_client_now_unix();
             found = TRUE;
             break;
@@ -280,6 +304,7 @@ OPERATE_RET mcp_client_config_upsert(CONST MCP_CLIENT_SERVER_CFG_T *entry)
         }
         memcpy(&list[count], entry, sizeof(*entry));
         list[count].headers = entry->headers ? ty_cJSON_Duplicate(entry->headers, 1) : NULL;
+        list[count].auth = entry->auth ? ty_cJSON_Duplicate(entry->auth, 1) : NULL;
         if (list[count].created_at == 0)
             list[count].created_at = mcp_client_now_unix();
         list[count].updated_at = mcp_client_now_unix();
@@ -306,8 +331,14 @@ OPERATE_RET mcp_client_config_remove(CONST CHAR_T *id)
 
     for (i = 0, w = 0; i < count; i++) {
         if (strcmp(list[i].id, id) == 0) {
-            if (list[i].headers)
+            if (list[i].headers) {
                 ty_cJSON_Delete(list[i].headers);
+                list[i].headers = NULL;
+            }
+            if (list[i].auth) {
+                ty_cJSON_Delete(list[i].auth);
+                list[i].auth = NULL;
+            }
             continue;
         }
         if (i != w)
@@ -351,4 +382,52 @@ OPERATE_RET mcp_client_config_load_example_mcd(VOID)
         TAL_PR_INFO("MCP example config upsert id=%s url=%s", entry.id, entry.url);
     }
     return mcp_client_config_upsert(&entry);
+}
+
+OPERATE_RET mcp_client_config_load_peiban(CONST CHAR_T *url,
+                                          CONST CHAR_T *secret,
+                                          CONST CHAR_T *device_id,
+                                          CONST CHAR_T *session_id)
+{
+    MCP_CLIENT_SERVER_CFG_T entry;
+    ty_cJSON *auth = NULL;
+    OPERATE_RET rt;
+
+    if (!url || !url[0] || !secret || !secret[0]) {
+        return OPRT_INVALID_PARM;
+    }
+
+    memset(&entry, 0, sizeof(entry));
+    snprintf(entry.id, sizeof(entry.id), "peiban");
+    snprintf(entry.name, sizeof(entry.name), "陪伴后端 MCP");
+    entry.type = MCP_CLIENT_TYPE_STREAMABLEHTTP;
+    snprintf(entry.url, sizeof(entry.url), "%s", url);
+    entry.headers = ty_cJSON_CreateObject();
+    auth = ty_cJSON_CreateObject();
+    if (!entry.headers || !auth) {
+        ty_cJSON_Delete(entry.headers);
+        ty_cJSON_Delete(auth);
+        return OPRT_MALLOC_FAILED;
+    }
+
+    ty_cJSON_AddStringToObject(auth, "type", "peiban-hmac-sha256");
+    ty_cJSON_AddStringToObject(auth, "secret", secret);
+    if (device_id && device_id[0])
+        ty_cJSON_AddStringToObject(auth, "deviceId", device_id);
+    if (session_id && session_id[0])
+        ty_cJSON_AddStringToObject(auth, "sessionId", session_id);
+    entry.auth = auth;
+    entry.enabled = TRUE;
+    entry.risk_level = MCP_CLIENT_RISK_WRITE;
+    entry.require_user_confirm = TRUE;
+    entry.created_at = mcp_client_now_unix();
+    entry.updated_at = entry.created_at;
+
+    TAL_PR_INFO("MCP peiban config upsert id=%s url=%s", entry.id, entry.url);
+    rt = mcp_client_config_upsert(&entry);
+    if (entry.headers)
+        ty_cJSON_Delete(entry.headers);
+    if (entry.auth)
+        ty_cJSON_Delete(entry.auth);
+    return rt;
 }

@@ -1,0 +1,86 @@
+<view class="wallet">
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="wallet__scroll">
+    <!-- 余额卡片 -->
+    <view class="wallet__balance">
+      <view class="wallet__balance-orb1"></view>
+      <view class="wallet__balance-orb2"></view>
+      <view class="wallet__balance-body">
+        <text class="wallet__balance-label">累计订单收入（元）</text>
+        <text class="wallet__balance-amount">{{totalIncome}}</text>
+        <text class="wallet__balance-total">共{{orderCount}}单订单，待结算 ¥{{pendingIncome}}</text>
+        <button class="wallet__withdraw-btn" hover-class="btn-haptic" bind:tap="onWithdraw">
+          <text class="material-symbols-outlined">account_balance</text>
+          <text>提现</text>
+        </button>
+      </view>
+    </view>
+
+    <!-- 交易记录 -->
+    <view class="wallet__section-header">
+      <view class="wallet__section-bar"></view>
+      <text class="wallet__section-title">订单收入</text>
+    </view>
+
+    <view class="wallet__trans-list" wx:if="{{transactions.length > 0}}">
+      <view class="wallet__trans-item" wx:for="{{transactions}}" wx:key="id" data-id="{{item.id}}" bind:tap="onToggleTransactionDetail">
+        <view class="wallet__trans-main">
+          <view class="wallet__trans-left">
+            <view class="wallet__trans-icon {{item.type === 'income' ? 'wallet__trans-icon--income' : 'wallet__trans-icon--expense'}}">
+              <text class="material-symbols-outlined">{{item.type === 'income' ? 'south_west' : 'north_east'}}</text>
+            </view>
+            <view class="wallet__trans-info">
+              <text class="wallet__trans-title">{{item.title || item.description}}</text>
+              <text class="wallet__trans-subtitle" wx:if="{{item.description}}">{{item.description}}</text>
+              <view class="wallet__trans-meta">
+                <text class="wallet__trans-date">{{item.createdAt || item.date}}</text>
+                <text class="wallet__trans-status">{{item.statusLabel}}</text>
+                <text class="wallet__trans-status wallet__trans-status--settlement {{item.settlementStatus === 'settled' ? 'wallet__trans-status--settled' : ''}}">{{item.settlementStatusLabel}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="wallet__trans-right">
+            <text class="wallet__trans-amount {{item.type === 'income' ? 'wallet__trans-amount--income' : 'wallet__trans-amount--expense'}}">{{item.type === 'income' ? '+' : '-'}}¥{{item.amount}}</text>
+            <view class="wallet__trans-more">
+              <text>收益明细</text>
+              <text class="material-symbols-outlined wallet__trans-more-icon {{expandedTransactionId === item.id ? 'wallet__trans-more-icon--expanded' : ''}}">expand_more</text>
+            </view>
+          </view>
+        </view>
+        <view class="wallet__trans-detail" wx:if="{{expandedTransactionId === item.id}}">
+          <view class="wallet__trans-summary">
+            <view class="wallet__trans-summary-meta">
+              <text class="wallet__trans-summary-label">本单总收益</text>
+              <text class="wallet__trans-summary-status">{{item.statusLabel}}</text>
+              <text class="wallet__trans-summary-status wallet__trans-summary-status--settlement {{item.settlementStatus === 'settled' ? 'wallet__trans-summary-status--settled' : ''}}">{{item.settlementStatusLabel}}</text>
+            </view>
+            <text class="wallet__trans-summary-amount">¥{{item.amount}}</text>
+          </view>
+          <view class="wallet__trans-settlement" wx:if="{{item.settlementStatus === 'settled' || item.paymentMethodLabel}}">
+            <text class="wallet__trans-settlement-label">结算信息</text>
+            <text class="wallet__trans-settlement-value">
+              {{item.paymentMethodLabel || '已结算'}}
+              <block wx:if="{{item.settledAt}}"> · {{item.settledAt}}</block>
+            </text>
+          </view>
+          <view class="wallet__trans-breakdown-list" wx:if="{{item.breakdown && item.breakdown.length}}">
+            <view class="wallet__trans-breakdown-item" wx:for="{{item.breakdown}}" wx:key="index">
+              <view class="wallet__trans-breakdown-meta">
+                <text class="wallet__trans-breakdown-name">{{item.label}}</text>
+                <text class="wallet__trans-breakdown-note" wx:if="{{item.note}}">{{item.note}}</text>
+              </view>
+              <text class="wallet__trans-breakdown-amount">¥{{item.amount}}</text>
+            </view>
+          </view>
+          <text class="wallet__trans-breakdown" wx:elif="{{item.breakdownText}}">{{item.breakdownText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="wallet__empty" wx:if="{{transactions.length === 0}}">
+      <text class="material-symbols-outlined wallet__empty-icon">account_balance_wallet</text>
+      <text class="wallet__empty-text">暂无订单收入记录</text>
+    </view>
+
+    <view class="safe-bottom"></view>
+  </scroll-view>
+</view>

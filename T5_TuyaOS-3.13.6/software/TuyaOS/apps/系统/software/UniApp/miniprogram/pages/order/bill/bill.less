@@ -1,0 +1,210 @@
+@brand-green: #4CAF50;
+@warm-orange: #FF9800;
+@deep-gray: #333333;
+@light-gray: #999999;
+@royal-obsidian: #1A1A1A;
+@alabaster: #F8F9FA;
+@medical-gray: #F5F7FA;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Page Layout ────────────────────────────────────────────
+.page {
+  background: @alabaster;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page--loaded .anim-item {
+  animation: fadeSlideUp 0.48s @ease-organic forwards;
+}
+.anim-item { opacity: 0; }
+.anim-0 { animation-delay: 0s; }
+.anim-1 { animation-delay: 0.06s; }
+.anim-2 { animation-delay: 0.12s; }
+.anim-3 { animation-delay: 0.18s; }
+
+.scroll-area {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.main {
+  padding: 24rpx 24rpx 40rpx;
+}
+
+// ── Order Meta ─────────────────────────────────────────────
+.meta {
+  padding: 8rpx 12rpx 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.meta__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meta__label {
+  font-size: 24rpx;
+  color: @light-gray;
+}
+
+.meta__value {
+  font-size: 24rpx;
+  color: @deep-gray;
+  font-weight: 500;
+}
+
+// ── Bill Card ──────────────────────────────────────────────
+.bill {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  border: 1rpx solid rgba(0, 0, 0, 0.03);
+}
+
+.bill__header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 28rpx;
+}
+
+.bill__header-icon {
+  font-size: 36rpx;
+  color: @brand-green;
+}
+
+.bill__header-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.bill__items {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.bill__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bill__item-label {
+  font-size: 28rpx;
+  color: rgba(51, 51, 51, 0.6);
+}
+
+.bill__item-amount {
+  font-size: 28rpx;
+  color: @deep-gray;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.bill__divider {
+  height: 0;
+  border-top: 2rpx dashed rgba(0, 0, 0, 0.06);
+  margin: 28rpx 0;
+}
+
+.bill__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bill__total-label {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.bill__total-amount {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: @brand-green;
+  font-variant-numeric: tabular-nums;
+}
+
+// ── Receipts Card ──────────────────────────────────────────
+.receipts {
+  background: #fff;
+  border-radius: 48rpx;
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  border: 1rpx solid rgba(0, 0, 0, 0.03);
+}
+
+.receipts__header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+
+.receipts__header-icon {
+  font-size: 36rpx;
+  color: @brand-green;
+}
+
+.receipts__header-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: @deep-gray;
+}
+
+.receipts__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12rpx;
+}
+
+.receipts__img {
+  width: 100%;
+  height: 180rpx;
+  border-radius: 20rpx;
+  background: @medical-gray;
+}
+
+// ── Note ───────────────────────────────────────────────────
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8rpx;
+  padding: 8rpx 16rpx;
+}
+
+.note__icon {
+  font-size: 24rpx;
+  color: @light-gray;
+  flex-shrink: 0;
+  margin-top: 2rpx;
+  opacity: 0.6;
+}
+
+.note__text {
+  font-size: 22rpx;
+  color: @light-gray;
+  line-height: 1.5;
+}
+
+// ── Utility ────────────────────────────────────────────────
+.safe-bottom {
+  height: 60rpx;
+}

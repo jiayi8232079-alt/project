@@ -1,0 +1,246 @@
+@brand-green: #4CAF50;
+@deep-gray: #333;
+@muted: rgba(51,51,51,0.55);
+
+.trust-sign {
+  min-height: 100vh;
+  background: #F8F9FA;
+  display: flex;
+  flex-direction: column;
+
+  &__scroll {
+    flex: 1;
+    padding: 20rpx 24rpx 0;
+    box-sizing: border-box;
+  }
+
+  &__card {
+    background: #fff;
+    border-radius: 28rpx;
+    padding: 32rpx 28rpx;
+    margin-bottom: 20rpx;
+  }
+
+  &__title {
+    font-size: 34rpx;
+    font-weight: 700;
+    color: @deep-gray;
+    display: block;
+  }
+
+  &__subject {
+    font-size: 26rpx;
+    color: @muted;
+    display: block;
+    margin-top: 8rpx;
+  }
+
+  &__agreement {
+    margin-top: 24rpx;
+  }
+
+  &__agree-p {
+    font-size: 26rpx;
+    line-height: 1.8;
+    color: @deep-gray;
+    display: block;
+    margin-bottom: 18rpx;
+  }
+
+  &__agree-h {
+    font-size: 26rpx;
+    font-weight: 700;
+    color: @brand-green;
+    display: block;
+    margin: 20rpx 0 8rpx;
+  }
+
+  &__highlight {
+    color: @brand-green;
+    font-weight: 600;
+  }
+
+  &__agree-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6rpx;
+    padding: 16rpx;
+    font-size: 24rpx;
+    color: @brand-green;
+    border-top: 1rpx dashed rgba(0,0,0,0.06);
+    margin-top: 4rpx;
+  }
+
+  &__agree-full {
+    padding-top: 4rpx;
+  }
+
+  &__label {
+    font-size: 26rpx;
+    font-weight: 600;
+    color: @deep-gray;
+    display: block;
+    margin: 24rpx 0 12rpx;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__input {
+    height: 80rpx;
+    background: #F5F7FA;
+    border-radius: 16rpx;
+    padding: 0 20rpx;
+    font-size: 28rpx;
+    color: @deep-gray;
+    border: 1rpx solid rgba(0,0,0,0.04);
+  }
+
+  &__footer {
+    background: #fff;
+    padding: 20rpx 24rpx;
+    box-shadow: 0 -4rpx 20rpx rgba(0,0,0,0.04);
+  }
+
+  &__next-btn {
+    width: 100%;
+    height: 92rpx;
+    background: @brand-green;
+    color: #fff;
+    border-radius: 46rpx;
+    font-size: 30rpx;
+    font-weight: 600;
+    box-shadow: 0 4rpx 20rpx rgba(76,175,80,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+
+    &::after {
+      border: none;
+    }
+  }
+
+  /* ====== 签名步骤 ====== */
+
+  &__canvas-wrap {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+  }
+
+  &__canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  &__watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-size: 160rpx;
+    color: rgba(76,175,80,0.06);
+    font-weight: 900;
+    letter-spacing: 30rpx;
+    pointer-events: none;
+  }
+
+  &__placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 34rpx;
+    color: rgba(51,51,51,0.2);
+    pointer-events: none;
+  }
+
+  &__top {
+    position: fixed;
+    left: 0;
+    right: 0;
+    padding: 12rpx 24rpx;
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+  }
+
+  &__top-back {
+    width: 68rpx;
+    height: 68rpx;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__top-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: @deep-gray;
+    display: block;
+  }
+
+  &__top-sub {
+    font-size: 22rpx;
+    color: @muted;
+    display: block;
+  }
+
+  &__bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    gap: 20rpx;
+    padding: 16rpx 24rpx;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+  }
+
+  &__bottom-btn {
+    flex: 1;
+    height: 88rpx;
+    border-radius: 44rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rpx;
+    font-size: 28rpx;
+    font-weight: 600;
+    border: none;
+
+    .material-symbols-outlined {
+      font-size: 32rpx;
+    }
+
+    &--plain {
+      background: #F5F7FA;
+      color: @deep-gray;
+      flex: 0 0 200rpx;
+    }
+
+    &--primary {
+      background: @brand-green;
+      color: #fff;
+
+      &.is-disabled {
+        background: rgba(76,175,80,0.4);
+      }
+
+      &::after {
+        border: none;
+      }
+    }
+  }
+}

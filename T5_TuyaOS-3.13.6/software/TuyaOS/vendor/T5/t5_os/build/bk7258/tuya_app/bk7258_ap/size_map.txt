@@ -101,7 +101,7 @@
   23867	      8	  23867	  18112	   5755	      0	      8	  23875	   5d43	tuya_media_service_rtc.c.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
    3968	     21	   3968	   3354	    614	      0	     21	   3989	    f95	tuya_p2p_lite_platform.c.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
    4084	     20	   4072	   4022	     50	     12	      8	   4092	    ffc	tuya_p2p_lite_cJSON.c.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
-   5114	     20	   5102	   5052	     50	     12	      8	   5122	   1402	ty_cJSON.c.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
+   5298	     20	   5286	   5236	     50	     12	      8	   5306	   14ba	ty_cJSON.c.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
    6732	     56	   6676	   5646	   1030	     56	      0	   6732	   1a4c	tuya_p2p_lite_sdp.c.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
    8601	      4	   8597	   7126	   1471	      4	      0	   8601	   2199	tuya_p2p_lite_ice.c.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
    2049	      0	   2049	   1538	    511	      0	      0	   2049	    801	tuya_p2p_lite_stun_socket.c.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
@@ -430,7 +430,7 @@
    1408	      0	   1408	      0	   1408	      0	      0	   1408	    580	tables_NLSF_CB_NB_MB.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
     258	      0	    258	      0	    258	      0	      0	    258	    102	table_LSF_cos.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
     241	      0	    241	      0	    241	      0	      0	    241	     f1	pitch_est_tables.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a)
- 806650	  28887	 800348	 581050	 219298	   6302	  22585	 829235	  ca733	/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a
+ 806834	  28887	 800532	 581234	 219298	   6302	  22585	 829419	  ca7eb	/home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/libs/libtuyaos.a
 
   flash	    ram	   text	   code	 rodata	   data	    bss	    dec	    hex	filename
     888	      0	    888	    888	      0	      0	      0	    888	    378	_arm_addsubdf3.o (ex /home/ubuntu/vm-home-backup/project/T5_TuyaOS-3.13.6/software/TuyaOS/vendor/T5/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v8-m.main+fp/hard/libgcc.a)

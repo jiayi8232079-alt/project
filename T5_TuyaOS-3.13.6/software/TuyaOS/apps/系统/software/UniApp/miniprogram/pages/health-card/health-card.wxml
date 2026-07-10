@@ -1,0 +1,226 @@
+<view class="hc">
+
+  <!-- 导航栏（只读） -->
+  <view class="hc__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="hc__nav-back" bind:tap="goBack" hover-class="hc__haptic">
+      <text class="material-symbols-outlined">arrow_back</text>
+    </view>
+    <text class="hc__nav-title">{{isAttendantView ? '客户健康小档案' : '健康小档案'}}</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <!-- 骨架屏 -->
+  <view wx:if="{{loading}}" class="hc__skeleton">
+    <view class="hc__sk-avatar"></view>
+    <view class="hc__sk-line hc__sk-line--lg"></view>
+    <view class="hc__sk-line"></view>
+    <view style="height:40rpx;"></view>
+    <view class="hc__sk-card"></view>
+    <view class="hc__sk-card"></view>
+    <view class="hc__sk-card"></view>
+  </view>
+
+  <scroll-view wx:else scroll-y enhanced show-scrollbar="{{false}}" class="hc__scroll">
+    <view class="hc__body">
+
+      <!-- 头像 & 姓名卡 -->
+      <view class="hc__hero">
+        <view class="hc__avatar">
+          <text class="hc__avatar-char">{{name[0] || '?'}}</text>
+        </view>
+        <view class="hc__hero-info">
+          <view class="hc__name-row">
+            <text class="hc__name">{{name}}</text>
+            <view wx:if="{{relation}}" class="hc__relation-tag">{{relation}}</view>
+          </view>
+          <text class="hc__sub">{{gender}}{{age ? ' · ' + age + '岁' : ''}}{{phone ? ' · ' + phone : ''}}</text>
+        </view>
+        <view wx:if="{{!isAttendantView}}" class="hc__complete">
+          <text class="hc__complete-num">{{profileCompleteness}}%</text>
+          <text class="hc__complete-label">完整</text>
+        </view>
+      </view>
+
+      <!-- 签署状态横幅 -->
+      <view class="hc__sign-banner hc__sign-banner--{{hasSigned ? 'done' : 'pending'}}">
+        <view class="hc__sign-banner-row">
+          <view class="hc__sign-banner-main">
+            <view class="hc__sign-banner-icon-wrap">
+              <text class="material-symbols-outlined hc__sign-banner-icon">{{hasSigned ? 'verified' : (isAttendantView ? 'info' : 'warning')}}</text>
+            </view>
+            <text class="hc__sign-banner-title">{{hasSigned ? '已签署确认' : (isAttendantView ? '客户健康小档案' : '待签署')}}</text>
+          </view>
+          <!-- 已签署：右侧显示签署人；未签署：跳回编辑按钮 -->
+          <text wx:if="{{hasSigned}}" class="hc__sign-banner-signer">
+            {{'签署人：' + signatureName + (signedAt ? '  ' + signedAt : '')}}
+          </text>
+          <view wx:elif="{{!maskedView && !isAttendantView}}" class="hc__sign-banner-btn" bind:tap="goEdit" hover-class="hc__haptic">去签署</view>
+        </view>
+        <text wx:if="{{isAttendantView && !maskedView}}" class="hc__sign-banner-sub">以下与客户在微信「建立健康档案」中所填一致（只读）。如需核实请以客户现场说明为准。</text>
+        <text wx:elif="{{isAttendantView && maskedView}}" class="hc__sign-banner-sub">抢单预览为脱敏信息；接单并进入待服务后可查看与客户建档页一致的完整档案。</text>
+        <text wx:elif="{{!hasSigned && !maskedView}}" class="hc__sign-banner-sub">档案信息已保存，请进入签署页完成确认</text>
+        <text wx:elif="{{maskedView && !isAttendantView}}" class="hc__sign-banner-sub">当前为陪诊员查看的脱敏档案，仅供接单评估使用</text>
+      </view>
+
+      <!-- 基本信息 -->
+      <view class="hc__section">
+        <view class="hc__section-head">
+          <text class="material-symbols-outlined hc__section-icon">person</text>
+          <text class="hc__section-title">基本信息</text>
+        </view>
+        <view class="hc__grid">
+          <view class="hc__cell">
+            <text class="hc__cell-label">身份证</text>
+            <text class="hc__cell-val">{{idCard || '—'}}</text>
+          </view>
+          <view class="hc__cell hc__cell--full">
+            <text class="hc__cell-label">手机号</text>
+            <view class="hc__cell-row">
+              <text class="hc__cell-val">{{phone || '—'}}</text>
+              <view wx:if="{{isAttendantView && phone && !maskedView}}" class="hc__mini-call" bind:tap="callNumber" data-phone="{{phone}}" hover-class="hc__haptic">
+                <text class="material-symbols-outlined">call</text>
+                <text>拨打</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 紧急联系人 -->
+      <view class="hc__section" wx:if="{{isAttendantView || emergencyContact || emergencyPhone}}">
+        <view class="hc__section-head">
+          <text class="material-symbols-outlined hc__section-icon hc__section-icon--warn">emergency</text>
+          <text class="hc__section-title">紧急联系人</text>
+        </view>
+        <view class="hc__grid">
+          <view class="hc__cell">
+            <text class="hc__cell-label">联系人</text>
+            <text class="hc__cell-val">{{emergencyContact || '未登记'}}</text>
+          </view>
+          <view class="hc__cell">
+            <text class="hc__cell-label">关系</text>
+            <text class="hc__cell-val">{{emergencyRelation || '—'}}</text>
+          </view>
+          <view class="hc__cell hc__cell--full">
+            <text class="hc__cell-label">联系电话</text>
+            <view class="hc__cell-row">
+              <text class="hc__cell-val">{{emergencyPhone || '—'}}</text>
+              <view wx:if="{{isAttendantView && emergencyPhone && !maskedView}}" class="hc__mini-call" bind:tap="callNumber" data-phone="{{emergencyPhone}}" hover-class="hc__haptic">
+                <text class="material-symbols-outlined">call</text>
+                <text>拨打</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 健康状况 -->
+      <view class="hc__section">
+        <view class="hc__section-head">
+          <text class="material-symbols-outlined hc__section-icon hc__section-icon--red">favorite</text>
+          <text class="hc__section-title">健康状况</text>
+        </view>
+
+        <view class="hc__row" wx:if="{{bloodType}}">
+          <text class="hc__row-label">血型</text>
+          <view class="hc__tag hc__tag--red">{{bloodType}}</view>
+        </view>
+        <view class="hc__row" wx:else>
+          <text class="hc__row-label">血型</text>
+          <text class="hc__empty-val">待填写</text>
+        </view>
+
+        <view class="hc__row">
+          <text class="hc__row-label">视力</text>
+          <view wx:if="{{visionLabel}}" class="hc__tag hc__tag--{{visionStatus === 'good' ? 'blue' : visionStatus === 'poor' ? 'orange' : 'red'}}">{{visionLabel}}</view>
+          <text wx:else class="hc__empty-val">待填写</text>
+        </view>
+
+        <view class="hc__row">
+          <text class="hc__row-label">听力</text>
+          <view wx:if="{{hearingLabel}}" class="hc__tag hc__tag--{{hearingStatus === 'good' ? 'blue' : hearingStatus === 'poor' ? 'orange' : 'red'}}">{{hearingLabel}}</view>
+          <text wx:else class="hc__empty-val">待填写</text>
+        </view>
+
+        <view class="hc__row hc__row--top" wx:if="{{allergyStatus === 'has'}}">
+          <text class="hc__row-label">过敏史</text>
+          <view class="hc__tags-wrap">
+            <view class="hc__tag hc__tag--red">有过敏史</view>
+            <text wx:if="{{allergies}}" class="hc__allergy-detail">{{allergies}}</text>
+            <text wx:else class="hc__empty-val">详情未填写，请与客户核实</text>
+          </view>
+        </view>
+        <view class="hc__row" wx:elif="{{allergyStatus === 'none'}}">
+          <text class="hc__row-label">过敏史</text>
+          <view class="hc__tag hc__tag--blue">无过敏</view>
+        </view>
+        <view class="hc__row" wx:else>
+          <text class="hc__row-label">过敏史</text>
+          <text class="hc__empty-val">待填写</text>
+        </view>
+      </view>
+
+      <!-- 既往病史 -->
+      <view class="hc__section">
+        <view class="hc__section-head">
+          <text class="material-symbols-outlined hc__section-icon hc__section-icon--orange">medical_information</text>
+          <text class="hc__section-title">既往病史</text>
+        </view>
+        <view wx:if="{{medicalHistoryTags.length > 0 || medicalHistoryOther}}" class="hc__tags-row">
+          <view wx:for="{{medicalHistoryTags}}" wx:key="*this" class="hc__tag hc__tag--orange">{{item}}</view>
+          <text wx:if="{{medicalHistoryOther}}" class="hc__other-note">{{medicalHistoryOther}}</text>
+        </view>
+        <view wx:elif="{{medicalHistoryHadNone}}" class="hc__none-row">
+          <view class="hc__tag hc__tag--blue">无既往病史</view>
+        </view>
+        <view wx:else class="hc__none-row">
+          <text class="hc__empty-val">待填写</text>
+        </view>
+      </view>
+
+      <!-- 近期症状 -->
+      <view class="hc__section">
+        <view class="hc__section-head">
+          <text class="material-symbols-outlined hc__section-icon hc__section-icon--orange">thermostat</text>
+          <text class="hc__section-title">近期状况</text>
+        </view>
+        <view wx:if="{{recentSymptomsTags.length > 0}}" class="hc__tags-row">
+          <view wx:for="{{recentSymptomsTags}}" wx:key="*this" class="hc__tag hc__tag--orange">{{item}}</view>
+          <text wx:if="{{recentSymptomsOther}}" class="hc__other-note">{{recentSymptomsOther}}</text>
+        </view>
+        <view wx:elif="{{recentSymptomsHadNone}}" class="hc__none-row">
+          <view class="hc__tag hc__tag--blue">无明显症状</view>
+        </view>
+        <view wx:else class="hc__none-row">
+          <text class="hc__empty-val">待填写</text>
+        </view>
+      </view>
+
+      <!-- 当前用药 -->
+      <view class="hc__section">
+        <view class="hc__section-head">
+          <text class="material-symbols-outlined hc__section-icon">pill</text>
+          <text class="hc__section-title">当前用药</text>
+        </view>
+        <text class="hc__text-block">{{currentMedication || '（未填写）'}}</text>
+      </view>
+
+      <!-- 就医诉求 -->
+      <view class="hc__section">
+        <view class="hc__section-head">
+          <text class="material-symbols-outlined hc__section-icon">chat</text>
+          <text class="hc__section-title">就医具体诉求</text>
+        </view>
+        <text class="hc__text-block">{{chiefComplaint || '（未填写）'}}</text>
+      </view>
+
+      <!-- 底部：未签署时显示"去签署" -->
+      <view wx:if="{{!hasSigned && !maskedView && !isAttendantView}}" class="hc__edit-btn" bind:tap="goEdit" hover-class="hc__haptic">
+        <text class="material-symbols-outlined hc__edit-icon">edit</text>
+        <text>去签署</text>
+      </view>
+
+      <view style="height: 80rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

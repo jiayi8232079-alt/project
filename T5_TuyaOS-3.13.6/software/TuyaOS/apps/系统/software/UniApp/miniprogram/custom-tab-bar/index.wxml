@@ -1,0 +1,22 @@
+<view class="custom-tabbar">
+  <view class="custom-tabbar__inner">
+    <view
+      wx:for="{{list}}"
+      wx:key="index"
+      class="custom-tabbar__item {{selected === index ? 'custom-tabbar__item--active' : ''}}"
+      bind:tap="switchTab"
+      data-path="{{item.pagePath}}"
+      data-index="{{index}}"
+    >
+      <view class="custom-tabbar__icon-wrap">
+        <text class="material-symbols-outlined custom-tabbar__icon">{{item.icon}}</text>
+        <view
+          wx:if="{{item.badgeCount > 0}}"
+          class="custom-tabbar__badge {{medicationHasMissed && index === 3 ? 'custom-tabbar__badge--danger' : ''}}"
+        >{{item.badgeCount > 99 ? '99+' : item.badgeCount}}</view>
+      </view>
+      <text class="custom-tabbar__label">{{item.text}}</text>
+    </view>
+  </view>
+  <view class="custom-tabbar__safe"></view>
+</view>

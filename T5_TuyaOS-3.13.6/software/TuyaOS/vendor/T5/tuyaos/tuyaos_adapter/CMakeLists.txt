@@ -68,6 +68,10 @@ if ("${CONFIG_CPU_INDEX}" STREQUAL "0")
     list(APPEND srcs src/driver/tkl_hci_0.c)
     if (CONFIG_TUYA_TEST_CLI)
         list(APPEND srcs src/test/cli_tuya_test_0.c)
+        set(_axp_cp_cli "$ENV{TUYA_PROJECT_DIR}/apps/$ENV{TUYA_APP_NAME}/src/drivers/app_axp2101/src/tuya_axp2101_cli_cp.c")
+        if (EXISTS "${_axp_cp_cli}")
+            list(APPEND srcs "${_axp_cp_cli}")
+        endif()
     endif() # CONFIG_TUYA_TEST_CLI
 else()
     list(APPEND srcs

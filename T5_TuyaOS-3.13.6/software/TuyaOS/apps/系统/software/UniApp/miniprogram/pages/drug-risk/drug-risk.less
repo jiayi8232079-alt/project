@@ -1,0 +1,490 @@
+.dr {
+  min-height: 100vh;
+  background: #F8F9FA;
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 88rpx;
+    padding: 0 24rpx;
+    background: #F8F9FA;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__nav-back {
+    width: 72rpx;
+    height: 72rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .material-symbols-outlined {
+      font-size: 44rpx;
+      color: #1F2937;
+    }
+  }
+
+  &__nav-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1F2937;
+  }
+
+  &__nav-placeholder {
+    width: 72rpx;
+  }
+
+  &__scroll {
+    padding: 24rpx;
+  }
+
+  &__content {
+    padding-bottom: 40rpx;
+  }
+
+  &__intro {
+    display: flex;
+    gap: 20rpx;
+    padding: 28rpx;
+    background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+    border-radius: 20rpx;
+    margin-bottom: 24rpx;
+
+    &-icon {
+      width: 72rpx;
+      height: 72rpx;
+      border-radius: 20rpx;
+      background: linear-gradient(135deg, #66BB6A, #43A047);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      .material-symbols-outlined {
+        font-size: 40rpx;
+        color: #fff;
+      }
+    }
+
+    &-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8rpx;
+    }
+
+    &-title {
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #1F2937;
+    }
+
+    &-desc {
+      font-size: 24rpx;
+      color: #525B66;
+      line-height: 1.6;
+    }
+
+    &-badge {
+      margin-top: 4rpx;
+    }
+  }
+
+  &__section {
+    margin-bottom: 24rpx;
+  }
+
+  &__section-title {
+    display: block;
+    font-size: 26rpx;
+    font-weight: 600;
+    color: #1F2937;
+    margin-bottom: 16rpx;
+  }
+
+  &__tabs {
+    white-space: nowrap;
+    padding: 4rpx 0 8rpx;
+  }
+
+  &__tab {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4rpx;
+    padding: 16rpx 24rpx;
+    margin-right: 16rpx;
+    background: #fff;
+    border-radius: 16rpx;
+    border: 2rpx solid #E7EAF1;
+    min-width: 180rpx;
+    transition: all 0.2s;
+
+    &--active {
+      background: #1F2937;
+      border-color: #1F2937;
+
+      .dr__tab-name,
+      .dr__tab-rel,
+      .dr__tab-count {
+        color: #fff;
+      }
+    }
+  }
+
+  &__tab-name {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #1F2937;
+  }
+
+  &__tab-rel {
+    font-size: 22rpx;
+    color: #8A94A6;
+  }
+
+  &__tab-count {
+    font-size: 22rpx;
+    color: #525B66;
+  }
+
+  &__summary {
+    padding: 32rpx;
+    border-radius: 20rpx;
+    margin-bottom: 24rpx;
+    color: #fff;
+
+    &--safe {
+      background: linear-gradient(135deg, #66BB6A, #43A047);
+    }
+    &--info {
+      background: linear-gradient(135deg, #42A5F5, #1E88E5);
+    }
+    &--warning {
+      background: linear-gradient(135deg, #FFA726, #FB8C00);
+    }
+    &--danger {
+      background: linear-gradient(135deg, #EF5350, #E53935);
+    }
+  }
+
+  &__summary-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12rpx;
+  }
+
+  &__summary-label-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+  }
+
+  &__summary-icon {
+    font-size: 44rpx;
+  }
+
+  &__summary-label {
+    font-size: 34rpx;
+    font-weight: 700;
+  }
+
+  &__summary-count {
+    font-size: 24rpx;
+    padding: 6rpx 16rpx;
+    border-radius: 999rpx;
+    background: rgba(255, 255, 255, 0.24);
+  }
+
+  &__summary-text {
+    display: block;
+    font-size: 26rpx;
+    line-height: 1.6;
+    opacity: 0.95;
+    margin-bottom: 10rpx;
+  }
+
+  &__summary-time {
+    font-size: 22rpx;
+    opacity: 0.72;
+  }
+
+  &__alert {
+    display: flex;
+    gap: 16rpx;
+    padding: 24rpx;
+    border-radius: 16rpx;
+    margin-bottom: 24rpx;
+
+    &--info {
+      background: #E3F2FD;
+      .material-symbols-outlined {
+        color: #1E88E5;
+      }
+    }
+
+    &--warning {
+      background: #FFF3E0;
+      .material-symbols-outlined {
+        color: #FB8C00;
+      }
+    }
+
+    .material-symbols-outlined {
+      font-size: 40rpx;
+      flex-shrink: 0;
+    }
+  }
+
+  &__alert-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6rpx;
+  }
+
+  &__alert-title {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #1F2937;
+  }
+
+  &__alert-desc {
+    font-size: 24rpx;
+    color: #525B66;
+    line-height: 1.5;
+  }
+
+  &__alert-btn {
+    align-self: flex-start;
+    margin-top: 8rpx;
+    padding: 8rpx 16rpx;
+    font-size: 24rpx;
+    color: #1E88E5;
+    font-weight: 600;
+  }
+
+  &__empty,
+  &__empty-report {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 64rpx 32rpx;
+    background: #fff;
+    border-radius: 20rpx;
+
+    &-icon {
+      font-size: 80rpx;
+      color: #B0B8C1;
+      margin-bottom: 16rpx;
+    }
+
+    &-title {
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #1F2937;
+      margin-bottom: 8rpx;
+    }
+
+    &-desc {
+      font-size: 24rpx;
+      color: #8A94A6;
+      text-align: center;
+      line-height: 1.6;
+    }
+  }
+
+  &__medicines {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12rpx;
+  }
+
+  &__med {
+    padding: 12rpx 20rpx;
+    background: #fff;
+    border-radius: 16rpx;
+    border: 2rpx solid #E7EAF1;
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+  }
+
+  &__med-name {
+    font-size: 26rpx;
+    color: #1F2937;
+    font-weight: 600;
+  }
+
+  &__med-dose {
+    font-size: 22rpx;
+    color: #8A94A6;
+  }
+
+  &__finding {
+    padding: 24rpx;
+    background: #fff;
+    border-radius: 20rpx;
+    border-left: 8rpx solid transparent;
+    margin-bottom: 16rpx;
+
+    &--high {
+      border-left-color: #E53935;
+      background: linear-gradient(90deg, #FFEBEE 0%, #fff 40%);
+    }
+    &--medium {
+      border-left-color: #FB8C00;
+      background: linear-gradient(90deg, #FFF3E0 0%, #fff 40%);
+    }
+    &--low {
+      border-left-color: #1E88E5;
+      background: linear-gradient(90deg, #E3F2FD 0%, #fff 40%);
+    }
+  }
+
+  &__finding-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12rpx;
+    margin-bottom: 12rpx;
+  }
+
+  &__finding-tag {
+    padding: 4rpx 16rpx;
+    border-radius: 999rpx;
+    font-size: 22rpx;
+    font-weight: 600;
+
+    &--high {
+      background: #E53935;
+      color: #fff;
+    }
+    &--medium {
+      background: #FB8C00;
+      color: #fff;
+    }
+    &--low {
+      background: #1E88E5;
+      color: #fff;
+    }
+  }
+
+  &__finding-source {
+    padding: 4rpx 12rpx;
+    font-size: 22rpx;
+    border-radius: 999rpx;
+    background: #F1F5F9;
+    color: #525B66;
+  }
+
+  &__finding-drugs {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8rpx;
+    min-width: 300rpx;
+  }
+
+  &__finding-drug {
+    font-size: 28rpx;
+    font-weight: 700;
+    color: #1F2937;
+  }
+
+  &__finding-plus {
+    color: #EF5350;
+    font-size: 28rpx;
+    font-weight: 700;
+  }
+
+  &__finding-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4rpx;
+    padding-top: 12rpx;
+
+    &:first-of-type {
+      border-top: 2rpx dashed #E7EAF1;
+    }
+
+    &-label {
+      font-size: 22rpx;
+      color: #8A94A6;
+      font-weight: 600;
+    }
+
+    &-text {
+      font-size: 26rpx;
+      color: #303540;
+      line-height: 1.6;
+    }
+  }
+
+  &__no-findings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48rpx 32rpx;
+    background: #fff;
+    border-radius: 20rpx;
+
+    &-icon {
+      font-size: 64rpx;
+      color: #66BB6A;
+      margin-bottom: 12rpx;
+    }
+
+    &-title {
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #1F2937;
+      margin-bottom: 4rpx;
+    }
+
+    &-desc {
+      font-size: 24rpx;
+      color: #8A94A6;
+    }
+  }
+
+  &__bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20rpx 24rpx calc(20rpx + env(safe-area-inset-bottom));
+    background: rgba(248, 249, 250, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 2rpx solid #E7EAF1;
+  }
+
+  &__bottom-btn {
+    width: 100%;
+    height: 96rpx;
+    border-radius: 20rpx;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12rpx;
+    font-size: 30rpx;
+    font-weight: 600;
+    border: none;
+
+    &::after {
+      border: none;
+    }
+
+    &--loading {
+      opacity: 0.6;
+    }
+  }
+
+  &__bottom-icon {
+    font-size: 36rpx;
+  }
+}

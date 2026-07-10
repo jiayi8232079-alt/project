@@ -1,0 +1,72 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist
+dist-ssr
+build
+.output
+admin.qiaoguo.vip/
+default/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.online-preview
+*.local
+
+# 企业微信 Webhook 配置（敏感信息）
+企业微信机器人-Webhook记录表.md
+*webhook*record*.md
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+__MACOSX/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cursor / 本机调试相关（含 MCP 配置、聊天历史，不入仓）
+.cursor/
+cursor-chat-exports/
+cursor-chat-recovery.sh
+
+# 内部商业文档（敏感，禁止入仓）
+*商业计划书*.pdf
+*商业计划书*.docx
+
+# Runtime generated files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Local backups / packaged artifacts
+.backup_snapshots/
+*.zip
+deployment/qiaoguo_health_full_*.sql
+
+# UniApp
+UniApp/miniprogram/unpackage/
+UniApp/miniprogram/node_modules/
+UniApp/project.private.config.json
+
+# Extra site not managed in this repo
+gw/
+
+# Stitch (设计稿导出，按需提交)
+# stitch/

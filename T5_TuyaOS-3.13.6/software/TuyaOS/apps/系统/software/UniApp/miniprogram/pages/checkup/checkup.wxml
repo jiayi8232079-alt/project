@@ -1,0 +1,127 @@
+<view class="page {{loaded ? 'page--loaded' : ''}}">
+
+  <!-- 顶部导航 -->
+  <view class="nav anim-item anim-0">
+    <view class="nav__inner" style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav__back" bind:tap="goBack" hover-class="btn-haptic">
+        <text class="material-symbols-outlined">arrow_back</text>
+      </view>
+      <text class="nav__title">体检规划</text>
+      <view class="nav__placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="content">
+
+      <view class="hero anim-item anim-1">
+        <image class="hero__img" src="https://images.pexels.com/photos/8376318/pexels-photo-8376318.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+        <view class="hero__gradient-top"></view>
+        <view class="hero__gradient-bottom"></view>
+        <view class="hero__body">
+          <text class="hero__badge">PREMIUM CARE</text>
+          <text class="hero__title">体检规划</text>
+          <text class="hero__desc">像定制西装一样，\n定制您的健康筛查方案</text>
+        </view>
+      </view>
+
+      <view class="section-header anim-item anim-2">
+        <text class="section-header__title">核心价值</text>
+      </view>
+
+      <view class="value-hero anim-item anim-2">
+        <image class="value-hero__img" src="https://images.pexels.com/photos/6129444/pexels-photo-6129444.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+        <view class="value-hero__overlay"></view>
+        <view class="value-hero__body">
+          <text class="value-hero__title">个性化方案定制</text>
+          <text class="value-hero__desc">基于健康史深度分析，量身打造</text>
+        </view>
+      </view>
+
+      <view class="value-grid anim-item anim-3">
+        <view class="value-grid__card">
+          <image class="value-grid__img" src="https://images.pexels.com/photos/7250797/pexels-photo-7250797.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+          <view class="value-grid__overlay"></view>
+          <view class="value-grid__info">
+            <text class="value-grid__title">全流程绿色通道</text>
+            <text class="value-grid__sub">三甲特需直通</text>
+          </view>
+        </view>
+        <view class="value-grid__card">
+          <image class="value-grid__img" src="https://images.pexels.com/photos/189333/pexels-photo-189333.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+          <view class="value-grid__overlay"></view>
+          <view class="value-grid__info">
+            <text class="value-grid__title">尊享VIP休息室</text>
+            <text class="value-grid__sub">私密静谧空间</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="value-row anim-item anim-3">
+        <view class="value-row__card">
+          <image class="value-row__img" src="https://images.pexels.com/photos/2182972/pexels-photo-2182972.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+          <view class="value-row__body">
+            <text class="value-row__title">深度指标解读</text>
+            <text class="value-row__desc">拒绝冷冰冰的数据，专家为您剖析每一项异常指标背后的含义。</text>
+          </view>
+        </view>
+        <view class="value-row__card value-row__card--reverse">
+          <view class="value-row__body">
+            <text class="value-row__title">专家1对1咨询</text>
+            <text class="value-row__desc">资深全科专家面诊，提供持续的健康干预方案与指导。</text>
+          </view>
+          <image class="value-row__img" src="https://images.pexels.com/photos/8376185/pexels-photo-8376185.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+        </view>
+      </view>
+
+      <view class="flow-section anim-item anim-4">
+        <view class="flow-card">
+          <text class="flow-card__heading">服务流程</text>
+          <view class="flow-card__list">
+            <view class="flow-card__track"></view>
+            <view class="flow-step" wx:for="{{flowSteps}}" wx:key="id">
+              <view class="flow-step__line" wx:if="{{index < flowSteps.length - 1}}"></view>
+              <view class="flow-step__dot">
+                <text>{{item.num}}</text>
+              </view>
+              <view class="flow-step__info">
+                <text class="flow-step__name">{{item.title}}</text>
+                <text class="flow-step__desc">{{item.desc}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="partners anim-item anim-5">
+        <text class="partners__label">合作医疗机构</text>
+        <view class="partners__grid">
+          <view class="partners__item">
+            <text class="material-symbols-outlined">local_hospital</text>
+          </view>
+          <view class="partners__item">
+            <text class="material-symbols-outlined">medical_services</text>
+          </view>
+          <view class="partners__item">
+            <text class="material-symbols-outlined">health_and_safety</text>
+          </view>
+          <view class="partners__item">
+            <text class="material-symbols-outlined">cardiology</text>
+          </view>
+        </view>
+        <text class="partners__note">严选三甲医院特需部及国际医疗中心</text>
+      </view>
+
+      <view class="safe-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-bar anim-item anim-6">
+    <view class="bottom-inner">
+      <button class="cta-btn" hover-class="btn-haptic" bind:tap="onBook">
+        <text>立即预约到店咨询</text>
+        <text class="material-symbols-outlined cta-btn__icon">arrow_forward</text>
+      </button>
+    </view>
+  </view>
+</view>

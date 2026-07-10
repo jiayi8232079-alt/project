@@ -76,6 +76,7 @@
 #endif
 #include "tuya_iot_internal_api.h"
 #include "tuya_device_board.h"
+#include "tuya_axp2101.h"
 #if defined(ENABLE_TUYA_UI) && (ENABLE_TUYA_UI == 1)
 // #include "tuya_app_gui_config.h"
 #include "tuya_ai_display.h"
@@ -518,6 +519,8 @@ OPERATE_RET __soc_device_init(VOID_T)
 #endif
 
     TUYA_CALL_ERR_RETURN(tuya_device_board_init());
+    /* board_init 内已注册；此处再调一次兜底（幂等） */
+    tuya_axp2101_cli_init();
 
 #if defined(ENABLE_TUYA_UI) && ENABLE_TUYA_UI == 1
     TAL_PR_NOTICE("ai toy -> init ui");

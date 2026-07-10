@@ -1,0 +1,175 @@
+<view class="ticket-create {{loaded ? 'ticket-create--loaded' : ''}}">
+
+  <view class="ticket-create__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ticket-create__nav-back" bind:tap="goBack" hover-class="ticket-create__nav-back--hover">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="ticket-create__nav-title">提交工单</text>
+    <view class="ticket-create__nav-placeholder"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后提交工单</text>
+      <text class="page-login-gate__desc">提交投诉或建议需要先登录账户。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="ticket-create__scroll"
+  >
+    <view class="ticket-create__body">
+
+      <!-- 品牌引导区 -->
+      <view class="ticket-create__hero">
+        <view class="ticket-create__hero-icon">
+          <text class="material-symbols-outlined">support_agent</text>
+        </view>
+        <view class="ticket-create__hero-text">
+          <text class="ticket-create__hero-title">告诉我们发生了什么</text>
+          <text class="ticket-create__hero-desc">客服会在 24 小时内跟进，建议上传相关凭证便于核实处理。</text>
+        </view>
+      </view>
+
+      <!-- 工单类别 -->
+      <view class="ticket-card">
+        <view class="ticket-card__label">
+          <text class="material-symbols-outlined">label</text>
+          工单类别
+        </view>
+        <picker mode="selector" range="{{categoryOptions}}" range-key="label" value="{{categoryIndex}}" bindchange="onCategoryChange">
+          <view class="ticket-picker">
+            <text class="ticket-picker__value">{{categoryOptions[categoryIndex].label}}</text>
+            <text class="material-symbols-outlined ticket-picker__arrow">expand_more</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 标题 -->
+      <view class="ticket-card">
+        <view class="ticket-card__label">
+          <text class="material-symbols-outlined">title</text>
+          标题
+          <text class="ticket-card__required">*</text>
+        </view>
+        <input
+          class="ticket-input"
+          value="{{subject}}"
+          placeholder="简要描述问题（2~128 字）"
+          placeholder-class="ticket-input__ph"
+          maxlength="128"
+          bindinput="onSubjectInput"
+        />
+      </view>
+
+      <!-- 详细描述 -->
+      <view class="ticket-card">
+        <view class="ticket-card__label">
+          <text class="material-symbols-outlined">edit_note</text>
+          详细描述
+          <text class="ticket-card__required">*</text>
+        </view>
+        <textarea
+          class="ticket-textarea"
+          value="{{description}}"
+          placeholder="请尽量详细说明事件经过、时间、涉及人员等"
+          placeholder-class="ticket-input__ph"
+          maxlength="2000"
+          auto-height
+          bindinput="onDescInput"
+        />
+        <view class="ticket-card__count">{{description.length}} / 2000</view>
+      </view>
+
+      <!-- 关联订单（只读） -->
+      <view wx:if="{{orderId}}" class="ticket-card ticket-card--tip">
+        <view class="ticket-card__label">
+          <text class="material-symbols-outlined">receipt_long</text>
+          已关联订单
+        </view>
+        <view class="ticket-picker ticket-picker--static">
+          <text class="ticket-picker__value">订单 #{{orderId}}</text>
+          <text class="material-symbols-outlined ticket-picker__lock">lock</text>
+        </view>
+      </view>
+
+      <!-- 联系方式 -->
+      <view class="ticket-card">
+        <view class="ticket-card__label">
+          <text class="material-symbols-outlined">call</text>
+          联系方式
+          <text class="ticket-card__optional">可选</text>
+        </view>
+        <input
+          class="ticket-input"
+          type="number"
+          value="{{contactPhone}}"
+          placeholder="方便客服联系您，留空默认使用账号手机"
+          placeholder-class="ticket-input__ph"
+          maxlength="20"
+          bindinput="onPhoneInput"
+        />
+      </view>
+
+      <!-- 图片附件 -->
+      <view class="ticket-card">
+        <view class="ticket-card__label">
+          <text class="material-symbols-outlined">photo_library</text>
+          图片附件
+          <text class="ticket-card__optional">{{images.length}}/9</text>
+        </view>
+        <view class="ticket-image-list">
+          <view
+            class="ticket-image-item"
+            wx:for="{{images}}"
+            wx:key="index"
+            data-index="{{index}}"
+            bindtap="previewImage"
+          >
+            <image src="{{item}}" mode="aspectFill" class="ticket-image-item__img" />
+            <view
+              class="ticket-image-item__remove"
+              catchtap="removeImage"
+              data-index="{{index}}"
+            >
+              <text class="material-symbols-outlined">close</text>
+            </view>
+          </view>
+          <view wx:if="{{images.length < 9}}" class="ticket-image-add" bindtap="chooseImages" hover-class="ticket-image-add--hover">
+            <text class="material-symbols-outlined ticket-image-add__plus">add_a_photo</text>
+            <text class="ticket-image-add__hint">{{uploading ? '上传中…' : '添加图片'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 协议 -->
+      <view class="ticket-agreement">
+        <switch color="#22c55e" checked="{{agreement}}" bindchange="onAgreementChange" />
+        <view class="ticket-agreement__text">
+          我已阅读并同意 <text class="ticket-agreement__link">《客户服务协议》</text>，工单提交后将按照服务标准处理。
+        </view>
+      </view>
+
+      <view style="height: 200rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{!pageNeedsLogin}}" class="ticket-create__footer">
+    <button
+      class="ticket-create__submit"
+      disabled="{{submitting}}"
+      bindtap="onSubmit"
+      loading="{{submitting}}"
+      hover-class="ticket-create__submit--hover"
+    >
+      <text class="material-symbols-outlined" wx:if="{{!submitting}}">send</text>
+      {{submitting ? '提交中…' : '提交工单'}}
+    </button>
+  </view>
+</view>

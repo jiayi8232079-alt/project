@@ -1,0 +1,10 @@
+<view class="webview-page">
+  <view class="webview-page__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="webview-page__back" bind:tap="goBack" hover-class="haptic">
+      <text class="material-symbols-outlined">arrow_back</text>
+    </view>
+    <text class="webview-page__title">健康档案</text>
+    <view style="width:72rpx;"></view>
+  </view>
+  <web-view src="{{url}}" bindmessage="onMessage"></web-view>
+</view>

@@ -1,0 +1,23 @@
+# Git LFS：机器人 / 硬件大文件（首次使用前在本地执行一次 git lfs install）
+# 3D 模型 / 结构件
+*.stl   filter=lfs diff=lfs merge=lfs -text
+*.step  filter=lfs diff=lfs merge=lfs -text
+*.stp   filter=lfs diff=lfs merge=lfs -text
+*.f3d   filter=lfs diff=lfs merge=lfs -text
+*.sldprt filter=lfs diff=lfs merge=lfs -text
+*.igs   filter=lfs diff=lfs merge=lfs -text
+*.iges  filter=lfs diff=lfs merge=lfs -text
+# PCB / EDA
+*.brd       filter=lfs diff=lfs merge=lfs -text
+*.sch       filter=lfs diff=lfs merge=lfs -text
+*.kicad_pcb filter=lfs diff=lfs merge=lfs -text
+*.kicad_pro filter=lfs diff=lfs merge=lfs -text
+# 固件产物
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.hex filter=lfs diff=lfs merge=lfs -text
+*.elf filter=lfs diff=lfs merge=lfs -text
+# 大资源（点云 / 录包 / 模型权重）
+*.bag filter=lfs diff=lfs merge=lfs -text
+*.pcd filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.pt  filter=lfs diff=lfs merge=lfs -text

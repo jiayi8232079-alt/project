@@ -1,0 +1,42 @@
+<view class="hmap-page">
+  <map
+    id="hospitalMap"
+    class="hmap-page__map"
+    style="height: {{mapHeightPx}}px;"
+    latitude="{{mapLat}}"
+    longitude="{{mapLng}}"
+    scale="{{scale}}"
+    markers="{{markers}}"
+    show-location="{{showLocation}}"
+    bindmarkertap="onMarkerTap"
+    bindregionchange="onRegionChange"
+  />
+
+  <view wx:if="{{selected}}" class="hmap-page__sheet" catch:tap="noop">
+    <view class="hmap-page__sheet-row">
+      <text class="hmap-page__sheet-name">{{selected.name}}</text>
+    </view>
+    <text class="hmap-page__sheet-meta">{{selected.city}} {{selected.district || ''}}</text>
+    <text wx:if="{{selected.address}}" class="hmap-page__sheet-addr">{{selected.address}}</text>
+    <view class="hmap-page__sheet-actions">
+      <button class="hmap-page__btn hmap-page__btn--ghost" size="mini" bind:tap="closeSelected">关闭</button>
+      <button class="hmap-page__btn hmap-page__btn--primary" size="mini" bind:tap="openLocationForSelected">导航</button>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="hmap-page__loading">
+    <text>加载标点…</text>
+  </view>
+
+  <view wx:if="{{!loading && emptyHint}}" class="hmap-page__hint">
+    <text class="hmap-page__hint-text">{{emptyHint}}</text>
+    <button
+      wx:if="{{canRetryLocation}}"
+      class="hmap-page__hint-btn"
+      size="mini"
+      bind:tap="retryLoadMarkers"
+    >
+      重新加载
+    </button>
+  </view>
+</view>

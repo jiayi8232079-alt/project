@@ -1,0 +1,6 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "服务动态",
+  "backgroundColor": "#F8F9FA",
+  "enablePullDownRefresh": true
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@babel/runtime",
+  "version": "7.29.2",
+  "description": "babel's modular runtime helpers (built for WeChat miniprogram_npm)",
+  "main": "helpers/identity.js",
+  "type": "commonjs"
+}

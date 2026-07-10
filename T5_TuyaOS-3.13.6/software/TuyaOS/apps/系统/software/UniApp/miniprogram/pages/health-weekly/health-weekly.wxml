@@ -1,0 +1,135 @@
+<view class="wr">
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看周报</text>
+      <text class="page-login-gate__desc">健康周报关联您的账号数据。您可先返回，需要时再自愿登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+  <scroll-view wx:else scroll-y enhanced show-scrollbar="{{false}}" class="wr__scroll">
+    <view class="wr__body">
+
+      <!-- 周报详情 -->
+      <view wx:if="{{report}}" class="wr__detail">
+        <!-- 头部 -->
+        <view class="wr__hero">
+          <view class="wr__hero-icon">
+            <text class="material-symbols-outlined">monitoring</text>
+          </view>
+          <text class="wr__hero-title">健康周报</text>
+          <text class="wr__hero-period">{{report.weekStart}} ~ {{report.weekEnd}}</text>
+          <ai-badge size="sm" tone="light" text="AI 生成" ext-class="wr__hero-badge" />
+        </view>
+
+        <!-- AI 生成声明 -->
+        <view class="wr__ai-notice">
+          <ai-badge size="md" tone="notice" block="{{true}}" icon="auto_awesome" text="本周报由人工智能生成，数据基于您的健康档案与服务记录，仅供参考" />
+        </view>
+
+        <!-- AI 问候 -->
+        <view wx:if="{{ai.greeting}}" class="wr__greeting-card">
+          <text class="material-symbols-outlined wr__greeting-icon">psychology</text>
+          <text class="wr__greeting-text">{{ai.greeting}}</text>
+        </view>
+
+        <!-- 用药概况 -->
+        <view wx:if="{{ai.medicationSummary}}" class="wr__card">
+          <view class="wr__section-head">
+            <text class="material-symbols-outlined" style="color: #FF9800;">medication</text>
+            <text class="wr__section-title">用药概况</text>
+          </view>
+          <text class="wr__text">{{ai.medicationSummary}}</text>
+        </view>
+
+        <!-- 健康亮点 -->
+        <view wx:if="{{ai.healthHighlights && ai.healthHighlights.length > 0}}" class="wr__card">
+          <view class="wr__section-head">
+            <text class="material-symbols-outlined" style="color: #4CAF50;">thumb_up</text>
+            <text class="wr__section-title">本周亮点</text>
+          </view>
+          <view wx:for="{{ai.healthHighlights}}" wx:key="*this" class="wr__list-item wr__list-item--green">
+            <text class="material-symbols-outlined" style="font-size: 24rpx; color: #4CAF50;">check_circle</text>
+            <text>{{item}}</text>
+          </view>
+        </view>
+
+        <!-- 需要关注 -->
+        <view wx:if="{{ai.concerns && ai.concerns.length > 0}}" class="wr__card wr__card--warn">
+          <view class="wr__section-head">
+            <text class="material-symbols-outlined" style="color: #FF9800;">warning</text>
+            <text class="wr__section-title">需要关注</text>
+          </view>
+          <view wx:for="{{ai.concerns}}" wx:key="*this" class="wr__list-item wr__list-item--orange">
+            <text class="material-symbols-outlined" style="font-size: 24rpx; color: #FF9800;">info</text>
+            <text>{{item}}</text>
+          </view>
+        </view>
+
+        <!-- 下周建议 -->
+        <view wx:if="{{ai.nextWeekAdvice && ai.nextWeekAdvice.length > 0}}" class="wr__card">
+          <view class="wr__section-head">
+            <text class="material-symbols-outlined" style="color: #2196F3;">lightbulb</text>
+            <text class="wr__section-title">下周建议</text>
+          </view>
+          <view wx:for="{{ai.nextWeekAdvice}}" wx:key="*this" class="wr__list-item">
+            <text class="wr__list-num">{{index + 1}}</text>
+            <text>{{item}}</text>
+          </view>
+        </view>
+
+        <!-- 饮食 + 运动 -->
+        <view wx:if="{{ai.dietTip || ai.exerciseTip}}" class="wr__tips-row">
+          <view wx:if="{{ai.dietTip}}" class="wr__tip-card">
+            <text class="material-symbols-outlined" style="font-size: 36rpx; color: #FF9800;">restaurant</text>
+            <text class="wr__tip-label">饮食</text>
+            <text class="wr__tip-text">{{ai.dietTip}}</text>
+          </view>
+          <view wx:if="{{ai.exerciseTip}}" class="wr__tip-card">
+            <text class="material-symbols-outlined" style="font-size: 36rpx; color: #4CAF50;">fitness_center</text>
+            <text class="wr__tip-label">运动</text>
+            <text class="wr__tip-text">{{ai.exerciseTip}}</text>
+          </view>
+        </view>
+
+        <!-- 温暖寄语 -->
+        <view wx:if="{{ai.emotionalNote}}" class="wr__emotional">
+          <text class="material-symbols-outlined" style="font-size: 36rpx;">favorite</text>
+          <text class="wr__emotional-text">{{ai.emotionalNote}}</text>
+        </view>
+      </view>
+
+      <!-- 历史周报列表 -->
+      <view wx:if="{{!reportId}}" class="wr__list-section">
+        <view class="wr__list-title-row">
+          <text class="wr__list-title">历史周报</text>
+          <ai-badge size="sm" tone="default" text="AI 生成" />
+        </view>
+        <view wx:if="{{reports.length === 0 && !loading}}" style="text-align: center; padding: 60rpx 0; color: #909399;">
+          暂无周报，系统每周一自动生成
+        </view>
+        <view wx:for="{{reports}}" wx:key="id" class="wr__report-card" bind:tap="viewReport" data-id="{{item.id}}" hover-class="btn-haptic">
+          <view class="wr__report-icon">
+            <text class="material-symbols-outlined">description</text>
+          </view>
+          <view class="wr__report-info">
+            <view class="wr__report-period-row">
+              <text class="wr__report-period">{{item.weekStart}} ~ {{item.weekEnd}}</text>
+              <ai-badge size="sm" tone="default" text="AI 生成" ext-class="wr__report-badge" />
+            </view>
+            <text class="wr__report-summary">{{item.healthSummary || '点击查看详情'}}</text>
+          </view>
+          <text class="material-symbols-outlined" style="color: #CBD5E1;">chevron_right</text>
+        </view>
+      </view>
+
+      <!-- 手动生成按钮 -->
+      <view wx:if="{{!reportId}}" class="wr__gen-btn" bind:tap="generateReport" hover-class="btn-haptic">
+        <text class="material-symbols-outlined" style="font-size: 36rpx;">auto_awesome</text>
+        <text>立即由人工智能生成本周周报</text>
+      </view>
+
+      <view style="height: 60rpx;"></view>
+    </view>
+  </scroll-view>
+</view>

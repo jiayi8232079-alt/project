@@ -1,0 +1,461 @@
+<view class="page page--loaded">
+  <!-- Glass Nav -->
+  <view class="nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav__back btn-haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined nav__icon">arrow_back_ios_new</text>
+    </view>
+    <text class="nav__title">订单详情</text>
+    <view class="nav__placeholder"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看订单</text>
+      <text class="page-login-gate__desc">订单与行程仅供本人查看。您可先返回首页了解服务，需要时再自愿登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view wx:else scroll-y class="content" enhanced show-scrollbar="{{false}}">
+    <view class="main">
+
+      <!-- ═══ Progress Card ═══ -->
+      <view class="progress-card anim-item anim-0">
+        <view class="progress__bar">
+          <view class="progress__track"></view>
+          <view class="progress__fill" style="width: {{progressWidth}}%"></view>
+          <view class="progress__steps">
+            <view wx:for="{{steps}}" wx:key="label" class="progress__step">
+              <view class="step__dot step__dot--{{item.state}}">
+                <text wx:if="{{item.state === 'done'}}" class="material-symbols-outlined step__check">check</text>
+                <view wx:elif="{{item.state === 'current'}}" class="step__pulse"></view>
+                <view wx:else class="step__inner"></view>
+              </view>
+              <text class="step__label step__label--{{item.state}}">{{item.label}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view wx:if="{{stepIndex < 3}}" class="progress__message">
+          <block wx:if="{{serviceConfirmBlockingMatch}}">
+            <text class="progress__title">请签署陪诊服务确认单</text>
+            <text class="progress__desc">{{stepIndex === 2 ? '服务已开始，请尽快完成手写签署。' : (order.staffRoleLabel || '服务人员') + '已接单，完成手写签署后即可开始服务。'}}</text>
+          </block>
+          <block wx:else>
+            <text class="progress__title">{{order.statusText}}</text>
+            <text class="progress__desc">{{order.statusDesc}}</text>
+          </block>
+        </view>
+
+        <view
+          wx:if="{{(order.status === 'in_progress' || order.status === 'emergency') && canShareServiceTimeline}}"
+          class="progress__share-row"
+        >
+          <view class="progress__share-btn btn-haptic" catch:tap="prepareShareTimeline">
+            <text class="material-symbols-outlined progress__share-ico">share</text>
+            <text class="progress__share-text">分享给亲友查看进展</text>
+          </view>
+        </view>
+
+        <view wx:if="{{stepIndex === 3}}" class="progress__message progress__message--done">
+          <view class="progress__done-row">
+            <text class="material-symbols-outlined progress__done-icon">check_circle</text>
+            <text class="progress__title progress__title--done">服务已圆满完成</text>
+          </view>
+          <text class="progress__desc">{{order.durationText || ''}}</text>
+        </view>
+
+        <view wx:if="{{stepIndex === 2 && order.estimatedEndTime}}" class="progress__eta">
+          <text class="progress__eta-label">预计结束时间</text>
+          <text class="progress__eta-time">{{order.estimatedEndTime}}</text>
+        </view>
+      </view>
+
+      <!-- ═══ 待签署确认单（陪诊员已接单后展示，原生页手写签 + 查看本次服务信息）═══ -->
+      <view wx:if="{{(stepIndex === 1 || stepIndex === 2) && serviceConfirmBlockingMatch}}" class="sign-pending-card anim-item anim-1">
+        <view class="sign-pending__section-bar"></view>
+        <view class="sign-pending__title-row">
+          <text class="material-symbols-outlined sign-pending__title-ico">assignment</text>
+          <text class="sign-pending__title">陪诊服务确认单</text>
+        </view>
+        <view class="sign-pending__notice">
+          <text class="material-symbols-outlined sign-pending__notice-ico">info</text>
+          <text class="sign-pending__notice-text">
+            {{order.staffRoleLabel || '陪诊员'}}已接单，请先核对「本次服务信息」后完成手写签署。签署人建议为就诊人「{{serviceConfirmSubjectName || order.subjectName || '本人'}}」或经授权的代理人。
+          </text>
+        </view>
+        <view class="sign-pending__panel btn-haptic" bind:tap="goServiceConfirm">
+          <text class="material-symbols-outlined sign-pending__panel-ico">draw</text>
+          <text class="sign-pending__panel-text">点击前往签署</text>
+        </view>
+      </view>
+
+      <!-- ═══ Matching Animation (Step 0：正在为用户匹配服务人员) ═══ -->
+      <view wx:elif="{{stepIndex === 0}}" class="matching-card anim-item anim-1">
+        <view class="matching__icon-wrap">
+          <text class="material-symbols-outlined matching__icon">person_search</text>
+          <view class="matching__ping"></view>
+        </view>
+        <text class="matching__title">正在为您匹配{{order.staffRoleLabel || '服务人员'}}...</text>
+        <text class="matching__desc">系统正在为您寻找最合适的专业{{order.staffRoleLabel || '服务人员'}}，请您稍等片刻。</text>
+        <view class="matching__bar">
+          <view class="matching__bar-fill"></view>
+        </view>
+      </view>
+
+      <!-- ═══ Staff Card (Step 1+) ═══ -->
+      <view wx:if="{{order.attendant && stepIndex >= 1}}" class="staff-card anim-item anim-1">
+        <view class="staff__left">
+          <view class="staff__avatar-wrap">
+            <view class="staff__avatar-frame">
+              <image wx:if="{{order.attendant.avatar}}" class="staff__avatar-img" src="{{order.attendant.avatar}}" mode="aspectFill" />
+              <text wx:else class="staff__avatar-text">{{order.attendant.name[0]}}</text>
+            </view>
+            <view class="staff__badge">金牌</view>
+          </view>
+          <view class="staff__info">
+            <view class="staff__name-row">
+              <text class="staff__name">{{order.attendant.name}}</text>
+              <text wx:if="{{order.attendant.title}}" class="staff__title-tag">{{order.attendant.title}}</text>
+            </view>
+            <view class="staff__rating-row">
+              <text class="material-symbols-outlined staff__star">star</text>
+              <text class="staff__rating-text">{{order.attendant.rating || '5.0'}} ({{order.attendant.serviceCount || '0'}}次服务)</text>
+            </view>
+          </view>
+        </view>
+        <view class="staff__call btn-haptic" bind:tap="callAttendant">
+          <text class="material-symbols-outlined staff__call-icon">call</text>
+        </view>
+      </view>
+
+      <!-- ═══ 服务人员实时位置（服务进行中） ═══ -->
+      <view wx:if="{{order.status === 'in_progress' || order.status === 'emergency'}}" class="live-loc anim-item anim-2">
+        <view class="live-loc__head">
+          <text class="material-symbols-outlined live-loc__icon">my_location</text>
+          <text class="live-loc__title">{{order.staffRoleLabel || '服务人员'}}位置</text>
+        </view>
+        <map
+          class="live-loc__map"
+          latitude="{{liveMapLat}}"
+          longitude="{{liveMapLng}}"
+          scale="{{liveMapScale}}"
+          markers="{{liveMapMarkers}}"
+          polyline="{{mapPolyline}}"
+          circles="{{mapCircles}}"
+          show-location="{{true}}"
+          enable-scroll="{{false}}"
+          enable-zoom="{{false}}"
+          enable-rotate="{{false}}"
+          enable-skew="{{false}}"
+        />
+        <text class="live-loc__hint">{{attendantLiveHint || '地图将显示' + (order.staffRoleLabel || '服务人员') + '最新上报位置'}}</text>
+      </view>
+
+      <!-- ═══ Appointment Card (Step 1–2) ═══ -->
+      <view wx:if="{{stepIndex >= 1 && stepIndex <= 2}}" class="appt-card anim-item anim-2">
+        <view class="appt__row">
+          <view class="appt__icon-wrap">
+            <text class="material-symbols-outlined appt__icon">calendar_today</text>
+          </view>
+          <view class="appt__text">
+            <text class="appt__label">预约时间</text>
+            <text class="appt__value">{{order.serviceTime}}</text>
+          </view>
+        </view>
+        <view class="appt__divider"></view>
+        <view class="appt__row">
+          <view class="appt__icon-wrap">
+            <text class="material-symbols-outlined appt__icon">location_on</text>
+          </view>
+          <view class="appt__text">
+            <text class="appt__label">就诊地点</text>
+            <text class="appt__value">{{order.hospital}}</text>
+            <text wx:if="{{order.department}}" class="appt__sub">{{order.department}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- ═══ Service Report Card (Step 3 – dark) ═══ -->
+      <view wx:if="{{stepIndex === 3}}" class="report-card anim-item anim-2" bind:tap="goServiceReport">
+        <text class="material-symbols-outlined report__bg-icon">description</text>
+        <view class="report__header">
+          <view class="report__icon-wrap">
+            <text class="material-symbols-outlined report__icon">assignment_turned_in</text>
+          </view>
+          <view class="report__title-wrap">
+            <text class="report__title">陪诊服务报告</text>
+            <text class="report__time">{{order.reportTime || ''}}</text>
+          </view>
+          <view class="report__btn btn-haptic">
+            <text>查看报告</text>
+            <text class="material-symbols-outlined report__btn-arrow">arrow_forward</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- ═══ Order Info Card ═══ -->
+      <view class="info-card anim-item anim-{{stepIndex === 0 ? '2' : '3'}}">
+        <view class="info-card__header">
+          <view class="info-card__bar"></view>
+          <text class="info-card__title">{{stepIndex === 0 ? '服务详情' : '订单信息'}}</text>
+          <view wx:if="{{stepIndex === 0 && order.orderNo}}" class="info-card__tag">
+            <text class="material-symbols-outlined info-card__tag-icon">tag</text>
+            <text class="info-card__tag-text">{{order.orderNo}}</text>
+          </view>
+        </view>
+        <view class="info-card__rows">
+          <view wx:if="{{order.serviceTime}}" class="info-card__row">
+            <text class="info-card__label">{{stepIndex === 0 ? '就诊时间' : '服务类型'}}</text>
+            <text class="info-card__value">{{stepIndex === 0 ? order.serviceTime : order.serviceType}}</text>
+          </view>
+          <view wx:if="{{stepIndex !== 0 && order.serviceType}}" class="info-card__row">
+            <text class="info-card__label">服务类型</text>
+            <text class="info-card__value">{{order.serviceType}}</text>
+          </view>
+          <view wx:if="{{stepIndex === 0 && order.hospital}}" class="info-card__row">
+            <text class="info-card__label">就诊医院</text>
+            <text class="info-card__value">{{order.hospital}}</text>
+          </view>
+          <view wx:if="{{stepIndex === 0 && order.department}}" class="info-card__row">
+            <text class="info-card__label">就诊科室</text>
+            <text class="info-card__value">{{order.department}}</text>
+          </view>
+          <view class="info-card__row">
+            <text class="info-card__label">就诊人</text>
+            <text class="info-card__value">{{order.subjectName}}</text>
+          </view>
+          <view wx:if="{{stepIndex !== 0}}" class="info-card__row">
+            <text class="info-card__label">订单编号</text>
+            <text class="info-card__value info-card__value--mono">{{order.orderNo}}</text>
+          </view>
+          <view wx:if="{{stepIndex >= 3 && order.hospital}}" class="info-card__row">
+            <text class="info-card__label">就诊医院</text>
+            <text class="info-card__value">{{order.hospital}}</text>
+          </view>
+          <view wx:if="{{stepIndex >= 3 && order.department}}" class="info-card__row">
+            <text class="info-card__label">就诊科室</text>
+            <text class="info-card__value">{{order.department}}</text>
+          </view>
+          <view class="info-card__row">
+            <text class="info-card__label">结算状态</text>
+            <text class="info-card__value">{{order.settlementStatusText || '--'}}</text>
+          </view>
+          <view class="info-card__row">
+            <text class="info-card__label">付款状态</text>
+            <text class="info-card__value">{{order.paymentStatusText || '--'}}</text>
+          </view>
+          <view wx:if="{{order.remark}}" class="info-card__remark">
+            <text class="info-card__label">特殊需求备注</text>
+            <view class="info-card__remark-box">{{order.remark}}</view>
+          </view>
+        </view>
+        <view class="info-card__footer">
+          <view class="info-card__link btn-haptic" bind:tap="goBill">
+            查看费用明细
+            <text class="material-symbols-outlined info-card__link-icon">arrow_forward</text>
+          </view>
+        </view>
+      </view>
+
+      <view
+        wx:if="{{serviceConfirmApplicable && !serviceConfirmBlockingMatch && stepIndex >= 1}}"
+        class="confirm-doc-card anim-item anim-3 btn-haptic"
+        bind:tap="goServiceConfirm"
+      >
+        <view class="confirm-doc-card__head">
+          <view class="confirm-doc-card__bar"></view>
+          <text class="confirm-doc-card__title">陪诊服务确认单</text>
+          <view wx:if="{{serviceConfirmSigned}}" class="confirm-doc-card__tag confirm-doc-card__tag--done">
+            <text class="material-symbols-outlined confirm-doc-card__tag-ico">check_circle</text>
+            已签署
+          </view>
+          <view wx:elif="{{serviceConfirmNeedsSign}}" class="confirm-doc-card__tag confirm-doc-card__tag--wait">待签署</view>
+        </view>
+        <text class="confirm-doc-card__desc">
+          {{serviceConfirmNeedsSign ? '进入确认单页：分类查看服务信息，核对无误后完成手写签署。' : '查看服务接受方、本次服务详情与费用分类信息（与签署页一致）。'}}
+        </text>
+        <view class="confirm-doc-card__foot">
+          <text class="confirm-doc-card__link">{{serviceConfirmNeedsSign ? '前往签署' : '查看本次服务信息'}}</text>
+          <text class="material-symbols-outlined confirm-doc-card__link-ico">arrow_forward</text>
+        </view>
+      </view>
+
+      <!-- ═══ Timeline Card ═══ -->
+      <view wx:if="{{timeline.length > 0}}" class="tl-card anim-item anim-4">
+        <view class="tl-card__header">
+          <view class="tl-card__bar"></view>
+          <text class="tl-card__title">{{stepIndex >= 3 ? '服务日志' : '订单动态'}}</text>
+        </view>
+        <view class="tl__list">
+          <view class="tl__rail"></view>
+          <view
+            wx:for="{{timeline}}"
+            wx:key="id"
+            class="tl__item {{index === 0 ? 'tl__item--active' : ''}} {{index > 1 ? 'tl__item--faded' : ''}}"
+          >
+            <view class="tl__dot {{index === 0 ? 'tl__dot--active' : 'tl__dot--inactive'}}"></view>
+            <view class="tl__body">
+              <view class="tl__head">
+                <text class="tl__name">{{item.title}}</text>
+                <text class="tl__time">{{item.time}}</text>
+              </view>
+              <text wx:if="{{item.description}}" class="tl__desc">{{item.description}}</text>
+              <view wx:if="{{item.images && item.images.length > 0}}" class="tl__imgs">
+                <image
+                  wx:for="{{item.images}}"
+                  wx:for-item="img"
+                  wx:key="*this"
+                  class="tl__img"
+                  src="{{img}}"
+                  mode="aspectFill"
+                  bind:tap="previewImage"
+                  data-src="{{img}}"
+                  data-urls="{{item.images}}"
+                />
+              </view>
+              <view wx:if="{{item.audioUrls && item.audioUrls.length > 0}}" class="tl__audios">
+                <audio
+                  wx:for="{{item.audioUrls}}"
+                  wx:for-item="audioUrl"
+                  wx:key="*this"
+                  class="tl__audio-player"
+                  src="{{audioUrl}}"
+                  controls
+                />
+              </view>
+              <view wx:if="{{item.transcriptionUser && (item.transcriptionUser.text || item.transcriptionUser.hint)}}" class="tl__tx">
+                <view class="tl__tx-head">
+                  <text class="tl__tx-title">录音转写</text>
+                </view>
+                <text wx:if="{{item.transcriptionUser.text}}" class="tl__tx-body">{{item.transcriptionUser.text}}</text>
+                <text wx:else class="tl__tx-hint">{{item.transcriptionUser.hint}}</text>
+              </view>
+              <view wx:if="{{item.files && item.files.length > 0}}" class="tl__files">
+                <view
+                  wx:for="{{item.files}}"
+                  wx:for-item="file"
+                  wx:key="url"
+                  class="tl__file btn-haptic"
+                  bind:tap="openTimelineFile"
+                  data-url="{{file.url}}"
+                >
+                  <text class="material-symbols-outlined tl__file-icon">attach_file</text>
+                  <text class="tl__file-name">{{file.name}}</text>
+                  <text class="tl__file-action">预览</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </view>
+  </scroll-view>
+
+  <!-- ═══ Bottom Actions ═══ -->
+  <view class="bottom" wx:if="{{order.status && order.status !== 'canceled'}}">
+    <view wx:if="{{order.status === 'pending_sign' && userRole === 'attendant' && currentUserId}}" class="bottom__row">
+      <button class="bottom__btn bottom__btn--primary bottom__btn--full btn-haptic" bind:tap="goSign">去签到</button>
+    </view>
+    <view wx:elif="{{(order.status === 'pending_service' || order.status === 'in_progress') && (userRole === 'attendant' || userRole === 'admin') && currentUserId}}" class="bottom__row">
+      <button class="bottom__btn bottom__btn--primary bottom__btn--full btn-haptic" bind:tap="goService">进入服务</button>
+    </view>
+    <view wx:elif="{{stepIndex === 0}}" class="bottom__row">
+      <button class="bottom__btn bottom__btn--outline bottom__btn--full btn-haptic" bind:tap="onCancelOrder">取消订单</button>
+    </view>
+    <view wx:elif="{{stepIndex === 1 || stepIndex === 2}}">
+      <view wx:if="{{userRole === 'user' && timeline.length > 0}}" class="bottom__row bottom__row--pair">
+        <button class="bottom__btn bottom__btn--share bottom__btn--pair btn-haptic" bind:tap="prepareShareTimeline">
+          <text class="material-symbols-outlined bottom__btn-icon bottom__btn-icon--green">share</text>
+          <text class="bottom__btn-text">分享动态</text>
+        </button>
+        <button class="bottom__btn bottom__btn--outline bottom__btn--pair btn-haptic" bind:tap="onContactStore">
+          <text class="material-symbols-outlined bottom__btn-icon bottom__btn-icon--muted">support_agent</text>
+          <text class="bottom__btn-text">联系门店</text>
+        </button>
+      </view>
+      <view wx:else class="bottom__row">
+        <button class="bottom__btn bottom__btn--outline bottom__btn--full btn-haptic" bind:tap="onContactStore">
+          <text class="material-symbols-outlined bottom__btn-icon bottom__btn-icon--muted">support_agent</text>
+          <text class="bottom__btn-text">联系门店</text>
+        </button>
+      </view>
+    </view>
+    <view wx:elif="{{stepIndex === 3 && userRole === 'user' && !order.reviewed}}" class="bottom__stack">
+      <view wx:if="{{showReviewPrompt}}" class="bottom__review-tip">
+        <text class="material-symbols-outlined bottom__review-tip-icon">rate_review</text>
+        <view class="bottom__review-tip-body">
+          <text class="bottom__review-tip-title">服务体验如何？</text>
+          <text class="bottom__review-tip-desc">请花 30 秒为本次服务打分，帮助我们持续改进</text>
+        </view>
+      </view>
+      <button
+        wx:if="{{timeline.length > 0}}"
+        class="bottom__btn bottom__btn--share bottom__btn--full btn-haptic"
+        bind:tap="prepareShareTimeline"
+      >
+        <text class="material-symbols-outlined bottom__btn-icon bottom__btn-icon--green">share</text>
+        分享服务动态
+      </button>
+      <view class="bottom__row">
+        <button class="bottom__btn bottom__btn--outline-blue btn-haptic" bind:tap="onRebook">再次预约</button>
+        <button class="bottom__btn bottom__btn--primary btn-haptic" bind:tap="goReview">
+          <text class="material-symbols-outlined bottom__btn-icon">rate_review</text>
+          立即评价
+        </button>
+      </view>
+    </view>
+    <view wx:elif="{{stepIndex === 3 && userRole === 'user' && order.reviewed}}" class="bottom__stack">
+      <view wx:if="{{order.reviewSummary}}" class="bottom__review-done">
+        <view class="bottom__review-done-head">
+          <text class="bottom__review-done-title">您已评价本次服务</text>
+          <view class="bottom__review-done-rating">
+            <block wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-item="star">
+              <text class="material-symbols-outlined bottom__review-done-star {{star <= order.reviewSummary.rating ? 'bottom__review-done-star--on' : ''}}">star</text>
+            </block>
+          </view>
+        </view>
+        <text wx:if="{{order.reviewSummary.comment}}" class="bottom__review-done-comment">{{order.reviewSummary.comment}}</text>
+      </view>
+      <button
+        wx:if="{{timeline.length > 0}}"
+        class="bottom__btn bottom__btn--share bottom__btn--full btn-haptic"
+        bind:tap="prepareShareTimeline"
+      >
+        <text class="material-symbols-outlined bottom__btn-icon bottom__btn-icon--green">share</text>
+        分享服务动态
+      </button>
+      <view class="bottom__row">
+        <button class="bottom__btn bottom__btn--outline-blue btn-haptic" bind:tap="onRebook">再次预约</button>
+        <button class="bottom__btn bottom__btn--outline btn-haptic" bind:tap="goReview">
+          <text class="material-symbols-outlined bottom__btn-icon bottom__btn-icon--muted">rate_review</text>
+          查看评价
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- ═══ Cancel Reason Modal ═══ -->
+  <view wx:if="{{showCancelReason}}" class="modal" bind:tap="closeCancelReason">
+    <view class="modal__dialog" catchtap="">
+      <text class="modal__title">取消原因</text>
+      <textarea
+        class="modal__textarea"
+        placeholder="请填写取消订单的原因"
+        maxlength="200"
+        value="{{cancelReason}}"
+        bindinput="onCancelReasonInput"
+      />
+      <view class="modal__footer">
+        <button class="modal__btn modal__btn--cancel btn-haptic" bind:tap="closeCancelReason">返回</button>
+        <button class="modal__btn modal__btn--confirm btn-haptic" bind:tap="confirmCancelWithReason">确认取消</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 仅用于生成转发卡片图，不可见 -->
+  <canvas type="2d" id="share-cover-canvas" class="share-cover-canvas"></canvas>
+</view>

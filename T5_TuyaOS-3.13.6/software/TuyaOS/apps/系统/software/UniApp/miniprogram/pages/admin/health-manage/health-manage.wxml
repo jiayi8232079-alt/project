@@ -1,0 +1,211 @@
+<view class="hm" style="padding-top: {{statusBarHeight}}px;">
+
+  <view class="hm__nav">
+    <view class="hm__back" bind:tap="handleBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="hm__title">健康档案管理</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <view class="hm__search-wrap">
+    <view class="search-box">
+      <text class="material-symbols-outlined search-box__icon">search</text>
+      <input
+        class="search-box__input"
+        placeholder="搜索客户姓名/手机号"
+        placeholder-class="search-box__placeholder"
+        confirm-type="search"
+        bind:confirm="onSearch"
+        value="{{searchKeyword}}"
+      />
+    </view>
+  </view>
+
+  <!-- 状态过滤胶囊 -->
+  <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="hm__filter-scroll">
+    <view class="hm__filter-row">
+      <view
+        class="filter-chip {{activeFilter === 'all' ? 'filter-chip--active filter-chip--all' : ''}}"
+        data-filter="all"
+        bind:tap="onFilterTap"
+        hover-class="btn-haptic"
+      >
+        <text class="filter-chip__label">全部</text>
+        <text class="filter-chip__count">{{statusCounts.all}}</text>
+      </view>
+      <view
+        class="filter-chip {{activeFilter === 'empty' ? 'filter-chip--active filter-chip--empty' : ''}}"
+        data-filter="empty"
+        bind:tap="onFilterTap"
+        hover-class="btn-haptic"
+      >
+        <view class="filter-chip__dot filter-chip__dot--empty"></view>
+        <text class="filter-chip__label">未填写</text>
+        <text class="filter-chip__count">{{statusCounts.empty}}</text>
+      </view>
+      <view
+        class="filter-chip {{activeFilter === 'unsigned' ? 'filter-chip--active filter-chip--unsigned' : ''}}"
+        data-filter="unsigned"
+        bind:tap="onFilterTap"
+        hover-class="btn-haptic"
+      >
+        <view class="filter-chip__dot filter-chip__dot--unsigned"></view>
+        <text class="filter-chip__label">待签署</text>
+        <text class="filter-chip__count">{{statusCounts.unsigned}}</text>
+      </view>
+      <view
+        class="filter-chip {{activeFilter === 'signed' ? 'filter-chip--active filter-chip--signed' : ''}}"
+        data-filter="signed"
+        bind:tap="onFilterTap"
+        hover-class="btn-haptic"
+      >
+        <view class="filter-chip__dot filter-chip__dot--signed"></view>
+        <text class="filter-chip__label">已签署</text>
+        <text class="filter-chip__count">{{statusCounts.signed}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="hm__list">
+    <view wx:if="{{loaded && total > 0}}" class="hm__count-bar">
+      <view class="hm__count-bar-left">
+        <text class="material-symbols-outlined hm__count-icon">folder_shared</text>
+        <view class="hm__count-group">
+          <text class="hm__count-text">当前显示</text>
+          <text class="hm__count-number">{{displayTargets.length}}</text>
+          <text class="hm__count-text">/</text>
+          <text class="hm__count-number">{{total}}</text>
+          <text class="hm__count-text">份健康档案</text>
+        </view>
+      </view>
+      <text wx:if="{{searchKeyword}}" class="hm__count-keyword">关键词：{{searchKeyword}}</text>
+    </view>
+
+    <view wx:if="{{loaded && displayTargets.length === 0}}" class="empty-tip">
+      <view class="empty-tip__icon-box">
+        <text class="material-symbols-outlined empty-tip__icon">folder_off</text>
+      </view>
+      <text class="empty-tip__title">
+        {{searchKeyword ? '没有匹配的档案' : (activeFilter === 'all' ? '暂无健康档案' : '当前状态下没有档案')}}
+      </text>
+      <text class="empty-tip__text">
+        {{searchKeyword ? '换个关键词试试' : (activeFilter === 'all' ? '尚未查询到匹配的客户档案' : '切换到其他状态试试')}}
+      </text>
+    </view>
+
+    <view
+      wx:for="{{displayTargets}}"
+      wx:key="id"
+      class="profile-card profile-card--{{item.profileStatus}}"
+      hover-class="profile-card--hover"
+    >
+      <view class="profile-card__head">
+        <view class="profile-card__avatar profile-card__avatar--g{{index % 5}}">
+          <text>{{item.name[0] || '人'}}</text>
+          <view wx:if="{{item.profileStatus === 'signed'}}" class="profile-card__avatar-dot">
+            <text class="material-symbols-outlined">verified</text>
+          </view>
+        </view>
+        <view class="profile-card__info">
+          <view class="profile-card__name-row">
+            <text class="profile-card__name">{{item.name}}</text>
+            <text wx:if="{{item.genderLabel}}" class="profile-card__chip profile-card__chip--{{item.gender}}">{{item.genderLabel}}</text>
+            <text wx:if="{{item.age}}" class="profile-card__chip profile-card__chip--age">{{item.age}}岁</text>
+          </view>
+          <view class="profile-card__phone-row">
+            <text class="material-symbols-outlined profile-card__phone-icon">phone_iphone</text>
+            <text class="profile-card__phone">{{item.phone || '未填写电话'}}</text>
+          </view>
+        </view>
+        <view class="profile-card__status profile-card__status--{{item.profileStatus}}">
+          <text wx:if="{{item.profileStatus === 'signed'}}" class="material-symbols-outlined profile-card__status-icon">task_alt</text>
+          <text wx:elif="{{item.profileStatus === 'unsigned'}}" class="material-symbols-outlined profile-card__status-icon">schedule</text>
+          <text wx:else class="material-symbols-outlined profile-card__status-icon">edit_note</text>
+          <text>{{item.profileStatus === 'signed' ? '已签署' : item.profileStatus === 'unsigned' ? '待签署' : '未填写'}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{item.mainAppeal}}" class="profile-card__appeal">
+        <text class="material-symbols-outlined profile-card__appeal-icon">sticky_note_2</text>
+        <view class="profile-card__appeal-text">
+          <text class="profile-card__appeal-label">就医诉求</text>
+          <text class="profile-card__appeal-content">{{item.mainAppeal}}</text>
+        </view>
+      </view>
+
+      <view class="profile-card__actions">
+        <!-- 已签署：只显示查看/编辑档案（低调） -->
+        <block wx:if="{{item.profileStatus === 'signed'}}">
+          <view class="profile-card__btn profile-card__btn--secondary" bind:tap="goEditProfile" data-subjectid="{{item.id}}" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">description</text>
+            <text>查看档案</text>
+          </view>
+          <view class="profile-card__btn profile-card__btn--success-soft">
+            <text class="material-symbols-outlined">verified</text>
+            <text>已签署</text>
+          </view>
+        </block>
+
+        <!-- 待签署（已填写但未签）：编辑档案 + 转发签署（橙） -->
+        <block wx:elif="{{item.profileStatus === 'unsigned'}}">
+          <view class="profile-card__btn profile-card__btn--secondary" bind:tap="goEditProfile" data-subjectid="{{item.id}}" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">edit_note</text>
+            <text>编辑档案</text>
+          </view>
+          <button
+            wx:if="{{item.sceneCode}}"
+            class="profile-card__btn profile-card__btn--warn btn-reset"
+            open-type="share"
+            data-subjectid="{{item.id}}"
+            data-name="{{item.name}}"
+            hover-class="btn-haptic"
+          >
+            <text class="material-symbols-outlined">forward_to_inbox</text>
+            <text>转发签署</text>
+          </button>
+          <view wx:else class="profile-card__btn profile-card__btn--muted">
+            <text class="material-symbols-outlined">hourglass_empty</text>
+            <text>准备中</text>
+          </view>
+        </block>
+
+        <!-- 未填写：主按钮是"去填写"（红主色），次级是"转发让客户填" -->
+        <block wx:else>
+          <button
+            wx:if="{{item.sceneCode}}"
+            class="profile-card__btn profile-card__btn--secondary btn-reset"
+            open-type="share"
+            data-subjectid="{{item.id}}"
+            data-name="{{item.name}}"
+            hover-class="btn-haptic"
+          >
+            <text class="material-symbols-outlined">forward_to_inbox</text>
+            <text>转发填写</text>
+          </button>
+          <view class="profile-card__btn profile-card__btn--danger" bind:tap="goEditProfile" data-subjectid="{{item.id}}" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">edit_note</text>
+            <text>去填写</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-tip">
+      <view class="loading-tip__dots">
+        <view class="loading-tip__dot"></view>
+        <view class="loading-tip__dot"></view>
+        <view class="loading-tip__dot"></view>
+      </view>
+      <text>加载中</text>
+    </view>
+    <view wx:if="{{!hasMore && targets.length > 0}}" class="end-tip">
+      <view class="end-tip__line"></view>
+      <text>已加载全部</text>
+      <view class="end-tip__line"></view>
+    </view>
+    <view style="height: calc(env(safe-area-inset-bottom) + 24rpx);"></view>
+  </scroll-view>
+
+  <canvas type="2d" id="share-cover-canvas" style="position:fixed;left:-9999px;top:-9999px;width:500px;height:400px;"></canvas>
+</view>

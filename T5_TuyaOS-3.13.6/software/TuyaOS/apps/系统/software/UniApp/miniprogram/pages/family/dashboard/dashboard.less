@@ -1,0 +1,274 @@
+@green: #4CAF50;
+@green-light: rgba(76,175,80,0.08);
+@blue: #2196F3;
+@blue-light: rgba(33,150,243,0.08);
+@orange: #FF9800;
+@orange-light: rgba(255,152,0,0.08);
+@red: #F44336;
+@red-light: rgba(244,67,54,0.08);
+@deep: #1A1A1A;
+@sub: rgba(26,26,26,0.45);
+@border: rgba(0,0,0,0.04);
+@card-r: 28rpx;
+
+.dash {
+  min-height: 100vh;
+  background: #F5F6FA;
+}
+
+/* Nav */
+.dash__nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12rpx 24rpx calc(12rpx + 4rpx);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.dash__nav-back {
+  width: 72rpx; height: 72rpx; display: flex; align-items: center; justify-content: center;
+  color: @deep;
+  .material-symbols-outlined { font-size: 36rpx; }
+}
+.dash__nav-title { font-size: 32rpx; font-weight: 700; color: @deep; }
+
+.dash__loading {
+  display: flex; align-items: center; justify-content: center;
+  height: 60vh; color: @sub; font-size: 28rpx;
+}
+
+.dash__scroll { width: 100%; height: calc(100vh - 88rpx); }
+.dash__body { padding: 0 24rpx 24rpx; }
+
+/* ====== 健康预警横幅 ====== */
+.dash__alert-banner {
+  display: flex; align-items: flex-start; gap: 16rpx;
+  padding: 24rpx 28rpx;
+  border-radius: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 6rpx 20rpx rgba(239, 68, 68, 0.18);
+
+  &--high {
+    background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+    border: 2rpx solid #FCA5A5;
+  }
+  &--medium {
+    background: linear-gradient(135deg, #FFEDD5 0%, #FED7AA 100%);
+    border: 2rpx solid #FDBA74;
+  }
+}
+.dash__alert-banner-icon {
+  width: 72rpx; height: 72rpx; border-radius: 20rpx;
+  background: rgba(255,255,255,0.65);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  .material-symbols-outlined {
+    font-size: 40rpx;
+    font-variation-settings: 'FILL' 1;
+  }
+}
+.dash__alert-banner--high .dash__alert-banner-icon .material-symbols-outlined { color: #DC2626; }
+.dash__alert-banner--medium .dash__alert-banner-icon .material-symbols-outlined { color: #EA580C; }
+
+.dash__alert-banner-content { flex: 1; min-width: 0; }
+.dash__alert-banner-title {
+  display: block; font-size: 30rpx; font-weight: 700; color: @deep;
+}
+.dash__alert-banner-sub {
+  display: block; font-size: 24rpx; color: rgba(0,0,0,0.55); margin-top: 4rpx;
+}
+.dash__alert-banner-latest {
+  margin-top: 12rpx; display: flex; flex-direction: column; gap: 6rpx;
+}
+.dash__alert-banner-item {
+  display: flex; align-items: center; gap: 8rpx;
+  padding: 6rpx 14rpx; background: rgba(255,255,255,0.55);
+  border-radius: 14rpx;
+}
+.dash__alert-banner-dot {
+  width: 12rpx; height: 12rpx; border-radius: 50%;
+  flex-shrink: 0;
+  &--high { background: #DC2626; }
+  &--medium { background: #EA580C; }
+  &--low { background: #10B981; }
+}
+.dash__alert-banner-item-title {
+  font-size: 24rpx; color: @deep; font-weight: 500;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.dash__alert-banner-arrow {
+  font-size: 32rpx; color: rgba(0,0,0,0.55); align-self: center;
+}
+
+/* ====== 总览卡片 ====== */
+.dash__overview {
+  background: linear-gradient(135deg, #E8F5E9 0%, #fff 70%);
+  border-radius: @card-r; padding: 32rpx;
+  margin-bottom: 20rpx; box-shadow: 0 2rpx 16rpx rgba(0,0,0,0.04);
+}
+.dash__overview-top {
+  display: flex; align-items: center; gap: 16rpx; margin-bottom: 24rpx;
+}
+.dash__overview-icon {
+  width: 56rpx; height: 56rpx; border-radius: 16rpx;
+  background: @green-light; display: flex; align-items: center; justify-content: center;
+  .material-symbols-outlined { font-size: 32rpx; color: @green; }
+}
+.dash__overview-text { flex: 1; }
+.dash__overview-title { font-size: 30rpx; font-weight: 700; color: @deep; display: block; }
+.dash__overview-sub { font-size: 22rpx; color: @sub; display: block; margin-top: 2rpx; }
+.dash__overview-stats {
+  display: flex; align-items: center; justify-content: space-around;
+}
+.dash__overview-stat { text-align: center; flex: 1; }
+.dash__overview-num { font-size: 40rpx; font-weight: 800; color: @deep; display: block; }
+.dash__overview-num--green { color: @green; }
+.dash__overview-num--orange { color: @orange; }
+.dash__overview-label { font-size: 22rpx; color: @sub; display: block; margin-top: 4rpx; }
+.dash__overview-stat-divider { width: 1rpx; height: 48rpx; background: @border; }
+
+/* ====== 进行中服务 ====== */
+.dash__active-banner {
+  display: flex; align-items: center; gap: 14rpx;
+  background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+  border-radius: 20rpx; padding: 20rpx 24rpx;
+  margin-bottom: 16rpx;
+}
+.dash__active-dot {
+  width: 16rpx; height: 16rpx; border-radius: 50%; background: @green;
+  flex-shrink: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+.dash__active-content { flex: 1; }
+.dash__active-who { font-size: 26rpx; font-weight: 700; color: @deep; }
+.dash__active-text { font-size: 24rpx; color: rgba(0,0,0,0.55); display: block; margin-top: 2rpx; }
+
+/* ====== 周报入口 ====== */
+.dash__weekly-entry {
+  display: flex; align-items: center; gap: 16rpx;
+  background: #fff; border-radius: @card-r; padding: 24rpx 28rpx;
+  margin-bottom: 20rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.03);
+}
+.dash__weekly-icon {
+  width: 52rpx; height: 52rpx; border-radius: 14rpx;
+  background: @blue-light; display: flex; align-items: center; justify-content: center;
+  .material-symbols-outlined { font-size: 28rpx; color: @blue; }
+}
+.dash__weekly-info { flex: 1; }
+.dash__weekly-title { font-size: 28rpx; font-weight: 700; color: @deep; display: block; }
+.dash__weekly-sub { font-size: 22rpx; color: @sub; display: block; margin-top: 2rpx; }
+
+/* ====== Section Title ====== */
+.dash__section-title {
+  display: flex; align-items: center; gap: 8rpx;
+  font-size: 28rpx; font-weight: 700; color: @deep;
+  padding: 8rpx 0 16rpx;
+}
+
+/* ====== 成员卡片 ====== */
+.dash__member-card {
+  background: #fff; border-radius: @card-r; padding: 24rpx 28rpx;
+  margin-bottom: 16rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.03);
+}
+.dash__member-top {
+  display: flex; align-items: center; gap: 16rpx;
+}
+.dash__member-avatar {
+  width: 72rpx; height: 72rpx; border-radius: 50%;
+  background: linear-gradient(135deg, @green, #66BB6A);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 32rpx; font-weight: 700; flex-shrink: 0;
+}
+.dash__member-info { flex: 1; }
+.dash__member-name-row { display: flex; align-items: center; gap: 10rpx; }
+.dash__member-name { font-size: 30rpx; font-weight: 700; color: @deep; }
+.dash__member-rel {
+  font-size: 20rpx; color: @green; background: @green-light;
+  padding: 4rpx 12rpx; border-radius: 10rpx; font-weight: 500;
+
+  &--warn {
+    color: #F59E0B;
+    background: rgba(245, 158, 11, 0.1);
+    margin-left: 6rpx;
+  }
+}
+.dash__member-arrow { font-size: 32rpx; color: #CBD5E1; }
+
+.dash__member-badges {
+  display: flex; flex-wrap: wrap; gap: 8rpx; margin-top: 10rpx;
+}
+.dash__badge {
+  display: inline-flex; align-items: center; gap: 4rpx;
+  font-size: 20rpx; font-weight: 600; padding: 4rpx 12rpx;
+  border-radius: 10rpx;
+}
+.dash__badge--green { color: @green; background: @green-light; }
+.dash__badge--orange { color: @orange; background: @orange-light; }
+.dash__badge--red { color: @red; background: @red-light; }
+.dash__badge-dot {
+  width: 10rpx; height: 10rpx; border-radius: 50%; background: currentColor;
+}
+.dash__badge-dot--pulse { animation: pulse 1.5s ease-in-out infinite; }
+
+/* 用药速览 */
+.dash__member-meds {
+  display: flex; align-items: baseline; gap: 6rpx;
+  padding-top: 14rpx; margin-top: 14rpx; border-top: 1rpx solid @border;
+}
+.dash__member-meds-label { font-size: 22rpx; color: @sub; flex-shrink: 0; }
+.dash__member-meds-names { font-size: 22rpx; color: @deep; font-weight: 500; }
+
+.dash__member-empty {
+  display: flex; align-items: center; gap: 6rpx;
+  padding-top: 14rpx; margin-top: 14rpx; border-top: 1rpx solid @border;
+  font-size: 22rpx; color: #CBD5E1;
+}
+
+.dash__global-empty {
+  display: flex; flex-direction: column; align-items: center; gap: 12rpx;
+  padding: 80rpx 0;
+}
+.dash__global-empty-text { font-size: 28rpx; color: @sub; }
+
+/* 今日用药卡片 */
+.dash__med-today {
+  display: flex; align-items: center; gap: 16rpx;
+  padding: 22rpx 24rpx;
+  background: #fff;
+  border-radius: @card-r;
+  margin: 0 24rpx 16rpx;
+  box-shadow: 0 1rpx 4rpx rgba(0,0,0,0.04);
+
+  &--ok { border-left: 6rpx solid @green; }
+  &--alert {
+    border-left: 6rpx solid @red;
+    background: linear-gradient(90deg, rgba(244,67,54,0.06), #fff 40%);
+  }
+}
+.dash__med-today-icon {
+  width: 56rpx; height: 56rpx; border-radius: 16rpx;
+  background: @green-light; color: @green;
+  display: flex; align-items: center; justify-content: center;
+  .dash__med-today--alert & { background: @red-light; color: @red; }
+  .material-symbols-outlined { font-size: 32rpx; }
+}
+.dash__med-today-info { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
+.dash__med-today-title { font-size: 28rpx; font-weight: 600; color: @deep; }
+.dash__med-today-sub { font-size: 22rpx; color: @sub; }
+
+/* 成员卡片里的今日打卡条 */
+.dash__member-today {
+  display: flex; align-items: center; gap: 8rpx;
+  padding-top: 14rpx; margin-top: 14rpx; border-top: 1rpx solid @border;
+  font-size: 22rpx; color: @green;
+
+  &--alert { color: @red; }
+}
+.dash__member-today-text { flex: 1; }
+.dash__member-today-action { font-size: 22rpx; color: @blue; }
+
+.btn-haptic:active { transform: scale(0.97); }

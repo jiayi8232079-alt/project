@@ -1,0 +1,75 @@
+<view class="fam-edit">
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="fam-edit__scroll">
+    <view class="fam-edit__body">
+
+      <!-- 当前头像预览 -->
+      <view class="fam-edit__preview">
+        <view class="fam-edit__avatar fam-edit__avatar--lg">
+          <image wx:if="{{avatarType === 'image' && avatarImage}}" src="{{avatarImage}}" mode="aspectFill" class="fam-edit__avatar-img" />
+          <text wx:elif="{{avatarType === 'preset' && avatarEmoji}}" class="fam-edit__avatar-emoji">{{avatarEmoji}}</text>
+          <text wx:else class="material-symbols-outlined fam-edit__avatar-icon">home</text>
+        </view>
+        <view class="fam-edit__preview-name">{{name || '未命名家庭'}}</view>
+        <view wx:if="{{!canEdit}}" class="fam-edit__preview-tip">只有家庭管理者可以修改</view>
+      </view>
+
+      <!-- 家庭名称 -->
+      <view class="fam-edit__section">
+        <view class="fam-edit__section-title">家庭名称</view>
+        <input
+          class="fam-edit__input"
+          placeholder="请输入家庭名称（如：张家、我们一家）"
+          maxlength="30"
+          value="{{name}}"
+          bindinput="onNameInput"
+          disabled="{{!canEdit}}"
+        />
+        <view class="fam-edit__hint">最长 30 个字</view>
+      </view>
+
+      <!-- 预设头像 -->
+      <view class="fam-edit__section">
+        <view class="fam-edit__section-title">选择预设头像</view>
+        <view class="fam-edit__presets">
+          <view
+            wx:for="{{presets}}"
+            wx:key="key"
+            class="fam-edit__preset {{avatarType === 'preset' && avatarValue === item.key ? 'is-active' : ''}}"
+            bindtap="pickPreset"
+            data-key="{{item.key}}"
+            hover-class="{{canEdit ? 'btn-haptic' : ''}}"
+          >
+            <text class="fam-edit__preset-emoji">{{item.emoji}}</text>
+            <text class="fam-edit__preset-label">{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 上传自定义 -->
+      <view class="fam-edit__section">
+        <view class="fam-edit__section-title">上传自定义图片</view>
+        <view class="fam-edit__upload-row">
+          <view class="fam-edit__upload-btn" bindtap="chooseCustomImage" hover-class="{{canEdit ? 'btn-haptic' : ''}}">
+            <text class="material-symbols-outlined" style="font-size: 40rpx;">add_a_photo</text>
+            <text>{{uploading ? '上传中…' : '从相册 / 拍照'}}</text>
+          </view>
+          <view wx:if="{{avatarType === 'image'}}" class="fam-edit__upload-clear" bindtap="clearAvatar" hover-class="btn-haptic">
+            <text class="material-symbols-outlined" style="font-size: 32rpx;">delete</text>
+            <text>移除自定义</text>
+          </view>
+        </view>
+        <view class="fam-edit__hint">建议使用正方形图片，保存后显示为圆形头像</view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <view class="fam-edit__footer">
+    <button
+      class="fam-edit__btn fam-edit__btn--primary"
+      bindtap="save"
+      loading="{{saving}}"
+      disabled="{{saving || !canEdit}}"
+    >保存修改</button>
+  </view>
+</view>

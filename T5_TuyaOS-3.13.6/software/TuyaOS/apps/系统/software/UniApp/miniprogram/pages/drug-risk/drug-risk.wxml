@@ -1,0 +1,169 @@
+<view class="dr">
+  <!-- 顶部导航 -->
+  <view class="dr__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="dr__nav-back btn-haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back_ios</text>
+    </view>
+    <text class="dr__nav-title">用药风险评估</text>
+    <view class="dr__nav-placeholder"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看风险评估</text>
+      <text class="page-login-gate__desc">用药风险评估仅对本人账号展示。您可先返回了解其他服务，需要时再自愿登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="dr__scroll"
+    style="height: calc(100vh - 88rpx - {{statusBarHeight}}px);"
+  >
+    <view class="dr__content">
+
+      <!-- 介绍卡 -->
+      <view class="dr__intro">
+        <view class="dr__intro-icon">
+          <text class="material-symbols-outlined">vaccines</text>
+        </view>
+        <view class="dr__intro-body">
+          <text class="dr__intro-title">AI 药师帮你查一查</text>
+          <text class="dr__intro-desc">基于规则库 + AI 分析，识别正在服用的药物之间是否存在相互作用风险。</text>
+          <ai-badge size="sm" tone="notice" icon="auto_awesome" text="仅作参考，不替代医师判断" ext-class="dr__intro-badge" />
+        </view>
+      </view>
+
+      <!-- 服务对象选择 -->
+      <view class="dr__section" wx:if="{{targets.length > 0}}">
+        <text class="dr__section-title">选择评估对象</text>
+        <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="dr__tabs">
+          <view
+            wx:for="{{targets}}" wx:key="id"
+            class="dr__tab {{item.id === selectedTargetId ? 'dr__tab--active' : ''}}"
+            data-id="{{item.id}}"
+            bind:tap="onSelectTarget"
+            hover-class="btn-haptic"
+          >
+            <text class="dr__tab-name">{{item.name}}</text>
+            <text class="dr__tab-rel" wx:if="{{item.relation}}">{{item.relation}}</text>
+            <text class="dr__tab-count" wx:if="{{item.activeMedCount > 0}}">{{item.activeMedCount}} 种在用药</text>
+          </view>
+        </scroll-view>
+      </view>
+
+      <view class="dr__empty" wx:if="{{targets.length === 0}}">
+        <text class="material-symbols-outlined dr__empty-icon">person_off</text>
+        <text class="dr__empty-title">还没有服务对象</text>
+        <text class="dr__empty-desc">请先在「家庭健康」中添加家人信息</text>
+      </view>
+
+      <!-- 无在用药物提示 -->
+      <view class="dr__alert dr__alert--info" wx:if="{{!loading && selectedTargetId > 0 && noActiveMedication}}">
+        <text class="material-symbols-outlined">info</text>
+        <view class="dr__alert-body">
+          <text class="dr__alert-title">{{selectedTargetName}} 当前没有进行中的用药</text>
+          <text class="dr__alert-desc">添加用药提醒后即可进行相互作用评估</text>
+          <view class="dr__alert-btn" bind:tap="goMedicationReminder">去添加用药 →</view>
+        </view>
+      </view>
+
+      <!-- 空状态（无报告但有药物） -->
+      <view class="dr__empty-report" wx:if="{{!loading && selectedTargetId > 0 && !report.exists && !noActiveMedication}}">
+        <text class="material-symbols-outlined dr__empty-report-icon">clinical_notes</text>
+        <text class="dr__empty-report-title">还没做过用药相互作用评估</text>
+        <text class="dr__empty-report-desc">点击下方按钮，让 AI 药师帮你查一下当前在服药物是否有风险组合。</text>
+      </view>
+
+      <!-- 报告主体 -->
+      <view class="dr__report" wx:if="{{report.exists}}">
+        <!-- 风险等级大卡 -->
+        <view class="dr__summary dr__summary--{{report.riskTone}}">
+          <view class="dr__summary-top">
+            <view class="dr__summary-label-wrap">
+              <text class="material-symbols-outlined dr__summary-icon">
+                {{report.riskLevel === 'high' ? 'warning' : report.riskLevel === 'medium' ? 'error' : report.riskLevel === 'low' ? 'info' : 'verified'}}
+              </text>
+              <text class="dr__summary-label">{{report.riskLabel}}</text>
+            </view>
+            <text class="dr__summary-count" wx:if="{{report.findingsCount > 0}}">发现 {{report.findingsCount}} 条</text>
+          </view>
+          <text class="dr__summary-text">{{report.summary}}</text>
+          <text class="dr__summary-time">评估时间：{{report.assessedAt}}</text>
+        </view>
+
+        <!-- AI 回退提示 -->
+        <view class="dr__alert dr__alert--warning" wx:if="{{report.llmFallback}}">
+          <text class="material-symbols-outlined">tips_and_updates</text>
+          <view class="dr__alert-body">
+            <text class="dr__alert-title">本次仅使用规则库评估</text>
+            <text class="dr__alert-desc">AI 药师暂时不可用，复杂组合可能未覆盖，建议稍后重试或联系健康管家。</text>
+          </view>
+        </view>
+
+        <!-- 正在服用的药物 -->
+        <view class="dr__section" wx:if="{{report.medicines.length > 0}}">
+          <text class="dr__section-title">纳入评估的药物 ({{report.medicines.length}})</text>
+          <view class="dr__medicines">
+            <view
+              wx:for="{{report.medicines}}" wx:for-item="m" wx:key="medicineName"
+              class="dr__med"
+            >
+              <text class="dr__med-name">{{m.medicineName}}</text>
+              <text class="dr__med-dose" wx:if="{{m.dosage}}">{{m.dosage}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 相互作用发现 -->
+        <view class="dr__section" wx:if="{{report.findings.length > 0}}">
+          <text class="dr__section-title">相互作用发现</text>
+          <view
+            wx:for="{{report.findings}}" wx:for-item="f" wx:key="drugA"
+            class="dr__finding dr__finding--{{f.severity}}"
+          >
+            <view class="dr__finding-head">
+              <view class="dr__finding-tag dr__finding-tag--{{f.severity}}">{{f.severityLabel}}</view>
+              <view class="dr__finding-source">{{f.sourceLabel}}</view>
+              <view class="dr__finding-drugs">
+                <text class="dr__finding-drug">{{f.drugA}}</text>
+                <text class="dr__finding-plus">+</text>
+                <text class="dr__finding-drug">{{f.drugB}}</text>
+              </view>
+            </view>
+            <view class="dr__finding-section">
+              <text class="dr__finding-section-label">风险机制</text>
+              <text class="dr__finding-section-text">{{f.mechanism}}</text>
+            </view>
+            <view class="dr__finding-section">
+              <text class="dr__finding-section-label">处理建议</text>
+              <text class="dr__finding-section-text">{{f.recommendation}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 无发现提示 -->
+        <view class="dr__no-findings" wx:if="{{report.findings.length === 0}}">
+          <text class="material-symbols-outlined dr__no-findings-icon">task_alt</text>
+          <text class="dr__no-findings-title">暂未发现已知高风险相互作用</text>
+          <text class="dr__no-findings-desc">建议每次新增药物或就诊后重新评估</text>
+        </view>
+      </view>
+
+      <view style="height: 180rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部按钮 -->
+  <view class="dr__bottom" wx:if="{{!pageNeedsLogin && selectedTargetId > 0}}">
+    <button class="dr__bottom-btn {{assessing ? 'dr__bottom-btn--loading' : ''}}" bind:tap="runAssessment" disabled="{{assessing}}">
+      <text class="material-symbols-outlined dr__bottom-icon">auto_awesome</text>
+      <text>{{report.exists ? '重新评估' : '让 AI 药师评估'}}</text>
+    </button>
+  </view>
+</view>

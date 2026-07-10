@@ -217,12 +217,16 @@ OPERATE_RET tuya_ai_toy_key_init(TUYA_GPIO_NUM_E pin, BOOL_T low_detect, UINT32_
     }
 
     OPERATE_RET rt = OPRT_OK;
-    TAL_PR_DEBUG("ai toy -> init key %d", pin);
+    TAL_PR_NOTICE("ai toy key cfg pin=%d active=%s pull=%s irq=%s",
+                  pin,
+                  low_detect ? "low" : "high",
+                  low_detect ? "pullup" : "pulldown",
+                  low_detect ? "fall" : "rise");
 
     TUYA_GPIO_BASE_CFG_T key_cfg = {
-        .mode   = TUYA_GPIO_PULLUP,
+        .mode   = low_detect ? TUYA_GPIO_PULLUP : TUYA_GPIO_PULLDOWN,
         .direct = TUYA_GPIO_INPUT,
-        .level  = TUYA_GPIO_LEVEL_HIGH
+        .level  = low_detect ? TUYA_GPIO_LEVEL_HIGH : TUYA_GPIO_LEVEL_LOW
     };
 
     KEY_USER_DEF_S pin_cfg;
@@ -233,13 +237,52 @@ OPERATE_RET tuya_ai_toy_key_init(TUYA_GPIO_NUM_E pin, BOOL_T low_detect, UINT32_
     pin_cfg.seq_key_detect_time = seqk_time_ms;
     pin_cfg.call_back           = cb;
 
-    key_init(NULL, 0, 20);
-    key_set_keep_time(70*1000);
-    reg_proc_key(&pin_cfg);
-    TUYA_CALL_ERR_LOG(tkl_gpio_init(pin, &key_cfg));
-    TUYA_CALL_ERR_LOG(tkl_gpio_irq_enable(pin));
+    rt = tkl_gpio_init(pin, &key_cfg);
+    if (rt != OPRT_OK) {
+        TAL_PR_ERR("ai toy key gpio init failed pin=%d rt=%d", pin, rt);
+        return rt;
+    }
 
-    TAL_PR_DEBUG("ai toy key %d seqk time %d, longk time %d", pin, seqk_time_ms, longk_time_ms);
+    rt = key_init(NULL, 0, 20);
+    if (rt != OPRT_OK) {
+        TAL_PR_ERR("ai toy key service init failed pin=%d rt=%d", pin, rt);
+        return rt;
+    }
+    key_set_keep_time(70*1000);
+
+    rt = reg_proc_key(&pin_cfg);
+    if (rt != OPRT_OK) {
+        TAL_PR_ERR("ai toy key register failed pin=%d rt=%d", pin, rt);
+        return rt;
+    }
+
+    rt = tkl_gpio_irq_enable(pin);
+    if (rt != OPRT_OK) {
+        TAL_PR_ERR("ai toy key irq enable failed pin=%d rt=%d", pin, rt);
+        return rt;
+    }
+
+    TUYA_GPIO_LEVEL_E level = TUYA_GPIO_LEVEL_LOW;
+    rt = tkl_gpio_read(pin, &level);
+    if (rt == OPRT_OK) {
+        TAL_PR_NOTICE("ai toy key initial level pin=%d level=%d", pin, level);
+    } else {
+        TAL_PR_ERR("ai toy key read initial level failed pin=%d rt=%d", pin, rt);
+    }
+
+    if (!low_detect) {
+        for (INT_T i = 0; i < 10; i++) {
+            tal_system_sleep(200);
+            rt = tkl_gpio_read(pin, &level);
+            if (rt == OPRT_OK) {
+                TAL_PR_NOTICE("ai toy key sample pin=%d idx=%d level=%d", pin, i, level);
+            } else {
+                TAL_PR_ERR("ai toy key sample failed pin=%d idx=%d rt=%d", pin, i, rt);
+            }
+        }
+    }
+
+    TAL_PR_NOTICE("ai toy key ready pin=%d seqk=%d longk=%d", pin, seqk_time_ms, longk_time_ms);
     return rt;
 #endif
 }

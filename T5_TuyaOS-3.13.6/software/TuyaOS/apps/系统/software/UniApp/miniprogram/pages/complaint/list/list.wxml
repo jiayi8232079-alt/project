@@ -1,0 +1,126 @@
+<view class="ticket-list {{loaded ? 'ticket-list--loaded' : ''}}">
+
+  <view class="ticket-list__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ticket-list__nav-back" bind:tap="goBack" hover-class="ticket-list__nav-back--hover">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="ticket-list__nav-title">我的工单</text>
+    <view class="ticket-list__nav-placeholder"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看我的工单</text>
+      <text class="page-login-gate__desc">登录后可查看已提交的投诉/建议及其处理进度。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view
+    wx:else
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    class="ticket-list__scroll"
+    refresher-enabled
+    refresher-triggered="{{refreshing}}"
+    bindrefresherrefresh="onRefresh"
+    bindscrolltolower="onReachBottom"
+  >
+    <view class="ticket-list__body">
+
+      <scroll-view scroll-x show-scrollbar="{{false}}" class="ticket-list__tabs-wrap">
+        <view class="ticket-list__tabs">
+          <view
+            class="ticket-list__tab {{activeTab === '' ? 'ticket-list__tab--active' : ''}}"
+            data-tab=""
+            bindtap="onTabChange"
+          >全部</view>
+          <view
+            class="ticket-list__tab {{activeTab === 'pending' ? 'ticket-list__tab--active' : ''}}"
+            data-tab="pending"
+            bindtap="onTabChange"
+          >待处理</view>
+          <view
+            class="ticket-list__tab {{activeTab === 'processing' ? 'ticket-list__tab--active' : ''}}"
+            data-tab="processing"
+            bindtap="onTabChange"
+          >处理中</view>
+          <view
+            class="ticket-list__tab {{activeTab === 'resolved' ? 'ticket-list__tab--active' : ''}}"
+            data-tab="resolved"
+            bindtap="onTabChange"
+          >已解决</view>
+          <view
+            class="ticket-list__tab {{activeTab === 'closed' ? 'ticket-list__tab--active' : ''}}"
+            data-tab="closed"
+            bindtap="onTabChange"
+          >已关闭</view>
+        </view>
+      </scroll-view>
+
+      <view wx:if="{{items.length === 0 && !loading}}" class="ticket-list__empty">
+        <view class="ticket-list__empty-icon">
+          <text class="material-symbols-outlined">support_agent</text>
+        </view>
+        <text class="ticket-list__empty-title">
+          {{activeTab ? '当前状态暂无工单' : '暂无工单记录'}}
+        </text>
+        <text class="ticket-list__empty-sub">
+          遇到服务问题或有建议，可点击下方按钮提交工单，客服会在 24 小时内跟进处理。
+        </text>
+        <button class="ticket-list__empty-btn" bindtap="goCreate" hover-class="ticket-list__empty-btn--hover">
+          <text class="material-symbols-outlined">add_circle</text>
+          提交新工单
+        </button>
+      </view>
+
+      <view wx:else class="ticket-list__items">
+        <view
+          wx:for="{{items}}"
+          wx:key="id"
+          class="ticket-card ticket-card--{{item.status}}"
+          data-id="{{item.id}}"
+          bindtap="onItemTap"
+          hover-class="ticket-card--hover"
+        >
+          <view class="ticket-card__header">
+            <view class="ticket-card__status ticket-card__status--{{item.status}}">
+              <text class="ticket-card__status-dot"></text>
+              {{item.statusLabel}}
+            </view>
+            <view class="ticket-card__category">{{item.categoryLabel}}</view>
+            <text class="ticket-card__time">{{item.createdAtText}}</text>
+          </view>
+
+          <text class="ticket-card__title">{{item.subject}}</text>
+          <text class="ticket-card__desc">{{item.description}}</text>
+
+          <view class="ticket-card__footer">
+            <view class="ticket-card__meta">
+              <text class="material-symbols-outlined">confirmation_number</text>
+              <text>工单号 #{{item.id}}</text>
+            </view>
+            <view class="ticket-card__arrow">
+              查看详情
+              <text class="material-symbols-outlined">chevron_right</text>
+            </view>
+          </view>
+        </view>
+
+        <view wx:if="{{loading}}" class="ticket-list__hint">加载中…</view>
+        <view wx:elif="{{finished && items.length > 0}}" class="ticket-list__hint">— 没有更多了 —</view>
+      </view>
+
+      <view style="height: 180rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{!pageNeedsLogin}}" class="ticket-list__fab-wrap">
+    <button class="ticket-list__fab" bindtap="goCreate" hover-class="ticket-list__fab--hover">
+      <text class="material-symbols-outlined">edit_note</text>
+      提交新工单
+    </button>
+  </view>
+</view>

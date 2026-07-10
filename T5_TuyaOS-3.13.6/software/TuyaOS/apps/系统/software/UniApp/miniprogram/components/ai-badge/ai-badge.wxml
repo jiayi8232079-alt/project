@@ -1,0 +1,8 @@
+<view
+  class="ai-badge ai-badge--{{size}} ai-badge--tone-{{tone}} {{block ? 'ai-badge--block' : 'ai-badge--inline'}} {{extClass}}"
+  aria-label="人工智能生成内容"
+>
+  <text class="material-symbols-outlined ai-badge__icon">{{icon}}</text>
+  <text class="ai-badge__text">{{text}}</text>
+  <slot></slot>
+</view>

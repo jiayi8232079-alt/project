@@ -49,6 +49,7 @@ typedef struct {
     MCP_CLIENT_TRANSPORT_E type;
     CHAR_T url[MCP_CLIENT_URL_MAX];
     ty_cJSON *headers;
+    ty_cJSON *auth;
     BOOL_T enabled;
     MCP_CLIENT_RISK_E risk_level;
     BOOL_T require_user_confirm;

@@ -1,0 +1,136 @@
+<view class="dev-bind">
+  <view class="dev-bind__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="dev-bind__nav-back" bind:tap="goBack" hover-class="btn-haptic">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="dev-bind__nav-title">添加设备</text>
+    <view style="width:72rpx;"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后绑定设备</text>
+      <text class="page-login-gate__desc">设备需绑定到您的账号与家人，请先登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view wx:else scroll-y enhanced show-scrollbar="{{false}}" class="dev-bind__scroll">
+    <view class="dev-bind__body">
+
+      <!-- 配网引导 -->
+      <view class="dev-bind__guide">
+        <text class="dev-bind__guide-title">配网三步</text>
+        <view class="dev-bind__steps">
+          <view class="dev-bind__step">
+            <view class="dev-bind__step-no">1</view>
+            <view class="dev-bind__step-text">
+              <text class="dev-bind__step-name">设备通电开机</text>
+              <text class="dev-bind__step-desc">听到「请配置网络」提示音</text>
+            </view>
+          </view>
+          <view class="dev-bind__step">
+            <view class="dev-bind__step-no">2</view>
+            <view class="dev-bind__step-text">
+              <text class="dev-bind__step-name">长按配网键 5 秒</text>
+              <text class="dev-bind__step-desc">指示灯快闪进入配网模式</text>
+            </view>
+          </view>
+          <view class="dev-bind__step">
+            <view class="dev-bind__step-no">3</view>
+            <view class="dev-bind__step-text">
+              <text class="dev-bind__step-name">扫码 / 录入设备码</text>
+              <text class="dev-bind__step-desc">绑定到下面选择的老人名下</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 表单 -->
+      <view class="dev-bind__card">
+        <view class="dev-bind__field">
+          <text class="dev-bind__label">设备名称</text>
+          <input
+            class="dev-bind__input"
+            placeholder="如：奶奶的陪伴机器人"
+            value="{{form.name}}"
+            maxlength="20"
+            bindinput="onNameInput"
+          />
+        </view>
+
+        <view class="dev-bind__field">
+          <text class="dev-bind__label">设备类型</text>
+          <view class="dev-bind__types">
+            <view
+              wx:for="{{deviceTypes}}"
+              wx:key="value"
+              class="dev-bind__type {{form.deviceType === item.value ? 'dev-bind__type--active' : ''}}"
+              data-value="{{item.value}}"
+              bind:tap="selectType"
+              hover-class="btn-haptic"
+            >
+              <text class="dev-bind__type-name">{{item.label}}</text>
+              <text class="dev-bind__type-desc">{{item.desc}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="dev-bind__field">
+          <text class="dev-bind__label">关联老人</text>
+          <view wx:if="{{targets.length === 0}}" class="dev-bind__no-target">
+            <text>还没有老人档案</text>
+            <text class="dev-bind__link" bind:tap="goToFamily">去创建</text>
+          </view>
+          <picker
+            wx:else
+            mode="selector"
+            range="{{targets}}"
+            range-key="name"
+            value="{{targetIndex}}"
+            bindchange="onTargetChange"
+          >
+            <view class="dev-bind__picker">
+              <text class="{{targetIndex < 0 ? 'dev-bind__picker-placeholder' : ''}}">
+                {{targetIndex < 0 ? '请选择老人' : targets[targetIndex].name}}
+              </text>
+              <text class="material-symbols-outlined">expand_more</text>
+            </view>
+          </picker>
+        </view>
+
+        <view class="dev-bind__field">
+          <text class="dev-bind__label">设备识别码</text>
+          <view class="dev-bind__id-row">
+            <input
+              class="dev-bind__input dev-bind__input--flex"
+              placeholder="扫码或手动输入"
+              value="{{form.tuyaDeviceId}}"
+              bindinput="onDeviceIdInput"
+            />
+            <view class="dev-bind__scan" bind:tap="scanDevice" hover-class="btn-haptic">
+              <text class="material-symbols-outlined">qr_code_scanner</text>
+            </view>
+          </view>
+          <text class="dev-bind__mock" bind:tap="useMockDevice">没有硬件？填入模拟设备体验</text>
+        </view>
+      </view>
+
+      <view class="dev-bind__tip">
+        <text class="material-symbols-outlined">info</text>
+        <text>真机配网需配合涂鸦 SDK；当前可扫码或手动录入完成绑定。</text>
+      </view>
+
+      <view style="height:200rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{!pageNeedsLogin}}" class="dev-bind__footer">
+    <button
+      class="dev-bind__submit {{submitting ? 'dev-bind__submit--disabled' : ''}}"
+      disabled="{{submitting}}"
+      bind:tap="submit"
+    >{{submitting ? '绑定中...' : '确认绑定'}}</button>
+  </view>
+</view>

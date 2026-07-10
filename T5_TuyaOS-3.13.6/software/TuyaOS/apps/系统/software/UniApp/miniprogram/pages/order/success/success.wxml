@@ -1,0 +1,136 @@
+<view class="page page--loaded">
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看预约结果</text>
+      <text class="page-login-gate__desc">该页关联您的订单。可先返回首页浏览服务介绍。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <scroll-view wx:else scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+
+    <!-- 成功标识 -->
+    <view class="success-header anim-item anim-0">
+      <view class="success__icon">
+        <text class="material-symbols-outlined success__check">check</text>
+      </view>
+      <text class="success__title">预约成功</text>
+      <text class="success__subtitle">我们已收到您的预约，稍后会有专属管家与您联系</text>
+    </view>
+
+    <!-- 凭证卡片 -->
+    <view class="ticket anim-item anim-1">
+      <view class="ticket__top">
+        <view class="ticket__qr-wrap">
+          <view class="ticket__qr">
+            <text class="material-symbols-outlined ticket__qr-icon">qr_code_2</text>
+          </view>
+        </view>
+        <text class="ticket__id-label">预约编号</text>
+        <text class="ticket__id">{{bookingId || '--'}}</text>
+      </view>
+
+      <view class="ticket__divider">
+        <view class="ticket__cutout ticket__cutout--left"></view>
+        <view class="ticket__dash"></view>
+        <view class="ticket__cutout ticket__cutout--right"></view>
+      </view>
+
+      <view class="ticket__bottom">
+        <view class="ticket__service-tag-row">
+          <text class="ticket__service-tag">{{serviceTag}}</text>
+        </view>
+        <text class="ticket__service-name">{{serviceName}}</text>
+
+        <view class="ticket__detail-row">
+          <view class="ticket__detail-icon-wrap">
+            <text class="material-symbols-outlined ticket__detail-icon">calendar_today</text>
+          </view>
+          <view class="ticket__detail-info">
+            <text class="ticket__detail-label">预约时间</text>
+            <text class="ticket__detail-value">{{appointmentDate}} {{appointmentTime}}</text>
+          </view>
+        </view>
+
+        <view class="ticket__detail-row">
+          <view class="ticket__detail-icon-wrap">
+            <text class="material-symbols-outlined ticket__detail-icon">location_on</text>
+          </view>
+          <view class="ticket__detail-info">
+            <text class="ticket__detail-label">服务地点</text>
+            <text class="ticket__detail-value">{{storeName}}</text>
+            <text class="ticket__detail-sub" wx:if="{{storeAddress}}">{{storeAddress}}</text>
+          </view>
+        </view>
+
+        <view class="ticket__actions">
+          <view class="ticket__action btn-haptic" bind:tap="onViewMap" hover-class="btn-haptic">
+            <text class="material-symbols-outlined ticket__action-icon">map</text>
+            <text>导航</text>
+          </view>
+          <view class="ticket__action ticket__action--green btn-haptic" bind:tap="onCallStore" hover-class="btn-haptic">
+            <text class="material-symbols-outlined ticket__action-icon">call</text>
+            <text>联系门店</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 温馨提示 -->
+    <view class="tips anim-item anim-2">
+      <view class="tips__header">
+        <text class="material-symbols-outlined tips__icon">info</text>
+        <text class="tips__title">温馨提示</text>
+      </view>
+      <view class="tips__list">
+        <view class="tips__item">
+          <view class="tips__dot"></view>
+          <text>请于预约时间前 15 分钟到达服务地点</text>
+        </view>
+        <view class="tips__item">
+          <view class="tips__dot"></view>
+          <text>请携带好相关证件和病历资料</text>
+        </view>
+        <view class="tips__item">
+          <view class="tips__dot"></view>
+          <text>如需取消或更改预约，请提前 2 小时联系客服</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 品牌徽标 -->
+    <view class="badges anim-item anim-3">
+      <view class="badges__item">
+        <text class="material-symbols-outlined badges__icon">verified</text>
+        <text class="badges__text">官方认证</text>
+      </view>
+      <view class="badges__item">
+        <text class="material-symbols-outlined badges__icon">shield</text>
+        <text class="badges__text">隐私保障</text>
+      </view>
+      <view class="badges__item">
+        <text class="material-symbols-outlined badges__icon">support_agent</text>
+        <text class="badges__text">专属客服</text>
+      </view>
+    </view>
+
+    <view class="safe-bottom"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom">
+    <view class="bottom__row">
+      <button class="bottom__btn bottom__btn--secondary btn-haptic" bind:tap="onSaveVoucher">
+        <text class="material-symbols-outlined bottom__btn-icon">download</text>
+        <text>保存凭证</text>
+      </button>
+      <button class="bottom__btn bottom__btn--primary btn-haptic" bind:tap="onGoHome">
+        <text class="material-symbols-outlined bottom__btn-icon">home</text>
+        <text>返回首页</text>
+      </button>
+    </view>
+  </view>
+
+</view>

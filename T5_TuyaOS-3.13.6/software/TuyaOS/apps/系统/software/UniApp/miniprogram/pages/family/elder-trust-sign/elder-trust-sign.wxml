@@ -1,0 +1,118 @@
+<view class="trust-sign" style="padding-top: {{statusBarHeight}}px;">
+
+  <!-- 步骤 1：签署人信息 + 协议摘要 -->
+  <block wx:if="{{step === 'info'}}">
+    <scroll-view scroll-y class="trust-sign__scroll" enhanced show-scrollbar="{{false}}">
+
+      <view class="trust-sign__card">
+        <text class="trust-sign__title">老人托管服务委托书</text>
+        <text class="trust-sign__subject">被授权方：{{subjectName}}</text>
+
+        <view class="trust-sign__agreement">
+          <text class="trust-sign__agree-p">
+            本人（下称"授权人"）与<text class="trust-sign__highlight">{{subjectName}}</text>为合法家属/近亲属关系，
+            因被授权方年龄、健康或语言等原因，无法自行签署本次陪了个伴相关服务文书，
+            <text class="trust-sign__highlight">现自愿签署本委托书</text>，作为代为管理健康档案、预约服务、处理费用、接收预警等事宜的书面授权依据。
+          </text>
+          <text class="trust-sign__agree-p">
+            授权人保证所填写信息真实、完整；因虚假陈述、隐瞒病史等造成的风险与损失，由授权人与被授权方共同承担。
+            本授权书经电子签名后立即生效，完整正文将在签署完成后归档至公司服务器与用户账号。
+          </text>
+
+          <view class="trust-sign__agree-more" bind:tap="toggleAgreement" hover-class="btn-haptic">
+            <text>{{showAgreement ? '收起完整条款' : '展开完整条款'}}</text>
+            <text class="material-symbols-outlined">{{showAgreement ? 'expand_less' : 'expand_more'}}</text>
+          </view>
+
+          <view wx:if="{{showAgreement}}" class="trust-sign__agree-full">
+            <text class="trust-sign__agree-h">第一条 · 当事人信息</text>
+            <text class="trust-sign__agree-p">1.1 授权人（签署人）为本页填写的实名自然人，与被授权方构成亲属/监护关系。</text>
+            <text class="trust-sign__agree-p">1.2 被授权方为「{{subjectName}}」，其健康档案信息由授权人在前页如实录入。</text>
+
+            <text class="trust-sign__agree-h">第二条 · 授权内容</text>
+            <text class="trust-sign__agree-p">2.1 代为签署本次《陪了个伴陪诊服务确认单》及相关附属电子文书。</text>
+            <text class="trust-sign__agree-p">2.2 代为查阅、管理被授权方的健康档案、用药提醒、订单、预警。</text>
+            <text class="trust-sign__agree-p">2.3 在被授权方同意或依法定亲属关系的前提下，进行费用结算与审计归档。</text>
+
+            <text class="trust-sign__agree-h">第三条 · 陈述与保证</text>
+            <text class="trust-sign__agree-p">3.1 授权人保证所填写的身份、亲属关系、健康档案信息真实、准确、完整。</text>
+            <text class="trust-sign__agree-p">3.2 已告知被授权方服务内容、风险与签署事实，或依法代为意思表示。</text>
+
+            <text class="trust-sign__agree-h">第四条 · 责任承担</text>
+            <text class="trust-sign__agree-p">4.1 因虚假陈述或隐瞒健康风险致使不良事件的，公司在合理注意义务范围内不承担赔偿责任。</text>
+            <text class="trust-sign__agree-p">4.2 因伪造亲属关系、超越授权范围签署的，由授权人承担全部法律责任。</text>
+
+            <text class="trust-sign__agree-h">第五条 · 生效与留痕</text>
+            <text class="trust-sign__agree-p">5.1 本授权书经电子签名即时生效，完整正文将由公司服务器留痕存档。</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="trust-sign__card">
+        <text class="trust-sign__label">授权人姓名</text>
+        <input class="trust-sign__input" placeholder="请填写您的真实姓名" value="{{signerName}}"
+               bindinput="onInput" data-field="signerName" />
+
+        <text class="trust-sign__label">联系电话</text>
+        <input class="trust-sign__input" placeholder="选填" type="number" maxlength="11"
+               value="{{signerPhone}}" bindinput="onInput" data-field="signerPhone" />
+
+        <text class="trust-sign__label">您的身份证号</text>
+        <input class="trust-sign__input" placeholder="选填，用于强化授权身份" maxlength="18"
+               value="{{signerIdCard}}" bindinput="onInput" data-field="signerIdCard" />
+      </view>
+
+      <view style="height: 180rpx;"></view>
+    </scroll-view>
+
+    <view class="trust-sign__footer" style="padding-bottom: calc(env(safe-area-inset-bottom) + 20rpx);">
+      <button class="trust-sign__next-btn" bind:tap="goToSign" hover-class="btn-haptic">
+        下一步：手写签名
+      </button>
+    </view>
+  </block>
+
+  <!-- 步骤 2：手写签名 -->
+  <block wx:else>
+    <view class="trust-sign__canvas-wrap">
+      <text class="trust-sign__watermark">{{signerName}}</text>
+      <text class="trust-sign__placeholder" wx:if="{{!hasSigned}}">请在此处书写「{{signerName}}」</text>
+      <canvas
+        id="trustSignCanvas"
+        type="2d"
+        class="trust-sign__canvas"
+        disable-scroll
+        bind:touchstart="onTouchStart"
+        bind:touchmove="onTouchMove"
+        bind:touchend="onTouchEnd"
+        bind:touchcancel="onTouchEnd"
+      ></canvas>
+    </view>
+
+    <view class="trust-sign__top" style="top: {{statusBarHeight}}px;">
+      <view class="trust-sign__top-back btn-haptic" bind:tap="goBackToInfo">
+        <text class="material-symbols-outlined">arrow_back</text>
+      </view>
+      <view class="trust-sign__top-titles">
+        <text class="trust-sign__top-title">签署委托书</text>
+        <text class="trust-sign__top-sub">授权「{{signerName}}」代为管理「{{subjectName}}」</text>
+      </view>
+    </view>
+
+    <view class="trust-sign__bottom" style="padding-bottom: calc(env(safe-area-inset-bottom) + 16rpx);">
+      <view class="trust-sign__bottom-btn trust-sign__bottom-btn--plain btn-haptic" bind:tap="clearSign">
+        <text class="material-symbols-outlined">refresh</text>
+        <text>清除</text>
+      </view>
+      <button
+        class="trust-sign__bottom-btn trust-sign__bottom-btn--primary {{hasSigned && !submitting ? 'is-active' : 'is-disabled'}}"
+        hover-class="btn-haptic"
+        bind:tap="confirmSign"
+        disabled="{{submitting || !hasSigned}}"
+      >
+        <text class="material-symbols-outlined">check_circle</text>
+        <text>{{submitting ? '提交中...' : '确认签署'}}</text>
+      </button>
+    </view>
+  </block>
+</view>

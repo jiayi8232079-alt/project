@@ -1,0 +1,81 @@
+<view class="sp">
+  <view class="sp__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="sp__nav-back" bind:tap="cancelEdit" wx:if="{{editVisible}}">
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <view class="sp__nav-back" bind:tap="navBack" wx:else>
+      <text class="material-symbols-outlined">arrow_back_ios_new</text>
+    </view>
+    <text class="sp__nav-title">{{meta.label}}</text>
+    <view class="sp__nav-action" bind:tap="openNew" wx:if="{{!editVisible}}">
+      <text class="material-symbols-outlined">add</text>
+    </view>
+    <view wx:else style="width: 60rpx;"></view>
+  </view>
+
+  <scroll-view class="sp__scroll" scroll-y enhanced show-scrollbar="{{false}}" wx:if="{{!editVisible}}">
+    <view wx:if="{{loading}}" class="sp__empty">加载中…</view>
+    <view wx:elif="{{list.length === 0}}" class="sp__empty">
+      <text class="material-symbols-outlined">{{meta.icon}}</text>
+      <text class="sp__empty-title">还没有{{meta.label}}</text>
+      <text class="sp__empty-desc">点击右上角"+"新建你的第一份模板</text>
+    </view>
+    <view wx:else class="sp__list">
+      <view wx:for="{{list}}" wx:key="id" class="sp__card" bind:tap="openEdit" data-id="{{item.id}}" hover-class="btn-haptic">
+        <view class="sp__card-head">
+          <text class="sp__card-title">{{item.title}}</text>
+          <view wx:if="{{item.isPublic}}" class="sp__card-tag">公共</view>
+        </view>
+        <text wx:if="{{item.summary}}" class="sp__card-sub">{{item.summary}}</text>
+        <view wx:if="{{item.targetConditions.length > 0}}" class="sp__card-tags">
+          <text wx:for="{{item.targetConditions}}" wx:for-item="tag" wx:key="*this" class="sp__card-tag-item">{{tag}}</text>
+        </view>
+        <view class="sp__card-meta">
+          <text wx:if="{{item.useCount > 0}}">已用 {{item.useCount}} 次</text>
+          <text wx:if="{{item.updatedAt}}">{{item.updatedAt}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <scroll-view class="sp__scroll" scroll-y enhanced show-scrollbar="{{false}}" wx:else>
+    <view class="sp__form">
+      <view class="sp__section">
+        <text class="sp__label">标题</text>
+        <input class="sp__input" value="{{form.title}}" placeholder="{{meta.placeholder}}" data-field="title" bindinput="onFormInput" />
+      </view>
+      <view class="sp__section">
+        <text class="sp__label">摘要说明（可选）</text>
+        <textarea class="sp__textarea" value="{{form.summary}}" placeholder="用一两句话介绍这份方案适合谁、核心亮点" data-field="summary" bindinput="onFormInput" />
+      </view>
+      <view class="sp__section">
+        <text class="sp__label">适用人群（顿号/逗号/空格分隔）</text>
+        <input class="sp__input" value="{{form.targetConditionsText}}" placeholder="如：糖尿病、高血压、老年人" data-field="targetConditionsText" bindinput="onFormInput" />
+      </view>
+
+      <view class="sp__section">
+        <view class="sp__items-head">
+          <text class="sp__label">{{meta.itemLabel}}清单</text>
+          <text class="sp__label-action" bind:tap="addRow">+ 新增</text>
+        </view>
+        <view wx:for="{{form.items}}" wx:key="index" wx:for-item="row" wx:for-index="rowIdx" class="sp__item-card">
+          <view class="sp__item-head">
+            <text class="sp__item-num">#{{rowIdx + 1}}</text>
+            <text class="sp__item-del" wx:if="{{form.items.length > 1}}" bind:tap="removeRow" data-index="{{rowIdx}}">删除</text>
+          </view>
+          <view wx:for="{{meta.fields}}" wx:key="key" wx:for-item="field" class="sp__item-row">
+            <text class="sp__item-field-label">{{field.label}}</text>
+            <input class="sp__item-field-input" value="{{row[field.key]}}" placeholder="{{field.placeholder || ''}}" data-index="{{rowIdx}}" data-field="{{field.key}}" bindinput="onItemInput" />
+          </view>
+        </view>
+      </view>
+
+      <view style="height: 140rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <view class="sp__footer" wx:if="{{editVisible}}">
+    <button wx:if="{{editingId}}" class="sp__footer-btn sp__footer-btn--danger" loading="{{deleting}}" bind:tap="removeCurrent">删除</button>
+    <button class="sp__footer-btn sp__footer-btn--primary" loading="{{saving}}" bind:tap="save">保存</button>
+  </view>
+</view>

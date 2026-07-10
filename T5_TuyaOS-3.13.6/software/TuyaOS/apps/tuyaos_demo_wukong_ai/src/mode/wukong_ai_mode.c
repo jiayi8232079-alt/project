@@ -225,6 +225,12 @@ OPERATE_RET wukong_ai_device_mode_switch(AI_DEVICE_MODE_E mode)
  */
 OPERATE_RET wukong_ai_chat_sub_mode_switch(AI_CHAT_SUB_MODE_E sub)
 {
+#if defined(AI_TOY_GPIO_WAKEUP_ONLY) && (AI_TOY_GPIO_WAKEUP_ONLY == 1)
+    if (sub != AI_CHAT_SUB_WAKEUP) {
+        TAL_PR_NOTICE("[ai_mode] gpio-only wake redirects chat sub-mode %d to wakeup", sub);
+        sub = AI_CHAT_SUB_WAKEUP;
+    }
+#endif
     if (sub >= AI_CHAT_SUB_MAX) {
         TAL_PR_ERR("[ai_mode] invalid chat sub-mode %d", sub);
         return OPRT_INVALID_PARM;
@@ -253,6 +259,9 @@ OPERATE_RET wukong_ai_chat_sub_mode_switch(AI_CHAT_SUB_MODE_E sub)
  */
 OPERATE_RET wukong_ai_chat_sub_mode_cycle(VOID)
 {
+#if defined(AI_TOY_GPIO_WAKEUP_ONLY) && (AI_TOY_GPIO_WAKEUP_ONLY == 1)
+    return wukong_ai_chat_sub_mode_switch(AI_CHAT_SUB_WAKEUP);
+#endif
     AI_CHAT_SUB_MODE_E cur = s_mode_mgr.chat_sub_mode;
     AI_CHAT_SUB_MODE_E next = (cur + 1) % AI_CHAT_SUB_MAX;
     INT_T count = 0;

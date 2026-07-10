@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "ai-badge": "/components/ai-badge/ai-badge"
+  },
+  "navigationBarTitleText": "智能导诊",
+  "navigationStyle": "custom"
+}

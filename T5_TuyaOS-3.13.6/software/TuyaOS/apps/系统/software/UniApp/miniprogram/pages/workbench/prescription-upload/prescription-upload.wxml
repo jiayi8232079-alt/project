@@ -1,0 +1,142 @@
+<view class="presc">
+  <view class="presc__nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="presc__nav-back" bind:tap="chooseCustomer">
+      <text class="material-symbols-outlined">person_search</text>
+    </view>
+    <text class="presc__nav-title">处方录入</text>
+    <view style="width:60rpx;"></view>
+  </view>
+
+  <scroll-view class="presc__scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="presc__body">
+      <!-- 客户信息 -->
+      <view class="presc__card">
+        <view class="presc__label">客户信息</view>
+        <view class="presc__customer" bind:tap="chooseCustomer">
+          <view class="presc__customer-name">{{ customerName || '点击选择客户' }}</view>
+          <view wx:if="{{serviceTargetName}}" class="presc__customer-sub">服务对象：{{ serviceTargetName }}</view>
+          <view wx:if="{{orderInfo}}" class="presc__customer-sub">订单 #{{ orderInfo.orderNumber || orderInfo.id }}</view>
+        </view>
+      </view>
+
+      <!-- 处方图片 OCR 识别 -->
+      <view class="presc__card">
+        <view class="presc__label">处方图片（上传后自动识别药品）</view>
+        <view class="presc__image-wrap">
+          <view wx:if="{{sourceImage}}" class="presc__image-container">
+            <image src="{{sourceImage}}" mode="aspectFit" class="presc__image" />
+            <view class="presc__image-remove" bind:tap="removeImage">
+              <text class="material-symbols-outlined">close</text>
+            </view>
+          </view>
+          <view wx:else class="presc__image-upload" bind:tap="chooseImage">
+            <text class="material-symbols-outlined">add_a_photo</text>
+            <text>{{ uploading ? '上传中…' : '点击拍照或选相册（自动识别）' }}</text>
+          </view>
+        </view>
+        <view wx:if="{{ocrParsing}}" class="presc__ocr-hint">
+          <text class="material-symbols-outlined presc__ocr-icon">document_search</text>
+          <text>正在识别处方药品，请稍候…</text>
+        </view>
+      </view>
+
+      <!-- 医院医生 -->
+      <view class="presc__card">
+        <view class="presc__label">就诊信息</view>
+        <view class="presc__row">
+          <text class="presc__row-label">医院</text>
+          <input class="presc__row-input" value="{{hospital}}" placeholder="如：温州一医" data-field="hospital" bind:input="onInput" />
+        </view>
+        <view class="presc__row">
+          <text class="presc__row-label">医生</text>
+          <input class="presc__row-input" value="{{doctorName}}" placeholder="如：张三" data-field="doctorName" bind:input="onInput" />
+        </view>
+        <view class="presc__row">
+          <text class="presc__row-label">科室</text>
+          <input class="presc__row-input" value="{{department}}" placeholder="如：神经内科" data-field="department" bind:input="onInput" />
+        </view>
+        <view class="presc__row">
+          <text class="presc__row-label">开始服药日</text>
+          <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange" class="presc__row-input">
+            <view>{{ startDate || '选择日期' }}</view>
+          </picker>
+        </view>
+      </view>
+
+      <!-- 药品列表 -->
+      <view class="presc__card">
+        <view class="presc__label-row">
+          <text class="presc__label">药品清单（{{ items.length }} 种）</text>
+          <text class="presc__label-action" bind:tap="addItem">+ 新增</text>
+        </view>
+
+        <view wx:for="{{items}}" wx:key="index" class="presc__item">
+          <view class="presc__item-head">
+            <text class="presc__item-num">#{{ index + 1 }}</text>
+            <text wx:if="{{items.length > 1}}" class="presc__item-del" bind:tap="removeItem" data-index="{{index}}">删除</text>
+          </view>
+          <view class="presc__row">
+            <text class="presc__row-label">药品名</text>
+            <input class="presc__row-input" value="{{item.medicineName}}" placeholder="波立维 / 氯吡格雷" data-index="{{index}}" data-field="medicineName" bind:blur="onItemInput" />
+          </view>
+          <view class="presc__row">
+            <text class="presc__row-label">规格</text>
+            <input class="presc__row-input" value="{{item.specification}}" placeholder="75mg × 7 片/盒" data-index="{{index}}" data-field="specification" bind:input="onItemInput" />
+          </view>
+          <view class="presc__row">
+            <text class="presc__row-label">严重度</text>
+            <picker mode="selector" range="{{severityOptions}}" range-key="label" value="{{severityIndex[index]}}" bindchange="onSeverityChange" data-index="{{index}}" class="presc__row-input">
+              <view>{{ severityOptions[severityIndex[index]].label }}</view>
+            </picker>
+          </view>
+          <view class="presc__grid-3">
+            <view class="presc__cell">
+              <text class="presc__cell-label">每次</text>
+              <input class="presc__cell-input" type="digit" value="{{item.dosePerTime}}" data-index="{{index}}" data-field="dosePerTime" bind:input="onItemNumberInput" />
+            </view>
+            <view class="presc__cell">
+              <text class="presc__cell-label">单位</text>
+              <input class="presc__cell-input" value="{{item.unit}}" placeholder="片" data-index="{{index}}" data-field="unit" bind:input="onItemInput" />
+            </view>
+            <view class="presc__cell">
+              <text class="presc__cell-label">每日</text>
+              <input class="presc__cell-input" type="number" value="{{item.timesPerDay}}" data-index="{{index}}" data-field="timesPerDay" bind:input="onItemNumberInput" />
+            </view>
+          </view>
+          <view class="presc__grid-2">
+            <view class="presc__cell">
+              <text class="presc__cell-label">总药量</text>
+              <input class="presc__cell-input" type="number" value="{{item.totalQuantity}}" data-index="{{index}}" data-field="totalQuantity" bind:input="onItemNumberInput" />
+            </view>
+            <view class="presc__cell">
+              <text class="presc__cell-label">预估疗程止</text>
+              <view class="presc__cell-value">{{ item.endDatePreview || '—' }}</view>
+            </view>
+          </view>
+          <view class="presc__row">
+            <text class="presc__row-label">用法</text>
+            <input class="presc__row-input" value="{{item.dosage}}" placeholder="如：餐后口服" data-index="{{index}}" data-field="dosage" bind:input="onItemInput" />
+          </view>
+          <view class="presc__row">
+            <text class="presc__row-label">说明</text>
+            <input class="presc__row-input" value="{{item.instructions}}" placeholder="如：避免与阿司匹林合用" data-index="{{index}}" data-field="instructions" bind:input="onItemInput" />
+          </view>
+        </view>
+      </view>
+
+      <view class="presc__card">
+        <view class="presc__label">整体备注</view>
+        <textarea class="presc__textarea" value="{{note}}" placeholder="医生特别交代、饮食禁忌等" data-field="note" bind:input="onInput" />
+      </view>
+
+      <view class="presc__tip">
+        保存后直接生成用药提醒并开始推送，无需运营审核。
+      </view>
+      <view style="height: 120rpx;"></view>
+    </view>
+  </scroll-view>
+
+  <view class="presc__footer">
+    <button class="presc__submit" loading="{{submitting}}" bind:tap="submit">保存提醒</button>
+  </view>
+</view>

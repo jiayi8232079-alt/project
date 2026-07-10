@@ -40,6 +40,7 @@ static ai_camera_ctx_t s_ctx = {
 };
 
 static tuya_device_camera_yuv_frame_t sg_yuv_frame_cb = NULL;
+static tuya_device_camera_yuv_frame_t sg_tracking_yuv_frame_cb = NULL;
 /***********************************************************
 ************************function define************************
 ***********************************************************/
@@ -163,6 +164,9 @@ static void __on_yuv_frame(TAL_CAMERA_HANDLE_T handle, TAL_CAMERA_FRAME_T *frame
 {
     if (sg_yuv_frame_cb) {
         sg_yuv_frame_cb(frame);
+    }
+    if (sg_tracking_yuv_frame_cb) {
+        sg_tracking_yuv_frame_cb(frame);
     }
     /* frame auto-released by tal_camera after this cb returns */
 }
@@ -296,4 +300,9 @@ OPERATE_RET tuya_device_camera_deinit(VOID)
 void tuya_device_camera_set_yuv_frame_cb(tuya_device_camera_yuv_frame_t callback)
 {
     sg_yuv_frame_cb = callback;
+}
+
+void tuya_device_camera_set_tracking_yuv_frame_cb(tuya_device_camera_yuv_frame_t callback)
+{
+    sg_tracking_yuv_frame_cb = callback;
 }

@@ -1,0 +1,112 @@
+<view class="sum-page">
+  <view class="sum-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="sum-nav-back haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back</text>
+    </view>
+    <text class="sum-nav-title">本次服务信息</text>
+    <view class="sum-nav-spacer"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后查看</text>
+      <text class="page-login-gate__desc">本页含订单信息，需登录后查看。可先返回。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <block wx:else>
+
+  <view wx:if="{{loading}}" class="sum-state">加载中…</view>
+  <scroll-view wx:elif="{{!loadError}}" class="sum-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="sum-body">
+      <view class="sum-tip">
+        <text class="sum-tip-text">按类别核对本单信息（与纸质确认单结构相近）。证件号与电话已脱敏展示；不包含服务条款全文。</text>
+      </view>
+
+      <!-- （一）服务接受方信息 -->
+      <view class="sum-section">
+        <view class="sum-section-head">
+          <view class="sum-section-bar"></view>
+          <text class="sum-section-title">（一）服务接受方信息</text>
+        </view>
+        <view class="sum-card">
+          <view
+            wx:for="{{recipientRows}}"
+            wx:for-index="rIdx"
+            wx:key="rIdx"
+            class="sum-row"
+          >
+            <text class="sum-label">{{item.label}}</text>
+            <text class="sum-value">{{item.value}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- （二）本次服务详情 -->
+      <view class="sum-section">
+        <view class="sum-section-head">
+          <view class="sum-section-bar"></view>
+          <text class="sum-section-title">（二）本次服务详情</text>
+        </view>
+        <view class="sum-card">
+          <view
+            wx:for="{{serviceRows}}"
+            wx:for-index="sIdx"
+            wx:key="sIdx"
+            class="sum-row"
+          >
+            <text class="sum-label">{{item.label}}</text>
+            <text class="sum-value">{{item.value}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- （三）服务项目与费用 -->
+      <view class="sum-section">
+        <view class="sum-section-head">
+          <view class="sum-section-bar"></view>
+          <text class="sum-section-title">（三）服务项目与费用</text>
+        </view>
+        <view class="sum-card sum-card--fees">
+          <block wx:if="{{feeLines.length}}">
+            <view
+              wx:for="{{feeLines}}"
+              wx:for-index="feeIdx"
+              wx:key="feeIdx"
+              class="sum-fee-row"
+            >
+              <view class="sum-fee-left">
+                <text class="sum-fee-label">{{item.label}}</text>
+                <text wx:if="{{item.note}}" class="sum-fee-note">{{item.note}}</text>
+              </view>
+              <text class="sum-fee-amount">¥{{item.amount}}</text>
+            </view>
+            <view wx:if="{{feeTotal}}" class="sum-fee-total">
+              <text class="sum-fee-total-label">合计</text>
+              <text class="sum-fee-total-amount">¥{{feeTotal}}</text>
+            </view>
+          </block>
+          <view wx:else class="sum-fee-empty">
+            <text>暂无费用明细，请以订单实际结算为准</text>
+          </view>
+          <view class="sum-foot">
+            <view
+              wx:for="{{feeFootRows}}"
+              wx:for-index="fIdx"
+              wx:key="fIdx"
+              class="sum-row sum-row--compact"
+            >
+              <text class="sum-label">{{item.label}}</text>
+              <text class="sum-value">{{item.value}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view wx:else class="sum-state">{{loadError}}</view>
+
+  </block>
+</view>

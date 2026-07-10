@@ -1,0 +1,158 @@
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  src: url('https://fonts.gstatic.com/s/materialsymbolsoutlined/v241/kJEhBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oFsI.woff2') format('woff2');
+}
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sp {
+  min-height: 100vh;
+  background: #F5F6FA;
+  display: flex;
+  flex-direction: column;
+}
+.sp__nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12rpx 24rpx;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+}
+.sp__nav-back, .sp__nav-action {
+  width: 60rpx; height: 60rpx;
+  display: flex; align-items: center; justify-content: center;
+  color: #1A1A1A;
+  .material-symbols-outlined { font-size: 36rpx; }
+}
+.sp__nav-title { font-size: 32rpx; font-weight: 700; color: #1A1A1A; }
+
+.sp__scroll { flex: 1; padding-bottom: 160rpx; }
+
+.sp__empty {
+  display: flex; flex-direction: column; align-items: center; gap: 8rpx;
+  padding: 160rpx 60rpx;
+  color: #909399;
+  text-align: center;
+
+  .material-symbols-outlined { font-size: 96rpx; color: #CBD5E1; }
+}
+.sp__empty-title { font-size: 30rpx; color: #606266; font-weight: 600; margin-top: 16rpx; }
+.sp__empty-desc { font-size: 24rpx; color: #909399; }
+
+.sp__list {
+  padding: 16rpx 24rpx;
+  display: flex; flex-direction: column; gap: 16rpx;
+}
+.sp__card {
+  background: #fff; border-radius: 20rpx; padding: 24rpx;
+  box-shadow: 0 1rpx 4rpx rgba(0,0,0,0.04);
+  display: flex; flex-direction: column; gap: 10rpx;
+}
+.sp__card-head { display: flex; align-items: center; gap: 12rpx; }
+.sp__card-title { font-size: 30rpx; font-weight: 700; color: #1A1A1A; flex: 1; }
+.sp__card-tag {
+  padding: 4rpx 12rpx; border-radius: 10rpx;
+  background: rgba(33,150,243,0.1); color: #2196F3;
+  font-size: 20rpx; font-weight: 600;
+}
+.sp__card-sub { font-size: 24rpx; color: #606266; line-height: 1.4; }
+.sp__card-tags { display: flex; gap: 6rpx; flex-wrap: wrap; }
+.sp__card-tag-item {
+  padding: 2rpx 10rpx; border-radius: 6rpx;
+  background: #F0F1F3; color: #606266;
+  font-size: 20rpx;
+}
+.sp__card-meta {
+  display: flex; gap: 12rpx;
+  font-size: 22rpx; color: #909399;
+}
+
+/* 编辑表单 */
+.sp__form { padding: 24rpx; display: flex; flex-direction: column; gap: 20rpx; }
+.sp__section {
+  background: #fff; border-radius: 20rpx; padding: 20rpx 24rpx;
+  display: flex; flex-direction: column; gap: 12rpx;
+}
+.sp__label { font-size: 26rpx; color: #606266; font-weight: 600; }
+.sp__label-action { font-size: 26rpx; color: #4CAF50; font-weight: 600; }
+.sp__input {
+  padding: 14rpx 20rpx;
+  border-radius: 12rpx;
+  background: #F5F6FA;
+  font-size: 28rpx; color: #1A1A1A;
+}
+.sp__textarea {
+  width: 100%;
+  min-height: 140rpx;
+  padding: 14rpx 20rpx;
+  border-radius: 12rpx;
+  background: #F5F6FA;
+  font-size: 28rpx; color: #1A1A1A;
+}
+
+.sp__items-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 4rpx;
+}
+
+.sp__item-card {
+  background: #F8FAFC;
+  border-radius: 16rpx;
+  padding: 16rpx;
+  margin-top: 8rpx;
+  display: flex; flex-direction: column; gap: 10rpx;
+}
+.sp__item-head {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.sp__item-num { font-size: 22rpx; color: #909399; font-weight: 600; }
+.sp__item-del { font-size: 24rpx; color: #F56C6C; }
+.sp__item-row {
+  display: flex; gap: 12rpx;
+  align-items: center;
+}
+.sp__item-field-label {
+  width: 140rpx;
+  font-size: 24rpx; color: #606266;
+  flex-shrink: 0;
+}
+.sp__item-field-input {
+  flex: 1;
+  padding: 8rpx 12rpx;
+  background: #fff;
+  border-radius: 8rpx;
+  font-size: 26rpx; color: #1A1A1A;
+}
+
+.sp__footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  padding: 20rpx 24rpx calc(20rpx + env(safe-area-inset-bottom));
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1rpx solid #E4E7ED;
+  display: flex; gap: 16rpx;
+}
+.sp__footer-btn {
+  flex: 1;
+  font-size: 30rpx; font-weight: 600;
+  border-radius: 16rpx;
+  padding: 20rpx 0;
+
+  &--primary {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    color: #fff;
+  }
+  &--danger {
+    background: #fff;
+    color: #F56C6C;
+    border: 2rpx solid #F56C6C;
+  }
+}

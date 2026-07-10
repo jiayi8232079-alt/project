@@ -1,0 +1,459 @@
+<view class="page">
+
+  <!-- 顶部导航 -->
+  <view class="nav">
+    <view class="nav__inner" style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav__back" bind:tap="goBack" hover-class="btn-haptic">
+        <text class="material-symbols-outlined">arrow_back</text>
+      </view>
+      <text class="nav__title">{{serviceTypeText}}</text>
+      <view class="nav__placeholder"></view>
+    </view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后预约服务</text>
+      <text class="page-login-gate__desc">提交订单需关联您的账号。您可先返回了解服务项目，准备好后再自愿登录。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <block wx:else>
+
+  <!-- 步骤条 -->
+  <view class="stepper">
+    <view class="stepper__item {{currentStep >= 0 ? 'stepper__item--active' : ''}}">
+      <view class="stepper__dot">
+        <text wx:if="{{currentStep > 0}}" class="material-symbols-outlined stepper__check">check</text>
+        <text wx:else>1</text>
+      </view>
+      <text class="stepper__label">选择对象</text>
+    </view>
+    <view class="stepper__line {{currentStep > 0 ? 'stepper__line--active' : ''}}"></view>
+    <view class="stepper__item {{currentStep >= 1 ? 'stepper__item--active' : ''}}">
+      <view class="stepper__dot">
+        <text wx:if="{{currentStep > 1}}" class="material-symbols-outlined stepper__check">check</text>
+        <text wx:else>2</text>
+      </view>
+      <text class="stepper__label">预约时间</text>
+    </view>
+    <view class="stepper__line {{currentStep > 1 ? 'stepper__line--active' : ''}}"></view>
+    <view class="stepper__item {{currentStep >= 2 ? 'stepper__item--active' : ''}}">
+      <view class="stepper__dot">3</view>
+      <text class="stepper__label">确认信息</text>
+    </view>
+  </view>
+
+  <!-- 表单区域 -->
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="form-area">
+
+    <!-- Step 0: 选择服务对象 -->
+    <view class="step-content" wx:if="{{currentStep === 0}}">
+      <text class="step-content__label">选择服务对象</text>
+      <view
+        class="subject {{selectedSubjectId === item.id ? 'subject--selected' : ''}}"
+        wx:for="{{subjects}}" wx:key="id"
+        bind:tap="selectSubject" data-id="{{item.id}}"
+        hover-class="btn-haptic"
+      >
+        <view class="subject__avatar">{{item.name[0] || '?'}}</view>
+        <view class="subject__info">
+          <text class="subject__name">{{item.name}}</text>
+          <text class="subject__meta">{{item.relation || ''}} · {{item.age ? item.age + '岁' : ''}}</text>
+        </view>
+        <view class="subject__check" wx:if="{{selectedSubjectId === item.id}}">
+          <text class="material-symbols-outlined">check</text>
+        </view>
+      </view>
+      <view class="add-subject" bind:tap="addNewSubject" hover-class="btn-haptic">
+        <text class="material-symbols-outlined add-subject__icon">add</text>
+        <text>添加新的服务对象</text>
+      </view>
+    </view>
+
+    <!-- Step 1: 预约时间 -->
+    <view class="step-content" wx:if="{{currentStep === 1}}">
+      <view class="info-card">
+        <text class="material-symbols-outlined info-card__icon">person</text>
+        <text class="info-card__value">{{selectedSubjectName}}</text>
+      </view>
+
+      <text class="step-content__label">就诊医院</text>
+      <block wx:if="{{!hospitalManualMode}}">
+        <view class="picker-field" bind:tap="openHospitalPicker" hover-class="btn-haptic">
+          <text class="material-symbols-outlined picker-field__icon">local_hospital</text>
+          <text class="picker-field__value {{hospitalDirectoryLine ? '' : 'picker-field__value--empty'}}">
+            {{hospitalDirectoryLine || '按地区筛选或搜索后选择医院'}}
+          </text>
+          <text class="material-symbols-outlined picker-field__arrow">search</text>
+        </view>
+        <view class="hospital-mode-link" bind:tap="switchToManualHospital" hover-class="btn-haptic">
+          找不到？手动输入医院名称
+        </view>
+      </block>
+      <block wx:else>
+        <view class="textarea-card">
+          <input
+            class="hospital-manual-input"
+            placeholder="请输入医院全称或常用名称"
+            value="{{form.hospital}}"
+            bindinput="onInput"
+            data-field="hospital"
+          />
+        </view>
+        <view class="hospital-mode-link" bind:tap="switchToDirectoryHospital" hover-class="btn-haptic">
+          从医院名录选择
+        </view>
+      </block>
+
+      <text class="step-content__label">就诊科室（选填）</text>
+      <view class="textarea-card hospital-dept-card">
+        <input
+          class="hospital-manual-input"
+          placeholder="如：心内科、骨科"
+          value="{{form.department}}"
+          bindinput="onInput"
+          data-field="department"
+        />
+      </view>
+
+      <text class="step-content__label">预约日期</text>
+      <picker mode="date" bindchange="onDateChange">
+        <view class="picker-field">
+          <text class="material-symbols-outlined picker-field__icon">calendar_today</text>
+          <text class="picker-field__value {{form.serviceDate ? '' : 'picker-field__value--empty'}}">
+            {{form.serviceDate || '请选择日期'}}
+          </text>
+          <text class="material-symbols-outlined picker-field__arrow">chevron_right</text>
+        </view>
+      </picker>
+
+      <text class="step-content__label">预约时间</text>
+      <picker mode="time" bindchange="onTimeChange">
+        <view class="picker-field">
+          <text class="material-symbols-outlined picker-field__icon">schedule</text>
+          <text class="picker-field__value {{form.serviceTime ? '' : 'picker-field__value--empty'}}">
+            {{form.serviceTime || '请选择时间'}}
+          </text>
+          <text class="material-symbols-outlined picker-field__arrow">chevron_right</text>
+        </view>
+      </picker>
+
+      <text class="step-content__label">结束日期（选填）</text>
+      <picker mode="date" bindchange="onEndDateChange">
+        <view class="picker-field">
+          <text class="material-symbols-outlined picker-field__icon">event</text>
+          <text class="picker-field__value {{form.serviceEndDate ? '' : 'picker-field__value--empty'}}">
+            {{form.serviceEndDate || '与开始同日可不选'}}
+          </text>
+          <text class="material-symbols-outlined picker-field__arrow">chevron_right</text>
+        </view>
+      </picker>
+
+      <text class="step-content__label">结束时间（选填）</text>
+      <picker mode="time" bindchange="onEndTimeChange">
+        <view class="picker-field">
+          <text class="material-symbols-outlined picker-field__icon">schedule</text>
+          <text class="picker-field__value {{form.serviceEndTime ? '' : 'picker-field__value--empty'}}">
+            {{form.serviceEndTime || '填写则须同时选结束日期'}}
+          </text>
+          <text class="material-symbols-outlined picker-field__arrow">chevron_right</text>
+        </view>
+      </picker>
+
+      <text class="step-content__label">备注信息（选填）</text>
+      <view class="textarea-card">
+        <textarea
+          class="remark-textarea"
+          placeholder="请填写特殊需求或注意事项"
+          value="{{form.remark}}"
+          bindinput="onInput"
+          data-field="remark"
+          maxlength="200"
+        />
+      </view>
+    </view>
+
+    <!-- Step 2: 确认信息 -->
+    <view class="step-content" wx:if="{{currentStep === 2}}">
+      <view class="confirm-card">
+        <view class="confirm-card__header">
+          <text class="material-symbols-outlined confirm-card__header-icon">fact_check</text>
+          <text class="confirm-card__title">订单信息确认</text>
+        </view>
+        <view class="confirm-card__row">
+          <text class="confirm-card__label">服务类型</text>
+          <text class="confirm-card__value">{{serviceTypeText}}</text>
+        </view>
+        <view class="confirm-card__row">
+          <text class="confirm-card__label">服务对象</text>
+          <text class="confirm-card__value">{{selectedSubjectName}}</text>
+        </view>
+        <view class="confirm-card__row">
+          <text class="confirm-card__label">就诊医院</text>
+          <text class="confirm-card__value">{{hospitalManualMode ? form.hospital : hospitalDirectoryLine}}</text>
+        </view>
+        <view class="confirm-card__row" wx:if="{{form.department}}">
+          <text class="confirm-card__label">就诊科室</text>
+          <text class="confirm-card__value">{{form.department}}</text>
+        </view>
+        <view class="confirm-card__row">
+          <text class="confirm-card__label">预约日期</text>
+          <text class="confirm-card__value">{{form.serviceDate}}</text>
+        </view>
+        <view class="confirm-card__row">
+          <text class="confirm-card__label">预约时间</text>
+          <text class="confirm-card__value">{{form.serviceTime}}</text>
+        </view>
+        <view class="confirm-card__row" wx:if="{{form.serviceEndDate && form.serviceEndTime}}">
+          <text class="confirm-card__label">结束时间</text>
+          <text class="confirm-card__value">{{form.serviceEndDate}} {{form.serviceEndTime}}</text>
+        </view>
+        <view class="confirm-card__row" wx:if="{{form.remark}}">
+          <text class="confirm-card__label">备注</text>
+          <text class="confirm-card__value">{{form.remark}}</text>
+        </view>
+      </view>
+
+      <!-- 远程授权区 -->
+      <view class="trust-section" wx:if="{{isRemoteOrder}}">
+        <view class="trust-section__header">
+          <text class="material-symbols-outlined trust-icon">verified_user</text>
+          <text class="trust-section__title">远程授权确认</text>
+        </view>
+        <view class="trust-section__desc">
+          您正在为家人（{{selectedSubjectName}}）远程下单，根据服务规范，需要完成电子授权确认。
+        </view>
+        <view class="trust-check-row" bind:tap="toggleAuthAgree" wx:if="{{authAgreed}}">
+          <text class="material-symbols-outlined trust-check-icon checked">check_circle</text>
+          <text class="trust-check-text">已完成远程授权（授权人：{{authSignerName}}）</text>
+        </view>
+        <view class="trust-action-row" wx:if="{{!authAgreed}}">
+          <view class="trust-btn" bind:tap="openAuthModal">
+            <text class="material-symbols-outlined trust-btn-icon">draw</text>
+            <text>填写电子授权书</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 风险告知区 -->
+      <view class="trust-section" wx:if="{{riskFactors.length > 0}}">
+        <view class="trust-section__header">
+          <text class="material-symbols-outlined trust-icon risk">warning</text>
+          <text class="trust-section__title">风险告知确认</text>
+        </view>
+        <view class="trust-section__desc">
+          系统检测到以下风险因素，请仔细阅读并确认知悉：
+        </view>
+        <view class="risk-factor-list">
+          <view class="risk-factor-item" wx:for="{{riskFactors}}" wx:key="*this">
+            <text class="material-symbols-outlined risk-dot">error</text>
+            <text class="risk-factor-text">{{item}}</text>
+          </view>
+        </view>
+        <view class="trust-check-row" bind:tap="toggleRiskAcknowledge" wx:if="{{riskAcknowledged}}">
+          <text class="material-symbols-outlined trust-check-icon checked">check_circle</text>
+          <text class="trust-check-text">已确认知悉以上风险</text>
+        </view>
+        <view class="trust-action-row" wx:if="{{!riskAcknowledged}}">
+          <view class="trust-btn risk" bind:tap="openRiskModal">
+            <text class="material-symbols-outlined trust-btn-icon">visibility</text>
+            <text>阅读风险告知书</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="safe-spacer"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="btn-prev btn-haptic" bind:tap="prevStep" wx:if="{{currentStep > 0}}">
+      <text class="material-symbols-outlined btn-prev__icon">arrow_back</text>
+      <text>上一步</text>
+    </view>
+    <view
+      class="btn-next btn-haptic {{!canNext ? 'btn-next--disabled' : ''}}"
+      bind:tap="nextStep"
+    >
+      <text>{{currentStep === 2 ? (submitting ? '提交中...' : '确认提交') : '下一步'}}</text>
+      <text class="material-symbols-outlined btn-next__icon" wx:if="{{currentStep < 2}}">arrow_forward</text>
+      <text class="material-symbols-outlined btn-next__icon" wx:else>check</text>
+    </view>
+  </view>
+
+  <!-- 医院名录搜索 -->
+  <view class="hospital-sheet" wx:if="{{hospitalSheetVisible}}">
+    <view class="hospital-sheet__mask" catch:tap="closeHospitalPicker"></view>
+    <view class="hospital-sheet__panel">
+      <view class="hospital-sheet__head">
+        <text class="hospital-sheet__title">选择医院</text>
+        <view class="hospital-sheet__close" bind:tap="closeHospitalPicker" hover-class="btn-haptic">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+      <view class="hospital-sheet__region">
+        <text class="hospital-sheet__region-title">按地区</text>
+        <text class="hospital-sheet__region-hint">先选省市缩小范围，再点选医院；也可只搜关键词</text>
+        <view class="hospital-sheet__field">
+          <text class="hospital-sheet__field-label">省份</text>
+          <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="hospital-sheet__chips-scroll" scroll-with-animation>
+            <view class="hospital-sheet__chips-row">
+              <view
+                wx:for="{{hospitalProvinceOptions}}"
+                wx:key="label"
+                wx:for-index="pidx"
+                class="hospital-sheet__pill {{hospitalProvinceIndex === pidx ? 'hospital-sheet__pill--on' : ''}}"
+                bind:tap="onHospitalProvinceChipTap"
+                data-index="{{pidx}}"
+                hover-class="hospital-sheet__pill-press"
+              >
+                <text class="hospital-sheet__pill-text">{{item.label}}</text>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+        <view wx:if="{{hospitalShowCityRow}}" class="hospital-sheet__field hospital-sheet__field--sub">
+          <text class="hospital-sheet__field-label">城市</text>
+          <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="hospital-sheet__chips-scroll" scroll-with-animation>
+            <view class="hospital-sheet__chips-row">
+              <view
+                wx:for="{{hospitalCityOptionsRow}}"
+                wx:key="label"
+                wx:for-index="cidx"
+                class="hospital-sheet__pill hospital-sheet__pill--sm {{hospitalCityIndex === cidx ? 'hospital-sheet__pill--on' : ''}}"
+                bind:tap="onHospitalCityChipTap"
+                data-index="{{cidx}}"
+                hover-class="hospital-sheet__pill-press"
+              >
+                <text class="hospital-sheet__pill-text">{{item.label}}</text>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+      </view>
+      <view class="hospital-sheet__search-wrap">
+        <text class="material-symbols-outlined hospital-sheet__search-icon">search</text>
+        <input
+          class="hospital-sheet__search"
+          placeholder="搜索医院名称、地址"
+          value="{{hospitalKeyword}}"
+          bindinput="onHospitalKeywordInput"
+        />
+      </view>
+      <scroll-view scroll-y class="hospital-sheet__list" enhanced show-scrollbar="{{false}}">
+        <view wx:if="{{hospitalListLoading}}" class="hospital-sheet__hint">加载中…</view>
+        <view wx:elif="{{hospitalListItems.length === 0}}" class="hospital-sheet__hint">当前筛选下暂无医院，可更换地区或搜索关键词；也可关闭后手动输入</view>
+        <view
+          wx:for="{{hospitalListItems}}"
+          wx:key="id"
+          class="hospital-sheet__item"
+          bind:tap="selectHospitalFromList"
+          data-id="{{item.id}}"
+          hover-class="btn-haptic"
+        >
+          <text class="hospital-sheet__item-name">{{item.name}}</text>
+          <text class="hospital-sheet__item-meta">{{item.city}}{{item.district || ''}} · {{item.address}}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  </block>
+
+  <!-- 电子授权书弹窗 -->
+  <view class="modal-overlay" wx:if="{{showAuthModal}}" bind:tap="closeAuthModal">
+    <view class="modal-box" catch:tap="">
+      <view class="modal-header">
+        <text class="material-symbols-outlined modal-header-icon">verified_user</text>
+        <text class="modal-title">电子授权书</text>
+        <text class="material-symbols-outlined modal-close" bind:tap="closeAuthModal">close</text>
+      </view>
+      <scroll-view scroll-y class="modal-scroll">
+        <view class="auth-doc">
+          <view class="auth-doc__section">
+            <text class="auth-doc__h">一、授权事项</text>
+            <text class="auth-doc__p">本人（授权方）因无法亲自到场，特委托"陪了个伴（WithKin）"平台安排陪诊服务人员，代为陪同被服务对象（{{selectedSubjectName}}）完成本次就医全流程。</text>
+          </view>
+          <view class="auth-doc__section">
+            <text class="auth-doc__h">二、授权范围</text>
+            <text class="auth-doc__p">1. 协助挂号、取号、候诊、缴费等就医流程；</text>
+            <text class="auth-doc__p">2. 代为记录医嘱、检查结果及用药方案；</text>
+            <text class="auth-doc__p">3. 紧急情况下配合医院进行必要的联络和转运；</text>
+            <text class="auth-doc__p">4. 服务过程中通过平台向授权方实时同步进度。</text>
+          </view>
+          <view class="auth-doc__section">
+            <text class="auth-doc__h">三、免责说明</text>
+            <text class="auth-doc__p">陪诊服务人员仅提供陪同协助，不具备医疗决策权。涉及治疗方案、手术同意等医疗行为的决定权仍归属患者本人或其法定监护人。</text>
+          </view>
+          <view class="auth-doc__section">
+            <text class="auth-doc__h">四、知情同意</text>
+            <text class="auth-doc__p">本人已充分了解陪诊服务的内容与限制，自愿委托平台提供服务，并同意承担相应责任。</text>
+          </view>
+        </view>
+        <view class="auth-form">
+          <view class="auth-form__row">
+            <text class="auth-form__label">授权人姓名</text>
+            <input class="auth-form__input" placeholder="请输入您的姓名" value="{{authSignerName}}" bindinput="onAuthSignerNameInput" />
+          </view>
+          <view class="auth-form__row">
+            <text class="auth-form__label">与服务对象关系</text>
+            <view class="auth-form__tags">
+              <text class="auth-tag {{authSignerRelation === '子女' ? 'active' : ''}}" bind:tap="onAuthSignerRelationChange" data-value="子女">子女</text>
+              <text class="auth-tag {{authSignerRelation === '配偶' ? 'active' : ''}}" bind:tap="onAuthSignerRelationChange" data-value="配偶">配偶</text>
+              <text class="auth-tag {{authSignerRelation === '父母' ? 'active' : ''}}" bind:tap="onAuthSignerRelationChange" data-value="父母">父母</text>
+              <text class="auth-tag {{authSignerRelation === '其他' ? 'active' : ''}}" bind:tap="onAuthSignerRelationChange" data-value="其他">其他</text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="modal-footer">
+        <view class="modal-btn-cancel" bind:tap="closeAuthModal">取消</view>
+        <view class="modal-btn-confirm" bind:tap="confirmAuth">确认授权</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 风险告知书弹窗 -->
+  <view class="modal-overlay" wx:if="{{showRiskModal}}" bind:tap="closeRiskModal">
+    <view class="modal-box" catch:tap="">
+      <view class="modal-header">
+        <text class="material-symbols-outlined modal-header-icon risk">warning</text>
+        <text class="modal-title">风险告知书</text>
+        <text class="material-symbols-outlined modal-close" bind:tap="closeRiskModal">close</text>
+      </view>
+      <scroll-view scroll-y class="modal-scroll">
+        <view class="risk-doc">
+          <view class="risk-doc__intro">
+            <text class="risk-doc__p">尊敬的用户，根据系统评估，本次服务存在以下风险因素，请您仔细阅读：</text>
+          </view>
+          <view class="risk-doc__factors">
+            <view class="risk-doc__factor" wx:for="{{riskFactors}}" wx:key="*this">
+              <text class="material-symbols-outlined risk-doc__bullet">report_problem</text>
+              <text class="risk-doc__factor-text">{{item}}</text>
+            </view>
+          </view>
+          <view class="risk-doc__section">
+            <text class="risk-doc__h">服务保障措施</text>
+            <text class="risk-doc__p">1. 陪诊员已接受专业培训，具备基础急救知识；</text>
+            <text class="risk-doc__p">2. 服务全程实时定位，家属可通过小程序查看位置；</text>
+            <text class="risk-doc__p">3. 平台配备紧急联络机制，突发状况可立即通知家属及120；</text>
+            <text class="risk-doc__p">4. 所有服务均购买意外保险，覆盖服务全程。</text>
+          </view>
+          <view class="risk-doc__section">
+            <text class="risk-doc__h">免责条款</text>
+            <text class="risk-doc__p">本平台已尽合理注意义务，因不可抗力、患者自身隐瞒病情或突发病情变化导致的后果，平台不承担直接责任，但会全力配合救治和善后。</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="modal-footer">
+        <view class="modal-btn-cancel" bind:tap="closeRiskModal">再想想</view>
+        <view class="modal-btn-confirm risk" bind:tap="confirmRisk">已知悉，继续下单</view>
+      </view>
+    </view>
+  </view>
+
+</view>

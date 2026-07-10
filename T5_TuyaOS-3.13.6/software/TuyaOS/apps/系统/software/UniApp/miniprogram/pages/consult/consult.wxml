@@ -1,0 +1,84 @@
+<view class="page {{loaded ? 'page--loaded' : ''}}">
+  <view class="nav anim-item anim-0">
+    <view class="nav__inner" style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav__back" bind:tap="goBack" hover-class="btn-haptic">
+        <text class="material-symbols-outlined">arrow_back</text>
+      </view>
+      <text class="nav__title">门诊咨询</text>
+      <view class="nav__placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="content">
+
+      <view class="hero anim-item anim-1">
+        <image class="hero__img" src="https://images.pexels.com/photos/7659869/pexels-photo-7659869.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+        <view class="hero__gradient"></view>
+        <view class="hero__body">
+          <text class="hero__tag">MEDICAL CONSULTATION</text>
+          <text class="hero__heading">名医<text class="gold-underline">门诊</text>咨询</text>
+          <text class="hero__desc">高效对接全国顶尖医疗资源，为您的健康答疑解惑</text>
+        </view>
+      </view>
+
+      <view class="advantage-grid anim-item anim-2">
+        <view class="advantage-card" wx:for="{{advantages}}" wx:key="id" hover-class="btn-haptic">
+          <view class="advantage-card__icon-box">
+            <text class="material-symbols-outlined">{{item.icon}}</text>
+          </view>
+          <view class="advantage-card__body">
+            <text class="advantage-card__title">{{item.title}}</text>
+            <text class="advantage-card__desc">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="dept anim-item anim-3">
+        <view class="dept__card">
+          <view class="dept__head">
+            <text class="dept__title">热门科室</text>
+            <text class="dept__sub">覆盖主流专科领域</text>
+          </view>
+          <view class="dept__grid">
+            <view class="dept__item" wx:for="{{departments}}" wx:key="id" hover-class="btn-haptic">
+              <text class="material-symbols-outlined dept__icon" style="color: {{item.iconColor}};">{{item.icon}}</text>
+              <text class="dept__name">{{item.name}}</text>
+            </view>
+          </view>
+          <view class="dept__more" bind:tap="onMoreDepts" hover-class="btn-haptic">
+            <text>查看更多科室</text>
+            <text class="material-symbols-outlined">chevron_right</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="flow anim-item anim-4">
+        <view class="flow__card">
+          <text class="flow__heading">服务流程</text>
+          <view class="flow__list">
+            <view class="flow__track"></view>
+            <view class="flow__step" wx:for="{{flowSteps}}" wx:key="id">
+              <view class="flow__dot" style="background: {{item.dotBg}}; color: {{item.dotColor}}; border: {{item.dotBorder}};">
+                <text>{{item.num}}</text>
+              </view>
+              <view class="flow__info">
+                <text class="flow__name">{{item.title}}</text>
+                <text class="flow__desc">{{item.desc}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="safe-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-bar anim-item anim-5">
+    <button class="cta-btn" hover-class="btn-haptic" bind:tap="onBook">
+      <text>立即预约咨询</text>
+      <text class="material-symbols-outlined cta-btn__icon">arrow_forward</text>
+    </button>
+  </view>
+</view>

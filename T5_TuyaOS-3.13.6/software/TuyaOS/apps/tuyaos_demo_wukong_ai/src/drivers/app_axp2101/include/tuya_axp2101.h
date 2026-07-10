@@ -9,8 +9,8 @@
  *   - 充电与输入限流等寄存器在出厂后无固件配置，本驱动负责使能。
  *   - 0.0.19 起显式打开电池检测与 VBAT/VBUS/VSYS/Tdie ADC，仅用于诊断与安全读数。
  *
- * 注意：本驱动只做 探测/关TS/电池检测/ADC诊断/充电使能/状态打印，**不改任何 DCDC/LDO 输出轨**，
- *       以避免误关给 MCU 供电的 DCDC1 导致掉电。轨配置如需调整请单独评估。
+ * v3（对齐 T5 口袋机）：init 含 `power_on` 全轨显式配置（DCDC1/5 + ALDO1/3/4 + BLDO1/2）、
+ *       VOFF=3300mV、电源键 128ms/4s；并提供串口 `axp` 调试命令。
  */
 #ifndef __TUYA_AXP2101_H__
 #define __TUYA_AXP2101_H__
@@ -57,18 +57,43 @@ OPERATE_RET tuya_axp2101_charge_init(uint8_t i2c_port, const tuya_axp2101_chg_cf
 void tuya_axp2101_dump_status(uint8_t i2c_port);
 
 /**
- * @brief 一键初始化：probe -> disable_ts -> enable_adc/bat_det -> charge_init -> dump_status。
- *        必须在 I2C0 就绪后、尽可能早调用。返回 probe 结果。
+ * @brief 一键初始化（对齐口袋机 board_axp2101_init 主流程）：
+ *        probe -> disable_ts -> ADC/电池检测 -> VOFF 3.3V -> charge_init
+ *        -> power_on(DCDC/LDO) -> 电源键时序 -> dump_status。
  */
 OPERATE_RET tuya_axp2101_init(uint8_t i2c_port);
 
 /**
- * @brief 打开 DVP 摄像头(GC2145)三路电源轨并设定电压（带回读校验）：
- *        BLDO1=AVDD_2V8(2.8V, U4.12)、BLDO2=DVDD_1V8(1.8V, U4.14)、ALDO3=VDDCAM_2V8(2.8V, U4.16)。
- * @note  网表接 BLDO/ALDO3（非 ALDO1/2）；仅写 reg0x96/0x97/0x94 与 reg0x90 对应使能位，
- *        不触碰 DCDC。须在 GC2145 复位/检测前调用。
+ * @brief 对齐口袋机 __board_axp2101_power_on()：先关 DCDC2/3/4/5 与全部 LDO，
+ *        再设压并使能 DCDC1/5、RTC(ALDO1)、ALDO3/4、BLDO1/2（含摄像头与 SD 轨）。
+ */
+OPERATE_RET tuya_axp2101_power_on(uint8_t i2c_port);
+
+/**
+ * @brief 配置电源键：短按开机 128ms、长按关机 4s（reg0x27）。
+ */
+OPERATE_RET tuya_axp2101_power_key_config(uint8_t i2c_port);
+
+/**
+ * @brief 读/写单字节寄存器（供串口调试与二次开发）。
+ */
+OPERATE_RET tuya_axp2101_reg_read(uint8_t i2c_port, uint8_t reg, uint8_t *val);
+OPERATE_RET tuya_axp2101_reg_write(uint8_t i2c_port, uint8_t reg, uint8_t val);
+
+/**
+ * @brief 打开 DVP 摄像头(GC2145)三路电源轨（与 power_on 中 ALDO3/BLDO1/2 一致，可重复调用）。
  */
 OPERATE_RET tuya_axp2101_camera_power_on(uint8_t i2c_port);
+
+/**
+ * @brief 注册 AP 侧串口命令 `axp`（dump/r/w/init/power/status）。须在 CLI 子系统就绪后调用。
+ */
+void tuya_axp2101_cli_init(void);
+
+/**
+ * @brief CP 侧 `axp` 转发桩（shell 在 CP、驱动在 AP）。由 cp_cli_tuya_test_init 调用，应用勿直接调。
+ */
+void tuya_axp2101_cli_cp_init(void);
 
 #ifdef __cplusplus
 }

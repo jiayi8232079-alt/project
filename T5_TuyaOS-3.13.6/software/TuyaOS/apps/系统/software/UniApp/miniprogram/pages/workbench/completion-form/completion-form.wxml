@@ -1,0 +1,381 @@
+<view class="cf">
+  <view class="cf__header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="cf__header-row">
+      <view class="cf__back btn-haptic" bind:tap="goBack">
+        <text class="material-symbols-outlined">arrow_back_ios</text>
+      </view>
+      <text class="cf__header-title">{{pageTitle}}</text>
+      <view style="width: 72rpx;"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="cf__scroll">
+    <view class="cf__hero">
+      <text class="cf__hero-badge">{{orderStatus === 'in_progress' || orderStatus === 'emergency' ? '结束前必填' : '资料补充'}}</text>
+      <text class="cf__hero-title">{{orderStatus === 'in_progress' || orderStatus === 'emergency' ? '先补齐资料，再完成订单' : '本次服务资料可继续补充'}}</text>
+      <text class="cf__hero-subtitle">{{pageSubtitle}}</text>
+
+      <view class="cf__progress">
+        <view class="cf__progress-track">
+          <view class="cf__progress-fill" style="width: {{progressWidth}}%;"></view>
+        </view>
+        <text class="cf__progress-text">{{requiredReadyCount}} / 3 项必填已完成</text>
+      </view>
+
+      <view class="cf__hero-tips">
+        <view class="cf__hero-tip {{summaryReady ? 'cf__hero-tip--done' : ''}}">
+          <text>服务总结</text>
+          <text>{{summaryReady ? '已填' : '待填'}}</text>
+        </view>
+        <view class="cf__hero-tip {{proofReady ? 'cf__hero-tip--done' : ''}}">
+          <text>单据凭证</text>
+          <text>{{proofReady ? '已传' : '待传'}}</text>
+        </view>
+        <view class="cf__hero-tip {{medicationReady ? 'cf__hero-tip--done' : ''}}">
+          <text>用药确认</text>
+          <text>{{medicationReady ? '已确认' : '待确认'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="cf__card">
+      <view class="cf__section-title">
+        <view class="cf__section-bar"></view>
+        <text>服务概况</text>
+      </view>
+      <view class="cf__stats-grid">
+        <view class="cf__stat-item">
+          <text class="cf__stat-value">{{duration || '--'}}</text>
+          <text class="cf__stat-label">服务时长</text>
+        </view>
+        <view class="cf__stat-item">
+          <text class="cf__stat-value">{{milestoneCount || 0}}条</text>
+          <text class="cf__stat-label">过程记录</text>
+        </view>
+      </view>
+      <view class="cf__stats-breakdown" wx:if="{{timelineBreakdown}}">
+        <text class="cf__stats-breakdown-text">时间线构成：{{timelineBreakdown}}</text>
+      </view>
+
+      <view class="cf__digest" wx:if="{{milestoneCount > 0}}">
+        <view class="cf__digest-head">
+          <text class="material-symbols-outlined cf__digest-icon">auto_awesome</text>
+          <text class="cf__digest-title">人工智能概括时间线</text>
+          <ai-badge size="sm" tone="default" text="AI 生成" />
+          <text
+            wx:if="{{!timelineDigestLoading}}"
+            class="cf__digest-refresh btn-haptic"
+            bind:tap="fetchTimelineDigest"
+          >刷新</text>
+        </view>
+        <text wx:if="{{timelineDigestLoading}}" class="cf__digest-body">正在生成…</text>
+        <text wx:elif="{{timelineDigest}}" class="cf__digest-body">{{timelineDigest}}</text>
+        <text wx:else class="cf__digest-body cf__digest-body--muted">暂无可读概括（未开启人工智能、网络异常或时间线以图片/录音为主）。可点「刷新」重试。</text>
+      </view>
+
+      <view class="cf__meta-info" wx:if="{{order.patientName || order.hospitalName}}">
+        <view class="cf__meta-row" wx:if="{{order.patientName}}">
+          <text class="material-symbols-outlined cf__meta-icon">person</text>
+          <text class="cf__meta-value">就诊人：{{order.patientName}}</text>
+        </view>
+        <view class="cf__meta-row" wx:if="{{order.hospitalName}}">
+          <text class="material-symbols-outlined cf__meta-icon">local_hospital</text>
+          <text class="cf__meta-value">{{order.hospitalName}} {{order.departmentName ? '· ' + order.departmentName : ''}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="cf__card">
+      <view class="cf__card-head">
+        <view class="cf__section-title cf__section-title--compact">
+          <view class="cf__section-bar"></view>
+          <text>服务总结</text>
+        </view>
+        <text class="cf__tag cf__tag--required">必填</text>
+      </view>
+      <view class="cf__ai-draft-row">
+        <button
+          class="cf__ai-draft-btn btn-haptic"
+          bind:tap="draftAiSummary"
+          disabled="{{aiSummaryLoading}}"
+          plain
+        >
+          <text class="material-symbols-outlined cf__ai-draft-icon">auto_awesome</text>
+          <text>{{aiSummaryLoading ? '生成中…' : '根据服务时间线由人工智能生成草稿'}}</text>
+        </button>
+        <view class="cf__ai-draft-hint-row">
+          <ai-badge size="sm" tone="default" text="AI 生成" />
+          <text class="cf__ai-draft-hint">草稿由人工智能生成，务必人工核对后再提交；时间线越完整，草稿越贴近实际。</text>
+        </view>
+      </view>
+      <view class="cf__textarea-wrap">
+        <textarea
+          class="cf__textarea"
+          placeholder="请填写本次陪诊结果、医生嘱托、后续注意事项等关键信息（可点上方由人工智能根据时间线先生成草稿）"
+          placeholder-class="cf__textarea-placeholder"
+          value="{{summary}}"
+          bindinput="onSummaryInput"
+          maxlength="500"
+          auto-height
+        ></textarea>
+      </view>
+      <text class="cf__field-hint">建议用 2-4 句话把结果讲清楚，客户会直接看到这部分内容。</text>
+    </view>
+
+    <view class="cf__card">
+      <view class="cf__card-head">
+        <view class="cf__section-title cf__section-title--compact">
+          <view class="cf__section-bar"></view>
+          <text>报告单据凭证</text>
+        </view>
+        <text class="cf__tag cf__tag--required">必填</text>
+      </view>
+
+      <view class="cf__proof-banner {{proofReady ? 'cf__proof-banner--done' : ''}}">
+        <view>
+          <text class="cf__proof-title">至少上传 1 份报告类凭证</text>
+          <text class="cf__proof-subtitle">体检单、化验单、检查报告、处方或收费票据等；可用本地相册/拍照，或用「微信导入」选择聊天中的文件（如 PDF）；不要求「现场环境」照片</text>
+        </view>
+        <text class="cf__proof-count">{{proofCount}}份</text>
+      </view>
+
+      <text class="cf__label">凭证列表（最多 9 个，支持 PDF / 图片 / Word / Excel）</text>
+      <view wx:if="{{uploadedFiles.length > 0}}" class="cf__file-list">
+        <view wx:for="{{uploadedFiles}}" wx:key="index" class="cf__file-row">
+          <text class="material-symbols-outlined cf__file-icon">description</text>
+          <text class="cf__file-name">{{item.name}}</text>
+          <view class="cf__file-remove btn-haptic" catchtap="removeFile" data-index="{{index}}">
+            <text class="material-symbols-outlined">close</text>
+          </view>
+        </view>
+      </view>
+      <view class="cf__file-add-grid">
+        <view class="cf__file-add cf__file-add--half btn-haptic" bind:tap="chooseProofFromLocal">
+          <text class="material-symbols-outlined cf__file-add-icon">add_photo_alternate</text>
+          <text class="cf__file-add-label">相册 / 拍照</text>
+          <text class="cf__file-add-sublabel">本地图片</text>
+        </view>
+        <view class="cf__file-add cf__file-add--half btn-haptic" bind:tap="chooseProofFile">
+          <text class="material-symbols-outlined cf__file-add-icon">chat</text>
+          <text class="cf__file-add-label">微信导入</text>
+          <text class="cf__file-add-sublabel">PDF 等文件</text>
+        </view>
+      </view>
+      <text class="cf__field-hint">图片报告可直接相册选择；PDF/Word 等需小程序从会话选取，可先发到「文件传输助手」再点「微信导入」。</text>
+    </view>
+
+    <view class="cf__card cf__card--highlight">
+      <view class="cf__card-head">
+        <view class="cf__section-title cf__section-title--compact">
+          <view class="cf__section-bar"></view>
+          <text>用药记录提醒</text>
+        </view>
+        <text class="cf__tag cf__tag--required">必填</text>
+      </view>
+
+      <view class="cf__choice-grid">
+        <view
+          class="cf__choice btn-haptic {{medicationMode === 'none' ? 'cf__choice--active' : ''}}"
+          bind:tap="onMedicationModeSelect"
+          data-mode="none"
+        >
+          <text class="cf__choice-title">本次无需用药提醒</text>
+          <text class="cf__choice-desc">医生未开药，或不需要我代为设置提醒</text>
+        </view>
+        <view
+          class="cf__choice btn-haptic {{medicationMode === 'has' ? 'cf__choice--active' : ''}}"
+          bind:tap="onMedicationModeSelect"
+          data-mode="has"
+        >
+          <text class="cf__choice-title">需要登记用药提醒</text>
+          <text class="cf__choice-desc">同步给客户，按时间提醒服药</text>
+        </view>
+      </view>
+
+      <view wx:if="{{!medicationMode}}" class="cf__alert cf__alert--warn">
+        <text class="material-symbols-outlined">priority_high</text>
+        <text>这里必须确认一次，未选择前不能完成订单。</text>
+      </view>
+
+      <view wx:elif="{{medicationMode === 'none'}}" class="cf__alert cf__alert--success">
+        <text class="material-symbols-outlined">task_alt</text>
+        <text>已确认本次无需新增用药提醒。</text>
+      </view>
+
+      <block wx:if="{{medicationMode === 'has'}}">
+        <view class="cf__med-notice">
+          <text class="material-symbols-outlined cf__med-notice-icon">notifications_active</text>
+          <view class="cf__med-notice-copy">
+            <text class="cf__med-notice-title">这部分会同步给客户，请填写完整</text>
+            <text class="cf__med-notice-desc">药品名称、用法用量、提醒时间、开始日期、结束日期均为必填。</text>
+          </view>
+        </view>
+
+        <view wx:for="{{medications}}" wx:key="id" class="cf__med-item">
+          <view class="cf__med-row">
+            <text class="cf__med-label">药品名称</text>
+            <input class="cf__med-input" placeholder="请输入药品名称" value="{{item.name}}" bindinput="onMedInput" data-index="{{index}}" data-field="name" />
+          </view>
+          <view class="cf__med-row">
+            <text class="cf__med-label">用法用量</text>
+            <input class="cf__med-input" placeholder="如：每日 3 次，每次 1 片" value="{{item.usage}}" bindinput="onMedInput" data-index="{{index}}" data-field="usage" />
+          </view>
+          <view class="cf__med-row">
+            <text class="cf__med-label">提醒时间</text>
+            <picker mode="time" value="{{item.reminderTime}}" bindchange="onMedTimeChange" data-index="{{index}}">
+              <view class="cf__picker {{item.reminderTime ? '' : 'cf__picker--placeholder'}}">
+                <text>{{item.reminderTime || '请选择每日提醒时间'}}</text>
+                <text class="material-symbols-outlined cf__picker-icon">schedule</text>
+              </view>
+            </picker>
+          </view>
+          <view class="cf__med-dates">
+            <view class="cf__med-date-item">
+              <text class="cf__med-label cf__med-label--stack">开始日期</text>
+              <picker mode="date" value="{{item.startDate}}" bindchange="onMedStartDateChange" data-index="{{index}}">
+                <view class="cf__picker {{item.startDate ? '' : 'cf__picker--placeholder'}}">
+                  <text>{{item.startDate || '请选择'}}</text>
+                </view>
+              </picker>
+            </view>
+            <view class="cf__med-date-item">
+              <text class="cf__med-label cf__med-label--stack">结束日期</text>
+              <picker mode="date" value="{{item.endDate}}" bindchange="onMedEndDateChange" data-index="{{index}}">
+                <view class="cf__picker {{item.endDate ? '' : 'cf__picker--placeholder'}}">
+                  <text>{{item.endDate || '请选择'}}</text>
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class="cf__med-remove-wrap">
+            <view class="cf__med-remove btn-haptic" catchtap="onRemoveMed" data-index="{{index}}">
+              <text class="material-symbols-outlined">delete_outline</text>
+              <text>删除此条</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="cf__add-med-wrap">
+          <view class="cf__add-med btn-haptic" bind:tap="onAddMed">
+            <text class="material-symbols-outlined">add</text>
+            <text>继续添加药品</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="cf__card">
+      <view class="cf__card-head">
+        <view class="cf__section-title cf__section-title--compact">
+          <view class="cf__section-bar"></view>
+          <text>复诊安排</text>
+        </view>
+        <text class="cf__tag cf__tag--optional">选填</text>
+      </view>
+      <view class="cf__field-row">
+        <text class="cf__field-label">复诊日期</text>
+        <picker mode="date" value="{{followUpDate}}" bindchange="onFollowUpDateChange">
+          <view class="cf__picker {{followUpDate ? '' : 'cf__picker--placeholder'}}">
+            <text>{{followUpDate || '请选择日期'}}</text>
+            <text class="material-symbols-outlined cf__picker-icon">calendar_today</text>
+          </view>
+        </picker>
+      </view>
+      <view class="cf__field-row">
+        <text class="cf__field-label">复诊医院</text>
+        <input
+          class="cf__med-input"
+          placeholder="未安排复诊可留空，安排复诊时必填"
+          value="{{followUpHospital}}"
+          bindinput="onFollowUpHospitalInput"
+        />
+      </view>
+      <view class="cf__field-row">
+        <text class="cf__field-label">复诊科室</text>
+        <input
+          class="cf__med-input"
+          placeholder="未安排复诊可留空，安排复诊时必填"
+          value="{{followUpDepartment}}"
+          bindinput="onFollowUpDepartmentInput"
+        />
+      </view>
+      <view class="cf__textarea-wrap cf__textarea-wrap--sm">
+        <textarea
+          class="cf__textarea cf__textarea--sm"
+          placeholder="补充复诊时间、科室或医生要求（选填）"
+          placeholder-class="cf__textarea-placeholder"
+          value="{{followUpNote}}"
+          bindinput="onFollowUpNoteInput"
+          maxlength="200"
+          auto-height
+        ></textarea>
+      </view>
+      <text class="cf__field-hint">没有复诊安排可留空；如已安排复诊，请填写复诊日期、医院和科室。</text>
+      <view wx:if="{{followUpDate || followUpHospital || followUpDepartment || followUpNote}}" class="cf__add-med-wrap">
+        <view class="cf__add-med btn-haptic" bind:tap="clearFollowUp">
+          <text class="material-symbols-outlined">delete_sweep</text>
+          <text>清空复诊安排</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="cf__card" wx:if="{{serviceTargetId}}">
+      <view class="cf__card-head">
+        <view class="cf__section-title cf__section-title--compact">
+          <view class="cf__section-bar"></view>
+          <text>健康档案代填</text>
+        </view>
+        <text class="cf__tag cf__tag--optional">建议</text>
+      </view>
+      <view class="cf__proxy-banner {{healthProfileStatus === 'complete' ? 'cf__proxy-banner--done' : healthProfileStatus === 'partial' ? 'cf__proxy-banner--warn' : ''}}">
+        <view class="cf__proxy-left">
+          <text class="material-symbols-outlined cf__proxy-icon">{{healthProfileStatus === 'complete' ? 'check_circle' : healthProfileStatus === 'partial' ? 'info' : 'person_add'}}</text>
+          <view>
+            <text class="cf__proxy-title">{{healthProfileStatusText || '检查中...'}}</text>
+            <text class="cf__proxy-desc" wx:if="{{healthProfileStatus === 'empty'}}">服务对象尚未建立健康档案，建议您现场协助采集</text>
+            <text class="cf__proxy-desc" wx:elif="{{healthProfileStatus === 'partial'}}">部分关键信息缺失，建议补充完善</text>
+            <text class="cf__proxy-desc" wx:elif="{{healthProfileStatus === 'complete'}}">健康档案已完善，如有变动可随时更新</text>
+          </view>
+        </view>
+      </view>
+      <view class="cf__proxy-action" bind:tap="goProxyFillProfile">
+        <text class="material-symbols-outlined">edit_note</text>
+        <text>{{healthProfileStatus === 'complete' ? '查看 / 更新健康档案' : '前往代填健康档案'}}</text>
+        <text class="material-symbols-outlined cf__proxy-arrow">chevron_right</text>
+      </view>
+      <text class="cf__field-hint">代填会标记为「{{staffRoleLabel || '服务人员'}}代填」，后续需服务对象或家属确认签署。</text>
+    </view>
+
+    <view class="cf__card cf__check-card">
+      <view class="cf__section-title">
+        <view class="cf__section-bar"></view>
+        <text>提交前检查</text>
+      </view>
+      <view class="cf__check-item {{summaryReady ? 'cf__check-item--done' : ''}}">
+        <text class="cf__check-name">服务总结</text>
+        <text class="cf__check-value">{{summaryReady ? '已完成' : '待填写'}}</text>
+      </view>
+      <view class="cf__check-item {{proofReady ? 'cf__check-item--done' : ''}}">
+        <text class="cf__check-name">报告单据凭证</text>
+        <text class="cf__check-value">{{proofReady ? '已完成' : '待上传'}}</text>
+      </view>
+      <view class="cf__check-item {{medicationReady ? 'cf__check-item--done' : ''}}">
+        <text class="cf__check-name">用药提醒确认</text>
+        <text class="cf__check-value">{{medicationReady ? '已完成' : '待确认'}}</text>
+      </view>
+    </view>
+
+    <view class="cf__spacer"></view>
+  </scroll-view>
+
+  <view class="cf__bottom">
+    <view class="cf__bottom-summary">
+      <text class="cf__bottom-title">{{canFinish ? '必填资料已补齐' : '还有必填资料未完成'}}</text>
+      <text class="cf__bottom-desc">{{canFinish ? (orderStatus === 'in_progress' || orderStatus === 'emergency' ? '提交后会直接结束当前订单' : '保存后客户可查看本次完成资料') : '还需补齐：' + missingText}}</text>
+    </view>
+    <button class="cf__submit-btn btn-haptic" bind:tap="onSubmit" disabled="{{submitting || !canFinish}}">
+      {{submitting ? '提交中...' : submitButtonText}}
+    </button>
+    <text class="cf__bottom-hint">为避免漏单，未补齐资料时系统不允许完成订单。</text>
+  </view>
+</view>

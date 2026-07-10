@@ -1,0 +1,82 @@
+<view class="page {{loaded ? 'page--loaded' : ''}}">
+  <view class="nav anim-item anim-0">
+    <view class="nav__inner" style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav__back" bind:tap="goBack" hover-class="btn-haptic">
+        <text class="material-symbols-outlined">arrow_back</text>
+      </view>
+      <text class="nav__title">陪诊服务</text>
+      <view class="nav__placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="scroll-area">
+    <view class="content">
+
+      <view class="hero anim-item anim-1">
+        <view class="hero__banner">
+          <image class="hero__img" src="https://images.pexels.com/photos/4173248/pexels-photo-4173248.jpeg?auto=compress&cs=tinysrgb&w=1200" mode="aspectFill"></image>
+          <view class="hero__overlay"></view>
+          <view class="hero__body">
+            <text class="hero__tag">尊享服务</text>
+            <text class="hero__title">至臻陪诊，如家人般的温暖守护</text>
+            <text class="hero__desc">专属管家全程陪同，让就医更从容</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="services anim-item anim-2">
+        <text class="section-title">核心服务权益</text>
+        <view class="services__list">
+          <view class="service-card" wx:for="{{services}}" wx:key="id" hover-class="btn-haptic">
+            <view class="service-card__icon-box">
+              <text class="material-symbols-outlined" style="color: {{item.iconColor || '#4CAF50'}}">{{item.icon}}</text>
+            </view>
+            <view class="service-card__body">
+              <text class="service-card__title">{{item.title}}</text>
+              <text class="service-card__desc">{{item.desc}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="crowd anim-item anim-3">
+        <text class="section-title">适用人群</text>
+        <view class="crowd__list">
+          <view class="crowd__item" wx:for="{{crowds}}" wx:key="id" hover-class="btn-haptic">
+            <view class="crowd__avatar" style="background: {{item.avatarBg}};">
+              <text class="material-symbols-outlined" style="color: {{item.iconColor}}">{{item.icon}}</text>
+            </view>
+            <view class="crowd__body">
+              <text class="crowd__name">{{item.title}}</text>
+              <text class="crowd__desc">{{item.desc}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="hospitals anim-item anim-4">
+        <text class="hospitals__label">合作医疗机构</text>
+        <view class="hospitals__grid">
+          <view class="hospitals__item" wx:for="{{hospitals}}" wx:key="name">
+            <view class="hospitals__icon-wrap">
+              <text class="material-symbols-outlined">{{item.icon}}</text>
+            </view>
+            <text class="hospitals__name">{{item.name}}</text>
+          </view>
+        </view>
+        <text class="hospitals__note">*服务覆盖全国 300+ 顶尖三甲医院</text>
+      </view>
+
+      <view class="safe-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-bar anim-item anim-5">
+    <view class="bottom-inner">
+      <button class="cta-btn" hover-class="btn-haptic" bind:tap="onBook">
+        <text>立即预约陪诊服务</text>
+        <text class="material-symbols-outlined cta-btn__icon">arrow_forward</text>
+      </button>
+    </view>
+  </view>
+</view>

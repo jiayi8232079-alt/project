@@ -201,6 +201,46 @@ STATIC OPERATE_RET __mcp_load_example(CONST CHAR_T *name, CONST ty_cJSON *args,
     return OPRT_OK;
 }
 
+STATIC OPERATE_RET __mcp_load_peiban(CONST CHAR_T *name, CONST ty_cJSON *args,
+                                      ty_cJSON **out_content, BOOL_T *is_error, VOID *user_data)
+{
+    CONST CHAR_T *url = NULL;
+    CONST CHAR_T *secret = NULL;
+    CONST CHAR_T *device_id = NULL;
+    CONST CHAR_T *session_id = NULL;
+    ty_cJSON *j;
+    OPERATE_RET rt;
+
+    (VOID)name;
+    (VOID)user_data;
+
+    if (args) {
+        j = ty_cJSON_GetObjectItem(args, "url");
+        if (j && ty_cJSON_IsString(j))
+            url = j->valuestring;
+        j = ty_cJSON_GetObjectItem(args, "secret");
+        if (j && ty_cJSON_IsString(j))
+            secret = j->valuestring;
+        j = ty_cJSON_GetObjectItem(args, "deviceId");
+        if (j && ty_cJSON_IsString(j))
+            device_id = j->valuestring;
+        j = ty_cJSON_GetObjectItem(args, "sessionId");
+        if (j && ty_cJSON_IsString(j))
+            session_id = j->valuestring;
+    }
+
+    rt = mcp_client_config_load_peiban(url, secret, device_id, session_id);
+    if (rt == OPRT_OK)
+        mcp_client_manager_refresh_all();
+
+    *out_content = ty_cJSON_CreateArray();
+    if (*out_content)
+        ty_cJSON_AddItemToArray(*out_content,
+            mcp_content_make_text(rt == OPRT_OK ? "Peiban MCP config loaded" : "Load peiban config failed"));
+    *is_error = (rt != OPRT_OK);
+    return OPRT_OK;
+}
+
 OPERATE_RET mcp_tool_external_mcp_init(VOID)
 {
     MCP_TOOL_ADD("device_mcp_config_list",
@@ -239,6 +279,16 @@ OPERATE_RET mcp_tool_external_mcp_init(VOID)
     MCP_TOOL_ADD("device_mcp_load_mcd_example",
                  "Load McDonald MCP example config (placeholder token)",
                  __mcp_load_example, NULL, NULL);
+
+    MCP_TOOL_ADD("device_mcp_load_peiban_config",
+                 "Load Peiban backend MCP config. Requires url and HMAC secret; "
+                 "deviceId/sessionId are optional. Secrets are stored in local KV and redacted in config_list.",
+                 __mcp_load_peiban, NULL,
+                 MCP_SCHEMA_STR("url", "Peiban MCP endpoint, e.g. https://api.example.com/mcp"),
+                 MCP_SCHEMA_STR("secret", "AI_GATEWAY_HMAC_SECRET configured on backend"),
+                 MCP_SCHEMA_STR_OPT("deviceId", "Device id; defaults to Tuya gateway id if omitted"),
+                 MCP_SCHEMA_STR_OPT("sessionId", "Optional conversation/session id"),
+                 NULL);
 
     return OPRT_OK;
 }

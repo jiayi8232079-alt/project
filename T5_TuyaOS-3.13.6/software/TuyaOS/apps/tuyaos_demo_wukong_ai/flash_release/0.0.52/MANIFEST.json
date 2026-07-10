@@ -1,0 +1,24 @@
+{
+  "app": "tuyaos_demo_wukong_ai",
+  "version": "0.0.52",
+  "build_time": "2026-07-06T23:24:00+08:00",
+  "target": "T5 / BK7258 (CP+AP)",
+  "flash_type": "QIO",
+  "file": "tuyaos_demo_wukong_ai_QIO_0.0.52.bin",
+  "size_bytes": 3941728,
+  "md5": "b29bb73834bba12e4f6bdf14fc6f6a8c",
+  "sha256": "ad08751f1daed1dddbc3136329ea59514c805e3f6a44be841a1df1e4dd255ca5",
+  "partitions_included": ["bl2", "cp", "ap"],
+  "ap_size_bytes": 2531328,
+  "cp_size_bytes": 973548,
+  "features": [
+    "robot_face_ui single-ring expressions",
+    "person_tracker YUV skin follow",
+    "AXP2101 powerdown 3000mV"
+  ],
+  "serial_verify_pattern": "tuyaos_demo_wukong_ai:0.0.52",
+  "related_ota_files": {
+    "UA": "../output/0.0.52/tuyaos_demo_wukong_ai_UA_0.0.52.bin",
+    "UG": "../output/0.0.52/tuyaos_demo_wukong_ai_UG_0.0.52.bin"
+  }
+}

@@ -1,0 +1,1135 @@
+@use './reset.scss';
+@use './variables.scss' as *;
+
+// ═══════════════════════════════════════════════════════════════
+// 陪了个伴 管理后台 · Stitch 温暖医疗风（对齐小程序）
+// ═══════════════════════════════════════════════════════════════
+
+// ── Material Symbols 图标字体（与小程序一致） ──
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('https://wx.qiaoguo.vip/uploads/fonts/material-symbols-outlined.woff2') format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  vertical-align: middle;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+:root {
+  --el-color-primary: #{$primary};
+  --el-color-primary-light-3: #{$primary-light};
+  --el-color-primary-light-5: #{$primary-200};
+  --el-color-primary-light-7: #{$primary-100};
+  --el-color-primary-light-8: #{$primary-100};
+  --el-color-primary-light-9: #{$primary-50};
+  --el-color-primary-dark-2: #{$primary-dark};
+
+  --el-color-success: #{$success};
+  --el-color-warning: #{$warning};
+  --el-color-danger: #{$danger};
+  --el-color-info: #{$info};
+
+  --el-bg-color-page: #{$page-bg};
+  --el-fill-color-light: #{$slate-50};
+  --el-fill-color-lighter: #{$slate-50};
+  --el-fill-color-blank: #ffffff;
+
+  --el-border-color: #{$border-base};
+  --el-border-color-light: #{$border-light};
+  --el-border-color-lighter: #{$border-light};
+
+  --el-text-color-primary: #{$text-primary};
+  --el-text-color-regular: #{$text-regular};
+  --el-text-color-secondary: #{$text-secondary};
+  --el-text-color-placeholder: #{$text-placeholder};
+
+  --el-border-radius-base: #{$radius-md};
+  --el-border-radius-round: 999px;
+  --el-box-shadow-light: #{$card-shadow};
+
+  --qg-primary: #{$primary};
+  --qg-primary-light: #{$primary-light};
+  --qg-primary-dark: #{$primary-dark};
+  --qg-primary-50: #{$primary-50};
+  --qg-accent: #{$accent};
+  --qg-header-height: #{$header-height};
+  --qg-sidebar-width: #{$sidebar-width};
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  background: $page-bg-gradient;
+  background-attachment: fixed;
+  color: $text-primary;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
+    Helvetica,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    sans-serif;
+  font-size: $font-base;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// ── 全局柔和光晕背景（液态玻璃层次） ──
+#app {
+  position: relative;
+  isolation: isolate;
+}
+
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  // 极光网格：青/紫/薄荷/蓝/淡紫多色光球，玻璃卡片在其上折射出真彩色。
+  background:
+    radial-gradient(560px circle at 90% -6%, $aurora-cyan, transparent 62%),
+    radial-gradient(520px circle at 4% 6%, $aurora-violet, transparent 60%),
+    radial-gradient(620px circle at -8% 54%, $aurora-mint, transparent 60%),
+    radial-gradient(640px circle at 102% 58%, $aurora-blue, transparent 60%),
+    radial-gradient(560px circle at 78% 108%, $aurora-blush, transparent 60%);
+}
+
+// ── 毛玻璃表面（卡片 / 面板 / 筛选 / 表格容器） ──
+.el-card,
+.stat-card,
+.fc-panel,
+.table-card,
+.filter-bar,
+.fc-tools {
+  backdrop-filter: blur($glass-blur) saturate($glass-saturate);
+  -webkit-backdrop-filter: blur($glass-blur) saturate($glass-saturate);
+}
+
+// ── 滚动条 ──
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $slate-200;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+
+  &:hover {
+    background: $slate-300;
+    background-clip: padding-box;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 通用页面骨架
+// ═══════════════════════════════════════════════════════════════
+
+.page-container {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $space-4;
+  flex-wrap: wrap;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  .page-title {
+    font-size: $font-2xl;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+}
+
+.page-subtitle {
+  margin: 8px 0 0;
+  font-size: $font-md;
+  color: $text-tertiary;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.page-header__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.page-header__actions,
+.page-header-actions {
+  display: flex;
+  gap: $space-2;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+// ── 页头内嵌标签（和 page-title 同一行） ──
+.page-title__tag {
+  margin-left: $space-3;
+  vertical-align: middle;
+  font-weight: 500;
+  & + & {
+    margin-left: $space-2;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// KV 字段令牌：详情卡片内的 label + value 竖向结构
+// 用法：
+//   <div class="kv-field">
+//     <span class="kv-label">客户</span>
+//     <span class="kv-value">张三</span>
+//   </div>
+// ═══════════════════════════════════════════════════════════════
+.kv-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.kv-label {
+  font-size: $font-sm;
+  color: $text-secondary;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.kv-value {
+  font-size: $font-md;
+  color: $text-primary;
+  font-weight: 500;
+  line-height: 1.5;
+  word-break: break-word;
+}
+.kv-value--strong {
+  font-size: $font-lg;
+  font-weight: 600;
+}
+.kv-value--big {
+  font-size: $font-xl;
+  font-weight: 700;
+}
+.kv-value--accent {
+  color: $primary-dark;
+  font-weight: 600;
+}
+.kv-value--muted {
+  color: $text-secondary;
+  font-weight: 400;
+}
+.kv-value--danger {
+  color: $danger;
+  font-weight: 600;
+}
+.kv-value--warning {
+  color: $warning;
+  font-weight: 600;
+}
+.kv-row-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  align-items: center;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 登高齐卡片：用于详情页三栏（或多栏）并排的信息卡
+// 使三列高度一致，无论内容多少
+// 用法：
+//   <el-row :gutter="16" class="fc-top-grid">
+//     <el-col :xs="24" :md="8">
+//       <el-card shadow="never" class="fc-panel">
+//         <template #header><span class="fc-panel__head">标题</span></template>
+//         <div class="fc-panel__body">...</div>
+//       </el-card>
+//     </el-col>
+//   </el-row>
+// ═══════════════════════════════════════════════════════════════
+.fc-top-grid {
+  align-items: stretch;
+}
+.fc-top-grid .el-col {
+  display: flex;
+  margin-bottom: $space-4;
+}
+.fc-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius-lg;
+  border: 1px solid $border-light;
+  background: $card-bg;
+  transition: box-shadow 0.2s ease;
+  &:hover {
+    box-shadow: $card-shadow-hover;
+  }
+  .el-card__header {
+    padding: 14px 18px;
+    border-bottom: 1px solid $border-light;
+  }
+  .el-card__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: $space-4 18px;
+  }
+}
+.fc-panel__head {
+  font-weight: 600;
+  font-size: $font-md;
+  color: $text-primary;
+  letter-spacing: 0.01em;
+}
+.fc-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+.fc-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: auto;
+  padding-top: $space-3;
+  border-top: 1px dashed $border-light;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 工具区 Collapse：用于详情页次要工具区（导出/分享/嵌入码等）
+// 用法：
+//   <el-collapse v-model="collapse" class="fc-tools">
+//     <el-collapse-item name="x" title="工具名">...</el-collapse-item>
+//   </el-collapse>
+// ═══════════════════════════════════════════════════════════════
+.fc-tools {
+  margin-top: $space-4;
+  border: 1px solid $border-light;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  background: $card-bg;
+  .el-collapse-item__header {
+    padding: 0 18px;
+    height: 52px;
+    font-size: $font-md;
+    font-weight: 600;
+    color: $text-primary;
+    border-bottom: 1px solid $border-light;
+    background: $slate-50;
+  }
+  .el-collapse-item__content {
+    padding: $space-4 18px 20px;
+    color: $text-regular;
+  }
+  .el-collapse-item:last-child .el-collapse-item__header {
+    border-bottom: none;
+  }
+  .el-collapse-item.is-active:last-child .el-collapse-item__header {
+    border-bottom: 1px solid $border-light;
+  }
+}
+.fc-tool-lead {
+  font-size: $font-base;
+  color: $text-regular;
+  line-height: 1.7;
+  margin: 0 0 $space-3;
+}
+.fc-tool-signed {
+  font-size: $font-base;
+  color: $success;
+  line-height: 1.7;
+  margin: 0 0 $space-3;
+}
+.fc-tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.fc-tool-muted {
+  color: $text-secondary;
+}
+
+// 流程引导条（默认不显示，需要时使用）
+.page-guide {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+  padding: 10px 16px;
+  background: $primary-50;
+  border: 1px solid $primary-100;
+  border-radius: $radius-lg;
+  font-size: $font-md;
+}
+
+.page-guide__label {
+  font-size: $font-sm;
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+// ── 筛选栏 ──
+.filter-bar {
+  margin-bottom: 0;
+  border-radius: $radius-lg !important;
+  border: 1px solid $card-border !important;
+  box-shadow: $glass-shadow !important;
+  background: $card-bg !important;
+
+  :where(.el-card__body) {
+    padding: $space-5 !important;
+  }
+}
+
+// ── 表格卡片 ──
+.table-card {
+  overflow: hidden;
+  border-radius: $radius-lg !important;
+  border: 1px solid $card-border !important;
+  box-shadow: $glass-shadow !important;
+  background: $card-bg !important;
+
+  :where(.el-card__header) {
+    padding: $space-4 $space-6 !important;
+    border-bottom: 1px solid $divider !important;
+    background: $card-bg !important;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  :where(.el-card__body) {
+    padding: 0 !important;
+  }
+
+  .el-table {
+    --el-table-border-color: #{$divider};
+    --el-table-header-bg-color: #{$slate-50};
+    --el-table-row-hover-bg-color: #{$primary-50};
+    --el-table-current-row-bg-color: #{$primary-50};
+    font-size: $font-md;
+
+    th.el-table__cell {
+      font-weight: 600;
+      color: $text-tertiary;
+      font-size: $font-sm;
+      padding: 14px 0;
+      background: $slate-50;
+      border-bottom: 1px solid $divider;
+      letter-spacing: 0.02em;
+    }
+
+    td.el-table__cell {
+      padding: 16px 0;
+      color: $text-primary;
+      border-bottom: 1px solid $divider;
+      font-size: $font-md;
+    }
+
+    tr:last-child td.el-table__cell {
+      border-bottom: none;
+    }
+  }
+}
+
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-4 $space-6;
+  border-top: 1px solid $divider;
+  background: $card-bg;
+}
+
+.pagination-info {
+  font-size: $font-sm;
+  color: $text-tertiary;
+}
+
+// ── 统计卡（对齐小程序温暖医疗风） ──
+.stat-card {
+  text-align: left;
+  padding: $space-5;
+  border-radius: $radius-lg;
+  background: $card-bg;
+  border: 1px solid $card-border;
+  box-shadow: $glass-shadow;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    border-color: $primary-200;
+    box-shadow: $glass-shadow-hover;
+    transform: translateY(-1px);
+  }
+
+  .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-size: $font-md;
+    color: $text-tertiary;
+    font-weight: 500;
+  }
+}
+
+.table-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+}
+
+.table-card__title {
+  font-size: $font-lg;
+  font-weight: 600;
+  color: $text-primary;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  letter-spacing: -0.01em;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Element Plus 全量覆盖（温暖医疗风 · 对齐小程序）
+// ═══════════════════════════════════════════════════════════════
+
+// ── 卡片 ──
+:where(.el-card) {
+  border-radius: $radius-lg;
+  border: 1px solid $card-border;
+  background: $card-bg;
+  box-shadow: $glass-shadow;
+  overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+:where(.el-card.is-hover-shadow:hover) {
+  border-color: $primary-200;
+  box-shadow: $glass-shadow-hover;
+}
+
+:where(.el-card__header) {
+  padding: $space-4 $space-6;
+  border-bottom: 1px solid $divider;
+  background: $card-bg;
+  font-weight: 600;
+  color: $text-primary;
+  font-size: $font-lg;
+}
+
+:where(.el-card__body) {
+  padding: $space-5;
+}
+
+// ── 按钮（小程序风：圆角更大、主按钮带柔和阴影） ──
+:where(.el-button) {
+  border-radius: $radius-md;
+  font-weight: 500;
+  font-size: $font-md;
+  padding: 0 16px;
+  height: 36px;
+  letter-spacing: 0;
+  transition: all 0.15s ease;
+  border-color: $border-base;
+}
+
+:where(.el-button--small) {
+  height: 30px;
+  padding: 0 12px;
+  font-size: $font-sm;
+  border-radius: $radius-sm;
+}
+
+:where(.el-button--large) {
+  height: 42px;
+  padding: 0 22px;
+  font-size: $font-lg;
+  border-radius: $radius-lg;
+}
+
+:where(.el-button--primary) {
+  background: $primary;
+  border-color: $primary;
+  box-shadow: 0 2px 8px 0 rgba(46, 134, 240, 0.26);
+
+  &:hover:not(.is-disabled) {
+    background: $primary-light;
+    border-color: $primary-light;
+    box-shadow: 0 4px 12px 0 rgba(46, 134, 240, 0.32);
+  }
+
+  &:active:not(.is-disabled) {
+    background: $primary-dark;
+    border-color: $primary-dark;
+  }
+}
+
+:where(.el-button--primary.is-plain) {
+  background: $primary-50;
+  color: $primary-dark;
+  border-color: $primary-200;
+  box-shadow: none;
+
+  &:hover:not(.is-disabled) {
+    background: $primary-100;
+    border-color: $primary-500;
+    color: $primary-dark;
+  }
+}
+
+:where(.el-button--default) {
+  background: $card-bg;
+  color: $text-primary;
+  border-color: $border-base;
+
+  &:hover:not(.is-disabled) {
+    background: $slate-50;
+    border-color: $primary-300;
+    color: $primary-dark;
+  }
+}
+
+:where(.el-button--success) {
+  background: $success;
+  border-color: $success;
+  box-shadow: 0 2px 6px 0 rgba(67, 160, 71, 0.2);
+}
+
+:where(.el-button--warning) {
+  background: $warning;
+  border-color: $warning;
+  box-shadow: 0 2px 6px 0 rgba(249, 168, 37, 0.22);
+}
+
+:where(.el-button--danger) {
+  background: $danger;
+  border-color: $danger;
+  box-shadow: 0 2px 6px 0 rgba(229, 57, 53, 0.22);
+}
+
+// 药丸按钮工具类
+:where(.el-button.is-round),
+.btn-pill :where(.el-button) {
+  border-radius: $radius-pill !important;
+}
+
+// Link 按钮（列表行内操作）
+:where(.el-button.is-link) {
+  font-weight: 500;
+  padding: 0 4px !important;
+  height: auto !important;
+
+  &.el-button--primary {
+    color: $primary-dark;
+
+    &:hover:not(.is-disabled) {
+      color: $primary-light;
+    }
+  }
+}
+
+// ── 输入框（温暖聚焦光晕） ──
+:where(.el-input__wrapper),
+:where(.el-select__wrapper),
+:where(.el-date-editor.el-input__wrapper),
+:where(.el-textarea__inner) {
+  border-radius: $radius-md;
+  box-shadow: 0 0 0 1px $border-base inset;
+  background: rgba(255, 255, 255, 0.7);
+  transition: box-shadow 0.15s ease;
+
+  &:hover {
+    box-shadow: 0 0 0 1px $primary-300 inset;
+  }
+}
+
+:where(.el-input__wrapper.is-focus),
+:where(.el-select__wrapper.is-focused),
+:where(.el-textarea__inner:focus) {
+  box-shadow: 0 0 0 1px $primary inset, $focus-ring !important;
+}
+
+:where(.el-input__inner) {
+  color: $text-primary;
+  font-size: $font-md;
+
+  &::placeholder {
+    color: $text-placeholder;
+  }
+}
+
+// ── 表格 ──
+:where(.el-table) {
+  border-radius: 0;
+  overflow: visible;
+  border: none;
+  --el-table-header-bg-color: #{$slate-50};
+  --el-table-row-hover-bg-color: #{$primary-50};
+  --el-table-border-color: #{$divider};
+}
+
+:where(.el-table th.el-table__cell) {
+  color: $text-tertiary;
+  font-weight: 600;
+  font-size: $font-sm;
+}
+
+:where(.el-table td.el-table__cell) {
+  color: $text-primary;
+  font-size: $font-md;
+}
+
+// ── Tabs（扁平下划线风） ──
+:where(.el-tabs) {
+  --el-tabs-header-height: 48px;
+}
+
+:where(.el-tabs__item) {
+  font-weight: 500;
+  font-size: $font-md;
+  color: $text-tertiary;
+
+  &.is-active {
+    color: $primary-dark;
+    font-weight: 600;
+  }
+
+  &:hover {
+    color: $primary-dark;
+  }
+}
+
+:where(.el-tabs__nav-wrap::after) {
+  background-color: $divider;
+  height: 1px;
+}
+
+:where(.el-tabs__active-bar) {
+  background-color: $primary !important;
+  height: 3px;
+  border-radius: 2px;
+}
+
+// border-card 模式也改成扁平风，保持整体一致
+:where(.el-tabs--border-card) {
+  border-radius: $radius-lg;
+  border: 1px solid $card-border;
+  box-shadow: $card-shadow;
+  overflow: hidden;
+
+  > :where(.el-tabs__header) {
+    background: transparent;
+    border-bottom: 1px solid $divider;
+    padding: 0 $space-4;
+  }
+
+  > :where(.el-tabs__header) :where(.el-tabs__nav) {
+    border: none;
+  }
+
+  > :where(.el-tabs__header) :where(.el-tabs__item) {
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 16px;
+    height: 48px;
+    line-height: 48px;
+
+    &.is-active {
+      background: transparent !important;
+      color: $primary-dark !important;
+    }
+  }
+
+  > :where(.el-tabs__content) {
+    padding: $space-5 $space-6;
+  }
+}
+
+// ── Dialog / Drawer ──
+:where(.el-dialog) {
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: $card-shadow-strong;
+  border: 1px solid $card-border;
+}
+
+:where(.el-dialog__header) {
+  padding: 20px 24px;
+  border-bottom: 1px solid $divider;
+  margin-right: 0;
+}
+
+:where(.el-dialog__title) {
+  font-size: $font-lg;
+  font-weight: 600;
+  color: $text-primary;
+  letter-spacing: -0.01em;
+}
+
+:where(.el-dialog__body) {
+  padding: 24px;
+}
+
+:where(.el-dialog__footer) {
+  padding: 16px 24px;
+  border-top: 1px solid $divider;
+}
+
+:where(.el-drawer) {
+  border-radius: $radius-xl 0 0 $radius-xl;
+}
+
+:where(.el-drawer__header) {
+  padding: 20px 24px;
+  border-bottom: 1px solid $divider;
+  margin-bottom: 0;
+
+  .el-drawer__title {
+    font-size: $font-lg;
+    font-weight: 600;
+    color: $text-primary;
+    letter-spacing: -0.01em;
+  }
+}
+
+:where(.el-drawer__body) {
+  padding: 24px;
+}
+
+// ── Tag（柔和胶囊形，对齐小程序） ──
+:where(.el-tag) {
+  border-radius: $radius-pill;
+  font-weight: 500;
+  font-size: $font-sm;
+  padding: 0 10px;
+  height: 22px;
+  line-height: 20px;
+  border: 1px solid transparent;
+  letter-spacing: 0;
+}
+
+// default / info（中性灰）
+:where(.el-tag.el-tag--info),
+:where(.el-tag:not([class*='el-tag--'])) {
+  background: $slate-100;
+  color: $slate-700;
+  border-color: $slate-200;
+}
+
+// success
+:where(.el-tag.el-tag--success) {
+  background: $success-bg;
+  color: $success;
+  border-color: $success-border;
+}
+
+// warning
+:where(.el-tag.el-tag--warning) {
+  background: $warning-bg;
+  color: $warning;
+  border-color: $warning-border;
+}
+
+// danger
+:where(.el-tag.el-tag--danger) {
+  background: $danger-bg;
+  color: $danger;
+  border-color: $danger-border;
+}
+
+// primary
+:where(.el-tag.el-tag--primary) {
+  background: $primary-50;
+  color: $primary-dark;
+  border-color: $primary-200;
+}
+
+// plain effect
+:where(.el-tag.is-plain) {
+  background: transparent !important;
+}
+:where(.el-tag.is-plain.el-tag--info) {
+  color: $slate-600;
+  border-color: $slate-300;
+}
+
+// ── Form ──
+:where(.el-form-item__label) {
+  color: $text-regular;
+  font-weight: 500;
+  font-size: $font-md;
+}
+
+// ── Descriptions ──
+:where(.el-descriptions__label) {
+  color: $text-tertiary;
+  font-weight: 500;
+}
+
+:where(.el-descriptions__cell) {
+  padding: 14px 16px !important;
+}
+
+:where(.el-descriptions--border) {
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+// ── Alert ──
+:where(.el-alert) {
+  border-radius: $radius-md;
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  font-size: $font-md;
+}
+
+:where(.el-alert--info.is-light) {
+  background: $info-bg;
+  border-color: $info-border;
+  color: $info;
+}
+
+:where(.el-alert--warning.is-light) {
+  background: $warning-bg;
+  border-color: $warning-border;
+  color: $warning;
+}
+
+:where(.el-alert--success.is-light) {
+  background: $success-bg;
+  border-color: $success-border;
+  color: $success;
+}
+
+:where(.el-alert--error.is-light) {
+  background: $danger-bg;
+  border-color: $danger-border;
+  color: $danger;
+}
+
+// ── Pagination ──
+:where(.el-pagination) {
+  --el-pagination-button-color: #{$text-regular};
+  --el-pagination-hover-color: #{$primary};
+  font-weight: 500;
+}
+
+:where(.el-pagination .btn-prev),
+:where(.el-pagination .btn-next),
+:where(.el-pagination .el-pager li) {
+  border-radius: $radius-sm;
+  background: transparent;
+  color: $text-regular;
+  font-weight: 500;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+:where(.el-pagination .el-pager li.is-active) {
+  background: $primary-50;
+  color: $primary-dark;
+}
+
+:where(.el-pagination.is-background .btn-prev),
+:where(.el-pagination.is-background .btn-next),
+:where(.el-pagination.is-background .el-pager li) {
+  background: $card-bg;
+  border: 1px solid $border-base;
+  border-radius: $radius-sm;
+
+  &:hover:not(.is-disabled):not(.is-active) {
+    border-color: $primary;
+    color: $primary;
+  }
+}
+
+:where(.el-pagination.is-background .el-pager li.is-active) {
+  background: $primary !important;
+  color: #ffffff !important;
+  border-color: $primary !important;
+}
+
+// ── Dropdown ──
+:where(.el-dropdown-menu) {
+  border-radius: $radius-md;
+  border: 1px solid $card-border;
+  box-shadow: $card-shadow-strong;
+  padding: 6px;
+}
+
+:where(.el-dropdown-menu__item) {
+  border-radius: $radius-sm;
+  font-size: $font-md;
+  padding: 8px 12px;
+
+  &:not(.is-disabled):hover {
+    background: $primary-50;
+    color: $primary-dark;
+  }
+}
+
+// ── Tooltip ──
+:where(.el-tooltip__popper) {
+  border-radius: $radius-sm !important;
+  font-size: $font-sm !important;
+}
+
+// ── Message / Notification ──
+:where(.el-message) {
+  border-radius: $radius-md;
+  border: 1px solid $card-border;
+  box-shadow: $card-shadow-strong;
+  padding: 12px 16px;
+}
+
+:where(.el-notification) {
+  border-radius: $radius-lg;
+  border: 1px solid $card-border;
+  box-shadow: $card-shadow-strong;
+}
+
+// ── Popover ──
+:where(.el-popover.el-popper) {
+  border-radius: $radius-md !important;
+  border: 1px solid $card-border !important;
+  box-shadow: $card-shadow-strong !important;
+}
+
+// ── Empty ──
+:where(.el-empty__description p) {
+  color: $text-tertiary;
+  font-size: $font-md;
+}
+
+// ── Switch ──
+:where(.el-switch.is-checked .el-switch__core) {
+  background-color: $primary !important;
+  border-color: $primary !important;
+}
+
+// ── Radio / Checkbox ──
+:where(.el-radio__input.is-checked .el-radio__inner),
+:where(.el-checkbox__input.is-checked .el-checkbox__inner) {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+:where(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
+  background: $primary !important;
+  border-color: $primary !important;
+  box-shadow: -1px 0 0 0 $primary !important;
+  color: #ffffff !important;
+}
+
+// ── Timeline ──
+:where(.el-timeline-item__node) {
+  background-color: $primary;
+}
+
+// ── Badge ──
+:where(.el-badge__content.is-fixed) {
+  border: 1.5px solid $card-bg;
+}
+
+// ── Breadcrumb ──
+:where(.el-breadcrumb) {
+  font-size: $font-md;
+  line-height: 1;
+}
+
+:where(.el-breadcrumb__separator) {
+  color: $slate-300;
+  margin: 0 8px;
+}
+
+:where(.el-breadcrumb__inner) {
+  color: $text-tertiary;
+  font-weight: 500;
+}
+
+:where(.el-breadcrumb__inner.is-link) {
+  color: $text-regular;
+  font-weight: 500;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+:where(.el-breadcrumb__item:last-child .el-breadcrumb__inner) {
+  color: $text-primary;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .page-header {
+    .page-title {
+      font-size: $font-xl;
+    }
+  }
+}

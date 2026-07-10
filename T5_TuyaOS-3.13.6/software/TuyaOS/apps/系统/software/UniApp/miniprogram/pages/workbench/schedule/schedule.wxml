@@ -1,0 +1,124 @@
+<view class="sch">
+
+  <!-- 顶部导航 -->
+  <view class="sch__header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="sch__header-row">
+      <view class="sch__back btn-haptic" bind:tap="goBack">
+        <text class="material-symbols-outlined">arrow_back_ios_new</text>
+      </view>
+      <text class="sch__title">排班管理</text>
+      <view class="sch__spacer"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="sch__scroll">
+
+    <!-- 月历卡片 -->
+    <view class="sch__cal-card">
+      <!-- 月份导航 -->
+      <view class="sch__month-nav">
+        <text class="sch__month-title">{{monthTitle}}</text>
+        <view class="sch__month-btns">
+          <view class="sch__month-btn btn-haptic" bind:tap="prevMonth">
+            <text class="material-symbols-outlined">chevron_left</text>
+          </view>
+          <view class="sch__month-btn btn-haptic" bind:tap="nextMonth">
+            <text class="material-symbols-outlined">chevron_right</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 星期头 -->
+      <view class="sch__dow-row">
+        <text class="sch__dow">日</text>
+        <text class="sch__dow">一</text>
+        <text class="sch__dow">二</text>
+        <text class="sch__dow">三</text>
+        <text class="sch__dow">四</text>
+        <text class="sch__dow">五</text>
+        <text class="sch__dow">六</text>
+      </view>
+
+      <!-- 日历格子 -->
+      <view class="sch__cal-grid">
+        <view
+          wx:for="{{calDays}}"
+          wx:key="key"
+          class="sch__cal-day {{item.empty ? 'sch__cal-day--empty' : ''}} {{item.isScheduled ? 'sch__cal-day--scheduled' : ''}} {{item.isSelected ? 'sch__cal-day--selected' : ''}} {{item.isPast ? 'sch__cal-day--past' : ''}}"
+          bind:tap="selectDay"
+          data-date="{{item.date}}"
+          data-empty="{{item.empty}}"
+          data-past="{{item.isPast}}"
+        >
+          <text class="sch__cal-num">{{item.num}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 时段设置 -->
+    <view class="sch__slots-section">
+      <text class="sch__slots-title">设置可用时间 ({{selectedDateLabel}})</text>
+
+      <view class="sch__slot {{scheduleMap[selectedDate + '_morning'] ? 'sch__slot--active' : ''}} btn-haptic" bind:tap="toggleSlot" data-slot="morning">
+        <view class="sch__slot-left">
+          <view class="sch__slot-icon">
+            <text class="material-symbols-outlined">wb_sunny</text>
+          </view>
+          <view>
+            <text class="sch__slot-name">上午</text>
+            <text class="sch__slot-time">08:00 - 12:00</text>
+          </view>
+        </view>
+        <view class="sch__slot-check {{scheduleMap[selectedDate + '_morning'] ? 'sch__slot-check--active' : ''}}">
+          <text wx:if="{{scheduleMap[selectedDate + '_morning']}}" class="material-symbols-outlined">check</text>
+        </view>
+      </view>
+
+      <view class="sch__slot {{scheduleMap[selectedDate + '_afternoon'] ? 'sch__slot--active' : ''}} btn-haptic" bind:tap="toggleSlot" data-slot="afternoon">
+        <view class="sch__slot-left">
+          <view class="sch__slot-icon">
+            <text class="material-symbols-outlined">light_mode</text>
+          </view>
+          <view>
+            <text class="sch__slot-name">下午</text>
+            <text class="sch__slot-time">13:00 - 17:00</text>
+          </view>
+        </view>
+        <view class="sch__slot-check {{scheduleMap[selectedDate + '_afternoon'] ? 'sch__slot-check--active' : ''}}">
+          <text wx:if="{{scheduleMap[selectedDate + '_afternoon']}}" class="material-symbols-outlined">check</text>
+        </view>
+      </view>
+
+      <view class="sch__slot {{scheduleMap[selectedDate + '_evening'] ? 'sch__slot--active' : ''}} btn-haptic" bind:tap="toggleSlot" data-slot="evening">
+        <view class="sch__slot-left">
+          <view class="sch__slot-icon sch__slot-icon--dim">
+            <text class="material-symbols-outlined">dark_mode</text>
+          </view>
+          <view>
+            <text class="sch__slot-name">夜间</text>
+            <text class="sch__slot-time {{scheduleMap[selectedDate + '_evening'] ? '' : 'sch__slot-time--dim'}}">18:00 - 22:00</text>
+          </view>
+        </view>
+        <view class="sch__slot-check {{scheduleMap[selectedDate + '_evening'] ? 'sch__slot-check--active' : ''}}">
+          <text wx:if="{{scheduleMap[selectedDate + '_evening']}}" class="material-symbols-outlined">check</text>
+        </view>
+      </view>
+
+    </view>
+
+    <!-- 本月统计 -->
+    <view class="sch__monthly-count">
+      <text class="sch__monthly-text">本月已排班 <text class="sch__monthly-num">{{monthScheduledCount}}</text> 天</text>
+    </view>
+
+    <view style="height: 200rpx;"></view>
+  </scroll-view>
+
+  <!-- 底部保存按钮 -->
+  <view class="sch__bottom">
+    <button class="sch__submit-btn btn-haptic" bind:tap="submitSchedule" disabled="{{submitting}}">
+      {{submitting ? '保存中...' : '保存排班'}}
+    </button>
+  </view>
+
+</view>

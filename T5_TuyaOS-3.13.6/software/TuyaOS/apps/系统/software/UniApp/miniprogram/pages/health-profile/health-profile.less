@@ -1,0 +1,771 @@
+@brand-green: #4CAF50;
+@warm-orange: #FF9800;
+@deep-gray: #333333;
+@royal-obsidian: #1A1A1A;
+@alabaster: #F8F9FA;
+@medical-gray: #F5F7FA;
+@ease-organic: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.profile-page {
+  background: @alabaster;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  /* 大屏设备（iPad / 横屏）：档案编辑页内容居中，避免表单被拉伸到边框，触达操作更舒服 */
+  @media (min-width: 768px) {
+    &__section,
+    &__bottom-space,
+    &__sign-panel,
+    &__admin-sign-panel,
+    &__save-btn {
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  // ─── Glass Nav ───
+  &__nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(40rpx);
+    -webkit-backdrop-filter: blur(40rpx);
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 0.5rpx solid rgba(0, 0, 0, 0.05);
+    padding: 16rpx 24rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__nav-back {
+    width: 64rpx;
+    height: 64rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -8rpx;
+    transition: transform 0.2s @ease-organic;
+    &:active { transform: scale(0.9); }
+  }
+
+  &__nav-back-icon { font-size: 40rpx; color: @deep-gray; }
+
+  &__nav-title {
+    font-size: 34rpx;
+    font-weight: 600;
+    color: @royal-obsidian;
+  }
+
+  &__nav-more { width: 64rpx; height: 64rpx; }
+
+  // ─── Scroll ───
+  &__scroll { flex: 1; min-height: 0; width: 100%; }
+  &__body { padding: 16rpx 32rpx 40rpx; }
+
+  // ─── Header ───
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32rpx 0 16rpx;
+    animation: fadeSlideUp 0.48s @ease-organic;
+  }
+
+  &__avatar-wrap { position: relative; margin-bottom: 16rpx; }
+
+  &__avatar-ring {
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 50rpx;
+    overflow: hidden;
+    background: #fff;
+    padding: 6rpx;
+    box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+  }
+
+  &__avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 44rpx;
+    overflow: hidden;
+    background: linear-gradient(135deg, @brand-green, #66BB6A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__avatar-initial {
+    font-size: 56rpx;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  &__avatar-check {
+    position: absolute;
+    bottom: -4rpx;
+    right: -4rpx;
+    width: 40rpx;
+    height: 40rpx;
+    background: @brand-green;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3rpx solid @alabaster;
+    box-shadow: 0 2rpx 8rpx rgba(76, 175, 80, 0.3);
+  }
+
+  &__avatar-check-icon { font-size: 22rpx; color: #fff; }
+
+  &__header-name {
+    font-size: 40rpx;
+    font-weight: 700;
+    color: @royal-obsidian;
+    letter-spacing: -0.5rpx;
+  }
+
+  &__header-meta {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.4);
+    margin-top: 4rpx;
+  }
+
+  // ─── Section Card ───
+  &__section {
+    background: #fff;
+    border-radius: 40rpx;
+    padding: 32rpx;
+    margin-top: 20rpx;
+    box-shadow: 0 4px 20px -2px rgba(51, 51, 51, 0.04);
+    animation: fadeSlideUp 0.48s @ease-organic both;
+
+    &:nth-child(3) { animation-delay: 0.04s; }
+    &:nth-child(4) { animation-delay: 0.06s; }
+    &:nth-child(5) { animation-delay: 0.08s; }
+    &:nth-child(6) { animation-delay: 0.10s; }
+    &:nth-child(7) { animation-delay: 0.12s; }
+    &:nth-child(8) { animation-delay: 0.14s; }
+    &:nth-child(9) { animation-delay: 0.16s; }
+    &:nth-child(10) { animation-delay: 0.18s; }
+    &:nth-child(11) { animation-delay: 0.20s; }
+
+    &--sign {
+      border: 1rpx solid rgba(76, 175, 80, 0.15);
+      background: rgba(76, 175, 80, 0.02);
+    }
+  }
+
+  &__section-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: @royal-obsidian;
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+    margin-bottom: 24rpx;
+  }
+
+  &__section-bar {
+    width: 6rpx;
+    height: 28rpx;
+    background: @brand-green;
+    border-radius: 100rpx;
+  }
+
+  // ─── Info Grid ───
+  &__info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24rpx 32rpx;
+  }
+
+  &__info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8rpx;
+
+    &--full { grid-column: 1 / -1; }
+  }
+
+  &__info-label {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.4);
+    font-weight: 500;
+  }
+
+  &__info-value {
+    font-size: 28rpx;
+    color: @deep-gray;
+    font-weight: 600;
+
+    &--readonly { color: rgba(51, 51, 51, 0.7); }
+  }
+
+  &__info-input {
+    font-size: 28rpx;
+    color: @deep-gray;
+    height: 68rpx;
+    line-height: 68rpx;
+    padding: 0;
+    border: none;
+    border-bottom: 1rpx solid rgba(51, 51, 51, 0.08);
+  }
+
+  &__address-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8rpx;
+  }
+
+  &__region-picker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16rpx 20rpx;
+    background: rgba(76, 175, 80, 0.04);
+    border: 1rpx solid rgba(76, 175, 80, 0.15);
+    border-radius: 12rpx;
+    margin-top: 8rpx;
+  }
+
+  &__region-text {
+    font-size: 28rpx;
+    color: @deep-gray;
+    font-weight: 500;
+  }
+
+  &__region-placeholder {
+    font-size: 28rpx;
+    color: rgba(51, 51, 51, 0.35);
+  }
+
+  &__region-arrow {
+    font-size: 36rpx;
+    color: rgba(51, 51, 51, 0.4);
+  }
+
+  &__address-detail {
+    margin-top: 4rpx;
+  }
+
+  // ─── Picker / Emergency ───
+  &__picker-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20rpx 0;
+    border-bottom: 1rpx solid rgba(51, 51, 51, 0.06);
+  }
+
+  &__picker-label { font-size: 28rpx; color: @deep-gray; }
+
+  &__picker-value {
+    font-size: 28rpx;
+    color: @royal-obsidian;
+    font-weight: 500;
+    flex: 1;
+    text-align: right;
+    margin: 0 16rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &.profile-page__picker-placeholder { color: rgba(51, 51, 51, 0.35); }
+  }
+
+  &__picker-input {
+    font-size: 28rpx;
+    color: @royal-obsidian;
+    font-weight: 500;
+    flex: 1;
+    text-align: right;
+    margin-left: 16rpx;
+  }
+
+  &__picker-arrow {
+    font-size: 32rpx;
+    color: rgba(51, 51, 51, 0.25);
+  }
+
+  &__picker-row--readonly {
+    border-bottom: none;
+    padding: 12rpx 0;
+  }
+
+  &__picker-row--last {
+    border-bottom: none;
+  }
+
+  &__emergency-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__emergency-detail {
+    margin-top: 20rpx;
+    padding-top: 20rpx;
+    border-top: 1rpx solid rgba(51, 51, 51, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 12rpx;
+  }
+
+  &__emergency-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // ─── Tags ───
+  &__tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12rpx;
+  }
+
+  &__medical-tag {
+    padding: 12rpx 24rpx;
+    border-radius: 20rpx;
+    font-size: 26rpx;
+    font-weight: 500;
+    transition: all 0.2s @ease-organic;
+    &:active { transform: scale(0.95); }
+
+    &--red { background: #FFEBEE; color: #C62828; }
+    &--muted { background: @medical-gray; color: rgba(51, 51, 51, 0.35); }
+    &--orange { background: #FFF3E0; color: #E65100; }
+    &--blue { background: #E3F2FD; color: #1565C0; }
+
+    &--readonly {
+      pointer-events: none;
+      opacity: 0.9;
+    }
+  }
+
+  // ─── Textarea ───
+  &__textarea {
+    width: 100%;
+    min-height: 80rpx;
+    font-size: 28rpx;
+    color: @deep-gray;
+    line-height: 1.6;
+    padding: 16rpx 0;
+    border: none;
+    background: transparent;
+
+    &--single {
+      min-height: auto;
+      padding: 12rpx 0;
+    }
+  }
+
+  &__sub-input {
+    margin-top: 16rpx;
+    padding-top: 16rpx;
+    border-top: 1rpx solid rgba(51, 51, 51, 0.04);
+  }
+
+  &__sub-label {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.4);
+    margin-bottom: 8rpx;
+    display: block;
+  }
+
+  // ─── Signature ───
+  &__sign-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12rpx;
+    padding: 20rpx 24rpx;
+    background: rgba(76, 175, 80, 0.06);
+    border-radius: 24rpx;
+    margin-bottom: 24rpx;
+  }
+
+  &__sign-notice-icon {
+    font-size: 32rpx;
+    color: @brand-green;
+    flex-shrink: 0;
+    margin-top: 2rpx;
+  }
+
+  &__sign-notice-text {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.6);
+    line-height: 1.6;
+  }
+
+  &__sign-label {
+    font-size: 24rpx;
+    color: rgba(51, 51, 51, 0.4);
+    margin-bottom: 12rpx;
+    display: block;
+  }
+
+  &__sign-input-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__sign-input {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: @royal-obsidian;
+    padding: 16rpx 0;
+    border-bottom: 2rpx solid rgba(76, 175, 80, 0.3);
+  }
+
+  &__sign-panel {
+    margin-top: 24rpx;
+    padding: 32rpx;
+    background: rgba(76, 175, 80, 0.06);
+    border: 2rpx dashed rgba(76, 175, 80, 0.3);
+    border-radius: 24rpx;
+    text-align: center;
+    transition: all 0.2s @ease-organic;
+    &:active { opacity: 0.9; }
+  }
+
+  &__sign-done {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12rpx;
+    color: @brand-green;
+  }
+
+  &__sign-done-icon { font-size: 40rpx; }
+  &__sign-done-text { font-size: 28rpx; font-weight: 600; }
+
+  &__sign-tap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12rpx;
+    color: rgba(76, 175, 80, 0.8);
+  }
+
+  &__sign-tap-icon { font-size: 48rpx; }
+  &__sign-tap-text { font-size: 28rpx; font-weight: 500; }
+
+  &__sign-panel--readonly {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  // ─── 管理员模式:邀请签署卡 ───
+  &__admin-sign-panel {
+    margin-top: 24rpx;
+    padding: 28rpx 28rpx;
+    border-radius: 24rpx;
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx;
+
+    &--pending {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(147, 197, 253, 0.12));
+      border: 1.5rpx solid rgba(59, 130, 246, 0.2);
+    }
+
+    &--done {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(134, 239, 172, 0.14));
+      border: 1.5rpx solid rgba(34, 197, 94, 0.2);
+      flex-direction: row;
+      align-items: center;
+      gap: 20rpx;
+    }
+  }
+
+  &__admin-sign-head {
+    display: flex;
+    align-items: center;
+    gap: 20rpx;
+  }
+
+  &__admin-sign-icon {
+    font-size: 48rpx;
+    flex-shrink: 0;
+    color: #2563EB;
+
+    .profile-page__admin-sign-panel--done & {
+      color: #16A34A;
+    }
+  }
+
+  &__admin-sign-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6rpx;
+  }
+
+  &__admin-sign-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: @royal-obsidian;
+  }
+
+  &__admin-sign-sub {
+    font-size: 24rpx;
+    color: #64748B;
+    line-height: 1.5;
+  }
+
+  &__admin-share-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10rpx !important;
+    width: 100% !important;
+    height: 80rpx !important;
+    background: #2563EB !important;
+    color: #ffffff !important;
+    border-radius: 20rpx !important;
+    font-size: 28rpx !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8rpx 20rpx -8rpx rgba(37, 99, 235, 0.45);
+    &::after { display: none; }
+  }
+
+  &__admin-share-icon {
+    font-size: 32rpx;
+  }
+
+  &__info-value--block {
+    display: block;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  // ─── Save Button ───
+  &__bottom-space {
+    padding: 48rpx 0 40rpx;
+  }
+
+  &__save-btn {
+    width: 100%;
+    height: 96rpx;
+    border-radius: 32rpx;
+    background: @brand-green;
+    color: #fff;
+    font-size: 30rpx;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rpx;
+    box-shadow: 0 10rpx 30rpx -5rpx rgba(76, 175, 80, 0.25);
+    transition: transform 0.2s @ease-organic;
+    &:active { transform: scale(0.97); }
+  }
+
+  &__save-icon { font-size: 32rpx; }
+
+  &__save-btn--outline {
+    background: #fff;
+    color: @brand-green;
+    border: 2rpx solid @brand-green;
+  }
+
+  &__signer-info {
+    margin-top: 24rpx;
+    padding: 24rpx;
+    background: #f0f9ff;
+    border-radius: 16rpx;
+    border: 1rpx solid #bae6fd;
+  }
+
+  &__signer-info-title {
+    display: flex;
+    align-items: center;
+    gap: 8rpx;
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #0369a1;
+    margin-bottom: 20rpx;
+  }
+
+  &__signer-info-icon {
+    font-size: 32rpx;
+    color: #0ea5e9;
+  }
+
+  &__signer-relation-title {
+    font-size: 26rpx;
+    color: #475569;
+    margin: 20rpx 0 12rpx;
+    font-weight: 500;
+  }
+
+  // ─── Important Notice Checkbox ───
+  &__notice-check {
+    display: flex;
+    align-items: center;
+    padding: 20rpx 0;
+    margin-bottom: 8rpx;
+  }
+
+  &__notice-checkbox {
+    width: 36rpx;
+    height: 36rpx;
+    border-radius: 8rpx;
+    border: 2rpx solid rgba(51, 51, 51, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s @ease-organic;
+    margin-right: 12rpx;
+
+    &--checked {
+      background: @brand-green;
+      border-color: @brand-green;
+    }
+  }
+
+  &__notice-checkbox-icon {
+    font-size: 24rpx;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  &__notice-check-text {
+    font-size: 26rpx;
+    color: rgba(51, 51, 51, 0.6);
+  }
+
+  &__notice-check-link {
+    font-size: 26rpx;
+    color: @brand-green;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  // ─── Important Notice Popup ───
+  &__notice-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60rpx 40rpx;
+  }
+
+  &__notice-popup {
+    width: 100%;
+    max-height: 80vh;
+    background: #fff;
+    border-radius: 32rpx;
+    overflow: hidden;
+    animation: fadeSlideUp 0.3s @ease-organic;
+  }
+
+  &__notice-popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32rpx 32rpx 24rpx;
+    border-bottom: 1rpx solid rgba(51, 51, 51, 0.06);
+  }
+
+  &__notice-popup-title {
+    font-size: 34rpx;
+    font-weight: 700;
+    color: @royal-obsidian;
+  }
+
+  &__notice-popup-close {
+    width: 56rpx;
+    height: 56rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: @medical-gray;
+    flex-shrink: 0;
+
+    .material-symbols-outlined {
+      font-size: 32rpx;
+      color: rgba(51, 51, 51, 0.5);
+    }
+  }
+
+  &__notice-popup-body {
+    height: calc(80vh - 220rpx);
+    padding: 0 32rpx;
+    box-sizing: border-box;
+  }
+
+  &__notice-content {
+    padding: 24rpx 0 40rpx;
+  }
+
+  &__notice-intro {
+    font-size: 28rpx;
+    color: @deep-gray;
+    line-height: 1.7;
+    display: block;
+    margin-bottom: 28rpx;
+    word-break: break-all;
+  }
+
+  &__notice-item {
+    margin-bottom: 28rpx;
+  }
+
+  &__notice-item-title {
+    font-size: 28rpx;
+    font-weight: 700;
+    color: @royal-obsidian;
+    display: block;
+    margin-bottom: 12rpx;
+  }
+
+  &__notice-item-text {
+    font-size: 26rpx;
+    color: rgba(51, 51, 51, 0.7);
+    line-height: 1.8;
+    display: block;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  &__notice-popup-footer {
+    padding: 24rpx 32rpx calc(env(safe-area-inset-bottom) + 24rpx);
+    border-top: 1rpx solid rgba(51, 51, 51, 0.06);
+  }
+
+  &__notice-popup-btn {
+    width: 100%;
+    height: 88rpx;
+    border-radius: 28rpx;
+    background: @brand-green;
+    color: #fff;
+    font-size: 30rpx;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s @ease-organic;
+    &:active { transform: scale(0.97); }
+  }
+
+  &__save-btn + &__save-btn {
+    margin-top: 20rpx;
+  }
+}

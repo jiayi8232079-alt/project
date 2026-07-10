@@ -21,7 +21,7 @@ flash,ram,text,code,rodata,data,bss,dec,hex,filename
 4827,304,4827,3048,1779,0,304,5131,`140b,armino/at_server/libat_server.a
 44,0,44,32,12,0,0,44,`2c,armino/bk_uid/libbk_uid.a
 465,0,465,276,189,0,0,465,`1d1,armino/cp/libcp.a
-2699,36,2699,2078,621,0,36,2735,`aaf,armino/tuyaos_adapter/libtuyaos_adapter.a
+2966,36,2966,2262,704,0,36,3002,`bba,armino/tuyaos_adapter/libtuyaos_adapter.a
 20544,0,20544,200,20344,0,0,20544,`5040,armino/utf8/libutf8.a
 11825,4825,7009,5662,1347,4816,9,11834,`2e3a,armino/bk_rtos/libbk_rtos.a
 16283,860,16275,14582,1693,8,852,17135,`42ef,armino/os_source/libos_source.a

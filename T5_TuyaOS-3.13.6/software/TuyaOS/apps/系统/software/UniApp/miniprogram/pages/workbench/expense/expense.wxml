@@ -1,0 +1,216 @@
+<view class="exp">
+
+  <!-- Tab 切换 -->
+  <view class="exp__tabs">
+    <view
+      class="exp__tab {{activeTab === 'form' ? 'exp__tab--active' : ''}}"
+      bind:tap="switchTab" data-tab="form"
+    >
+      <text class="material-symbols-outlined exp__tab-icon">add_circle</text>
+      <text>新增报销</text>
+    </view>
+    <view
+      class="exp__tab {{activeTab === 'records' ? 'exp__tab--active' : ''}}"
+      bind:tap="switchTab" data-tab="records"
+    >
+      <text class="material-symbols-outlined exp__tab-icon">receipt_long</text>
+      <text>报销记录</text>
+      <view wx:if="{{recordsTotal > 0}}" class="exp__tab-badge">{{recordsTotal}}</view>
+    </view>
+  </view>
+
+  <!-- 新增报销表单 -->
+  <scroll-view wx:if="{{activeTab === 'form'}}" scroll-y enhanced show-scrollbar="{{false}}" class="exp__scroll">
+    <!-- 关联订单 -->
+    <view class="exp__card">
+      <view class="exp__card-title">
+        <view class="exp__card-bar"></view>
+        <text>关联订单</text>
+      </view>
+      <view class="exp__order-select" bind:tap="onSelectOrder" hover-class="btn-haptic">
+        <text class="material-symbols-outlined exp__select-icon">receipt_long</text>
+        <text class="exp__select-text {{selectedOrder ? '' : 'exp__select-text--placeholder'}}">{{selectedOrder || '请选择关联订单'}}</text>
+        <text class="material-symbols-outlined exp__select-arrow">chevron_right</text>
+      </view>
+    </view>
+
+    <!-- 费用类型 + 金额 -->
+    <view class="exp__card">
+      <view class="exp__card-title">
+        <view class="exp__card-bar"></view>
+        <text>费用信息</text>
+      </view>
+      <view class="exp__chips">
+        <view
+          class="exp__chip {{expenseType === item.value ? 'exp__chip--active' : ''}}"
+          wx:for="{{expenseTypes}}"
+          wx:key="value"
+          bind:tap="onTypeSelect"
+          data-value="{{item.value}}"
+          hover-class="btn-haptic"
+        >{{item.label}}</view>
+      </view>
+
+      <view class="exp__amount-section">
+        <text class="exp__amount-title">费用金额</text>
+        <view class="exp__amount-wrap">
+          <text class="exp__amount-prefix">¥</text>
+          <input class="exp__amount-input" type="digit" placeholder="0.00" placeholder-style="color:#C7C7CC;" value="{{amount}}" bindinput="onAmountInput" />
+        </view>
+      </view>
+
+      <view class="exp__desc-section">
+        <text class="exp__desc-title">费用说明（选填）</text>
+        <textarea
+          class="exp__textarea"
+          placeholder="请简要描述费用详情"
+          placeholder-style="color:#C7C7CC;"
+          value="{{description}}"
+          bindinput="onDescInput"
+          maxlength="200"
+        ></textarea>
+      </view>
+    </view>
+
+    <!-- 上传凭证 -->
+    <view class="exp__card">
+      <view class="exp__card-title-row">
+        <view class="exp__card-title" style="margin-bottom: 0;">
+          <view class="exp__card-bar"></view>
+          <text>费用凭证</text>
+        </view>
+        <text class="exp__upload-hint-inline">{{images.length}}/6</text>
+      </view>
+      <view class="exp__upload-grid">
+        <view class="exp__upload-item" wx:for="{{images}}" wx:key="*this">
+          <image class="exp__upload-img" src="{{item}}" mode="aspectFill"></image>
+          <view class="exp__upload-remove" bind:tap="onRemoveImage" data-index="{{index}}" hover-class="btn-haptic">
+            <text class="material-symbols-outlined">close</text>
+          </view>
+        </view>
+        <view class="exp__upload-add btn-haptic" bind:tap="onAddImage" wx:if="{{images.length < 6}}">
+          <text class="material-symbols-outlined exp__upload-add-icon">add_a_photo</text>
+          <text class="exp__upload-add-text">添加图片</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="exp__spacer"></view>
+  </scroll-view>
+
+  <!-- 报销记录列表 -->
+  <scroll-view wx:if="{{activeTab === 'records'}}" scroll-y enhanced show-scrollbar="{{false}}" class="exp__scroll">
+    <view class="exp__records">
+
+      <!-- 搜索框 -->
+      <view class="exp__search-bar">
+        <text class="material-symbols-outlined exp__search-icon">search</text>
+        <input
+          class="exp__search-input"
+          placeholder="搜索订单号或客户姓名"
+          value="{{searchOrderNo}}"
+          bindinput="onSearchInput"
+          confirm-type="search"
+        />
+        <view wx:if="{{searchOrderNo}}" class="exp__search-clear btn-haptic" bind:tap="onClearSearch">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+
+      <!-- 汇总卡片 -->
+      <view class="exp__summary-card" wx:if="{{!recordsLoading && records.length > 0}}">
+        <view class="exp__summary-cell">
+          <text class="exp__summary-label">共 {{filteredRecords.length}} 笔</text>
+          <text class="exp__summary-amount">¥{{totalAmount}}</text>
+          <text class="exp__summary-sub">全部金额</text>
+        </view>
+        <view class="exp__summary-divider"></view>
+        <view class="exp__summary-cell">
+          <text class="exp__summary-label exp__summary-label--approved">已通过</text>
+          <text class="exp__summary-amount exp__summary-amount--approved">¥{{totalApproved}}</text>
+          <text class="exp__summary-sub">已审核通过</text>
+        </view>
+        <view class="exp__summary-divider"></view>
+        <view class="exp__summary-cell">
+          <text class="exp__summary-label exp__summary-label--pending">待审核</text>
+          <text class="exp__summary-amount exp__summary-amount--pending">¥{{totalPending}}</text>
+          <text class="exp__summary-sub">等待审核</text>
+        </view>
+      </view>
+
+      <!-- 加载中 -->
+      <view wx:if="{{recordsLoading}}" class="exp__records-loading">
+        <text class="exp__records-loading-text">加载中...</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view wx:elif="{{records.length === 0}}" class="exp__records-empty">
+        <text class="material-symbols-outlined exp__records-empty-icon">receipt_long</text>
+        <text class="exp__records-empty-text">暂无报销记录</text>
+        <text class="exp__records-empty-sub">提交的报销申请将在这里显示</text>
+      </view>
+
+      <!-- 搜索无结果 -->
+      <view wx:elif="{{filteredRecords.length === 0 && searchOrderNo}}" class="exp__records-empty">
+        <text class="material-symbols-outlined exp__records-empty-icon">search_off</text>
+        <text class="exp__records-empty-text">未找到匹配记录</text>
+        <text class="exp__records-empty-sub">尝试搜索其他订单号或客户姓名</text>
+      </view>
+
+      <!-- 记录列表 -->
+      <view wx:else>
+        <view wx:for="{{filteredRecords}}" wx:key="id" class="exp__record-item">
+          <!-- 头部：订单信息 + 状态 -->
+          <view class="exp__record-header">
+            <view class="exp__record-order">
+              <text class="material-symbols-outlined exp__record-order-icon">receipt</text>
+              <view class="exp__record-order-info">
+                <text class="exp__record-order-no">{{item.orderNo}}</text>
+                <text class="exp__record-patient">{{item.patientName}}</text>
+              </view>
+            </view>
+            <view class="exp__record-status exp__record-status--{{item.statusColor}}">{{item.statusLabel}}</view>
+          </view>
+
+          <!-- 分隔线 -->
+          <view class="exp__record-divider"></view>
+
+          <!-- 费用类型 + 金额 -->
+          <view class="exp__record-body">
+            <view class="exp__record-row">
+              <view class="exp__record-type-tag">{{item.typeLabel}}</view>
+              <text class="exp__record-amount">{{item.amountText}}</text>
+            </view>
+            <text wx:if="{{item.description}}" class="exp__record-desc">{{item.description}}</text>
+            <view wx:if="{{item.reviewNote}}" class="exp__record-review-note">
+              <text class="material-symbols-outlined" style="font-size: 22rpx; vertical-align: middle; margin-right: 6rpx;">info</text>
+              <text>审核备注：{{item.reviewNote}}</text>
+            </view>
+          </view>
+
+          <!-- 底部：时间 + 凭证 -->
+          <view class="exp__record-footer">
+            <view class="exp__record-footer-left">
+              <text class="exp__record-time">{{item.createdAtText}}</text>
+              <text wx:if="{{item.proofCount > 0}}" class="exp__record-proof-count">{{item.proofCount}}张凭证</text>
+            </view>
+            <image wx:if="{{item.proofUrl}}" class="exp__record-proof" src="{{item.proofUrl}}" mode="aspectFill" />
+          </view>
+        </view>
+      </view>
+
+      <view class="exp__spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="exp__bottom" wx:if="{{activeTab === 'form'}}">
+    <view class="exp__bottom-summary">
+      <text class="exp__bottom-label">本次报销金额</text>
+      <text class="exp__bottom-amount">¥{{amount || '0.00'}}</text>
+    </view>
+    <button class="exp__submit-btn" hover-class="btn-haptic" bind:tap="onSubmit" disabled="{{submitting}}">
+      <text class="material-symbols-outlined">{{submitting ? 'hourglass_top' : 'upload_file'}}</text>
+      <text>{{submitting ? '提交中...' : '提交报销申请'}}</text>
+    </button>
+  </view>
+</view>

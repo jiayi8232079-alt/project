@@ -33,7 +33,7 @@ const stepper_28byj48_cfg_t g_stepper_m0_product_cfg = {
     .pin_b = TUYA_GPIO_NUM_23,
     .pin_c = TUYA_GPIO_NUM_24,
     .pin_d = TUYA_GPIO_NUM_25,
-    .step_delay_ms = 24,
+    .step_delay_ms = 4,
     .step_delay_half_ms = 0,
 };
 

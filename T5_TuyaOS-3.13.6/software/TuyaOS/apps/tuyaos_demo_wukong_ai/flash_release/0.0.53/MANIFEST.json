@@ -1,0 +1,16 @@
+{
+  "app": "tuyaos_demo_wukong_ai",
+  "version": "0.0.53",
+  "build_time": "2026-07-06T23:35:00+08:00",
+  "flash_type": "QIO",
+  "file": "tuyaos_demo_wukong_ai_QIO_0.0.53.bin",
+  "size_bytes": 3941728,
+  "md5": "c9b0aa564661e39c981b3661c6fd7350",
+  "serial_verify_pattern": "tuyaos_demo_wukong_ai:0.0.53",
+  "changes": [
+    "eyelid blink instead of ring squash",
+    "boot motor homing M0=0 M1=-96",
+    "faster pan step delay 4ms",
+    "relaxed skin detector"
+  ]
+}

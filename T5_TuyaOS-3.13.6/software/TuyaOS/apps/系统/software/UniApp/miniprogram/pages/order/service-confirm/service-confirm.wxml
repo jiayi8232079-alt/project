@@ -1,0 +1,274 @@
+<view class="sc-page">
+  <view class="sc-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="sc-nav-back haptic" bind:tap="goBack">
+      <text class="material-symbols-outlined">arrow_back</text>
+    </view>
+    <text class="sc-nav-title">陪诊服务确认单</text>
+    <view class="sc-nav-spacer"></view>
+  </view>
+
+  <view wx:if="{{pageNeedsLogin && !isQrMode}}" class="page-login-gate">
+    <view class="page-login-gate__card">
+      <text class="page-login-gate__title">登录后签署确认单</text>
+      <text class="page-login-gate__desc">确认单与订单绑定，需登录后操作。可先返回。</text>
+      <button class="page-login-gate__btn" bind:tap="goLoginFromGate">去登录</button>
+      <view class="page-login-gate__skip" bind:tap="backFromGate">返回</view>
+    </view>
+  </view>
+
+  <block wx:else>
+
+  <view wx:if="{{loading}}" class="sc-loading">加载中…</view>
+
+  <scroll-view
+    wx:elif="{{applicable}}"
+    class="sc-scroll"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <view class="sc-body">
+      <view class="sc-lead">
+        <text class="sc-lead-text">陪诊员已接单。请核对下方「服务接受方信息 / 服务详情 / 服务项目与费用」，签署《陪诊服务确认单》后陪诊员将按约定为您提供服务。</text>
+      </view>
+
+      <view class="sc-card">
+        <view class="sc-card-row">
+          <text class="sc-card-label">订单编号</text>
+          <text class="sc-card-value">{{orderNumber || '—'}}</text>
+        </view>
+        <view class="sc-card-row">
+          <text class="sc-card-label">服务对象</text>
+          <text class="sc-card-value">{{subjectName || '—'}}</text>
+        </view>
+        <view wx:if="{{signed}}" class="sc-card-row">
+          <text class="sc-card-label">签署时间</text>
+          <text class="sc-card-value">{{signedAtText || '—'}}</text>
+        </view>
+        <view wx:if="{{signed}}" class="sc-card-row">
+          <text class="sc-card-label">签署方式</text>
+          <text class="sc-card-value">
+            {{isProxySign ? '代签（' + (signerRelation || '非本人') + '：' + (signerName || '—') + '）' : '本人签署'}}
+          </text>
+        </view>
+      </view>
+
+      <!-- （一）服务接受方信息（含联络） -->
+      <view wx:if="{{recipientRows.length}}" class="sc-detail-section">
+        <view class="sc-section-title">
+          <view class="sc-section-bar"></view>
+          （一）服务接受方信息
+        </view>
+        <view class="sc-detail-card">
+          <view
+            wx:for="{{recipientRows}}"
+            wx:for-index="rIdx"
+            wx:key="rIdx"
+            class="sc-detail-row"
+          >
+            <text class="sc-detail-label">{{item.label}}</text>
+            <text class="sc-detail-value">{{item.value}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- （二）本次服务详情（履约执行） -->
+      <view wx:if="{{serviceRows.length}}" class="sc-detail-section">
+        <view class="sc-section-title">
+          <view class="sc-section-bar"></view>
+          （二）本次服务详情
+        </view>
+        <view class="sc-detail-card">
+          <view
+            wx:for="{{serviceRows}}"
+            wx:for-index="sIdx"
+            wx:key="sIdx"
+            class="sc-detail-row"
+          >
+            <text class="sc-detail-label">{{item.label}}</text>
+            <text class="sc-detail-value">{{item.value}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- （三）服务项目与费用 -->
+      <view class="sc-detail-section">
+        <view class="sc-section-title">
+          <view class="sc-section-bar"></view>
+          （三）服务项目与费用
+        </view>
+        <view class="sc-detail-card sc-fee-card">
+          <block wx:if="{{feeLines.length}}">
+            <view
+              wx:for="{{feeLines}}"
+              wx:for-index="feeIdx"
+              wx:key="feeIdx"
+              class="sc-fee-row"
+            >
+              <view class="sc-fee-left">
+                <text class="sc-fee-label">{{item.label}}</text>
+                <text wx:if="{{item.note}}" class="sc-fee-note">{{item.note}}</text>
+              </view>
+              <text class="sc-fee-amount">¥{{item.amount}}</text>
+            </view>
+            <view wx:if="{{feeTotal}}" class="sc-fee-total">
+              <text class="sc-fee-total-label">合计</text>
+              <text class="sc-fee-total-amount">¥{{feeTotal}}</text>
+            </view>
+          </block>
+          <view wx:else class="sc-fee-empty">
+            <text>暂无费用明细，请以订单实际结算为准</text>
+          </view>
+          <view wx:if="{{feeFootRows.length}}" class="sc-fee-foot">
+            <view
+              wx:for="{{feeFootRows}}"
+              wx:for-index="fIdx"
+              wx:key="fIdx"
+              class="sc-detail-row sc-detail-row--compact"
+            >
+              <text class="sc-detail-label">{{item.label}}</text>
+              <text class="sc-detail-value">{{item.value}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="sc-section">
+        <view class="sc-section-title">
+          <view class="sc-section-bar"></view>
+          客户签署
+        </view>
+        <view wx:if="{{signGateBlocked && !signed}}" class="sc-sign-notice sc-sign-notice--blocked">
+          <text class="material-symbols-outlined sc-sign-notice-icon">lock</text>
+          <text class="sc-sign-notice-text">{{signGateHint}}</text>
+        </view>
+        <view wx:else class="sc-sign-notice">
+          <text class="material-symbols-outlined sc-sign-notice-icon">info</text>
+          <text wx:if="{{signed}}" class="sc-sign-notice-text">您已完成确认单签署，可在上方再次查看本次服务信息。</text>
+          <text wx:else class="sc-sign-notice-text">本人确认已阅读并同意《陪诊服务确认单》内容，所填信息真实。请由服务对象「{{subjectName || '本人'}}」在下方区域手写签署姓名。</text>
+        </view>
+        <!-- 服务条款勾选 -->
+        <view wx:if="{{!signed}}" class="sc-terms-check" bind:tap="toggleTermsRead">
+          <view class="sc-terms-checkbox {{termsRead ? 'sc-terms-checkbox--checked' : ''}}">
+            <text wx:if="{{termsRead}}" class="material-symbols-outlined sc-terms-checkbox-icon">check</text>
+          </view>
+          <text class="sc-terms-check-text">我已阅读并同意</text>
+          <text class="sc-terms-check-link" catch:tap="showTermsPopup">《陪了个伴陪诊服务条款》</text>
+        </view>
+
+        <view
+          class="sc-sign-panel {{signed ? 'sc-sign-panel--readonly' : ''}} {{signGateBlocked && !signed ? 'sc-sign-panel--blocked' : ''}}"
+          bind:tap="goSign"
+          hover-class="{{signed || (signGateBlocked && !signed) ? '' : 'sc-sign-panel--hover'}}"
+        >
+          <view wx:if="{{signed}}" class="sc-sign-done">
+            <text class="material-symbols-outlined sc-sign-done-icon">check_circle</text>
+            <text class="sc-sign-done-text">
+              已签署（{{signerName || subjectName}}{{isProxySign ? '，' + (signerRelation || '代签') + '代签' : ''}}）
+            </text>
+          </view>
+          <view wx:else class="sc-sign-tap">
+            <text class="material-symbols-outlined sc-sign-tap-icon">draw</text>
+            <text class="sc-sign-tap-text">点击此处手写签署「{{subjectName || '服务对象'}}」姓名</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view wx:else class="sc-empty-wrap">
+    <text class="sc-empty">当前订单无需确认单或暂不可用，请返回订单详情</text>
+  </view>
+
+  </block>
+
+  <!-- 签署人身份选择弹窗 -->
+  <view wx:if="{{showSignerPicker}}" class="sc-picker-mask" bind:tap="closeSignerPicker">
+    <view class="sc-picker-sheet" catch:tap="">
+      <view class="sc-picker-title">请选择签署人身份</view>
+      <view class="sc-picker-desc">请确认由谁来签署本次服务确认单</view>
+      <view
+        wx:for="{{signerOptions}}"
+        wx:key="value"
+        class="sc-picker-option haptic"
+        data-index="{{index}}"
+        bind:tap="onSignerSelect"
+      >
+        <text class="sc-picker-option-text">{{item.label}}</text>
+        <text class="material-symbols-outlined sc-picker-option-arrow">chevron_right</text>
+      </view>
+      <view class="sc-picker-cancel haptic" bind:tap="closeSignerPicker">取消</view>
+    </view>
+  </view>
+
+  <!-- 服务条款弹出层 -->
+  <view wx:if="{{showTerms}}" class="sc-terms-mask" bind:tap="closeTerms">
+    <view class="sc-terms-popup" catch:tap="">
+      <view class="sc-terms-popup-header">
+        <text class="sc-terms-popup-title">陪了个伴陪诊服务条款</text>
+        <view class="sc-terms-popup-close" bind:tap="closeTerms">
+          <text class="material-symbols-outlined">close</text>
+        </view>
+      </view>
+      <scroll-view scroll-y class="sc-terms-popup-body">
+        <view class="sc-terms-content">
+          <view class="sc-terms-company">青田陪了个伴管理有限公司 · 陪了个伴管理中心</view>
+          <text class="sc-terms-intro">欢迎使用陪了个伴陪诊服务。您在签署《陪了个伴陪诊服务确认单》或实际接受服务时，即视为已阅读、理解并同意下列全部条款。如不同意，请勿签署或勿使用本服务。</text>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第一条 定义与适用范围</text>
+            <text class="sc-terms-item-text">1.1 本条款适用于青田陪了个伴管理有限公司（下称「公司」）向客户或其指定的服务接受方提供的非医疗性质陪诊类生活辅助服务。\n\n1.2「客户」指购买或安排服务并支付费用的主体；「服务接受方」指实际接受现场陪同服务的人员，可为同一人或经合法授权的他人。\n\n1.3 具体服务时间、地点、项目及费用以双方确认的《陪了个伴陪诊服务确认单》及后续书面（含电子）约定为准。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第二条 服务性质与边界</text>
+            <text class="sc-terms-item-text">2.1 公司提供的服务主要包括但不限于：就医引导、排队取号、陪同缴费/取药/检查、医嘱与生活注意事项记录、必要的沟通翻译与生活协助等事务性、辅助性内容。\n\n2.2 陪诊人员不是执业医师、药师或护士，不提供疾病诊断、治疗方案制定、药物选择与剂量调整等诊疗行为，亦不构成任何医疗建议或承诺疗效。\n\n2.3 是否就诊、接受何种检查或治疗，均由客户、服务接受方及医疗机构决定；公司不参与临床决策，不对医疗机构的诊疗结果承担责任。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第三条 客户义务与健康档案</text>
+            <text class="sc-terms-item-text">3.1 客户及服务接受方应如实、完整填写《陪了个伴客户健康信息小档案》及公司合理要求的其他信息，并及时告知重大病情变化、过敏史、用药等情况。\n\n3.2 因隐瞒、遗漏、虚假陈述导致的一切风险与损失，由客户及服务接受方自行承担；公司有权在知情后中止或终止服务且按约定处理费用。\n\n3.3 客户应备齐有效证件、医保凭证、预约信息及病史资料等；因资料不全导致无法完成医疗流程的，不视为公司违约。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第四条 费用、支付与垫付</text>
+            <text class="sc-terms-item-text">4.1 服务费用以确认单列明为基础陪诊费及经双方确认的增值服务/预收项等；另有约定从其约定。\n\n4.2 医疗机构收取的挂号费、医药费、检查费、住院押金等，由客户或服务接受方在现场自行向医院支付；除双方书面另行约定外，公司及陪诊人员不提供医疗费垫付。\n\n4.3 就交通、住宿等预收的准备金，公司于服务结束后按实际发生金额结算，多退少补。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第五条 取消、改期与退款</text>
+            <text class="sc-terms-item-text">取消或改期依下列原则（确认单或单项协议另有约定从其约定）：\n\n• 36小时以上：基础服务费可全额退（不可退第三方费用除外）\n• 24–36小时：可扣基础服务费的10%履约准备成本\n• 12–24小时：可扣基础服务费的30%履约准备成本\n• 不足12小时：一般不退基础服务费；另有书面约定除外\n\n改期=取消原档+约新档，以客服确认为准。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第六条 服务变更与不可抗力</text>
+            <text class="sc-terms-item-text">6.1 因医院排班、停诊、检查改期、交通管制、极端天气、公共卫生事件等不可归责于公司的原因导致服务需调整的，双方应友好协商改期或变更服务内容。\n\n6.2 不可抗力或情势变更致使合同目的不能实现的，任何一方可解除合同，双方按公平原则结算已履行部分费用。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第七条 责任限制</text>
+            <text class="sc-terms-item-text">对于因医疗机构、医务人员、第三方或客户自身原因导致的损害，公司不承担赔偿责任；法律另有强制性规定的除外。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第八条 个人信息与隐私</text>
+            <text class="sc-terms-item-text">公司依法收集、使用、存储客户在服务过程中提供的联系与健康相关信息，用于履约、安全评估、客服与合规留痕；除法律法规规定或经客户授权外，不向无关第三方披露。客户可向公司申请查阅、更正与删除（法律另有规定的除外）。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第九条 争议解决</text>
+            <text class="sc-terms-item-text">因本条款或相关服务发生的争议，双方应先行协商；协商不成的，提交公司住所地有管辖权的人民法院诉讼解决（如法律对消费争议另有规定的，从其规定）。</text>
+          </view>
+
+          <view class="sc-terms-item">
+            <text class="sc-terms-item-title">第十条 其他</text>
+            <text class="sc-terms-item-text">10.1 本条款与确认单、健康档案、单项授权文本等构成整体约定；内容冲突时，以对客户更有利的有效特别约定为准，但不得违反法律强制性规定。\n\n10.2 公司可因法律更新或业务调整修订本条款，修订后将通过合理方式公示；客户继续使用服务的，视为接受修订。</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="sc-terms-popup-footer">
+        <view class="sc-terms-popup-btn" bind:tap="confirmTerms">我已阅读并同意</view>
+      </view>
+    </view>
+  </view>
+</view>
